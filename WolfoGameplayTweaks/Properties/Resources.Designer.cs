@@ -123,6 +123,56 @@ namespace LittleGameplayTweaks.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] texBanditRedCoatDiffuse {
+            get {
+                object obj = ResourceManager.GetObject("texBanditRedCoatDiffuse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texBanditRedDiffuse {
+            get {
+                object obj = ResourceManager.GetObject("texBanditRedDiffuse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texBanditRedEmission {
+            get {
+                object obj = ResourceManager.GetObject("texBanditRedEmission", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texBanditRedSkinIcon {
+            get {
+                object obj = ResourceManager.GetObject("texBanditRedSkinIcon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texBanditShotgunDiffuse {
+            get {
+                object obj = ResourceManager.GetObject("texBanditShotgunDiffuse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] texCaptainPinkSkinIcon {
             get {
                 object obj = ResourceManager.GetObject("texCaptainPinkSkinIcon", resourceCulture);
@@ -133,9 +183,9 @@ namespace LittleGameplayTweaks.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] texITWaveBossIconEquipment {
+        public static byte[] texPrismRuleOff {
             get {
-                object obj = ResourceManager.GetObject("texITWaveBossIconEquipment", resourceCulture);
+                object obj = ResourceManager.GetObject("texPrismRuleOff", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -143,9 +193,9 @@ namespace LittleGameplayTweaks.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] texITWaveLunarEliteIcon {
+        public static byte[] texPrismRuleOn {
             get {
-                object obj = ResourceManager.GetObject("texITWaveLunarEliteIcon", resourceCulture);
+                object obj = ResourceManager.GetObject("texPrismRuleOn", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -153,9 +203,9 @@ namespace LittleGameplayTweaks.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] texITWaveScavLunarIcon {
+        public static byte[] texRedMultiChestPodDiffuse {
             get {
-                object obj = ResourceManager.GetObject("texITWaveScavLunarIcon", resourceCulture);
+                object obj = ResourceManager.GetObject("texRedMultiChestPodDiffuse", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -163,9 +213,9 @@ namespace LittleGameplayTweaks.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] texITWaveTitanGoldIcon {
+        public static byte[] texRuleMapIsNormal {
             get {
-                object obj = ResourceManager.GetObject("texITWaveTitanGoldIcon", resourceCulture);
+                object obj = ResourceManager.GetObject("texRuleMapIsNormal", resourceCulture);
                 return ((byte[])(obj));
             }
         }
