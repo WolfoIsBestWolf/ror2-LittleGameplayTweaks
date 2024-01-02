@@ -15,6 +15,8 @@ Adds 3 new Twisted Scavengers.
 
 The Aquaduct Elder Lemurians now activate their Bands and scale with difficulty.
 
+Healing Cores from Mending Elites now use ambient level and start with invulnerability
+
 Equipment Drones use their Equipment when targeting you so they can still use it when no enemies are around.
 
 ![](https://cdn.discordapp.com/attachments/743886063738683413/955900668235882586/unknown.png)
@@ -85,7 +87,7 @@ Default settings are a remixed version of Prismatic Trials:
 -Stages progress in Order  
 -Doesn't end by default  
 -Bosses get elite equipment starting stage 4  
--Forced Elites can be more than just Overloading/Blazing  
+-Forced Elites can be any elite instead of just Overloading/Blazing  
 -Stage 4/5 require more crystals to be broken  
 -Crystals cash reward scales with time.  
 
@@ -112,6 +114,14 @@ Also download:\
 [WolfoArtifacts](https://thunderstore.io/package/Wolfo/WolfoArtifacts) for some fun extra Artifacts.
 
 ## Changelog:
+v2.5.2  
+Fix RedToWhite Cauldron dropping bonus 3 times leading to 9 items instead of 5.  
+Decorational Gold Shrines no longer show their icon.
+Healing Core now starts with some invulnerability
+
+v2.5.1    
+Fix for Risky Mod as we both edit spawn pools  
+
 v2.5.0 - Cleanup && Mod Split   
 -Made Simulacrum Tweaks it's own mod  
 --Added that mod as a dependecy for now so Mod should be automatically downloaded  

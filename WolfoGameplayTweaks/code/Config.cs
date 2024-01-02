@@ -16,6 +16,7 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> DCCSInteractableChanges;
         public static ConfigEntry<bool> DCCSInteractableCostChanges;
         public static ConfigEntry<bool> DCCSInteractablesStageCredits;
+        public static ConfigEntry<bool> cfgGoldShoresCredits;
         public static ConfigEntry<float> InteractablesMountainMultiplier;
         //
         //Changes - Interactables
@@ -51,6 +52,7 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> cfgScavBossItem;
         public static ConfigEntry<bool> cfgScavMoreItemsElites;
         public static ConfigEntry<bool> cfgScavNewTwisted;
+        public static ConfigEntry<bool> cfgMendingCoreBuff;
         //
         //Rates
         public static ConfigEntry<bool> VoidPortalChance;
@@ -115,7 +117,13 @@ namespace LittleGameplayTweaks
                 "Spawnpool - Interactables",
                 "Makes certain stages have more credits",
                 true,
-                "Plains & Roost & Aquaduct get +20, Sirens & Grove get +40. Gilded Coast gets interactables"
+                "Plains & Roost & Aquaduct get +20, Sirens & Grove get +40."
+            );
+            cfgGoldShoresCredits = ConfigFileUNSORTED.Bind(
+                "Spawnpool - Interactables",
+                "Gilded Coast gets interactables",
+                true,
+                "Mostly combat shrines"
             );
             InteractablesMountainMultiplier = ConfigFileUNSORTED.Bind(
                 "Spawnpool - Interactables",
@@ -278,6 +286,12 @@ namespace LittleGameplayTweaks
                 "New Twisted Scavengers",
                 true,
                 "Adds new Twisted Scavengers"
+            );
+            cfgMendingCoreBuff = ConfigFileUNSORTED.Bind(
+                "Changes - Enemies",
+                "Mending Healing Core",
+                true,
+                "Mending Healing Core starts with some invulnerability and has more hp."
             );
             //
             //Misc Unsorted

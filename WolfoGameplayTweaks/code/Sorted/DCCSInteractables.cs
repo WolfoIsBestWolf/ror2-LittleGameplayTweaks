@@ -19,7 +19,11 @@ namespace LittleGameplayTweaks
             }
             if (WConfig.DCCSInteractablesStageCredits.Value)
             {
-                On.RoR2.ClassicStageInfo.RebuildCards += MoreSceneCredits;
+                On.RoR2.ClassicStageInfo.Start += MoreSceneCredits;
+            }
+            if (WConfig.cfgGoldShoresCredits.Value)
+            {
+                On.RoR2.ClassicStageInfo.Start += GoldShoresCredits;
             }
             if (WConfig.DCCSInteractableCostChanges.Value == true)
             {
@@ -491,7 +495,19 @@ namespace LittleGameplayTweaks
         }
 
 
-        public static void MoreSceneCredits(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self)
+        public static void GoldShoresCredits(On.RoR2.ClassicStageInfo.orig_Start orig, ClassicStageInfo self)
+        {
+            if (Run.instance && SceneInfo.instance)
+            {
+                if (SceneInfo.instance.sceneDef.baseSceneName == "goldshores")
+                {
+                    self.sceneDirectorInteractibleCredits += 114; //For Fun ig
+                }
+            }
+            orig(self);
+        }
+
+        public static void MoreSceneCredits(On.RoR2.ClassicStageInfo.orig_Start orig, ClassicStageInfo self)
         {
             if (Run.instance && SceneInfo.instance)
             {
@@ -503,12 +519,6 @@ namespace LittleGameplayTweaks
                     case "blackbeach":
                         self.sceneDirectorInteractibleCredits += 20; //
                         break;
-                    case "snowyforest":
-                        //self.sceneDirectorInteractibleCredits -= 20; //It deserves it right idk
-                        break;
-                    case "foggyswamp":
-                        //self.sceneDirectorInteractibleCredits += 30;
-                        break;
                     case "goolake":
                         self.sceneDirectorInteractibleCredits += 20; //Has 60 less due to the Lemurians a bit too harsh imo
                         break;
@@ -517,9 +527,6 @@ namespace LittleGameplayTweaks
                         break;
                     case "shipgraveyard":
                         self.sceneDirectorInteractibleCredits += 40; //Depths has 400 or 560
-                        break;
-                    case "goldshores":
-                        self.sceneDirectorInteractibleCredits += 114; //For Fun ig
                         break;
                     case "artifactworld":
                         self.sceneDirectorInteractibleCredits += 40; //For Fun ig

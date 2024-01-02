@@ -241,15 +241,21 @@ namespace LittleGameplayTweaks
             {
                 On.RoR2.ShopTerminalBehavior.DropPickup += (orig, self) =>
                 {
-                    orig(self);
                     if (self.name.StartsWith("LunarCauldron, RedToWhite"))
                     {
-                        for (int i = 0; i < WConfig.InteractableRedSoupAmount.Value; i++)
+                        if(!self.GetComponent<PurchaseInteraction>().available)
                         {
-                            orig(self);
-                        };
-
+                            for (int i = 0; i < WConfig.InteractableRedSoupAmount.Value; i++)
+                            {
+                                PickupDropletController.CreatePickupDroplet(self.pickupIndex, (self.dropTransform ? self.dropTransform : self.transform).position, self.transform.TransformVector(self.dropVelocity));
+                            };
+                        }
+                        if (!self.hasBeenPurchased)
+                        {
+                           
+                        }
                     }
+                    orig(self);
                 };
             }
 
@@ -268,6 +274,9 @@ namespace LittleGameplayTweaks
             GameObject.Destroy(FakeGoldShrine.GetComponent<PurchaseAvailabilityIndicator>());
             GameObject.Destroy(FakeGoldShrine.GetComponent<PortalStatueBehavior>());
             GameObject.Destroy(FakeGoldShrine.GetComponent<PurchaseInteraction>());
+            GameObject.Destroy(FakeGoldShrine.transform.GetChild(3).gameObject);
+            GameObject.Destroy(FakeGoldShrine.transform.GetChild(2).gameObject);
+            GameObject.Destroy(FakeGoldShrine.transform.GetChild(1).gameObject);
 
             iscShrineGoldFake.prefab = FakeGoldShrine;
         }

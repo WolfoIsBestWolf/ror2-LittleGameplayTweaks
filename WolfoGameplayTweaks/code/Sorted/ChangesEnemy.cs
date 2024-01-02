@@ -26,8 +26,32 @@ namespace LittleGameplayTweaks
 
         public static void Enemies()
         {
-            CharacterBody AffixEarthHealerBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/EliteEarth/AffixEarthHealerBody.prefab").WaitForCompletion().GetComponent<CharacterBody>();
-            AffixEarthHealerBody.baseArmor += 400;
+            if (WConfig.cfgMendingCoreBuff.Value)
+            {
+                GameObject AffixEarthHealerMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/EliteEarth/AffixEarthHealerMaster.prefab").WaitForCompletion();
+                AffixEarthHealerMaster.AddComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[]
+                {
+                    new GivePickupsOnStart.ItemInfo{itemString = "UseAmbientLevel", count = 1 }
+                };
+                CharacterBody AffixEarthHealerBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/EliteEarth/AffixEarthHealerBody.prefab").WaitForCompletion().GetComponent<CharacterBody>();
+                /*AffixEarthHealerBody.baseArmor += 300;
+                AffixEarthHealerBody.baseMaxHealth *= 3;
+                AffixEarthHealerBody.levelMaxHealth *= 3;*/
+                AffixEarthHealerBody.baseDamage *= 1.5f;
+                AffixEarthHealerBody.levelDamage += AffixEarthHealerBody.baseDamage;
+
+
+                On.EntityStates.AffixEarthHealer.Chargeup.OnEnter += (orig, self) =>
+                {
+                    orig(self);
+                    if (self.characterBody)
+                    {
+                        //self.characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
+                        self.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 2.5f);
+                    }
+                };
+            }
+
 
             //Scav
             if (WConfig.cfgScavBossItem.Value == true)

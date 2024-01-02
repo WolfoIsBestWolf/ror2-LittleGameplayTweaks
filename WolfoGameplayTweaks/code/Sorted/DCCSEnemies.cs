@@ -40,8 +40,8 @@ namespace LittleGameplayTweaks
 
         public static void EnemiesPreLoopNoDLC()
         {
-            DirectorCardCategorySelection dccsFrozenWallMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/frozenwall/dccsFrozenWallMonsters.asset").WaitForCompletion();
-            DirectorCardCategorySelection dccsRootJungleMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/rootjungle/dccsRootJungleMonsters.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsFrozenWallMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/frozenwall/dccsFrozenWallMonsters.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsRootJungleMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/rootjungle/dccsRootJungleMonsters.asset").WaitForCompletion();
 
             DirectorCard DSGrovetender = new DirectorCard
             {
@@ -62,9 +62,9 @@ namespace LittleGameplayTweaks
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
 
-            dccsFrozenWallMonstersDLC1.categories[0].cards[0] = DSRoboBallBoss; //Clay Dunestrider replaced by Solus Unit
+            dccsFrozenWallMonsters.categories[0].cards[0] = DSRoboBallBoss; //Clay Dunestrider replaced by Solus Unit
 
-            dccsRootJungleMonstersDLC1.categories[0].cards[1] = DSGrovetender; //Titan replaced by Grovetender
+            dccsRootJungleMonsters.categories[0].cards[1] = DSGrovetender; //Titan replaced by Grovetender
         }
 
 
@@ -92,14 +92,7 @@ namespace LittleGameplayTweaks
             //DirectorCardCategorySelection dccsGoldshoresMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/goldshores/dccsGoldshoresMonstersDLC1.asset").WaitForCompletion();
 
 
-            DirectorCard DSBison = new DirectorCard
-            {
-                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscBison"),
-                preventOverhead = false,
-                selectionWeight = 1,
-                minimumStageCompletions = 0,
-                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
-            };
+
             DirectorCard DSMagmaWorm = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscMagmaWorm"),
@@ -119,7 +112,6 @@ namespace LittleGameplayTweaks
             DirectorCard DSGrovetender = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGravekeeper"),
-
                 preventOverhead = false,
                 selectionWeight = 1,
                 minimumStageCompletions = 0,
@@ -142,14 +134,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
-            DirectorCard DSAcidLarva = new DirectorCard
-            {
-                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscAcidLarva"),
-                selectionWeight = 1,
-                preventOverhead = true,
-                minimumStageCompletions = 0,
-                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
-            };
+ 
             DirectorCard DSClayGrenadier = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscClayGrenadier"),
@@ -158,30 +143,81 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
+            int num = -1;
 
             //dccsGolemplainsMonstersDLC1
 
-            dccsSnowyForestMonstersDLC1.categories[1].cards = dccsSnowyForestMonstersDLC1.categories[1].cards.Remove(dccsSnowyForestMonstersDLC1.categories[1].cards[2]); //Remove Reaver
-            dccsSnowyForestMonstersDLC1.categories[1].cards[1] = DSBison; //Bison replaces Greater Wisp
-            dccsSnowyForestMonstersDLC1.categories[2].cards[3].minimumStageCompletions = 0; //Pre Loop Vermin
-            dccsSnowyForestMonstersDLC1.categories[2].cards = dccsSnowyForestMonstersDLC1.categories[2].cards.Remove(dccsSnowyForestMonstersDLC1.categories[2].cards[1]); //Remove Wisp
+            //Snowy Forest
+            num = FindCardIg(dccsSnowyForestMonstersDLC1.categories[1].cards, "Nullifier");
+            if (num > -1)
+            {
+                dccsSnowyForestMonstersDLC1.categories[1].cards = dccsSnowyForestMonstersDLC1.categories[1].cards.Remove(dccsSnowyForestMonstersDLC1.categories[1].cards[num]);  
+                //Remove Reaver
+            }
+            num = FindCardIg(dccsSnowyForestMonstersDLC1.categories[1].cards, "GreaterWisp");
+            if (num > -1)
+            {
+                dccsSnowyForestMonstersDLC1.categories[1].cards[num].spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscBison");
+                //Bison replaces Greater Wisp
+            }
+            num = FindCardIg(dccsSnowyForestMonstersDLC1.categories[2].cards, "VerminSnowy");
+            if (num > -1)
+            {
+                dccsSnowyForestMonstersDLC1.categories[2].cards[num].minimumStageCompletions = 0;
+                //Pre Loop Vermin
+            }
+            num = FindCardIg(dccsSnowyForestMonstersDLC1.categories[2].cards, "LesserWisp");
+            if (num > -1)
+            {
+                dccsSnowyForestMonstersDLC1.categories[2].cards = dccsSnowyForestMonstersDLC1.categories[2].cards.Remove(dccsSnowyForestMonstersDLC1.categories[2].cards[num]); //Remove Wisp
+            }
 
-            dccsGooLakeMonstersDLC1.categories[1].cards[3].minimumStageCompletions = 0; //Pre Loop Clay Grenadier
-
+            //
+            //Goolake
+            num = FindCardIg(dccsGooLakeMonstersDLC1.categories[1].cards, "ClayGrenadier");
+            if (num > -1)
+            {
+                dccsGooLakeMonstersDLC1.categories[1].cards[num].minimumStageCompletions = 0;
+                //Pre Loop Clay Grenadier
+            }
+            //
             dccsFrozenWallMonstersDLC1.categories[0].cards[0] = DSRoboBallBoss; //Clay Dunestrider replaced by Solus Unit
-
+            //
             dccsWispGraveyardMonstersDLC1.AddCard(1, DSClayGrenadier);
 
-            //dccsSulfurPoolsMonstersDLC1.categories[0].cards[2] = DSMagmaWorm; //Beetle Queen replaced by Magma Worm
-            dccsSulfurPoolsMonstersDLC1.categories[2].cards[2] = DSAcidLarva; //Beetle replaced by Acid Larva, Too many beetles and ugly green thing fits into ugly green place
-            dccsSulfurPoolsMonstersDLC1.categories[0].cards[1].selectionWeight = 2;
+            //
+            //SulfurPools
+            num = FindCardIg(dccsSulfurPoolsMonstersDLC1.categories[2].cards, "Beetle");
+            if (num > -1)
+            {
+                dccsSulfurPoolsMonstersDLC1.categories[2].cards[num].spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscAcidLarva");
+                //Ugly green thing seems fitting
+            }
+            num = FindCardIg(dccsSulfurPoolsMonstersDLC1.categories[0].cards, "MegaConstruct");
+            if (num > -1)
+            {
+                dccsSulfurPoolsMonstersDLC1.categories[0].cards[num].selectionWeight++;
+                //More Lamp because there's so many bosses here
+            }
             dccsSulfurPoolsMonstersDLC1.AddCard(0, DSMagmaWorm); //Keep Beetle Queen but still add this dude
             dccsSulfurPoolsMonstersDLC1.AddCard(0, DSElectricWorm); //Keep Beetle Queen but still add this dude
             dccsSulfurPoolsMonstersDLC1.AddCard(1, DSHermitCrab); //Seems fitting for another trash mob
-
-            dccsRootJungleMonstersDLC1.categories[0].cards[1] = DSGrovetender; //Titan replaced by Grovetender
-            dccsRootJungleMonstersDLC1.categories[1].cards[0].spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/Golem/cscGolemNature.asset").WaitForCompletion();
-
+            //
+            //Sundered Grove
+            num = FindCardIg(dccsRootJungleMonstersDLC1.categories[0].cards, "TitanBlackBeach");
+            if (num > -1)
+            {
+                dccsRootJungleMonstersDLC1.categories[0].cards[num].spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGravekeeper");
+                dccsRootJungleMonstersDLC1.categories[0].cards[num].selectionWeight++;
+                //Replacing Titan with Grovetender
+            }
+            num = FindCardIg(dccsRootJungleMonstersDLC1.categories[1].cards, "Golem");
+            if (num > -1)
+            {
+                dccsRootJungleMonstersDLC1.categories[1].cards[num].spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/Golem/cscGolemNature.asset").WaitForCompletion();
+                //Replacing Golem with skinned Golem
+            }
+            //
             dccsShipgraveyardMonstersDLC1.AddCard(0, DSElectricWorm); //Magma Worm so Elec Worm
 
             dccsSkyMeadowMonstersDLC1.AddCard(0, DSMagmaWorm); //They removed him with the DLC but Elec Worm is still there
@@ -190,11 +226,6 @@ namespace LittleGameplayTweaks
             dccsArtifactWorldMonstersDLC1.AddCard(0, DSMagmaWorm);
             dccsArtifactWorldMonstersDLC1.AddCard(1, DSClayGrenadier);
             //dccsArtifactWorldMonstersDLC1.AddCard(2, DSBlindVermin);
-
-
-
-
-
         }
         
         public static void EnemiesPostLoop()
@@ -408,8 +439,12 @@ namespace LittleGameplayTweaks
             //
             dccsFrozenWallMonstersDLC1.AddCard(2, LoopVulture); //Like the Big Ball leads them to it so they can eat more People and Iron
 
-            dccsWispGraveyardMonstersDLC1.categories[2].cards[3].spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/Vermin/cscVermin.asset").WaitForCompletion(); 
-            //Idk why we replace Vultures with Rats 
+            int num = FindCardIg(dccsWispGraveyardMonstersDLC1.categories[2].cards, "Vulture");
+            if (num > -1)
+            {
+                dccsWispGraveyardMonstersDLC1.categories[2].cards[num].spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/Vermin/cscVermin.asset").WaitForCompletion();
+                //Idk why we replace Vultures with Rats
+            }
 
             dccsSulfurPoolsMonstersDLC1.AddCard(0, LoopGrandparent); //Loop Parents
             dccsSulfurPoolsMonstersDLC1.AddCard(2, LoopParent); //Idk Yellow on Yellow action or smth
@@ -817,6 +852,21 @@ namespace LittleGameplayTweaks
                 }*/
             }
             
+        }
+
+        //RiskyMod broke my spawn pool changes maybe other mods do too so I guess we'll just do this
+        public static int FindCardIg(DirectorCard[] insert, string LookingFor)
+        {
+            for (int i = 0; i < insert.Length; i++)
+            {
+                if (insert[i].spawnCard.name.EndsWith(LookingFor))
+                {
+                    //Debug.Log("Found " + LookingFor);
+                    return i;
+                }
+            }
+            Debug.Log("Couldn't find " + LookingFor);
+            return -1;
         }
 
         public static void ModSupport()

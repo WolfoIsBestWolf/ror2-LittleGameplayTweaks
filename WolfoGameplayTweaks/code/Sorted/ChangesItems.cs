@@ -19,10 +19,8 @@ namespace LittleGameplayTweaks
         public static void Start()
         {
             Items();
-
-            VoidAffix();
             BetterRedWhipCheck();
-
+            VoidAffix();
             //Inherit Elite Equipment
             if (WConfig.MinionsInherit.Value == true)
             {
@@ -36,7 +34,7 @@ namespace LittleGameplayTweaks
             //Surely could be simplified to if master is player and elite and that's it
             if (NetworkServer.active)
             {
-                if (minion.ownerMaster && minion.ownerMaster.GetComponent<PlayerCharacterMasterController>() && minion.ownerMaster.inventory.GetEquipmentIndex() != EquipmentIndex.None)
+                if (!minion.name.StartsWith("AffixEarth") && minion.ownerMaster && minion.ownerMaster.GetComponent<PlayerCharacterMasterController>() && minion.ownerMaster.inventory.GetEquipmentIndex() != EquipmentIndex.None)
                 {
                     //Debug.LogWarning(EquipmentCatalog.GetEquipmentDef(minion.ownerMaster.inventory.GetEquipmentIndex()).name);   
                     if (minion.ownerMaster.hasBody && minion.ownerMaster.GetBody().isElite)
@@ -195,24 +193,23 @@ namespace LittleGameplayTweaks
 
         public static void VoidAffix()
         {
-            EliteDef EliteDefVoid = Addressables.LoadAssetAsync<EliteDef>(key: "RoR2/DLC1/EliteVoid/edVoid.asset").WaitForCompletion();
-            EliteDefVoid.healthBoostCoefficient = 2f;
-
             EquipmentDef VoidAffix = Addressables.LoadAssetAsync<EquipmentDef>(key: "RoR2/DLC1/EliteVoid/EliteVoidEquipment.asset").WaitForCompletion();
             GameObject VoidAffixDisplay = R2API.PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/EliteVoid/DisplayAffixVoid.prefab").WaitForCompletion(), "PickupAffixVoidW", false);
             VoidAffixDisplay.transform.GetChild(0).GetChild(1).SetAsFirstSibling();
             VoidAffixDisplay.transform.GetChild(1).localPosition = new Vector3(0f, 0.7f, 0f);
-            VoidAffixDisplay.transform.GetChild(1).GetChild(0).localPosition = new Vector3(0 -0.5f, -0.6f);
+            VoidAffixDisplay.transform.GetChild(1).GetChild(0).localPosition = new Vector3(0, -0.5f, -0.6f);
             VoidAffixDisplay.transform.GetChild(1).GetChild(0).localScale = new Vector3(1.5f, 1.5f, 1.5f);
             VoidAffixDisplay.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
             VoidAffixDisplay.transform.GetChild(1).GetChild(3).gameObject.SetActive(false);
             VoidAffixDisplay.transform.GetChild(0).eulerAngles = new Vector3(310, 0, 0);
             VoidAffixDisplay.transform.GetChild(0).localScale = new Vector3(0.75f, 0.75f, 0.75f);
 
+            ItemDisplay display = VoidAffixDisplay.GetComponent<ItemDisplay>();
+            display.rendererInfos = display.rendererInfos.Remove(display.rendererInfos[4]);
+
             LanguageAPI.Add("EQUIPMENT_AFFIXVOID_NAME", "Voidborne Curiosity", "en");
             LanguageAPI.Add("EQUIPMENT_AFFIXVOID_PICKUP", "Lose your aspect of self.", "en");
             LanguageAPI.Add("EQUIPMENT_AFFIXVOID_DESC", "Increases <style=cIsHealing>maximum health</style> by <style=cIsHealing>50%</style> and decrease <style=cIsDamage>base damage</style> by <style=cIsDamage>30%</style>. <style=cIsDamage>Collapse</style> enemies on hit and <style=cIsHealing>block</style> incoming damage once every <style=cIsUtility>15 seconds</style>. ", "en");
-            VoidAffix.dropOnDeathChance = 0.00025f;
 
             Texture2D UniqueAffixVoid = new Texture2D(128, 128, TextureFormat.DXT5, false);
             UniqueAffixVoid.LoadImage(Properties.Resources.UniqueAffixVoid, true);
@@ -222,6 +219,8 @@ namespace LittleGameplayTweaks
 
             VoidAffix.pickupIconSprite = UniqueAffixVoidS;
             VoidAffix.pickupModelPrefab = VoidAffixDisplay;
+
+            VoidAffix.dropOnDeathChance = 0.00025f;
             GameModeCatalog.availability.CallWhenAvailable(EquipmentBonusRate);
 
             On.RoR2.CharacterMaster.RespawnExtraLifeVoid += (orig, self) =>
@@ -260,6 +259,7 @@ namespace LittleGameplayTweaks
 
         public static void EquipmentBonusRate()
         {
+            
             for (int i = 0; i < EliteCatalog.eliteDefs.Length; i++)
             {
                 //Debug.LogWarning(EliteCatalog.eliteDefs[i].eliteEquipmentDef);

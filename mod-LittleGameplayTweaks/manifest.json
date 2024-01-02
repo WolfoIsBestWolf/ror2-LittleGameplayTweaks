@@ -1,8 +1,8 @@
 {
     "name": "LittleGameplayTweaks",
-    "version_number": "2.5.0",
+    "version_number": "2.5.2",
     "website_url": "https://github.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks",
-    "description": "More enemy variety. Prismatic Trials+. Slightly Faster Interactables, and some other stuff",
+    "description": "More enemy variety.  Prismatic Trials+.  Slightly Faster Interactables, and some other stuff",
     "dependencies": [
         "bbepis-BepInExPack-5.4.9",
 		"RiskofThunder-HookGenPatcher-1.2.1",
