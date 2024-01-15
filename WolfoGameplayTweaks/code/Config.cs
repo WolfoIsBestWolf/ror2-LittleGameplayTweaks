@@ -339,7 +339,7 @@ namespace LittleGameplayTweaks
                 "Rates",
                 "Aspect Drop Rate",
                 0.067f,
-                "Percent Drop rate for Aspects. Vanilla is 0.025 or 1/4000"
+                "Percent Drop rate for Aspects. Vanilla is 0.025 or 1/4000. Does not need to be changed if ZetAspects is changed."
             );
             ShopChancePercentage = ConfigFileUNSORTED.Bind(
                 "Rates",

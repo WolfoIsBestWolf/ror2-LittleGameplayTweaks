@@ -25,6 +25,11 @@ namespace LittleGameplayTweaks
         {
             MultiCharacterSpawnCard cscScavLunar = LegacyResourcesAPI.Load<MultiCharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScavLunar");
 
+            cscScavLunar.masterPrefabs[0].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath;
+            cscScavLunar.masterPrefabs[1].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath;
+            cscScavLunar.masterPrefabs[2].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath;
+            cscScavLunar.masterPrefabs[3].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath;
+
             ContentAddition.AddBody(ScavLunarWSpeedBody);
             ContentAddition.AddMaster(ScavLunarWSpeedMaster);
 
@@ -93,7 +98,7 @@ namespace LittleGameplayTweaks
             ScavLunarWGoomanMaster.GetComponent<RoR2.CharacterAI.AISkillDriver>().maxUserHealthFraction = 0.9f;
             ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().equipmentString = "GummyClone";
             ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                new GivePickupsOnStart.ItemInfo { itemString = ("BoostEquipmentRecharge"), count = 28, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("BoostEquipmentRecharge"), count = 29, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("RegeneratingScrap"), count = 5, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("PermanentDebuffOnHit"), count = 2, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("RandomDamageZone"), count = 1, },

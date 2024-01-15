@@ -107,6 +107,8 @@ Adds 4 Skins; The unused Green Commando skin and 3 Recolors made by me.
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\
 If you're reporting a bug that isn't something obvious include the log file.
 
+Every played needs this mod installed.
+
 Also download:\
 [WolfoQualityOfLife](https://thunderstore.io/package/Wolfo/WolfoQualityOfLife/) for many visual improvements and general Quality of Life.\
 [SimulacrumAdditions](https://thunderstore.io/package/Wolfo/SimulacrumAdditions) for a better Simulacrum.\
@@ -114,6 +116,19 @@ Also download:\
 [WolfoArtifacts](https://thunderstore.io/package/Wolfo/WolfoArtifacts) for some fun extra Artifacts.
 
 ## Changelog:
+```
+v2.5.4
+-(TODO) Fixed Prismatic Trials Teleporter still sometimes getting infinite particles on clients 
+-(TODO) idk like 2 elites or smth 1 elite might be a bit lame
+
+v2.5.3
+-Fixed Third Lunar Seer spawning improperly on clients.
+-Gave Kjarao/Runald more HP
+-Scavengers will be less common as a boss
+-Twisted Scavengers won't be elite anymore during a Prismatic Trial
+-Twisted Scavengers are now immune to Void Implosions like other final bosses
+-Removed SimulacrumAdditions as a dependency.
+
 v2.5.2  
 Fix RedToWhite Cauldron dropping bonus 3 times leading to 9 items instead of 5.  
 Decorational Gold Shrines no longer show their icon.

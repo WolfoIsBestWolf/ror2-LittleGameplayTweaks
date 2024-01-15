@@ -158,7 +158,7 @@ namespace LittleGameplayTweaks
                             {
                                 if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 3)
                                 {
-                                    allinteractables[dccs].categories[cat].cards[card].selectionWeight = 14;
+                                    allinteractables[dccs].categories[cat].cards[card].selectionWeight = 15;
                                 }
                             }
                             else if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.StartsWith("iscShrineBoss"))

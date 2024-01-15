@@ -86,6 +86,7 @@ namespace LittleGameplayTweaks
 
         internal static void ModSupport()
         {
+
             DCCSEnemies.ModSupport();
             ChangesInteractables.ModSupport();
             ChangesItems.ItemsLate();
@@ -121,7 +122,10 @@ namespace LittleGameplayTweaks
                     tempR.excludeByDefault = false;
                 }
             }
-
+            if (WConfig.cfgMendingCoreBuff.Value)
+            {
+                EntityStates.AffixEarthHealer.Heal.healCoefficient *= 4;
+            }
             /*for (int i = 0; i < SceneCatalog.allSceneDefs.Length; i++)
             {
                 Debug.Log(SceneCatalog.allSceneDefs[i].baseSceneName +"  "+ SceneCatalog.allSceneDefs[i].mainTrack +"  "+ SceneCatalog.allSceneDefs[i].bossTrack);
@@ -167,6 +171,7 @@ namespace LittleGameplayTweaks
                             if (InventoryList[i].name.StartsWith("LemurianBruiserFireMaster") || InventoryList[i].name.StartsWith("LemurianBruiserIceMaster"))
                             {
                                 InventoryList[i].GiveItem(RoR2Content.Items.UseAmbientLevel);
+                                InventoryList[i].GiveItem(RoR2Content.Items.BoostHp, 15);
                                 InventoryList[i].GiveItem(ChangesCharacters.MarriageLemurianIdentifier);
                             }
                         }
@@ -220,8 +225,7 @@ namespace LittleGameplayTweaks
                                 if (instant == 1)
                                 {
                                     instant = 2;
-                                    GameObject newseer = GameObject.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/SeerStation.prefab").WaitForCompletion(), seerList[i].gameObject.transform.parent);
-                                    NetworkServer.Spawn(newseer);
+                                    GameObject newseer = GameObject.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/SeerStation.prefab").WaitForCompletion(), seerList[i].gameObject.transform.parent);                 
                                     newseer.transform.localPosition = new Vector3(10f, -0.81f, 4f);
                                     newseer.transform.localRotation = new Quaternion(0f, 0.3827f, 0f, -0.9239f);
                                     if (nextscenelist.Count > 0)
@@ -234,6 +238,7 @@ namespace LittleGameplayTweaks
                                         newseer.GetComponent<PurchaseInteraction>().SetAvailable(false);
                                         newseer.GetComponent<SeerStationController>().OnStartClient();
                                     }
+                                    NetworkServer.Spawn(newseer);
                                 }
                                 instant++;
                             }
@@ -335,7 +340,19 @@ namespace LittleGameplayTweaks
         public static void ClassicStageInfoMethod(On.RoR2.ClassicStageInfo.orig_Awake orig, global::RoR2.ClassicStageInfo self)
         {
             orig(self);
-            ChangesCharacters.DropTableForBossScav = AllScavCompatibleBossItems[WRect.random.Next(AllScavCompatibleBossItems.Count)];
+            if (WConfig.cfgScavBossItem.Value)
+            {
+                ChangesCharacters.DropTableForBossScav = AllScavCompatibleBossItems[WRect.random.Next(AllScavCompatibleBossItems.Count)];
+                int ran = random.Next(10);
+                if (ran > 5)
+                {
+                    LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").forbiddenAsBoss = false;
+                }
+                else
+                {
+                    LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").forbiddenAsBoss = true;
+                }
+            }
         }
 
 

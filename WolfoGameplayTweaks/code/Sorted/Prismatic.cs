@@ -82,7 +82,7 @@ namespace LittleGameplayTweaks
                 if (self.ruleBook.GetRuleChoice(RuleDefPrismatic).localName.Equals("Endless"))
                 {
                     self.bossAffixes[0] = bossAffixes[random.Next(bossAffixes.Length)];
-                    self.bossAffixes[1] = self.bossAffixes[0];
+                    self.bossAffixes[1] = bossAffixes[random.Next(bossAffixes.Length)];
 
                     int kill = 3;// + self.participatingPlayerCount - 1;
                     int crystal = 5;// + self.participatingPlayerCount - 1;
@@ -110,7 +110,7 @@ namespace LittleGameplayTweaks
                 if (self.ruleBook.GetRuleChoice(RuleDefPrismatic).localName.Equals("Endless"))
                 {
                     self.bossAffixes[0] = bossAffixes[random.Next(bossAffixes.Length)];
-                    self.bossAffixes[1] = self.bossAffixes[0];
+                    self.bossAffixes[1] = bossAffixes[random.Next(bossAffixes.Length)];
                 }
             };
 
@@ -133,6 +133,10 @@ namespace LittleGameplayTweaks
             //All Bosses on stage 2 and beyond are set to be Elites
             On.RoR2.WeeklyRun.OnServerBossAdded += (orig, self, bossGroup, characterMaster) =>
             {
+                if (bossGroup.name.StartsWith("ScavLunar"))
+                {
+                    return;
+                }
                 orig(self, bossGroup, characterMaster);
 
                 if (self.ruleBook.GetRuleChoice(RuleDefPrismatic).localName.Equals("Endless"))
@@ -184,7 +188,8 @@ namespace LittleGameplayTweaks
 
 
             LanguageAPI.Add("TITLE_WEEKLY", "Prismatic Trials+", "en");
-            LanguageAPI.Add("GAMEMODE_WEEKLY_RUN_NAME", "Prismatic\nTrial", "en");
+            //LanguageAPI.Add("GAMEMODE_WEEKLY_RUN_NAME", "Prismatic\nTrial", "en");
+            LanguageAPI.Add("GAMEMODE_WEEKLY_RUN_NAME", "Prismatic", "en");
             //Rewrite these
             LanguageAPI.Add("TITLE_WEEKLY_DESC", "Play a Prismatic Trial, a different take on the normal run", "en");
             LanguageAPI.Add("WEEKLY_RUN_DESCRIPTION", "<style=cWorldEvent>'LittleGameplayTweaks'</style> changes <style=cWorldEvent>Prismatic Trials</style> to serve more as an alternative game mode.\n\n" +

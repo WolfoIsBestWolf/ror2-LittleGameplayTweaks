@@ -101,11 +101,7 @@ namespace LittleGameplayTweaks
             EliteDefLunarEulogy.damageBoostCoefficient = EliteDefLunar.damageBoostCoefficient;
             EliteDefLunarEulogy.name = "edLunarEulogy";
 
-            CombatDirector.EliteTierDef noelitetier = new CombatDirector.EliteTierDef { };
-            List<CombatDirector.EliteTierDef> etdList = new List<CombatDirector.EliteTierDef>();
-            etdList.Add(noelitetier);
-            IEnumerable<CombatDirector.EliteTierDef> empty = etdList;
-            EliteAPI.Add(new CustomElite(EliteDefLunarEulogy, empty));
+            ContentAddition.AddEliteDef(EliteDefLunar);
             if (WConfig.ItemsEuologyLunarElites.Value == true)
             {
                 //On.RoR2.CombatDirector.EliteTierDef.GetRandomAvailableEliteDef += LunarEulogyHook1; 
@@ -259,7 +255,12 @@ namespace LittleGameplayTweaks
 
         public static void EquipmentBonusRate()
         {
-            
+            /*if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TPDespair.ZetAspects"))
+            {
+                //This is probably not even needed
+                Debug.Log("LittleGameplayTweaks : Zet Aspects, not changing Elite Equip drop chance");
+                return;
+            }*/
             for (int i = 0; i < EliteCatalog.eliteDefs.Length; i++)
             {
                 //Debug.LogWarning(EliteCatalog.eliteDefs[i].eliteEquipmentDef);

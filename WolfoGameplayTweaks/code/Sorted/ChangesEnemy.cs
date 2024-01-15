@@ -34,12 +34,11 @@ namespace LittleGameplayTweaks
                     new GivePickupsOnStart.ItemInfo{itemString = "UseAmbientLevel", count = 1 }
                 };
                 CharacterBody AffixEarthHealerBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/EliteEarth/AffixEarthHealerBody.prefab").WaitForCompletion().GetComponent<CharacterBody>();
-                /*AffixEarthHealerBody.baseArmor += 300;
+                AffixEarthHealerBody.baseArmor += 300;
                 AffixEarthHealerBody.baseMaxHealth *= 3;
-                AffixEarthHealerBody.levelMaxHealth *= 3;*/
-                AffixEarthHealerBody.baseDamage *= 1.5f;
+                AffixEarthHealerBody.levelMaxHealth *= 3;
+                AffixEarthHealerBody.baseDamage *= 0.5f;
                 AffixEarthHealerBody.levelDamage += AffixEarthHealerBody.baseDamage;
-
 
                 On.EntityStates.AffixEarthHealer.Chargeup.OnEnter += (orig, self) =>
                 {
