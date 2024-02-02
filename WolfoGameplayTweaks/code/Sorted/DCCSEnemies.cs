@@ -307,14 +307,14 @@ namespace LittleGameplayTweaks
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscParent"),
                 preventOverhead = false,
-                selectionWeight = 1,
+                selectionWeight = 2,
                 minimumStageCompletions = 4,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
             DirectorCard LoopGrandparent = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/titan/cscGrandparent"),
-                selectionWeight = 1,
+                selectionWeight = 2,
                 preventOverhead = false,
                 minimumStageCompletions = 4,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
@@ -443,6 +443,7 @@ namespace LittleGameplayTweaks
             if (num > -1)
             {
                 dccsWispGraveyardMonstersDLC1.categories[2].cards[num].spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/Vermin/cscVermin.asset").WaitForCompletion();
+                dccsWispGraveyardMonstersDLC1.categories[2].cards[num].selectionWeight = 3;
                 //Idk why we replace Vultures with Rats
             }
 
@@ -476,7 +477,7 @@ namespace LittleGameplayTweaks
             //dccsWispGraveyardMonstersDLC1.AddCard(1, DoubleLoopVoidJailer);
             //dccsSulfurPoolsMonstersDLC1.AddCard(0, DoubleLoopVoidDevestator);
 
-            dccsDampCaveMonstersDLC1.AddCard(0, DoubleLoopVoidDevestator);
+            dccsDampCaveMonstersDLC1.AddCard(0, DoubleLoopVoidJailer);
             dccsShipgraveyardMonstersDLC1.AddCard(1, DoubleLoopVoidReaver);
             dccsRootJungleMonstersDLC1.AddCard(1, DoubleLoopVoidJailer);
 

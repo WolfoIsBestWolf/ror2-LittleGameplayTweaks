@@ -79,11 +79,38 @@ namespace LittleGameplayTweaks
 
 
             //Lunar Scavs not picking up more items I think Idk If they even do that to begin with
-            UnityEngine.Object.Destroy(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar1Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1]);
-            UnityEngine.Object.Destroy(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar2Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1]);
-            UnityEngine.Object.Destroy(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar3Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1]);
-            UnityEngine.Object.Destroy(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar4Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1]);
+            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar1Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = 0;
+            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar2Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = 0;
+            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar3Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = 0;
+            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar4Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = 0;
             //
+            if (WConfig.cfgVoidlingNerf.Value)
+            {
+                CharacterBody Voidling = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidRaidCrab/MiniVoidRaidCrabBodyBase.prefab").WaitForCompletion().GetComponent<CharacterBody>();
+                Voidling.baseDamage *= 0.6f;
+                Voidling.levelDamage *= 0.6f;
+                Voidling.baseMaxHealth *= 0.9f;
+                Voidling.levelMaxHealth *= 0.9f;
+                Voidling = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidRaidCrab/MiniVoidRaidCrabBodyPhase1.prefab").WaitForCompletion().GetComponent<CharacterBody>();
+                Voidling.baseDamage *= 0.6f;
+                Voidling.levelDamage *= 0.6f;
+                Voidling.baseMaxHealth *= 0.8f;
+                Voidling.levelMaxHealth *= 0.8f;
+                Voidling = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidRaidCrab/MiniVoidRaidCrabBodyPhase2.prefab").WaitForCompletion().GetComponent<CharacterBody>();
+                Voidling.baseDamage *= 0.6f;
+                Voidling.levelDamage *= 0.6f;
+                Voidling.baseMaxHealth *= 0.9f;
+                Voidling.levelMaxHealth *= 0.9f;
+                Voidling = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidRaidCrab/MiniVoidRaidCrabBodyPhase3.prefab").WaitForCompletion().GetComponent<CharacterBody>();
+                Voidling.baseDamage *= 0.6f;
+                Voidling.levelDamage *= 0.6f;
+                //Voidling.baseMaxHealth *= 0.9f;
+                //Voidling.levelMaxHealth *= 0.9f;
+                //Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/VoidRaidCrab/MiniVoidRaidCrabBodyPhase3.prefab").WaitForCompletion().sceneType = SceneType.Intermission;
+            }
+
+
+
 
             RoR2.CharacterAI.AISkillDriver[] skilllist = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavMaster").GetComponents<RoR2.CharacterAI.AISkillDriver>();
             for (var i = 0; i < skilllist.Length; i++)
@@ -103,7 +130,7 @@ namespace LittleGameplayTweaks
             skilllist = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/EngiWalkerTurretMaster").GetComponents<RoR2.CharacterAI.AISkillDriver>();
             for (var i = 0; i < skilllist.Length; i++)
             {
-                if (skilllist[i].customName.Contains("ReturnToLeader"))
+                if (skilllist[i].customName.StartsWith("ReturnToLeader"))
                 {
                     skilllist[i].shouldSprint = true;
                     if (skilllist[i].minDistance == 110)
@@ -116,14 +143,10 @@ namespace LittleGameplayTweaks
 
             //Equipment Drone fire Equipment even if no enemies
             skilllist = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/EquipmentDroneMaster").GetComponents<RoR2.CharacterAI.AISkillDriver>();
-            for (var i = 0; i < skilllist.Length; i++)
-            {
-                if (skilllist[i].customName.Contains("IdleNearLeaderWhenNoEnemies") || skilllist[i].customName.Contains("ChaseDownRandomEnemiesIfLeaderIsDead") || skilllist[i].customName.Contains("FireLongRange") || skilllist[i].customName.Contains("FireShotgun") || skilllist[i].customName.Contains("BackUpIfClose"))
-                {
-                    skilllist[i].shouldFireEquipment = true;
-                }
-            }
-
+            skilllist[0].shouldFireEquipment = true;
+            skilllist[2].shouldFireEquipment = true;
+            skilllist[5].shouldFireEquipment = true;
+            skilllist[6].shouldFireEquipment = true;
         }
 
         public static void Characters()
@@ -291,72 +314,74 @@ namespace LittleGameplayTweaks
 
         public static void GiveScavMoreItems(On.RoR2.ScavengerItemGranter.orig_Start orig, ScavengerItemGranter self)
         {
-            CharacterBody tempbod = self.GetComponent<CharacterMaster>().GetBody();
-            Inventory inventory = self.GetComponent<Inventory>();
-            //They are made Elite beforehand but dont count as Elite
+            if (NetworkServer.active)
+            { 
+                CharacterBody tempbod = self.GetComponent<CharacterMaster>().GetBody();
+                Inventory inventory = self.GetComponent<Inventory>();
+                //They are made Elite beforehand but dont count as Elite
 
-            bool hasEliteEquip = inventory.currentEquipmentIndex != EquipmentIndex.None && inventory.currentEquipmentState.equipmentDef.passiveBuffDef && inventory.currentEquipmentState.equipmentDef.passiveBuffDef.isElite;
+                bool hasEliteEquip = inventory.currentEquipmentIndex != EquipmentIndex.None && inventory.currentEquipmentState.equipmentDef.passiveBuffDef && inventory.currentEquipmentState.equipmentDef.passiveBuffDef.isElite;
 
-            if (self.stackRollDataList.Length == 3)
-            {
-                if (hasEliteEquip)
+                if (self.stackRollDataList.Length == 3)
                 {
-                    bool isElite = inventory.GetItemCount(RoR2Content.Items.BoostHp) >= inventory.currentEquipmentState.equipmentDef.passiveBuffDef.eliteDef.healthBoostCoefficient * 10-10;
-                    bool isT2Elite = isElite && inventory.currentEquipmentState.equipmentDef.passiveBuffDef.eliteDef.healthBoostCoefficient > 10;
+                    if (hasEliteEquip)
+                    {
+                        bool isElite = inventory.GetItemCount(RoR2Content.Items.BoostHp) >= inventory.currentEquipmentState.equipmentDef.passiveBuffDef.eliteDef.healthBoostCoefficient * 10-10;
+                        bool isT2Elite = isElite && inventory.currentEquipmentState.equipmentDef.passiveBuffDef.eliteDef.healthBoostCoefficient > 10;
 
-                    if (isT2Elite)
-                    {
-                        //By the time you see Tier2 Elite Scav, go fuck yourself
-                        //White 10 * 8
-                        self.stackRollDataList[0].stacks = 8;
-                        self.stackRollDataList[0].numRolls = 10;
-                        //Green 8 * 5
-                        self.stackRollDataList[1].stacks = 5;
-                        self.stackRollDataList[1].numRolls = 8;
-                        //Red 5 * 2
-                        self.stackRollDataList[2].stacks = 2;
-                        self.stackRollDataList[2].numRolls = 5;
+                        if (isT2Elite)
+                        {
+                            //By the time you see Tier2 Elite Scav, go fuck yourself
+                            //White 10 * 8
+                            self.stackRollDataList[0].stacks = 8;
+                            self.stackRollDataList[0].numRolls = 10;
+                            //Green 8 * 5
+                            self.stackRollDataList[1].stacks = 5;
+                            self.stackRollDataList[1].numRolls = 8;
+                            //Red 5 * 2
+                            self.stackRollDataList[2].stacks = 2;
+                            self.stackRollDataList[2].numRolls = 5;
+                        }
+                        else if (isElite && tempbod.isBoss)
+                        {
+                            //White 7 * 5
+                            self.stackRollDataList[0].stacks = 5; 
+                            self.stackRollDataList[0].numRolls = 5; //7
+                            //Green 5 * 3
+                            self.stackRollDataList[1].stacks = 3;
+                            self.stackRollDataList[1].numRolls = 4; //5
+                            //Red 3 * 2
+                            self.stackRollDataList[2].stacks = 2;
+                            self.stackRollDataList[2].numRolls = 2; //3
+                        }
+                        else if (isElite)
+                        {
+                            //White 5 * 5
+                            self.stackRollDataList[0].stacks += 2;
+                            self.stackRollDataList[0].numRolls += 2;
+                            //Green 3 * 3
+                            self.stackRollDataList[1].stacks += 1;
+                            self.stackRollDataList[1].numRolls += 1;
+                            //Red   2 * 2
+                            self.stackRollDataList[2].stacks += 1;
+                            self.stackRollDataList[2].numRolls += 1;
+                        }
                     }
-                    else if (isElite && tempbod.isBoss)
+                    if (tempbod.isBoss)
                     {
-                        //White 7 * 5
-                        self.stackRollDataList[0].stacks = 5; 
-                        self.stackRollDataList[0].numRolls = 5; //7
-                        //Green 5 * 3
-                        self.stackRollDataList[1].stacks = 3;
-                        self.stackRollDataList[1].numRolls = 4; //5
-                        //Red 3 * 2
-                        self.stackRollDataList[2].stacks = 2;
-                        self.stackRollDataList[2].numRolls = 2; //3
-                    }
-                    else if (isElite)
-                    {
-                        //White 5 * 5
-                        self.stackRollDataList[0].stacks += 2;
+                        //White 5 * 3
+                        //self.stackRollDataList[0].stacks += 0;
                         self.stackRollDataList[0].numRolls += 2;
-                        //Green 3 * 3
-                        self.stackRollDataList[1].stacks += 1;
+                        //Green 3 * 2
+                        //self.stackRollDataList[1].stacks += 0;
                         self.stackRollDataList[1].numRolls += 1;
-                        //Red   2 * 2
-                        self.stackRollDataList[2].stacks += 1;
+                        //Red   2 * 1
+                        //self.stackRollDataList[2].stacks += 0;
                         self.stackRollDataList[2].numRolls += 1;
                     }
-                }
-                if (tempbod.isBoss)
-                {
-                    //White 5 * 3
-                    //self.stackRollDataList[0].stacks += 0;
-                    self.stackRollDataList[0].numRolls += 2;
-                    //Green 3 * 2
-                    //self.stackRollDataList[1].stacks += 0;
-                    self.stackRollDataList[1].numRolls += 1;
-                    //Red   2 * 1
-                    //self.stackRollDataList[2].stacks += 0;
-                    self.stackRollDataList[2].numRolls += 1;
-                }
 
+                }
             }
-
             orig(self);
         }
 

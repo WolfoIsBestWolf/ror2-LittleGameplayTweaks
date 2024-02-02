@@ -118,42 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="PinktexCaptainJacketDiffuseW" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\PinktexCaptainJacketDiffuseW.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="PinktexCaptainPaletteW" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\PinktexCaptainPaletteW.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="PinktexCaptainPaletteW2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\PinktexCaptainPaletteW2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="PinktexCaptainPaletteW2___Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\PinktexCaptainPaletteW2 - Copy.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="PinktexCaptainPaletteW3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\PinktexCaptainPaletteW3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="PinktexCaptainPaletteW___Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\PinktexCaptainPaletteW - Copy.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texBanditRedCoatDiffuse" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\banditRed\texBanditRedCoatDiffuse.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texBanditRedDiffuse" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\banditRed\texBanditRedDiffuse.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texBanditRedEmission" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\banditRed\texBanditRedEmission.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texBanditRedSkinIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\banditRed\texBanditRedSkinIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texBanditShotgunDiffuse" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\banditRed\texBanditShotgunDiffuse.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texCaptainPinkSkinIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\texCaptainPinkSkinIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="texPrismRuleOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texPrismRuleOff.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -165,18 +129,6 @@
   </data>
   <data name="texRuleMapIsNormal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>texRuleMapIsNormal.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texTreebotBlueFlowerDiffuse" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\texTreebotBlueFlowerDiffuse.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texTreebotBlueLeafDiffuse" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\texTreebotBlueLeafDiffuse.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texTreebotBlueSkinIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\texTreebotBlueSkinIcon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="texTreebotBlueTreeBarkDiffuse" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>skinstuff\texTreebotBlueTreeBarkDiffuse.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="UniqueAffixVoid" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>UniqueAffixVoid.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

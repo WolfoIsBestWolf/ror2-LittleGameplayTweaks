@@ -10,7 +10,7 @@ namespace LittleGameplayTweaks
     {
         static readonly System.Random random = new System.Random();
 
-        public static EquipmentIndex[] bossAffixes = Array.Empty<EquipmentIndex>();
+        public static EquipmentIndex[] newBossAffixes = Array.Empty<EquipmentIndex>();
 
         public static RuleDef RuleDefPrismatic;
         public static List<RuleDef> ChangedDefaultDefs = new List<RuleDef>();
@@ -81,9 +81,7 @@ namespace LittleGameplayTweaks
 
                 if (self.ruleBook.GetRuleChoice(RuleDefPrismatic).localName.Equals("Endless"))
                 {
-                    self.bossAffixes[0] = bossAffixes[random.Next(bossAffixes.Length)];
-                    self.bossAffixes[1] = bossAffixes[random.Next(bossAffixes.Length)];
-
+                    //self.bossAffixes[0] = bossAffixes[random.Next(bossAffixes.Length)];
                     int kill = 3;// + self.participatingPlayerCount - 1;
                     int crystal = 5;// + self.participatingPlayerCount - 1;
                     if (nextScene.stageOrder == 4)
@@ -109,8 +107,7 @@ namespace LittleGameplayTweaks
                 orig(self);
                 if (self.ruleBook.GetRuleChoice(RuleDefPrismatic).localName.Equals("Endless"))
                 {
-                    self.bossAffixes[0] = bossAffixes[random.Next(bossAffixes.Length)];
-                    self.bossAffixes[1] = bossAffixes[random.Next(bossAffixes.Length)];
+                    self.bossAffixes = newBossAffixes;
                 }
             };
 
@@ -146,9 +143,18 @@ namespace LittleGameplayTweaks
                         characterMaster.inventory.SetEquipmentIndex(EquipmentIndex.None);
                     }
 
-                    if (TeleporterInteraction.instance)
+                    if (characterMaster.inventory.GetItemCount(RoR2Content.Items.AdaptiveArmor) > 0)
                     {
-                        TeleporterInteraction.instance.holdoutZoneController.baseRadius = 500;
+                        EquipmentIndex equip = characterMaster.inventory.currentEquipmentIndex;
+                        if (equip == RoR2Content.Equipment.AffixBlue.equipmentIndex || equip == RoR2Content.Equipment.AffixRed.equipmentIndex)
+                        {
+                            characterMaster.inventory.RemoveItem(RoR2Content.Items.BoostDamage, (int)(characterMaster.inventory.GetItemCount(RoR2Content.Items.BoostDamage) * 0.35f));
+                        }
+                        else if (equip == DLC1Content.Equipment.EliteVoidEquipment.equipmentIndex)
+                        {
+                            characterMaster.inventory.RemoveItem(RoR2Content.Items.BoostHp, 5);
+                            characterMaster.inventory.RemoveItem(RoR2Content.Items.BoostDamage, (int)(characterMaster.inventory.GetItemCount(RoR2Content.Items.BoostDamage) * 0.60f));
+                        }
                     }
 
                     //With Rule only force fake Elite bosses after a certain stage
@@ -190,6 +196,7 @@ namespace LittleGameplayTweaks
             LanguageAPI.Add("TITLE_WEEKLY", "Prismatic Trials+", "en");
             //LanguageAPI.Add("GAMEMODE_WEEKLY_RUN_NAME", "Prismatic\nTrial", "en");
             LanguageAPI.Add("GAMEMODE_WEEKLY_RUN_NAME", "Prismatic", "en");
+            LanguageAPI.Add("GAMEMODE_WEEKLY_RUN_NAME", "Prismatisch", "de");
             //Rewrite these
             LanguageAPI.Add("TITLE_WEEKLY_DESC", "Play a Prismatic Trial, a different take on the normal run", "en");
             LanguageAPI.Add("WEEKLY_RUN_DESCRIPTION", "<style=cWorldEvent>'LittleGameplayTweaks'</style> changes <style=cWorldEvent>Prismatic Trials</style> to serve more as an alternative game mode.\n\n" +
@@ -246,10 +253,35 @@ namespace LittleGameplayTweaks
 
             //Crystal List being empty tho idk
             //Objective gets cleared presumably because the list is fucked
-            On.RoR2.SceneDirector.Start += FixClients;
+            On.RoR2.SceneDirector.Start += AdjustCrystalStuff;
+            On.RoR2.Stage.Start += FixClientsLate;
+            On.RoR2.WeeklyRun.OnServerTeleporterPlaced += (orig, self, sceneDirector, teleporter) =>
+            {
+                orig(self, sceneDirector, teleporter);
+                self.crystalActiveList = new List<OnDestroyCallback>();
+            };
         }
 
-        private static void FixClients(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
+        private static void FixClientsLate(On.RoR2.Stage.orig_Start orig, Stage self)
+        {
+            orig(self);
+            if (Run.instance && Run.instance.GetComponent<WeeklyRun>())
+            {
+                if (TeleporterInteraction.instance)
+                {
+                    //TP instance seems to always work for the particles so idk what the issue may be with some of the other stuff
+                    ChildLocator component2 = TeleporterInteraction.instance.GetComponent<ModelLocator>().modelTransform.GetComponent<ChildLocator>();
+                    if (component2)
+                    {
+                        component2.FindChild("TimeCrystalProps").gameObject.SetActive(true);
+                        component2.FindChild("TimeCrystalBeaconBlocker").gameObject.SetActive(true);
+                    }
+                    TeleporterInteraction.instance.GetComponent<HoldoutZoneController>().baseRadius = 500;
+                }
+            }
+        }
+
+        private static void AdjustCrystalStuff(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
         {
             if (Run.instance && Run.instance.GetComponent<WeeklyRun>())
             {
@@ -274,37 +306,7 @@ namespace LittleGameplayTweaks
                 }
                 run.crystalRewardValue = (uint)run.GetDifficultyScaledCost(30);
             }
-
             orig(self);
-
-            if (Run.instance && Run.instance.GetComponent<WeeklyRun>())
-            {
-                WeeklyRun run = Run.instance.GetComponent<WeeklyRun>();
-                run.crystalActiveList = new List<OnDestroyCallback>();
-
-                RoR2.CharacterBody[] crystalList2 = UnityEngine.Object.FindObjectsOfType(typeof(RoR2.CharacterBody)) as RoR2.CharacterBody[];
-                for (int i = 0; i < crystalList2.Length; i++)
-                {
-                    //Debug.Log(crystalList2[i]);
-                    if (crystalList2[i].name.StartsWith("TimeCrystal"))
-                    {
-                        run.crystalActiveList.Add(OnDestroyCallback.AddCallback(crystalList2[i].gameObject, delegate (OnDestroyCallback component)
-                        {
-                            run.crystalActiveList.Remove(component);
-                        }));
-                    }
-                }
-                if (TeleporterInteraction.instance)
-                {
-                    ChildLocator component2 = TeleporterInteraction.instance.GetComponent<ModelLocator>().modelTransform.GetComponent<ChildLocator>();
-                    if (component2)
-                    {
-                        component2.FindChild("TimeCrystalProps").gameObject.SetActive(true);
-                        //Sometimes bugged idk why but works
-                        component2.FindChild("TimeCrystalBeaconBlocker").gameObject.SetActive(true);
-                    }
-                }
-            }
         }
 
 
@@ -394,7 +396,6 @@ namespace LittleGameplayTweaks
 
         public static void LateRunningMethod()
         {
-
             RuleCatalog.AddRule(RuleDefPrismatic); //Automatically adds to last Category which is Misc
 
             //They definitely did not ever care to add support for Modded Rules
@@ -431,25 +432,35 @@ namespace LittleGameplayTweaks
 
             //
             //All Boss Affixes for the Weekly
-            bossAffixes = Array.Empty<EquipmentIndex>();
+            newBossAffixes = Array.Empty<EquipmentIndex>();
             for (var i = 0; i < EliteCatalog.eliteDefs.Length; i++)
             {
-                //EquipmentDef tempEliteEquip = EquipmentCatalog.equipmentDefs[i];
+                /*if (EliteCatalog.eliteDefs[i].name.EndsWith("Gold") || EliteCatalog.eliteDefs[i].name.EndsWith("Echo") || EliteCatalog.eliteDefs[i].name.EndsWith("SecretSpeed"))
+                {
+                }*/
                 EquipmentDef tempEliteEquip = EliteCatalog.eliteDefs[i].eliteEquipmentDef;
-                //Debug.LogWarning(EliteCatalog.eliteDefs[i]);
-
                 if (tempEliteEquip != null)
                 {
-                    if (tempEliteEquip.dropOnDeathChance == 0 || tempEliteEquip.name.Contains("Gold") || tempEliteEquip.name.Contains("Echo") || tempEliteEquip.name.Contains("Yellow"))
+                    if (tempEliteEquip.dropOnDeathChance == 0 || tempEliteEquip.name.Contains("Gold") || tempEliteEquip.name.EndsWith("Echo") || tempEliteEquip.name.Contains("Yellow"))
                     {
                     }
                     else
                     {
-                        bossAffixes = bossAffixes.Add(tempEliteEquip.equipmentIndex);
+                        newBossAffixes = newBossAffixes.Add(tempEliteEquip.equipmentIndex);
                     }
                 }
             }
-
+            if (newBossAffixes.Length == 0)
+            {
+                newBossAffixes = new EquipmentIndex[]
+                {
+                RoR2Content.Equipment.AffixRed.equipmentIndex,
+                RoR2Content.Equipment.AffixBlue.equipmentIndex,
+                RoR2Content.Equipment.AffixWhite.equipmentIndex,
+                DLC1Content.Elites.Earth.eliteEquipmentDef.equipmentIndex,
+                RoR2Content.Equipment.AffixLunar.equipmentIndex
+                };
+            }
             //
             //
             /*Debug.LogWarning("ALL RULE CHOICES");
@@ -458,9 +469,30 @@ namespace LittleGameplayTweaks
                 Debug.LogWarning(RuleCatalog.allChoicesDefs[i].globalName);
             }*/
 
+
+            GameObject TimeCrystalBody = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/TimeCrystalBody");
+            TimeCrystalBody.AddComponent<FixCrystalsClient>();
         }
 
 
+
+        public class FixCrystalsClient : MonoBehaviour
+        {
+            public void Start()
+            {
+                if (Run.instance)
+                {
+                    WeeklyRun run = Run.instance.GetComponent<WeeklyRun>();  
+                    if (run)
+                    {
+                        run.crystalActiveList.Add(OnDestroyCallback.AddCallback(base.gameObject, delegate (OnDestroyCallback component)
+                        {
+                            run.crystalActiveList.Remove(component);
+                        }));
+                    }
+                }
+            }
+        }
     }
 
 }

@@ -51,7 +51,7 @@ namespace LittleGameplayTweaks
             Teleporter2.GetComponent<BossGroup>().bossDropChance = WConfig.YellowPercentage.Value / 100;
 
             Teleporter1.GetComponent<TeleporterInteraction>().baseShopSpawnChance = WConfig.ShopChancePercentage.Value / 100; ;
-            Teleporter2.GetComponent<TeleporterInteraction>().baseShopSpawnChance = WConfig.ShopChancePercentage.Value / 100; ;
+            //Teleporter2.GetComponent<TeleporterInteraction>().baseShopSpawnChance = WConfig.ShopChancePercentage.Value / 100; ;
 
             if(WConfig.VoidPortalChance.Value)
             {

@@ -98,28 +98,44 @@ Items teleport up if they fall off the map.
 
 The Bazaar has a third Lunar Seer.
 
-
-Adds 4 Skins; The unused Green Commando skin and 3 Recolors made by me.
-
-![](https://cdn.discordapp.com/attachments/1115182271276781698/1188234799572328548/image.png?ex=6599c8e4&is=658753e4&hm=8d400e033934a71a9cf2b20573a160cf3c257178a03ac4e06faff9a0beb59b6d&)
-
 ##
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\
 If you're reporting a bug that isn't something obvious include the log file.
 
-Every played needs this mod installed.
+Every played needs this mod installed.\
+Most things are configuerable.
 
-Also download:\
+Also download my other mods:\
 [WolfoQualityOfLife](https://thunderstore.io/package/Wolfo/WolfoQualityOfLife/) for many visual improvements and general Quality of Life.\
-[SimulacrumAdditions](https://thunderstore.io/package/Wolfo/SimulacrumAdditions) for a better Simulacrum.\
+[SimulacrumAdditions](https://thunderstore.io/package/Wolfo/SimulacrumAdditions) for a better Simulacrum (This mod was originally part of this mod).\
 [VanillaArtifactsPlus](https://thunderstore.io/package/Wolfo/VanillaArtifactsPlus) for updated vanilla artifacts.\
 [WolfoArtifacts](https://thunderstore.io/package/Wolfo/WolfoArtifacts) for some fun extra Artifacts.
 
+And other fitting item mods i'd recommend.\
+[LunarSoap](https://thunderstore.io/package/Wolfo/LunarSoap/) A speed up lunar item.\
+[AegisRemovesBarrierDecay](https://thunderstore.io/package/Wolfo/AegisRemovesBarrierDecay/) The only good Aegis buff.\
+[HuntersHarpoonReturns](https://thunderstore.io/package/Wolfo/HuntersHarpoonReturns) Deserves the RoR:Returns buffs\
+[KnurlBuff](https://thunderstore.io/package/OakPrime/KnurlBuff/) Deserves the RoR:Returns buffs\
+[LeechingSeedBuff](https://thunderstore.io/package/OakPrime/LeechingSeedBuff/) Epic Leech seed buff
+
 ## Changelog:
 ```
+v2.5.6/7
+-Removed Skins
+--Moved to SimulacrumAddtions as rewards
+
+v2.5.5
+-Attempt 3 to fix Prismatic Crystals Client.
+(Previous fix was also internet connection dependent so it didn't work)
+-Option to nerf Voidling (40% less damage, 20/10% less health for phase 1/2) (Default false)
+-Prismatic Final bosses will get less damage if Fire/Lightning/Voidtouched.
+
 v2.5.4
--(TODO) Fixed Prismatic Trials Teleporter still sometimes getting infinite particles on clients 
--(TODO) idk like 2 elites or smth 1 elite might be a bit lame
+-Prismatic Trial :\
+--Moved client fix later so that it hopefully works all the time now.\
+--All bosses won't be the same elite per stage anymore.\
+--TP radius will now have correct radius on clients.  
+-Buffed Quabquab
 
 v2.5.3
 -Fixed Third Lunar Seer spawning improperly on clients.

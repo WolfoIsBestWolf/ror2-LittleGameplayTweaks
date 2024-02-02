@@ -53,6 +53,7 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> cfgScavMoreItemsElites;
         public static ConfigEntry<bool> cfgScavNewTwisted;
         public static ConfigEntry<bool> cfgMendingCoreBuff;
+        public static ConfigEntry<bool> cfgVoidlingNerf;
         //
         //Rates
         public static ConfigEntry<bool> VoidPortalChance;
@@ -60,10 +61,6 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<float> YellowPercentage;
         public static ConfigEntry<float> BonusAspectDropRate;
         //
-        //Other ig
-        public static ConfigEntry<bool> SkinsWolfoConfig;
-        public static ConfigEntry<bool> SkinsGreenMando;
-
         public static ConfigEntry<bool> GuaranteedRedToWhite;
         public static ConfigEntry<bool> ThirdLunarSeer;
         public static ConfigEntry<bool> EclipseDifficultyAlways;
@@ -293,6 +290,12 @@ namespace LittleGameplayTweaks
                 true,
                 "Mending Healing Core starts with some invulnerability and has more hp."
             );
+            cfgVoidlingNerf = ConfigFileUNSORTED.Bind(
+                "Changes - Enemies",
+                "Nerf Voidlings damage",
+                false,
+                "Voidling will deal 40% less damage and have 20/10/0% less health depending on phase."
+            );
             //
             //Misc Unsorted
             EclipseDifficultyAlways = ConfigFileUNSORTED.Bind(
@@ -300,18 +303,6 @@ namespace LittleGameplayTweaks
                 "Eclipse 8 Difficulty always available",
                 false,
                 "Allows you to choose 8 Eclipse in normal lobbies."
-            );
-            SkinsWolfoConfig = ConfigFileUNSORTED.Bind(
-                "Other",
-                "Extra Skins",
-                true,
-                "3 recolor Skins made by me"
-            );
-            SkinsGreenMando = ConfigFileUNSORTED.Bind(
-                "Other",
-                "Readd unused skins",
-                true,
-                "1 Unused SotV Commando Skin"
             );
 
             GuaranteedRedToWhite = ConfigFileUNSORTED.Bind(

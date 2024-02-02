@@ -48,15 +48,6 @@ namespace LittleGameplayTweaks
             Prismatic.Start();
             TwistedScavs.Start();
 
-            if (WConfig.SkinsWolfoConfig.Value == true)
-            {
-                SkinStuff.WolfoSkins();
-            }
-            if (WConfig.SkinsGreenMando.Value == true)
-            {
-                R2API.Skins.AddSkinToCharacter(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/CommandoBody"), Addressables.LoadAssetAsync<SkinDef>(key: "RoR2/DLC1/skinCommandoMarine.asset").WaitForCompletion());
-            }
-
             GameModeCatalog.availability.CallWhenAvailable(ModSupport);
             On.RoR2.UI.MainMenu.MainMenuController.Start += OneTimeOnlyLateRunner;
             
@@ -326,7 +317,6 @@ namespace LittleGameplayTweaks
             bool dlc1 = RoR2.EntitlementManagement.EntitlementManager.localUserEntitlementTracker.AnyUserHasEntitlement(LegacyResourcesAPI.Load<RoR2.EntitlementManagement.EntitlementDef>("EntitlementDefs/entitlementDLC1"));
             if (dlc1 && WConfig.cfgScavNewTwisted.Value)
             {
-                
                 MultiCharacterSpawnCard cscScavLunar = LegacyResourcesAPI.Load<MultiCharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScavLunar");
                 cscScavLunar.masterPrefabs = cscScavLunar.masterPrefabs.Add(TwistedScavs.ScavLunarWGoomanMaster, TwistedScavs.ScavLunarWSpeedMaster, TwistedScavs.ScavLunarWTankMaster);
             }
@@ -344,7 +334,7 @@ namespace LittleGameplayTweaks
             {
                 ChangesCharacters.DropTableForBossScav = AllScavCompatibleBossItems[WRect.random.Next(AllScavCompatibleBossItems.Count)];
                 int ran = random.Next(10);
-                if (ran > 5)
+                if (ran > 6)
                 {
                     LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").forbiddenAsBoss = false;
                 }

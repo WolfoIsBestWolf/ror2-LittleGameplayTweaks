@@ -52,8 +52,8 @@ namespace LittleGameplayTweaks
             SpeedBody.baseNameToken = "Feefee the Nimble";
             SpeedBody.baseMoveSpeed *= 2f;
             TankBody.baseNameToken = "Dobdob the Stagnant";
-            TankBody.baseMaxHealth *= 0.4f; //Gets Bear
-            TankBody.levelMaxHealth *= 0.4f;
+            TankBody.baseMaxHealth *= 0.5f; //Gets Bear
+            TankBody.levelMaxHealth *= 0.5f;
             TankBody.baseAttackSpeed *= 1.6f; //He gets half cooldowns
             TankBody.baseMoveSpeed *= 0.8f;
             GoomanBody.baseNameToken = "Quabquab the Lonesome";
@@ -67,6 +67,7 @@ namespace LittleGameplayTweaks
                 new GivePickupsOnStart.ItemInfo { itemString = ("EnergizedOnEquipmentUse"), count = 4, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("AttackSpeedOnCrit"), count = 2, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("SprintOutOfCombat"), count = 4, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("MoveSpeedOnKill"), count = 5, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("Phasing"), count = 3, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("AlienHead"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("LunarBadLuck"), count = 1, },
@@ -77,17 +78,19 @@ namespace LittleGameplayTweaks
                 new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
             };
 
+            ScavLunarWTankMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[3].maxUserHealthFraction = 1f;
             ScavLunarWTankMaster.GetComponent<GivePickupsOnStart>().equipmentString = "CrippleWard";
             ScavLunarWTankMaster.GetComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
                 new GivePickupsOnStart.ItemInfo { itemString = ("Bear"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("OutOfCombatArmor"), count = 3, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("SecondarySkillMagazine"), count = 3, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("BarrierOnKill"), count = 5, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("ArmorPlate"), count = 3, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("SlowOnHit"), count = 3, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("IceRing"), count = 2, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("ImmuneToDebuff"), count = 2, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("HalfAttackSpeedHalfCooldowns"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("HalfSpeedDoubleHealth"), count = 1, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("SecondarySkillMagazine"), count = 3, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("LunarSecondaryReplacement"), count = 1, },
                 //Decorations     
                 new GivePickupsOnStart.ItemInfo { itemString = ("SprintArmor"), count = 1, },
@@ -95,14 +98,18 @@ namespace LittleGameplayTweaks
                 new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
             };
 
-            ScavLunarWGoomanMaster.GetComponent<RoR2.CharacterAI.AISkillDriver>().maxUserHealthFraction = 0.9f;
+            ScavLunarWGoomanMaster.GetComponent<RoR2.CharacterAI.AISkillDriver>().maxUserHealthFraction = 0.92f;
             ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().equipmentString = "GummyClone";
             ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                new GivePickupsOnStart.ItemInfo { itemString = ("BoostEquipmentRecharge"), count = 29, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("RegeneratingScrap"), count = 5, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("BoostEquipmentRecharge"), count = 25, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("EquipmentMagazine"), count = 2, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("PermanentDebuffOnHit"), count = 2, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("RandomDamageZone"), count = 1, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("Incubator"), count = 3, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("WardOnLevel"), count = 2, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("LevelBonus"), count = 1, },
                 //Decorations
+                new GivePickupsOnStart.ItemInfo { itemString = ("RegeneratingScrap"), count = 5, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("GhostOnKill"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("SprintWisp"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
