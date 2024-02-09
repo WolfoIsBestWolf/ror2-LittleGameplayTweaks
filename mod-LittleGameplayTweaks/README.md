@@ -98,11 +98,12 @@ Items teleport up if they fall off the map.
 
 The Bazaar has a third Lunar Seer.
 
+Fixes vanilla bug where Twisted Scavengers don't scale in multiplayer.
 ##
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\
 If you're reporting a bug that isn't something obvious include the log file.
 
-Every played needs this mod installed.\
+Every player needs this mod installed.\
 Most things are configuerable.
 
 Also download my other mods:\
@@ -120,6 +121,11 @@ And other fitting item mods i'd recommend.\
 
 ## Changelog:
 ```
+v2.5.8
+-Quabquab spawns Gummy Quabquabs more often.
+-Gummy Quabquabs no longer recieve Goobo Jr.
+-Fixed vanilla bug where Twisted Scav encounter always scaled as 0 players.
+
 v2.5.6/7
 -Removed Skins
 --Moved to SimulacrumAddtions as rewards

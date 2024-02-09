@@ -51,13 +51,17 @@ namespace LittleGameplayTweaks
 
             SpeedBody.baseNameToken = "Feefee the Nimble";
             SpeedBody.baseMoveSpeed *= 2f;
+            SpeedBody.baseDamage *= 0.75f;
+            SpeedBody.levelDamage *= 0.75f;
+            SpeedBody.baseJumpPower *= 3f;
             TankBody.baseNameToken = "Dobdob the Stagnant";
             TankBody.baseMaxHealth *= 0.5f; //Gets Bear
             TankBody.levelMaxHealth *= 0.5f;
-            TankBody.baseAttackSpeed *= 1.6f; //He gets half cooldowns
+            TankBody.baseAttackSpeed *= 1.65f; //He gets half cooldowns
             TankBody.baseMoveSpeed *= 0.8f;
             GoomanBody.baseNameToken = "Quabquab the Lonesome";
-
+            GoomanBody.baseDamage *= 0.75f;
+            GoomanBody.levelDamage *= 0.75f;
 
             ScavLunarWSpeedMaster.GetComponent<GivePickupsOnStart>().equipmentString = "FireBallDash";
             ScavLunarWSpeedMaster.GetComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
@@ -78,7 +82,7 @@ namespace LittleGameplayTweaks
                 new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
             };
 
-            ScavLunarWTankMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[3].maxUserHealthFraction = 1f;
+            ScavLunarWTankMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[2].maxUserHealthFraction = 1f;
             ScavLunarWTankMaster.GetComponent<GivePickupsOnStart>().equipmentString = "CrippleWard";
             ScavLunarWTankMaster.GetComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
                 new GivePickupsOnStart.ItemInfo { itemString = ("Bear"), count = 1, },
@@ -98,10 +102,16 @@ namespace LittleGameplayTweaks
                 new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
             };
 
-            ScavLunarWGoomanMaster.GetComponent<RoR2.CharacterAI.AISkillDriver>().maxUserHealthFraction = 0.92f;
+
+            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[0].maxUserHealthFraction = 1f;
+            //ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].shouldFireEquipment = true;
+            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[2].shouldFireEquipment = true;
+            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[2].maxUserHealthFraction = 1f;
+            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[3].shouldFireEquipment = true;
+            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[4].shouldFireEquipment = true;
             ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().equipmentString = "GummyClone";
             ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                new GivePickupsOnStart.ItemInfo { itemString = ("BoostEquipmentRecharge"), count = 25, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("BoostEquipmentRecharge"), count = 40, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("EquipmentMagazine"), count = 2, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("PermanentDebuffOnHit"), count = 2, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("RandomDamageZone"), count = 1, },
@@ -143,10 +153,49 @@ namespace LittleGameplayTweaks
                 new GivePickupsOnStart.ItemInfo { itemString = ("BonusGoldPackOnKill"), count = 10, },
             };
 
+            On.RoR2.GivePickupsOnStart.Start += (orig, self) =>
+            {
+                orig(self);
+                if (self.inventory.GetItemCount(DLC1Content.Items.GummyCloneIdentifier) > 0)
+                {
+                    self.inventory.SetEquipmentIndex(EquipmentIndex.None);
+                };
+            };
+
+            if (WConfig.cfgScavTwistedScaling.Value)
+            {
+                On.RoR2.ScriptedCombatEncounter.BeginEncounter += (orig, self) =>
+                {
+                    orig(self);
+                    if (self.name.StartsWith("ScavLunar"))
+                    {
+                        if (Run.instance.livingPlayerCount == 0)
+                        {
+                            float extraHealth = 1f;
+                            extraHealth += Run.instance.difficultyCoefficient / 2.5f;
+                            int num3 = Mathf.Max(1, Run.instance.participatingPlayerCount);
+                            extraHealth *= (Mathf.Pow((float)num3, 0.5f));
+
+                            Debug.LogFormat("Replacing previous HP bonus with: currentBoostHpCoefficient={0}", new object[]
+    {
+                        extraHealth,
+    });
+
+                            for (int i = 0; i < self.combatSquad.membersList.Count; i++)
+                            {
+                                Debug.Log(self.combatSquad.membersList[i]);
+                                self.combatSquad.membersList[i].inventory.RemoveItem(RoR2Content.Items.BoostHp, self.combatSquad.membersList[i].inventory.GetItemCount(RoR2Content.Items.BoostHp));
+                                self.combatSquad.membersList[i].inventory.GiveItem(RoR2Content.Items.BoostHp, Mathf.RoundToInt((extraHealth - 1f) * 10f));
+                            }
+                        }
+                       
+                    }
+                };
+            }
+
+
+
         }
-
-
-
 
     }
 

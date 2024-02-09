@@ -125,11 +125,11 @@ namespace LittleGameplayTweaks
 
 
             //Beads Stacking
-            LanguageAPI.Add("ITEM_LUNARTRINKET_DESC", "Once guided to the <style=cIsUtility>monolith</style>, become whole and <style=cIsDamage>fight 1 <style=cStack>(+1 per stack)</style> entities</style>", "en");
+            LanguageAPI.Add("ITEM_LUNARTRINKET_DESC", "Once guided to the <style=cIsUtility>monolith</style>, become whole and <style=cIsDamage>fight 1 <style=cStack>(+1 per stack)</style> guardians</style>", "en");
 
             On.RoR2.ScriptedCombatEncounter.BeginEncounter += (orig, self) =>
             {
-                if (self.name.Equals("ScavLunarEncounter"))
+                if (self.name.StartsWith("ScavLunar"))
                 {
 
                     int beadcount = Util.GetItemCountForTeam(TeamIndex.Player, RoR2Content.Items.LunarTrinket.itemIndex, false, true);

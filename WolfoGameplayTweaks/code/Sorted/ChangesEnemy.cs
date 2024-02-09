@@ -79,19 +79,14 @@ namespace LittleGameplayTweaks
 
 
             //Lunar Scavs not picking up more items I think Idk If they even do that to begin with
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar1Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = 0;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar2Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = 0;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar3Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = 0;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar4Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = 0;
+            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar1Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
+            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar2Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
+            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar3Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
+            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar4Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
             //
-            if (WConfig.cfgVoidlingNerf.Value)
+            /*if (WConfig.cfgVoidlingNerf.Value)
             {
-                CharacterBody Voidling = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidRaidCrab/MiniVoidRaidCrabBodyBase.prefab").WaitForCompletion().GetComponent<CharacterBody>();
-                Voidling.baseDamage *= 0.6f;
-                Voidling.levelDamage *= 0.6f;
-                Voidling.baseMaxHealth *= 0.9f;
-                Voidling.levelMaxHealth *= 0.9f;
-                Voidling = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidRaidCrab/MiniVoidRaidCrabBodyPhase1.prefab").WaitForCompletion().GetComponent<CharacterBody>();
+                CharacterBody Voidling = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidRaidCrab/MiniVoidRaidCrabBodyPhase1.prefab").WaitForCompletion().GetComponent<CharacterBody>();
                 Voidling.baseDamage *= 0.6f;
                 Voidling.levelDamage *= 0.6f;
                 Voidling.baseMaxHealth *= 0.8f;
@@ -106,8 +101,7 @@ namespace LittleGameplayTweaks
                 Voidling.levelDamage *= 0.6f;
                 //Voidling.baseMaxHealth *= 0.9f;
                 //Voidling.levelMaxHealth *= 0.9f;
-                //Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/VoidRaidCrab/MiniVoidRaidCrabBodyPhase3.prefab").WaitForCompletion().sceneType = SceneType.Intermission;
-            }
+            }*/
 
 
 

@@ -52,8 +52,9 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> cfgScavBossItem;
         public static ConfigEntry<bool> cfgScavMoreItemsElites;
         public static ConfigEntry<bool> cfgScavNewTwisted;
+        public static ConfigEntry<bool> cfgScavTwistedScaling;
         public static ConfigEntry<bool> cfgMendingCoreBuff;
-        public static ConfigEntry<bool> cfgVoidlingNerf;
+        //public static ConfigEntry<bool> cfgVoidlingNerf;
         //
         //Rates
         public static ConfigEntry<bool> VoidPortalChance;
@@ -284,18 +285,24 @@ namespace LittleGameplayTweaks
                 true,
                 "Adds new Twisted Scavengers"
             );
+            cfgScavTwistedScaling = ConfigFileUNSORTED.Bind(
+                "Changes - Enemies",
+                "Fix Twisted Scavengers not scaling harder in Multiplayer",
+                true,
+                "Mithrix and Voidling gets more of a HP boost in Multiplayer, Twisteds do not due to a bug."
+            );
             cfgMendingCoreBuff = ConfigFileUNSORTED.Bind(
                 "Changes - Enemies",
                 "Mending Healing Core",
                 true,
                 "Mending Healing Core starts with some invulnerability and has more hp."
             );
-            cfgVoidlingNerf = ConfigFileUNSORTED.Bind(
+            /*cfgVoidlingNerf = ConfigFileUNSORTED.Bind(
                 "Changes - Enemies",
                 "Nerf Voidlings damage",
                 false,
                 "Voidling will deal 40% less damage and have 20/10/0% less health depending on phase."
-            );
+            );*/
             //
             //Misc Unsorted
             EclipseDifficultyAlways = ConfigFileUNSORTED.Bind(
