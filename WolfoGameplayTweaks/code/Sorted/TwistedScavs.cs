@@ -156,7 +156,7 @@ namespace LittleGameplayTweaks
             On.RoR2.GivePickupsOnStart.Start += (orig, self) =>
             {
                 orig(self);
-                if (self.inventory.GetItemCount(DLC1Content.Items.GummyCloneIdentifier) > 0)
+                if (self.inventory && self.inventory.GetItemCount(DLC1Content.Items.GummyCloneIdentifier) > 0)
                 {
                     self.inventory.SetEquipmentIndex(EquipmentIndex.None);
                 };

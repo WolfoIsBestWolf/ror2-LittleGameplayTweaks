@@ -121,6 +121,10 @@ And other fitting item mods i'd recommend.\
 
 ## Changelog:
 ```
+v2.5.9 - Fixed storepage image being gone due to Discord.
+-Scav Bosses will no longer get more white/green items.
+-Made Combat Shrine enemies not have multiplied hp in multiplayer.
+
 v2.5.8
 -Quabquab spawns Gummy Quabquabs more often.
 -Gummy Quabquabs no longer recieve Goobo Jr.

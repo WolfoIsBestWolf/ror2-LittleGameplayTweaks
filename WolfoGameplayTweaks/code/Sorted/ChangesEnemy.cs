@@ -327,53 +327,32 @@ namespace LittleGameplayTweaks
                         {
                             //By the time you see Tier2 Elite Scav, go fuck yourself
                             //White 10 * 8
-                            self.stackRollDataList[0].stacks = 8;
-                            self.stackRollDataList[0].numRolls = 10;
+                            self.stackRollDataList[0].stacks = 7;
+                            self.stackRollDataList[0].numRolls = 7;
                             //Green 8 * 5
                             self.stackRollDataList[1].stacks = 5;
-                            self.stackRollDataList[1].numRolls = 8;
+                            self.stackRollDataList[1].numRolls = 5;
                             //Red 5 * 2
                             self.stackRollDataList[2].stacks = 2;
-                            self.stackRollDataList[2].numRolls = 5;
-                        }
-                        else if (isElite && tempbod.isBoss)
-                        {
-                            //White 7 * 5
-                            self.stackRollDataList[0].stacks = 5; 
-                            self.stackRollDataList[0].numRolls = 5; //7
-                            //Green 5 * 3
-                            self.stackRollDataList[1].stacks = 3;
-                            self.stackRollDataList[1].numRolls = 4; //5
-                            //Red 3 * 2
-                            self.stackRollDataList[2].stacks = 2;
-                            self.stackRollDataList[2].numRolls = 2; //3
+                            self.stackRollDataList[2].numRolls = 3;
                         }
                         else if (isElite)
                         {
                             //White 5 * 5
-                            self.stackRollDataList[0].stacks += 2;
-                            self.stackRollDataList[0].numRolls += 2;
+                            self.stackRollDataList[0].stacks = 5;
+                            self.stackRollDataList[0].numRolls = 5;
                             //Green 3 * 3
-                            self.stackRollDataList[1].stacks += 1;
-                            self.stackRollDataList[1].numRolls += 1;
+                            self.stackRollDataList[1].stacks = 3;
+                            self.stackRollDataList[1].numRolls = 4;
                             //Red   2 * 2
-                            self.stackRollDataList[2].stacks += 1;
-                            self.stackRollDataList[2].numRolls += 1;
+                            self.stackRollDataList[2].stacks = 2;
+                            self.stackRollDataList[2].numRolls = 2;
+                        }
+                        else if (tempbod.isBoss)
+                        {
+                            self.stackRollDataList[2].numRolls += 1; //+1 Red
                         }
                     }
-                    if (tempbod.isBoss)
-                    {
-                        //White 5 * 3
-                        //self.stackRollDataList[0].stacks += 0;
-                        self.stackRollDataList[0].numRolls += 2;
-                        //Green 3 * 2
-                        //self.stackRollDataList[1].stacks += 0;
-                        self.stackRollDataList[1].numRolls += 1;
-                        //Red   2 * 1
-                        //self.stackRollDataList[2].stacks += 0;
-                        self.stackRollDataList[2].numRolls += 1;
-                    }
-
                 }
             }
             orig(self);

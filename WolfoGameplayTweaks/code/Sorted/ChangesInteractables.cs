@@ -21,9 +21,6 @@ namespace LittleGameplayTweaks
         //public static GameObject RedToWhiteSoup = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/LunarCauldron, RedToWhite Variant");
         //public static bool RedSoupBought = false;
         //
-
-
-
         public static void Start()
         {
             RedMultiShopMaker();
@@ -40,7 +37,7 @@ namespace LittleGameplayTweaks
 
 
             GameObject DeepVoidPortalBattery = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortalBattery/DeepVoidPortalBattery.prefab").WaitForCompletion();
-            DeepVoidPortalBattery.GetComponent<HoldoutZoneController>().baseChargeDuration -= 10;
+            DeepVoidPortalBattery.GetComponent<HoldoutZoneController>().baseChargeDuration = WConfig.FasterDeepVoidSignal.Value;
             //Maybe Reduce the time by like 10 seconds idk
 
             GameObject Teleporter1 = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Teleporters/Teleporter1");
@@ -61,7 +58,18 @@ namespace LittleGameplayTweaks
                 Teleporter2.GetComponent<PortalSpawner>().minStagesCleared = 4;
                 Teleporter2.GetComponent<PortalSpawner>().spawnChance = 1f;
             }
-           
+
+            if (WConfig.InteractablesCombatShrineHP.Value == false)
+            {
+                GameObject ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombat.prefab").WaitForCompletion();
+                ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
+                ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombatSandy Variant.prefab").WaitForCompletion();
+                ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
+                ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombatSnowy Variant.prefab").WaitForCompletion();
+                ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
+            }
+
+
             //This is kinda dumb
             On.EntityStates.LunarTeleporter.LunarTeleporterBaseState.FixedUpdate += LunarTeleporterBaseState_FixedUpdate;
         }
@@ -159,14 +167,14 @@ namespace LittleGameplayTweaks
                         self.refreshTimer = 1;
                     }
                 };
-                /*On.RoR2.ShrineBossBehavior.AddShrineStack += (orig, self, activator) =>
+                On.RoR2.ShrineBossBehavior.AddShrineStack += (orig, self, activator) =>
                 {
                     orig(self, activator);
                     if (NetworkServer.active)
                     {
                         self.refreshTimer = 1;
                     }
-                };*/
+                };
                 On.RoR2.ShrineChanceBehavior.AddShrineStack += (orig, self, activator) =>
                 {
                     orig(self, activator);
@@ -175,14 +183,14 @@ namespace LittleGameplayTweaks
                         self.refreshTimer = 1;
                     }
                 };
-                /*On.RoR2.ShrineCombatBehavior.AddShrineStack += (orig, self, activator) =>
+                On.RoR2.ShrineCombatBehavior.AddShrineStack += (orig, self, activator) =>
                 {
                     orig(self, activator);
                     if (NetworkServer.active)
                     {
                         self.refreshTimer = 1;
                     }
-                };*/
+                };
                 On.RoR2.ShrineHealingBehavior.AddShrineStack += (orig, self, activator) =>
                 {
                     orig(self, activator);
@@ -191,14 +199,14 @@ namespace LittleGameplayTweaks
                         self.refreshTimer = 1;
                     }
                 };
-                /*On.RoR2.ShrineRestackBehavior.AddShrineStack += (orig, self, activator) =>
+                On.RoR2.ShrineRestackBehavior.AddShrineStack += (orig, self, activator) =>
                 {
                     orig(self, activator);
                     if (NetworkServer.active)
                     {
                         self.refreshTimer = 1;
                     }
-                };*/
+                };
             }
 
         }

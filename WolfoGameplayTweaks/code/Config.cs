@@ -23,12 +23,13 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> FasterPrinter;
         public static ConfigEntry<bool> FasterScrapper;
         public static ConfigEntry<bool> FasterShrines;
-        public static ConfigEntry<bool> FasterDeepVoidSignal;
+        public static ConfigEntry<int> FasterDeepVoidSignal;
 
         public static ConfigEntry<bool> InteractableNoLunarCost;
         public static ConfigEntry<bool> InteractableHealingShrine;
         public static ConfigEntry<bool> InteractableBloodShrineScaleWithTime;
- 
+        public static ConfigEntry<bool> InteractablesCombatShrineHP;
+
         public static ConfigEntry<int> InteractableRedSoupAmount;
         public static ConfigEntry<int> MegaDroneCost;
         public static ConfigEntry<int> TurretDroneCost;
@@ -149,17 +150,23 @@ namespace LittleGameplayTweaks
                 true,
                 ""
             );
-            FasterShrines = ConfigFileUNSORTED.Bind(
+            FasterDeepVoidSignal = ConfigFileUNSORTED.Bind(
                 "Changes - Interactables",
                 "Faster Deep Void Signal",
-                true,
-                "Take 50 seconds to charge instead of 60"
+                45,
+                "Vanilla is 60."
             );
             InteractableBloodShrineScaleWithTime = ConfigFileUNSORTED.Bind(
                 "Changes - Interactables",
                 "Blood Shrine reward scale with Difficulty",
                 true,
                 "Normally Blood Shrines Reward is only based on HP quickly making them a bad source of money"
+            );
+            InteractablesCombatShrineHP = ConfigFileUNSORTED.Bind(
+                "Changes - Interactables",
+                "Combat Shrine enemies multipled HP in multiplayer",
+                false,
+                "Enemies spawned by combat shrines have multiplied hp in vanilla."
             );
             InteractableRedSoupAmount = ConfigFileUNSORTED.Bind(
                 "Changes - Interactables",

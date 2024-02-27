@@ -334,7 +334,7 @@ namespace LittleGameplayTweaks
             {
                 ChangesCharacters.DropTableForBossScav = AllScavCompatibleBossItems[WRect.random.Next(AllScavCompatibleBossItems.Count)];
                 int ran = random.Next(10);
-                if (ran > 6)
+                if (ran > 4)
                 {
                     LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").forbiddenAsBoss = false;
                 }
