@@ -19,7 +19,7 @@ Healing Cores from Mending Elites now use ambient level and start with invulnera
 
 Equipment Drones use their Equipment when targeting you so they can still use it when no enemies are around.
 
-![](https://cdn.discordapp.com/attachments/743886063738683413/955900668235882586/unknown.png)
+![Image of Grovetender in Sundered Grove and Solus Control Unit in Rallypoint Delta](https://cdn.discordapp.com/attachments/743886063738683413/955900668235882586/unknown.png)
 
 ## Interactables
 Faster Interactables : Printers, Scrappers and Shrines take less time between uses.
@@ -42,7 +42,7 @@ Shrine of Woods price reduced from 25/37/55 to 10/13/18/25.\
 Gunner Turret price reduced from 35 to 25.\
 TC280 price reduced from 350 to 300.
 
-![](https://cdn.discordapp.com/attachments/1115182271276781698/1188234906325745734/image.png?ex=6599c8fe&is=658753fe&hm=095db48b6f84d62142502845e610d191bc59ea230f6c1e658399c96fe626027f&)
+![Image of Perfected Beetle and Eulogy](https://cdn.discordapp.com/attachments/1115182271276781698/1188234906325745734/image.png?ex=6599c8fe&is=658753fe&hm=095db48b6f84d62142502845e610d191bc59ea230f6c1e658399c96fe626027f&)
 
 ## Items
 Elite Equipment have a 1/1500 chance of dropping.\
@@ -65,7 +65,7 @@ Eulogy Zero adds a 10 (+5) chance to replace a elite with a Perfected elite.
 
 The Void Elite Aspect is now able to drop.
 
-![](https://cdn.discordapp.com/attachments/943509112258428958/955906279912661043/unknown.png)
+![Image of Red Multishop](https://cdn.discordapp.com/attachments/943509112258428958/955906279912661043/unknown.png)
 
 
 ## Character
@@ -124,6 +124,7 @@ And other fitting item mods i'd recommend.\
 v2.5.9 - Fixed storepage image being gone due to Discord.
 -Scav Bosses will no longer get more white/green items.
 -Made Combat Shrine enemies not have multiplied hp in multiplayer.
+-Fixed an issue with Wake of Vultures stealing Void elite buff and ZetAspects
 
 v2.5.8
 -Quabquab spawns Gummy Quabquabs more often.

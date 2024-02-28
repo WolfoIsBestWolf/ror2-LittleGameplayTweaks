@@ -243,12 +243,15 @@ namespace LittleGameplayTweaks
             On.RoR2.AffixVoidBehavior.OnEnable += (orig, self) =>
             {
                 orig(self);
-                foreach (CharacterBody.TimedBuff timedbuff in self.body.timedBuffs)
+                if (self.body && self.body.isPlayerControlled)
                 {
-                    if (timedbuff.buffIndex == DLC1Content.Buffs.EliteVoid.buffIndex)
+                    if (self.body.inventory.currentEquipmentIndex != DLC1Content.Equipment.EliteVoidEquipment.equipmentIndex)
                     {
-                        UnityEngine.Object.Destroy(self);
-                    }
+                        if (!self.wasVoidBody)
+                        {
+                            self.body.bodyFlags &= ~CharacterBody.BodyFlags.Void;
+                        }
+                    }                
                 }
             };
         }
