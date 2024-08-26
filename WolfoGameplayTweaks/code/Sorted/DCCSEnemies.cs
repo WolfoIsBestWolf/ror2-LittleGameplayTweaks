@@ -132,9 +132,17 @@ namespace LittleGameplayTweaks
                 selectionWeight = 1,
                 preventOverhead = false,
                 minimumStageCompletions = 0,
-                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Close
             };
- 
+            DirectorCard DSAcidLarva = new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscAcidLarva"),
+                selectionWeight = 1,
+                preventOverhead = false,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Close
+            };
+
             DirectorCard DSClayGrenadier = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscClayGrenadier"),
@@ -190,8 +198,17 @@ namespace LittleGameplayTweaks
             num = FindCardIg(dccsSulfurPoolsMonstersDLC1.categories[2].cards, "Beetle");
             if (num > -1)
             {
-                dccsSulfurPoolsMonstersDLC1.categories[2].cards[num].spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscAcidLarva");
-                //Ugly green thing seems fitting
+                dccsSulfurPoolsMonstersDLC1.categories[2].cards[num].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleSulfur.asset").WaitForCompletion();
+            }
+            num = FindCardIg(dccsSulfurPoolsMonstersDLC1.categories[1].cards, "BeetleGuard");
+            if (num > -1)
+            {
+                dccsSulfurPoolsMonstersDLC1.categories[1].cards[num].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleGuardSulfur.asset").WaitForCompletion();
+            }
+            num = FindCardIg(dccsSulfurPoolsMonstersDLC1.categories[0].cards, "BeetleQueen");
+            if (num > -1)
+            {
+                dccsSulfurPoolsMonstersDLC1.categories[0].cards[num].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleQueenSulfur.asset").WaitForCompletion();
             }
             num = FindCardIg(dccsSulfurPoolsMonstersDLC1.categories[0].cards, "MegaConstruct");
             if (num > -1)
@@ -202,6 +219,11 @@ namespace LittleGameplayTweaks
             dccsSulfurPoolsMonstersDLC1.AddCard(0, DSMagmaWorm); //Keep Beetle Queen but still add this dude
             dccsSulfurPoolsMonstersDLC1.AddCard(0, DSElectricWorm); //Keep Beetle Queen but still add this dude
             dccsSulfurPoolsMonstersDLC1.AddCard(1, DSHermitCrab); //Seems fitting for another trash mob
+            dccsSulfurPoolsMonstersDLC1.AddCard(1, DSAcidLarva); //Seems fitting for another trash mob
+
+
+            On.EntityStates.BeetleQueenMonster.SummonEggs.OnEnter += FixSulfurPoolsBeetleQueen;
+
             //
             //Sundered Grove
             num = FindCardIg(dccsRootJungleMonstersDLC1.categories[0].cards, "TitanBlackBeach");
@@ -227,7 +249,22 @@ namespace LittleGameplayTweaks
             dccsArtifactWorldMonstersDLC1.AddCard(1, DSClayGrenadier);
             //dccsArtifactWorldMonstersDLC1.AddCard(2, DSBlindVermin);
         }
-        
+
+        private static void FixSulfurPoolsBeetleQueen(On.EntityStates.BeetleQueenMonster.SummonEggs.orig_OnEnter orig, EntityStates.BeetleQueenMonster.SummonEggs self)
+        {
+            orig(self);
+            if (self.characterBody.skinIndex > 0)
+            {
+                EntityStates.BeetleQueenMonster.SummonEggs.spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleGuardSulfur.asset").WaitForCompletion();
+            }
+            else
+            {
+                EntityStates.BeetleQueenMonster.SummonEggs.spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscBeetleGuard");
+            }
+
+        }
+ 
+
         public static void EnemiesPostLoop()
         {
             //DirectorCardCategorySelection dccsGolemplainsMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/golemplains/dccsGolemplainsMonstersDLC1.asset").WaitForCompletion();

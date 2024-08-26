@@ -522,6 +522,9 @@ namespace LittleGameplayTweaks
                     case "goolake":
                         self.sceneDirectorInteractibleCredits += 20; //Has 60 less due to the Lemurians a bit too harsh imo
                         break;
+                    case "sulfurpools":
+                        self.sceneDirectorInteractibleCredits += 20; //Has 60 less due to the Lemurians a bit too harsh imo
+                        break;
                     case "rootjungle":
                         self.sceneDirectorInteractibleCredits += 40; //Depths sometimes has 560 so raising the other two by 40 seems fine
                         break;

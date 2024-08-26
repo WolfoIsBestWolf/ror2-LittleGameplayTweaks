@@ -38,6 +38,7 @@ namespace LittleGameplayTweaks
 
             GameObject DeepVoidPortalBattery = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortalBattery/DeepVoidPortalBattery.prefab").WaitForCompletion();
             DeepVoidPortalBattery.GetComponent<HoldoutZoneController>().baseChargeDuration = WConfig.FasterDeepVoidSignal.Value;
+            DeepVoidPortalBattery.GetComponent<HoldoutZoneController>().baseRadius += 5;
             //Maybe Reduce the time by like 10 seconds idk
 
             GameObject Teleporter1 = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Teleporters/Teleporter1");

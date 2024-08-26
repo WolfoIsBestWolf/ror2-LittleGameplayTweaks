@@ -50,7 +50,7 @@ namespace LittleGameplayTweaks
 
 
             SpeedBody.baseNameToken = "Feefee the Nimble";
-            SpeedBody.baseMoveSpeed *= 2f;
+            SpeedBody.baseMoveSpeed *= 1.75f;
             SpeedBody.baseDamage *= 0.75f;
             SpeedBody.levelDamage *= 0.75f;
             SpeedBody.baseJumpPower *= 3f;
@@ -62,6 +62,23 @@ namespace LittleGameplayTweaks
             GoomanBody.baseNameToken = "Quabquab the Lonesome";
             GoomanBody.baseDamage *= 0.75f;
             GoomanBody.levelDamage *= 0.75f;
+
+
+            cscScavLunar.masterPrefabs[0].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().baseDamage *= 0.75f;
+            cscScavLunar.masterPrefabs[1].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().baseDamage *= 0.75f;
+            cscScavLunar.masterPrefabs[2].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().baseDamage *= 0.75f;
+            cscScavLunar.masterPrefabs[3].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().baseDamage *= 0.75f;
+            cscScavLunar.masterPrefabs[0].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().levelDamage *= 0.75f;
+            cscScavLunar.masterPrefabs[1].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().levelDamage *= 0.75f;
+            cscScavLunar.masterPrefabs[2].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().levelDamage *= 0.75f;
+            cscScavLunar.masterPrefabs[3].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().levelDamage *= 0.75f;
+            SpeedBody.baseDamage *= 0.75f;
+            SpeedBody.levelDamage *= 0.75f;
+            TankBody.baseDamage *= 0.75f;
+            TankBody.levelDamage *= 0.75f;
+            GoomanBody.baseDamage *= 0.75f;
+            GoomanBody.levelDamage *= 0.75f;
+
 
             ScavLunarWSpeedMaster.GetComponent<GivePickupsOnStart>().equipmentString = "FireBallDash";
             ScavLunarWSpeedMaster.GetComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
