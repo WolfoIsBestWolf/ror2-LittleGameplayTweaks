@@ -225,6 +225,14 @@ namespace LittleGameplayTweaks
 
             RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/LunarCauldron, RedToWhite Variant").GetComponent<ShopTerminalBehavior>().dropVelocity = new Vector3(5, 10, 5);
 
+
+            if (WConfig.InteractableFastHalcyShrine.Value)
+            {
+                RoR2.LegacyResourcesAPI.Load<SpawnCard>("SpawnCards/InteractableSpawnCard/iscShrineHalcyon").prefab.GetComponent<HalcyoniteShrineInteractable>().goldDrainValue = 3;
+
+            }
+
+
             if (WConfig.InteractableNoLunarCost.Value == true)
             {
                 On.RoR2.PurchaseInteraction.Awake += (orig, self) =>
@@ -242,10 +250,32 @@ namespace LittleGameplayTweaks
                 On.RoR2.ShrineBloodBehavior.Start += (orig, self) =>
                 {
                     orig(self);
-                    self.goldToPaidHpRatio *= Mathf.Pow(Run.instance.difficultyCoefficient, 0.6f);
+                    self.goldToPaidHpRatio *= Mathf.Pow(Run.instance.difficultyCoefficient, 0.4f);
                 };
             }
-
+            if (WConfig.InteractableBloodShrineLessCost.Value == true)
+            {
+                On.RoR2.ShrineBloodBehavior.Start += (orig, self) =>
+                {
+                    orig(self);
+                    self.goldToPaidHpRatio *= Mathf.Pow(Run.instance.difficultyCoefficient, 0.4f);
+                };
+                On.RoR2.ShrineBloodBehavior.AddShrineStack += (orig, self, interactor) =>
+                {
+                    orig(self, interactor);
+                    //self.costMultiplierPerPurchase = 1;
+                    if (self.purchaseCount == 1)
+                    {
+                        //self.purchaseInteraction.cost = 70;
+                        self.costMultiplierPerPurchase = 1.75f;
+                    }
+                    else if (self.purchaseCount == 2)
+                    {
+                        //self.purchaseInteraction.cost = 90;
+                        self.costMultiplierPerPurchase = 1.93f;
+                    }
+                };
+            }
             if (WConfig.InteractableRedSoupAmount.Value != 0)
             {
                 On.RoR2.ShopTerminalBehavior.DropPickup += (orig, self) =>

@@ -262,9 +262,10 @@ namespace LittleGameplayTweaks
             };
         }
 
-        private static void FixClientsLate(On.RoR2.Stage.orig_Start orig, Stage self)
+
+        private static System.Collections.IEnumerator FixClientsLate(On.RoR2.Stage.orig_Start orig, Stage self)
         {
-            orig(self);
+            var RETURN = orig(self);   
             if (Run.instance && Run.instance.GetComponent<WeeklyRun>())
             {
                 if (TeleporterInteraction.instance)
@@ -279,6 +280,7 @@ namespace LittleGameplayTweaks
                     TeleporterInteraction.instance.GetComponent<HoldoutZoneController>().baseRadius = 500;
                 }
             }
+            return RETURN;
         }
 
         private static void AdjustCrystalStuff(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)

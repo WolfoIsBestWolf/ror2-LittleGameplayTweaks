@@ -23,27 +23,88 @@ namespace LittleGameplayTweaks
         {
             if (WConfig.DCCSEnemyChanges.Value == true)
             {
-                EnemiesPreLoopNoDLC();
-                EnemiesPreLoopDLC1();
+                EnemiesPreLoop_NoDLC();
+                EnemiesPreLoop_DLC1();
+                EnemiesPreLoop_DLC2();
             }
             if (WConfig.DCCSEnemyChangesLooping.Value == true)
             {
-                EnemiesPostLoop();
+                EnemiesPostLoop_DLC1();
+                EnemiesPostLoop_DLC2();
             }
             if (WConfig.DCCSEnemyNewFamilies.Value == true)
             {
                 Families();
             }
-            //This doesn't work anymore
-            ClassicStageInfo.monsterFamilyChance = WConfig.DCCSEnemyFamilyChance.Value/100f;
+
+            //On.RoR2.Stage.PreStartClient += LoopWeatherChanges;
+ 
+            On.RoR2.DccsPool.AreConditionsMet += DccsPool_AreConditionsMet;
         }
 
-        public static void EnemiesPreLoopNoDLC()
+        private static void LoopWeatherChanges(On.RoR2.Stage.orig_PreStartClient orig, Stage self)
+        {
+            orig(self);
+
+            //if (Run.instance.IsExpansionEnabled(DLC2Content))
+            if(Run.instance.stageClearCount > 4)
+            {
+
+            }
+
+            Debug.Log(SceneInfo.instance.sceneDef);
+
+            if(SceneInfo.instance.sceneDef.baseSceneName.StartsWith("golemplains"))
+            {
+                GameObject Weather = GameObject.Find("/Weather, Golemplains");
+  
+                UnityEngine.Rendering.PostProcessing.PostProcessVolume process = Weather.transform.GetChild(2).gameObject.GetComponent<UnityEngine.Rendering.PostProcessing.PostProcessVolume>();
+                UnityEngine.Rendering.PostProcessing.PostProcessProfile TrailerWeather = Addressables.LoadAssetAsync<UnityEngine.Rendering.PostProcessing.PostProcessProfile>(key: "RoR2/Base/title/PostProcessing/ppSceneGolemplainsTrailer.asset").WaitForCompletion();
+                process.profile = TrailerWeather;
+                process.sharedProfile = TrailerWeather;
+
+                Light TheSun = Weather.transform.GetChild(1).gameObject.GetComponent<Light>();
+                TheSun.color = new Color(1f, 0.5f, 0.0f, 1);
+
+                SetAmbientLight AAA = Weather.AddComponent<SetAmbientLight>();
+                AAA.setSkyboxMaterial = true;
+                AAA.skyboxMaterial = Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/bazaar/matSkybox4.mat").WaitForCompletion();
+                AAA.ApplyLighting();
+
+                Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Junk/golemplains_trailer/DeadCommandoProp.prefab").WaitForCompletion());
+            }
+            else if (SceneInfo.instance.sceneDef.baseSceneName.StartsWith("wispgraveyard"))
+            {
+                GameObject.Find("/Weather, Wispgraveyard").SetActive(false);
+                //GameObject.Find("/Weather, Eclipse").SetActive(true);
+
+               
+                GameObject EclipseWeather = GameObject.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/eclipseworld/Weather, Eclipse.prefab").WaitForCompletion());
+                  EclipseWeather.transform.GetChild(0).GetComponent<UnityEngine.ReflectionProbe>().bakedTexture = Addressables.LoadAssetAsync<Cubemap>(key: "RoR2/Base/wispgraveyard/ReflectionProbe-2.exr").WaitForCompletion();
+                EclipseWeather.transform.GetChild(4).gameObject.SetActive(true);
+
+            }
+        }
+
+        private static bool DccsPool_AreConditionsMet(On.RoR2.DccsPool.orig_AreConditionsMet orig, DccsPool self, DccsPool.ConditionalPoolEntry entry)
+        {
+            if (entry.requiredExpansions.Length == 1)
+            {
+                entry.weight = 500;
+            }
+            else if (entry.requiredExpansions.Length == 2)
+            {
+                entry.weight = 500000;
+            }
+            return orig(self, entry);
+        }
+
+        public static void EnemiesPreLoop_NoDLC()
         {
             DirectorCardCategorySelection dccsFrozenWallMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/frozenwall/dccsFrozenWallMonsters.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsRootJungleMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/rootjungle/dccsRootJungleMonsters.asset").WaitForCompletion();
 
-            DirectorCard DSGrovetender = new DirectorCard
+            DirectorCard DC_Grovetender = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGravekeeper"),
 
@@ -52,7 +113,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
-            DirectorCard DSRoboBallBoss = new DirectorCard
+            DirectorCard DC_RoboBallBoss = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscRoboBallBoss"),
 
@@ -62,13 +123,12 @@ namespace LittleGameplayTweaks
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
 
-            dccsFrozenWallMonsters.categories[0].cards[0] = DSRoboBallBoss; //Clay Dunestrider replaced by Solus Unit
+            dccsFrozenWallMonsters.categories[0].cards[0] = DC_RoboBallBoss; //Clay Dunestrider replaced by Solus Unit
 
-            dccsRootJungleMonsters.categories[0].cards[1] = DSGrovetender; //Titan replaced by Grovetender
+            dccsRootJungleMonsters.categories[0].cards[1] = DC_Grovetender; //Titan replaced by Grovetender
         }
 
-
-        public static void EnemiesPreLoopDLC1()
+        public static void EnemiesPreLoop_DLC1()
         {
             //DirectorCardCategorySelection dccsGolemplainsMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/golemplains/dccsGolemplainsMonstersDLC1.asset").WaitForCompletion();
             //DirectorCardCategorySelection dccsBlackBeachMonstersDLC = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/blackbeach/dccsBlackBeachMonstersDLC.asset").WaitForCompletion();
@@ -90,10 +150,8 @@ namespace LittleGameplayTweaks
 
             DirectorCardCategorySelection dccsArtifactWorldMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/artifactworld/dccsArtifactWorldMonstersDLC1.asset").WaitForCompletion();
             //DirectorCardCategorySelection dccsGoldshoresMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/goldshores/dccsGoldshoresMonstersDLC1.asset").WaitForCompletion();
-
-
-
-            DirectorCard DSMagmaWorm = new DirectorCard
+ 
+            DirectorCard DC_MagmaWorm = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscMagmaWorm"),
                 preventOverhead = false,
@@ -101,7 +159,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Far
             };
-            DirectorCard DSElectricWorm = new DirectorCard
+            DirectorCard DC_ElectricWorm = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscElectricWorm"),
                 preventOverhead = false,
@@ -109,7 +167,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Far
             };
-            DirectorCard DSGrovetender = new DirectorCard
+            DirectorCard DC_Grovetender = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGravekeeper"),
                 preventOverhead = false,
@@ -117,7 +175,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
-            DirectorCard DSRoboBallBoss = new DirectorCard
+            DirectorCard DC_RoboBallBoss = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscRoboBallBoss"),
 
@@ -126,7 +184,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
-            DirectorCard DSHermitCrab = new DirectorCard
+            DirectorCard DC_HermitCrab = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscHermitCrab"),
                 selectionWeight = 1,
@@ -134,7 +192,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Close
             };
-            DirectorCard DSAcidLarva = new DirectorCard
+            DirectorCard DC_AcidLarva = new DirectorCard
             {
                 spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscAcidLarva"),
                 selectionWeight = 1,
@@ -143,7 +201,7 @@ namespace LittleGameplayTweaks
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Close
             };
 
-            DirectorCard DSClayGrenadier = new DirectorCard
+            DirectorCard DC_ClayGrenadier = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscClayGrenadier"),
                 preventOverhead = false,
@@ -156,116 +214,309 @@ namespace LittleGameplayTweaks
             //dccsGolemplainsMonstersDLC1
 
             //Snowy Forest
-            num = FindCardIg(dccsSnowyForestMonstersDLC1.categories[1].cards, "Nullifier");
+            num = FindSpawnCard(dccsSnowyForestMonstersDLC1.categories[1].cards, "Nullifier");
             if (num > -1)
             {
                 dccsSnowyForestMonstersDLC1.categories[1].cards = dccsSnowyForestMonstersDLC1.categories[1].cards.Remove(dccsSnowyForestMonstersDLC1.categories[1].cards[num]);  
                 //Remove Reaver
             }
-            num = FindCardIg(dccsSnowyForestMonstersDLC1.categories[1].cards, "GreaterWisp");
+            num = FindSpawnCard(dccsSnowyForestMonstersDLC1.categories[1].cards, "GreaterWisp");
             if (num > -1)
             {
                 dccsSnowyForestMonstersDLC1.categories[1].cards[num].spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscBison");
                 //Bison replaces Greater Wisp
             }
-            num = FindCardIg(dccsSnowyForestMonstersDLC1.categories[2].cards, "VerminSnowy");
+            num = FindSpawnCard(dccsSnowyForestMonstersDLC1.categories[2].cards, "cscVerminSnowy");
             if (num > -1)
             {
                 dccsSnowyForestMonstersDLC1.categories[2].cards[num].minimumStageCompletions = 0;
                 //Pre Loop Vermin
             }
-            num = FindCardIg(dccsSnowyForestMonstersDLC1.categories[2].cards, "LesserWisp");
+            /*num = FindSpawnCard(dccsSnowyForestMonstersDLC1.categories[2].cards, "LesserWisp");
             if (num > -1)
             {
                 dccsSnowyForestMonstersDLC1.categories[2].cards = dccsSnowyForestMonstersDLC1.categories[2].cards.Remove(dccsSnowyForestMonstersDLC1.categories[2].cards[num]); //Remove Wisp
-            }
+            }*/
 
             //
             //Goolake
-            num = FindCardIg(dccsGooLakeMonstersDLC1.categories[1].cards, "ClayGrenadier");
+            num = FindSpawnCard(dccsGooLakeMonstersDLC1.categories[1].cards, "ClayGrenadier");
             if (num > -1)
             {
                 dccsGooLakeMonstersDLC1.categories[1].cards[num].minimumStageCompletions = 0;
                 //Pre Loop Clay Grenadier
             }
             //
-            dccsFrozenWallMonstersDLC1.categories[0].cards[0] = DSRoboBallBoss; //Clay Dunestrider replaced by Solus Unit
+            dccsFrozenWallMonstersDLC1.categories[0].cards[0] = DC_RoboBallBoss; //Clay Dunestrider replaced by Solus Unit
             //
-            dccsWispGraveyardMonstersDLC1.AddCard(1, DSClayGrenadier);
+            dccsWispGraveyardMonstersDLC1.AddCard(1, DC_ClayGrenadier);
 
             //
             //SulfurPools
-            num = FindCardIg(dccsSulfurPoolsMonstersDLC1.categories[2].cards, "Beetle");
+            num = FindSpawnCard(dccsSulfurPoolsMonstersDLC1.categories[2].cards, "Beetle");
             if (num > -1)
             {
                 dccsSulfurPoolsMonstersDLC1.categories[2].cards[num].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleSulfur.asset").WaitForCompletion();
             }
-            num = FindCardIg(dccsSulfurPoolsMonstersDLC1.categories[1].cards, "BeetleGuard");
+            num = FindSpawnCard(dccsSulfurPoolsMonstersDLC1.categories[1].cards, "BeetleGuard");
             if (num > -1)
             {
                 dccsSulfurPoolsMonstersDLC1.categories[1].cards[num].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleGuardSulfur.asset").WaitForCompletion();
             }
-            num = FindCardIg(dccsSulfurPoolsMonstersDLC1.categories[0].cards, "BeetleQueen");
+            num = FindSpawnCard(dccsSulfurPoolsMonstersDLC1.categories[0].cards, "BeetleQueen");
             if (num > -1)
             {
                 dccsSulfurPoolsMonstersDLC1.categories[0].cards[num].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleQueenSulfur.asset").WaitForCompletion();
             }
-            num = FindCardIg(dccsSulfurPoolsMonstersDLC1.categories[0].cards, "MegaConstruct");
+            num = FindSpawnCard(dccsSulfurPoolsMonstersDLC1.categories[0].cards, "MegaConstruct");
             if (num > -1)
             {
                 dccsSulfurPoolsMonstersDLC1.categories[0].cards[num].selectionWeight++;
                 //More Lamp because there's so many bosses here
             }
-            dccsSulfurPoolsMonstersDLC1.AddCard(0, DSMagmaWorm); //Keep Beetle Queen but still add this dude
-            dccsSulfurPoolsMonstersDLC1.AddCard(0, DSElectricWorm); //Keep Beetle Queen but still add this dude
-            dccsSulfurPoolsMonstersDLC1.AddCard(1, DSHermitCrab); //Seems fitting for another trash mob
-            dccsSulfurPoolsMonstersDLC1.AddCard(1, DSAcidLarva); //Seems fitting for another trash mob
+            dccsSulfurPoolsMonstersDLC1.AddCard(0, DC_MagmaWorm); //Keep Beetle Queen but still add this dude
+            dccsSulfurPoolsMonstersDLC1.AddCard(0, DC_ElectricWorm); //Keep Beetle Queen but still add this dude
+            dccsSulfurPoolsMonstersDLC1.AddCard(1, DC_HermitCrab); //Seems fitting for another trash mob
+            dccsSulfurPoolsMonstersDLC1.AddCard(1, DC_AcidLarva); //Seems fitting for another trash mob
 
 
             On.EntityStates.BeetleQueenMonster.SummonEggs.OnEnter += FixSulfurPoolsBeetleQueen;
 
             //
             //Sundered Grove
-            num = FindCardIg(dccsRootJungleMonstersDLC1.categories[0].cards, "TitanBlackBeach");
+            num = FindSpawnCard(dccsRootJungleMonstersDLC1.categories[0].cards, "TitanBlackBeach");
             if (num > -1)
             {
                 dccsRootJungleMonstersDLC1.categories[0].cards[num].spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGravekeeper");
                 dccsRootJungleMonstersDLC1.categories[0].cards[num].selectionWeight++;
                 //Replacing Titan with Grovetender
             }
-            num = FindCardIg(dccsRootJungleMonstersDLC1.categories[1].cards, "Golem");
+            num = FindSpawnCard(dccsRootJungleMonstersDLC1.categories[1].cards, "Golem");
             if (num > -1)
             {
                 dccsRootJungleMonstersDLC1.categories[1].cards[num].spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/Golem/cscGolemNature.asset").WaitForCompletion();
                 //Replacing Golem with skinned Golem
             }
             //
-            dccsShipgraveyardMonstersDLC1.AddCard(0, DSElectricWorm); //Magma Worm so Elec Worm
+            dccsShipgraveyardMonstersDLC1.AddCard(0, DC_ElectricWorm); //Magma Worm so Elec Worm
 
-            dccsSkyMeadowMonstersDLC1.AddCard(0, DSMagmaWorm); //They removed him with the DLC but Elec Worm is still there
+            dccsSkyMeadowMonstersDLC1.AddCard(0, DC_MagmaWorm); //They removed him with the DLC but Elec Worm is still there
 
-            dccsArtifactWorldMonstersDLC1.AddCard(0, DSGrovetender);
-            dccsArtifactWorldMonstersDLC1.AddCard(0, DSMagmaWorm);
-            dccsArtifactWorldMonstersDLC1.AddCard(1, DSClayGrenadier);
-            //dccsArtifactWorldMonstersDLC1.AddCard(2, DSBlindVermin);
+            dccsArtifactWorldMonstersDLC1.AddCard(0, DC_Grovetender);
+            dccsArtifactWorldMonstersDLC1.AddCard(0, DC_MagmaWorm);
+            dccsArtifactWorldMonstersDLC1.AddCard(1, DC_ClayGrenadier);
+            //dccsArtifactWorldMonstersDLC1.AddCard(2, DC_BlindVermin);
         }
 
-        private static void FixSulfurPoolsBeetleQueen(On.EntityStates.BeetleQueenMonster.SummonEggs.orig_OnEnter orig, EntityStates.BeetleQueenMonster.SummonEggs self)
+        public static void EnemiesPreLoop_DLC2()
         {
-            orig(self);
-            if (self.characterBody.skinIndex > 0)
+            DirectorCardCategorySelection dccsGolemplainsMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsGolemplainsMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsBlackBeachMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsBlackBeachMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsSnowyForestMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsSnowyForestMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsLakesMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lakes/dccsLakesMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsLakesnightMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lakesnight/dccsLakesnightMonsters.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsVillageMonsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/village/dccsVillageMonsters_DLC1.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsVillageNightMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/villagenight/dccsVillageNightMonsters.asset").WaitForCompletion();
+
+            DirectorCardCategorySelection dccsGooLakeMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsGooLakeMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsFoggySwampMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsFoggySwampMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsAncientLoftMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsAncientLoftMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsLemurianTempleMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lemuriantemple/dccsLemurianTempleMonstersDLC1.asset").WaitForCompletion();
+
+            DirectorCardCategorySelection dccsFrozenWallMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsFrozenWallMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsWispGraveyardMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsWispGraveyardMonstersDLC2.asset").WaitForCompletion();
+            //DOES_NOT_EXIST//DirectorCardCategorySelection dccsSulfurPoolsMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/sulfurpools/dccsSulfurPoolsMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsHabitatMonsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/habitat/dccsHabitatMonsters_DLC1.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsHabitatfallMonsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/habitatfall/dccsHabitatfallMonsters_DLC1.asset").WaitForCompletion();
+
+            DirectorCardCategorySelection dccsDampCaveMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsDampCaveMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsShipgraveyardMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsShipgraveyardMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsRootJungleMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsRootJungleMonstersDLC2.asset").WaitForCompletion();
+
+            DirectorCardCategorySelection dccsSkyMeadowMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsSkyMeadowMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsHelminthRoostMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/helminthroost/dccsHelminthRoostMonsters.asset").WaitForCompletion();
+
+
+
+            DirectorCard DC_Grandparent = new DirectorCard
             {
-                EntityStates.BeetleQueenMonster.SummonEggs.spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleGuardSulfur.asset").WaitForCompletion();
-            }
-            else
+                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/Grandparent/cscGrandparent.asset").WaitForCompletion(),
+                preventOverhead = false,
+                selectionWeight = 2,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard DC_BlindPest = new DirectorCard
             {
-                EntityStates.BeetleQueenMonster.SummonEggs.spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscBeetleGuard");
+                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/FlyingVermin/cscFlyingVermin.asset").WaitForCompletion(),
+                preventOverhead = false,
+                selectionWeight = 1,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard DC_Mushroom = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/MiniMushroom/cscMiniMushroom.asset").WaitForCompletion(),
+                preventOverhead = false,
+                selectionWeight = 1,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard DC_MagmaWorm = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscMagmaWorm"),
+                preventOverhead = false,
+                selectionWeight = 1,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Far
+            };
+            DirectorCard DC_ElectricWorm = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscElectricWorm"),
+                preventOverhead = false,
+                selectionWeight = 1,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Far
+            };
+            DirectorCard DC_Grovetender = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGravekeeper"),
+                preventOverhead = false,
+                selectionWeight = 2,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard DC_Grovetender1 = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGravekeeper"),
+                preventOverhead = false,
+                selectionWeight = 1,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard DC_RoboBallBoss = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscRoboBallBoss"),
+
+                preventOverhead = false,
+                selectionWeight = 1,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard DC_HermitCrab = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscHermitCrab"),
+                selectionWeight = 1,
+                preventOverhead = false,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Close
+            };
+            DirectorCard DC_AcidLarva = new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscAcidLarva"),
+                selectionWeight = 1,
+                preventOverhead = false,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Close
+            };
+
+            DirectorCard DC_ClayGrenadier = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscClayGrenadier"),
+                preventOverhead = false,
+                selectionWeight = 1,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            int num = -1;
+
+            //dccsGolemplainsMonstersDLC2
+
+            //Snowy Forest
+            num = FindSpawnCard(dccsSnowyForestMonstersDLC2.categories[1].cards, "Nullifier");
+            if (num > -1)
+            {
+                dccsSnowyForestMonstersDLC2.categories[1].cards = dccsSnowyForestMonstersDLC2.categories[1].cards.Remove(dccsSnowyForestMonstersDLC2.categories[1].cards[num]);
+                //Remove Reaver
             }
+            num = FindSpawnCard(dccsSnowyForestMonstersDLC2.categories[1].cards, "GreaterWisp");
+            if (num > -1)
+            {
+                dccsSnowyForestMonstersDLC2.categories[1].cards[num].spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscBison");
+                //Bison replaces Greater Wisp
+            }
+            num = FindSpawnCard(dccsSnowyForestMonstersDLC2.categories[2].cards, "VerminSnowy");
+            if (num > -1)
+            {
+                dccsSnowyForestMonstersDLC2.categories[2].cards[num].minimumStageCompletions = 0;
+                //Pre Loop Vermin
+            }
+            /*num = FindSpawnCard(dccsSnowyForestMonstersDLC2.categories[2].cards, "LesserWisp");
+            if (num > -1)
+            {
+                dccsSnowyForestMonstersDLC2.categories[2].cards = dccsSnowyForestMonstersDLC2.categories[2].cards.Remove(dccsSnowyForestMonstersDLC2.categories[2].cards[num]); //Remove Wisp
+            }*/
+
+            //
+            //Goolake
+            num = FindSpawnCard(dccsGooLakeMonstersDLC2.categories[1].cards, "ClayGrenadier");
+            if (num > -1)
+            {
+                dccsGooLakeMonstersDLC2.categories[1].cards[num].minimumStageCompletions = 0;
+                //Pre Loop Clay Grenadier
+            }
+            //
+            dccsFrozenWallMonstersDLC2.categories[0].cards[0] = DC_RoboBallBoss; //Clay Dunestrider replaced by Solus Unit
+            //
+            dccsWispGraveyardMonstersDLC2.AddCard(1, DC_ClayGrenadier);
+
+
+            //
+            //Sundered Grove
+            num = FindSpawnCard(dccsRootJungleMonstersDLC2.categories[0].cards, "TitanBlackBeach");
+            if (num > -1)
+            {
+                dccsRootJungleMonstersDLC2.categories[0].cards[num].spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGravekeeper");
+                dccsRootJungleMonstersDLC2.categories[0].cards[num].selectionWeight++;
+                //Replacing Titan with Grovetender
+            }
+            num = FindSpawnCard(dccsRootJungleMonstersDLC2.categories[1].cards, "Golem");
+            if (num > -1)
+            {
+                dccsRootJungleMonstersDLC2.categories[1].cards[num].spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/Golem/cscGolemNature.asset").WaitForCompletion();
+                //Replacing Golem with skinned Golem
+            }
+            //
+            dccsShipgraveyardMonstersDLC2.AddCard(0, DC_ElectricWorm); //Magma Worm so Elec Worm
+
+            dccsSkyMeadowMonstersDLC2.AddCard(0, DC_MagmaWorm); //They removed him with the DLC but Elec Worm is still there
+
+
+
+
+
+            //DLC2 Stuff
+
+
+            dccsLemurianTempleMonstersDLC1.AddCard(0, DC_Grovetender1);
+
+            dccsHabitatMonsters_DLC1.AddCard(2, DC_BlindPest);
+            dccsHabitatfallMonsters_DLC1.AddCard(2, DC_BlindPest);
+
+            num = FindSpawnCard(dccsLemurianTempleMonstersDLC1.categories[1].cards, "FlyingVermin");
+            if (num > -1)
+            {
+                dccsLemurianTempleMonstersDLC1.categories[1].cards = dccsLemurianTempleMonstersDLC1.categories[1].cards.Remove(dccsLemurianTempleMonstersDLC1.categories[1].cards[num]);
+            }
+
+            dccsHabitatfallMonsters_DLC1.AddCard(2, DC_Mushroom);
+            dccsHelminthRoostMonsters.AddCard(0, DC_Grandparent); 
 
         }
- 
-
-        public static void EnemiesPostLoop()
+        //
+        //
+        //
+        public static void EnemiesPostLoop_DLC1()
         {
             //DirectorCardCategorySelection dccsGolemplainsMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/golemplains/dccsGolemplainsMonstersDLC1.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsBlackBeachMonstersDLC = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/blackbeach/dccsBlackBeachMonstersDLC.asset").WaitForCompletion();
@@ -476,7 +727,7 @@ namespace LittleGameplayTweaks
             //
             dccsFrozenWallMonstersDLC1.AddCard(2, LoopVulture); //Like the Big Ball leads them to it so they can eat more People and Iron
 
-            int num = FindCardIg(dccsWispGraveyardMonstersDLC1.categories[2].cards, "Vulture");
+            int num = FindSpawnCard(dccsWispGraveyardMonstersDLC1.categories[2].cards, "Vulture");
             if (num > -1)
             {
                 dccsWispGraveyardMonstersDLC1.categories[2].cards[num].spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/Vermin/cscVermin.asset").WaitForCompletion();
@@ -523,7 +774,297 @@ namespace LittleGameplayTweaks
             //dccsSkyMeadowMonstersDLC1.AddCard(1, DoubleLoopVoidReaver);
 
         }
-        
+
+        public static void EnemiesPostLoop_DLC2()
+        {
+            DirectorCardCategorySelection dccsGolemplainsMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsGolemplainsMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsBlackBeachMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsBlackBeachMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsSnowyForestMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsSnowyForestMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsLakesMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lakes/dccsLakesMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsLakesnightMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lakesnight/dccsLakesnightMonsters.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsVillageMonsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/village/dccsVillageMonsters_DLC1.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsVillageNightMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/villagenight/dccsVillageNightMonsters.asset").WaitForCompletion();
+
+            DirectorCardCategorySelection dccsGooLakeMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsGooLakeMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsFoggySwampMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsFoggySwampMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsAncientLoftMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsAncientLoftMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsLemurianTempleMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lemuriantemple/dccsLemurianTempleMonstersDLC1.asset").WaitForCompletion();
+
+            DirectorCardCategorySelection dccsFrozenWallMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsFrozenWallMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsWispGraveyardMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsWispGraveyardMonstersDLC2.asset").WaitForCompletion();
+            //DOES_NOT_EXIST//DirectorCardCategorySelection dccsSulfurPoolsMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/sulfurpools/dccsSulfurPoolsMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsHabitatMonsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/habitat/dccsHabitatMonsters_DLC1.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsHabitatfallMonsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/habitatfall/dccsHabitatfallMonsters_DLC1.asset").WaitForCompletion();
+
+            DirectorCardCategorySelection dccsDampCaveMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsDampCaveMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsShipgraveyardMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsShipgraveyardMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsRootJungleMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsRootJungleMonstersDLC2.asset").WaitForCompletion();
+
+            DirectorCardCategorySelection dccsSkyMeadowMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsSkyMeadowMonstersDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsHelminthRoostMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/helminthroost/dccsHelminthRoostMonsters.asset").WaitForCompletion();
+
+            DirectorCardCategorySelection dccsArenaMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/arena/dccsArenaMonstersDLC1.asset").WaitForCompletion();
+
+
+            DirectorCard LoopVulture = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscVulture"),
+                selectionWeight = 1,
+                preventOverhead = false,
+                minimumStageCompletions = 3,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard LoopImp = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscImp"),
+                preventOverhead = true,
+                selectionWeight = 1,
+                minimumStageCompletions = 3,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+
+            DirectorCard LoopImpBoss = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscImpBoss"),
+                preventOverhead = true,
+                selectionWeight = 1,
+                minimumStageCompletions = 3,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard LoopMiniMushroom = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscMiniMushroom"),
+                selectionWeight = 1,
+                preventOverhead = false,
+                minimumStageCompletions = 3,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+
+
+            DirectorCard LoopElderLemurian = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLemurianBruiser"),
+
+                preventOverhead = false,
+                selectionWeight = 1,
+                minimumStageCompletions = 3,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard LoopBlindPest = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscFlyingVermin"),
+                preventOverhead = true,
+                selectionWeight = 1,
+                minimumStageCompletions = 5,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Far
+            };
+            DirectorCard LoopPest = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscVermin"),
+                preventOverhead = true,
+                selectionWeight = 2,
+                minimumStageCompletions = 5,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+
+            DirectorCard DC_Child = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC2/Child/cscChild.asset").WaitForCompletion(),
+                preventOverhead = false,
+                selectionWeight = 1,
+                minimumStageCompletions = 6,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard LoopParent = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscParent"),
+                preventOverhead = false,
+                selectionWeight = 2,
+                minimumStageCompletions = 4,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard LoopGrandparent = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/titan/cscGrandparent"),
+                selectionWeight = 2,
+                preventOverhead = false,
+                minimumStageCompletions = 4,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+
+
+            DirectorCard LoopAcidLarva = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscAcidLarva"),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 3,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+
+            DirectorCard LoopLunarExploder = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarExploder"),
+                selectionWeight = 1,
+                preventOverhead = false,
+                minimumStageCompletions = 6,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard LoopLunarGolem = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarGolem"),
+                selectionWeight = 1,
+                preventOverhead = false,
+                minimumStageCompletions = 6,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard LoopLunarWisp = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarWisp"),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 6,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard LoopRoboBallMini = new DirectorCard
+            {
+                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscRoboBallMini"),
+                preventOverhead = true,
+                selectionWeight = 1,
+                minimumStageCompletions = 5,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            /*DirectorCard DoubleLoopVoidBarnacle = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC2/VoidBarnacle/cscVoidBarnacle.asset").WaitForCompletion(),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 8,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };*/
+            DirectorCard DoubleLoopVoidReaver = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Nullifier/cscNullifier.asset").WaitForCompletion(),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 7,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard DoubleLoopVoidJailer = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC1/VoidJailer/cscVoidJailer.asset").WaitForCompletion(),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 7,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard DoubleLoopVoidDevestator = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC1/VoidMegaCrab/cscVoidMegaCrab.asset").WaitForCompletion(),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 7,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard LoopGrovetender = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Gravekeeper/cscGravekeeper.asset").WaitForCompletion(),
+                selectionWeight = 1,
+                preventOverhead = false,
+                minimumStageCompletions = 4,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+
+            DirectorCard SimuLoopMinorConstruct = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC1/MajorAndMinorConstruct/cscMinorConstruct.asset").WaitForCompletion(),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 6,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard SimuLoopMegaConstruct = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC1/MajorAndMinorConstruct/cscMegaConstruct.asset").WaitForCompletion(),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 6,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+
+
+
+            //Golem Plains already has Lamps, Lamp Boss and Hermit Crab
+            dccsBlackBeachMonstersDLC2.AddCard(2, LoopVulture);
+
+            dccsSnowyForestMonstersDLC2.AddCard(0, LoopImpBoss); //Loop Imps
+            dccsSnowyForestMonstersDLC2.AddCard(2, LoopImp); //I don't remember why maybe because the other snow area has Imps?
+
+
+            //Goolake already has Templar
+            dccsGooLakeMonstersDLC2.AddCard(2, LoopAcidLarva); //Simu has Acid Larva here but I don't see how this fits
+
+            dccsFoggySwampMonstersDLC2.AddCard(2, LoopMiniMushroom);  //Mushroom
+
+            dccsAncientLoftMonstersDLC2.AddCard(0, LoopGrovetender);
+            dccsAncientLoftMonstersDLC2.AddCard(1, LoopElderLemurian); //Loop Elder Lemurian
+            //
+            dccsFrozenWallMonstersDLC2.AddCard(2, LoopVulture); //Like the Big Ball leads them to it so they can eat more People and Iron
+
+            dccsWispGraveyardMonstersDLC2.AddCard(2, DC_Child);
+            dccsWispGraveyardMonstersDLC2.AddCard(2, LoopPest);
+
+ 
+            //
+            dccsDampCaveMonstersDLC2.AddCard(0, LoopGrandparent); //Loop Parents
+            dccsDampCaveMonstersDLC2.AddCard(1, LoopParent); //Yeah I got nothin I just wanted at least 3 Parents
+            dccsDampCaveMonstersDLC2.AddCard(1, DC_Child); //Yeah I got nothin I just wanted at least 3 Parents
+
+            dccsShipgraveyardMonstersDLC2.AddCard(1, LoopRoboBallMini); //Sure
+            dccsShipgraveyardMonstersDLC2.AddCard(0, SimuLoopMegaConstruct); //Lamps look good I think
+            dccsShipgraveyardMonstersDLC2.AddCard(2, SimuLoopMinorConstruct); //
+
+            dccsRootJungleMonstersDLC2.AddCard(2, LoopBlindPest); //Hell yeah
+
+            dccsSkyMeadowMonstersDLC2.AddCard(2, LoopLunarWisp); //If you loop you wouldn't really see these enemies so I think seeing them more here is nice
+            dccsSkyMeadowMonstersDLC2.AddCard(2, LoopLunarGolem);
+            dccsSkyMeadowMonstersDLC2.AddCard(2, LoopLunarExploder);
+
+            //Dlc2
+
+            dccsHelminthRoostMonsters.AddCard(2, LoopLunarWisp); //If you loop you wouldn't really see these enemies so I think seeing them more here is nice
+            dccsHelminthRoostMonsters.AddCard(2, LoopLunarGolem);
+            dccsHelminthRoostMonsters.AddCard(2, LoopLunarExploder);
+
+            dccsArenaMonstersDLC1.AddCard(1, LoopLunarWisp); //If you loop you wouldn't really see these enemies so I think seeing them more here is nice
+            dccsArenaMonstersDLC1.AddCard(1, LoopLunarGolem);
+            dccsArenaMonstersDLC1.AddCard(1, LoopLunarExploder);
+
+
+            //VoidStuff
+            //dccsGolemplainsMonstersDLC2.AddCard(1, Void);
+            //dccsBlackBeachMonstersDLC.AddCard(2, DoubleLoopVoidBarnacle);
+            dccsSnowyForestMonstersDLC2.AddCard(1, DoubleLoopVoidReaver);
+
+            //dccsGooLakeMonstersDLC2.AddCard(1, DoubleLoopVoidJailer);
+            dccsFoggySwampMonstersDLC2.AddCard(1, DoubleLoopVoidJailer);
+            //dccsAncientLoftMonstersDLC2.AddCard(0, DoubleLoopVoidDevestator); 
+            //
+            dccsFrozenWallMonstersDLC2.AddCard(1, DoubleLoopVoidReaver);
+            //dccsWispGraveyardMonstersDLC2.AddCard(1, DoubleLoopVoidJailer);
+            //dccsSulfurPoolsMonstersDLC2.AddCard(0, DoubleLoopVoidDevestator);
+
+            dccsDampCaveMonstersDLC2.AddCard(0, DoubleLoopVoidJailer);
+            dccsShipgraveyardMonstersDLC2.AddCard(1, DoubleLoopVoidReaver);
+            dccsRootJungleMonstersDLC2.AddCard(1, DoubleLoopVoidJailer);
+
+            dccsSkyMeadowMonstersDLC2.AddCard(0, DoubleLoopVoidDevestator);
+            //dccsSkyMeadowMonstersDLC2.AddCard(1, DoubleLoopVoidJailer);
+            //dccsSkyMeadowMonstersDLC2.AddCard(1, DoubleLoopVoidReaver);
+
+        }
+        //
+        //
         public static void Families()
         {
             DccsPool dpGolemplainsMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/golemplains/dpGolemplainsMonsters.asset").WaitForCompletion();
@@ -570,7 +1111,7 @@ namespace LittleGameplayTweaks
 
 
 
-            DirectorCard DSTitanDampCaves = new DirectorCard
+            DirectorCard DC_TitanDampCaves = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/Titan/cscTitanDampCave"),
                 preventOverhead = false,
@@ -579,7 +1120,7 @@ namespace LittleGameplayTweaks
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
 
-            DirectorCard DSClayBoss = new DirectorCard
+            DirectorCard DC_ClayBoss = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscClayBoss"),
                 selectionWeight = 1,
@@ -587,7 +1128,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
-            DirectorCard DSClayTemp = new DirectorCard
+            DirectorCard DC_ClayTemp = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscClayBruiser"),
                 preventOverhead = false,
@@ -595,7 +1136,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
-            DirectorCard DSClayGrenadier = new DirectorCard
+            DirectorCard DC_ClayGrenadier = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscClayGrenadier"),
                 preventOverhead = false,
@@ -604,7 +1145,7 @@ namespace LittleGameplayTweaks
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
 
-            DirectorCard DSRoboBallBoss = new DirectorCard
+            DirectorCard DC_RoboBallBoss = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscRoboBallBoss"),
                 preventOverhead = false,
@@ -612,7 +1153,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
-            DirectorCard DSRoboBallMini = new DirectorCard
+            DirectorCard DC_RoboBallMini = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscRoboBallMini"),
                 preventOverhead = true,
@@ -624,7 +1165,7 @@ namespace LittleGameplayTweaks
             CharacterSpawnCard cscVultureNoCeiling = Object.Instantiate(Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Vulture/cscVulture.asset").WaitForCompletion());
             cscVultureNoCeiling.name = "cscVultureNoCeiling";
             cscVultureNoCeiling.requiredFlags = NodeFlags.None;
-            DirectorCard DSVultureNoCeling = new DirectorCard
+            DirectorCard DC_VultureNoCeling = new DirectorCard
             {
                 spawnCard = cscVultureNoCeiling,
                 preventOverhead = false,
@@ -632,11 +1173,11 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
-            DSVultureNoCeling.spawnCard = cscVultureNoCeiling;
+            DC_VultureNoCeling.spawnCard = cscVultureNoCeiling;
             //Debug.LogWarning(DSVultureNoCeling.spawnCard);
 
 
-            DirectorCard DSGrandparent = new DirectorCard
+            DirectorCard DC_Grandparent = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/titan/cscGrandparent"),
                 selectionWeight = 1,
@@ -645,7 +1186,7 @@ namespace LittleGameplayTweaks
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
 
-            DirectorCard DSGeep = new DirectorCard
+            DirectorCard DC_Geep = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGeepBody"),
                 preventOverhead = false,
@@ -654,7 +1195,7 @@ namespace LittleGameplayTweaks
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
 
-            DirectorCard DSGip = new DirectorCard
+            DirectorCard DC_Gip = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGipBody"),
                 preventOverhead = false,
@@ -663,7 +1204,7 @@ namespace LittleGameplayTweaks
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
 
-            DirectorCard DSBlindPest = new DirectorCard
+            DirectorCard DC_BlindPest = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscFlyingVermin"),
                 preventOverhead = false,
@@ -671,7 +1212,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
-            DirectorCard DSBlindVermin = new DirectorCard
+            DirectorCard DC_BlindVermin = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscVermin"),
                 preventOverhead = false,
@@ -679,7 +1220,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
-            DirectorCard DSBlindPestSnowy = new DirectorCard
+            DirectorCard DC_BlindPestSnowy = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscFlyingVerminSnowy"),
                 preventOverhead = false,
@@ -687,7 +1228,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
-            DirectorCard DSBlindVerminSnowy = new DirectorCard
+            DirectorCard DC_BlindVerminSnowy = new DirectorCard
             {
                 spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscVerminSnowy"),
                 preventOverhead = false,
@@ -696,41 +1237,48 @@ namespace LittleGameplayTweaks
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
 
-            CharacterSpawnCard cscMagmaWormElite = Object.Instantiate(RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscMagmaWorm"));
-            CharacterSpawnCard cscElectricWormElite = Object.Instantiate(RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscElectricWorm"));
-
-            cscMagmaWormElite.name = "cscMagmaWormElite";
-            cscMagmaWormElite.noElites = false;
-            cscElectricWormElite.name = "cscElectricWormElite";
-            cscElectricWormElite.noElites = false;
-
-            DirectorCard DSMagmaWormWithElite = new DirectorCard
+            DirectorCard DC_MagmaWormWithElite = new DirectorCard
             {
-                spawnCard = cscMagmaWormElite,
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscMagmaWorm"),
                 preventOverhead = false,
                 selectionWeight = 1,
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Far
             };
-            DirectorCard DSElectricWormWithElite = new DirectorCard
+            DirectorCard DC_ElectricWormWithElite = new DirectorCard
             {
-                spawnCard = cscElectricWormElite,
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscElectricWorm"),
                 preventOverhead = false,
                 selectionWeight = 1,
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Far
             };
 
+            DirectorCard DC_Scorchling = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC2/Scorchling/cscScorchling.asset").WaitForCompletion(),
+                preventOverhead = false,
+                selectionWeight = 1,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard DC_Child = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC2/Child/cscChild.asset").WaitForCompletion(),
+                preventOverhead = false,
+                selectionWeight = 1,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
 
-
-            dccsGolemFamilyAbyssal.categories[0].cards[0] = DSTitanDampCaves;
+            dccsGolemFamilyAbyssal.categories[0].cards[0] = DC_TitanDampCaves;
             dccsGolemFamilyAbyssal.name = "dccsGolemFamilyAbyssal";
 
             dccsClayFamily.AddCategory("Champions", 3);
             dccsClayFamily.AddCategory("Minibosses", 6);
-            dccsClayFamily.AddCard(0, DSClayBoss);
-            dccsClayFamily.AddCard(1, DSClayTemp);
-            dccsClayFamily.AddCard(1, DSClayGrenadier);
+            dccsClayFamily.AddCard(0, DC_ClayBoss);
+            dccsClayFamily.AddCard(1, DC_ClayTemp);
+            dccsClayFamily.AddCard(1, DC_ClayGrenadier);
             dccsClayFamily.name = "dccsClayFamily";
             dccsClayFamily.minimumStageCompletion = 0;
             dccsClayFamily.maximumStageCompletion = 1000000;
@@ -739,25 +1287,25 @@ namespace LittleGameplayTweaks
             dccsRoboBallFamily.AddCategory("Champions", 4);
             dccsRoboBallFamily.AddCategory("Minibosses", 4);
             dccsRoboBallFamily.AddCategory("Basic Monsters", 4);
-            dccsRoboBallFamily.AddCard(0, DSRoboBallBoss);
-            dccsRoboBallFamily.AddCard(1, DSRoboBallMini);
-            dccsRoboBallFamily.AddCard(2, DSVultureNoCeling);
+            dccsRoboBallFamily.AddCard(0, DC_RoboBallBoss);
+            dccsRoboBallFamily.AddCard(1, DC_RoboBallMini);
+            dccsRoboBallFamily.AddCard(2, DC_VultureNoCeling);
             dccsRoboBallFamily.name = "dccsRoboBallFamily";
             dccsRoboBallFamily.minimumStageCompletion = 0;
             dccsRoboBallFamily.maximumStageCompletion = 1000000;
             dccsRoboBallFamily.selectionChatString = "<style=cWorldEvent>[WARNING] You hear the whirring of wings and machinery..</style>";
 
             dccsVerminFamily.AddCategory("Basic Monsters", 6);
-            dccsVerminFamily.AddCard(0, DSBlindPest);
-            dccsVerminFamily.AddCard(0, DSBlindVermin);
+            dccsVerminFamily.AddCard(0, DC_BlindPest);
+            dccsVerminFamily.AddCard(0, DC_BlindVermin);
             dccsVerminFamily.name = "dccsVerminFamily";
             dccsVerminFamily.minimumStageCompletion = 0;
             dccsVerminFamily.maximumStageCompletion = 9;
             dccsVerminFamily.selectionChatString = "<style=cWorldEvent>[WARNING] You have invaded rampant breeding grounds..</style>";
 
             dccsVerminFamilySnowy.AddCategory("Basic Monsters", 6);
-            dccsVerminFamilySnowy.AddCard(0, DSBlindPestSnowy);
-            dccsVerminFamilySnowy.AddCard(0, DSBlindVerminSnowy);
+            dccsVerminFamilySnowy.AddCard(0, DC_BlindPestSnowy);
+            dccsVerminFamilySnowy.AddCard(0, DC_BlindVerminSnowy);
             dccsVerminFamilySnowy.name = "dccsVerminSnowyFamily";
             dccsVerminFamilySnowy.minimumStageCompletion = 0;
             dccsVerminFamilySnowy.maximumStageCompletion = 9;
@@ -765,9 +1313,11 @@ namespace LittleGameplayTweaks
             //<style=cWorldEvent>[WARNING] You hear squeaks and chirps around you..</style>
 
             dccsWormsFamily.AddCategory("Champions", 5);
-            dccsWormsFamily.AddCard(0, DSMagmaWormWithElite);
-            dccsWormsFamily.AddCard(0, DSElectricWormWithElite);
-            dccsWormsFamily.minimumStageCompletion = 9;
+            dccsWormsFamily.AddCard(0, DC_MagmaWormWithElite);
+            dccsWormsFamily.AddCard(0, DC_ElectricWormWithElite);
+            dccsWormsFamily.AddCategory("Miniboss", 5);
+            dccsWormsFamily.AddCard(1, DC_Scorchling);
+            dccsWormsFamily.minimumStageCompletion = 7;
             dccsWormsFamily.maximumStageCompletion = 1000000;
             dccsWormsFamily.name = "dccsWormsFamily";
             dccsWormsFamily.selectionChatString = "<style=cWorldEvent>[WARNING] His brother loved worms..</style>";
@@ -788,12 +1338,14 @@ namespace LittleGameplayTweaks
             dccsVoidFamily.minimumStageCompletion = 4;
 
             dccsParentFamily.AddCategory("Champions", 4);
-            dccsParentFamily.AddCard(1, DSGrandparent);
+            dccsParentFamily.AddCard(1, DC_Grandparent);
+            dccsParentFamily.AddCategory("Basic", 6);
+            dccsParentFamily.AddCard(2, DC_Child);
             dccsParentFamily.selectionChatString = "<style=cWorldEvent>[WARNING] A familial bond is being interrupted..</style>";
 
             dccsGupFamily.categories[0].cards[0].selectionWeight = 3;
-            dccsGupFamily.AddCard(0, DSGeep);
-            dccsGupFamily.AddCard(0, DSGip);
+            dccsGupFamily.AddCard(0, DC_Geep);
+            dccsGupFamily.AddCard(0, DC_Gip);
 
             RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGeepBody").directorCreditCost = 60;
             RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGipBody").directorCreditCost = 25;
@@ -893,7 +1445,7 @@ namespace LittleGameplayTweaks
         }
 
         //RiskyMod broke my spawn pool changes maybe other mods do too so I guess we'll just do this
-        public static int FindCardIg(DirectorCard[] insert, string LookingFor)
+        public static int FindSpawnCard(DirectorCard[] insert, string LookingFor)
         {
             for (int i = 0; i < insert.Length; i++)
             {
@@ -921,7 +1473,7 @@ namespace LittleGameplayTweaks
                     case "cscSigmaConstruct":
                         if (CSCList[i].directorCreditCost > 0)
                         {
-                            DirectorCard DS_Sigma = new DirectorCard
+                            DirectorCard DC__Sigma = new DirectorCard
                             {
                                 spawnCard = CSCList[i],
                                 selectionWeight = 1,
@@ -929,7 +1481,7 @@ namespace LittleGameplayTweaks
                                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
                             };
                             dccsConstructFamily.AddCategory("Minibosses", 1);
-                            dccsConstructFamily.AddCard(2, DS_Sigma);
+                            dccsConstructFamily.AddCard(2, DC__Sigma);
                         }
                         break;
                     case "cscClayMan":
@@ -963,5 +1515,20 @@ namespace LittleGameplayTweaks
                 }
             }
         }
+
+        private static void FixSulfurPoolsBeetleQueen(On.EntityStates.BeetleQueenMonster.SummonEggs.orig_OnEnter orig, EntityStates.BeetleQueenMonster.SummonEggs self)
+        {
+            orig(self);
+            if (self.characterBody.skinIndex > 0)
+            {
+                EntityStates.BeetleQueenMonster.SummonEggs.spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleGuardSulfur.asset").WaitForCompletion();
+            }
+            else
+            {
+                EntityStates.BeetleQueenMonster.SummonEggs.spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscBeetleGuard");
+            }
+
+        }
+
     }
 }

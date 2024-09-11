@@ -21,7 +21,7 @@ using UnityEngine.Networking;
 namespace LittleGameplayTweaks
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("com.Wolfo.LittleGameplayTweaks", "LittleGameplayTweaks", "2.5.0")]
+    [BepInPlugin("com.Wolfo.LittleGameplayTweaks", "LittleGameplayTweaks", "3.0.2")]
     //[R2APISubmoduleDependency(nameof(ContentAddition), nameof(LanguageAPI), nameof(PrefabAPI), nameof(ItemAPI), nameof(LoadoutAPI), nameof(EliteAPI))]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
 
@@ -41,7 +41,8 @@ namespace LittleGameplayTweaks
             DCCSEnemies.Start();
             DCCSInteractables.Start();
 
-            ChangesItems.Start();
+            GameModeCatalog.availability.CallWhenAvailable(EquipmentBonusRate);
+            //ChangesItems.Start();
             ChangesCharacters.Start();
             ChangesInteractables.Start();
 
@@ -80,7 +81,7 @@ namespace LittleGameplayTweaks
 
             DCCSEnemies.ModSupport();
             ChangesInteractables.ModSupport();
-            ChangesItems.ItemsLate();
+            //ChangesItems.ItemsLate();
             GameModeCatalog.FindGameModePrefabComponent("WeeklyRun").startingScenes = GameModeCatalog.FindGameModePrefabComponent("ClassicRun").startingScenes;
 
             RoR2Content.Items.BonusGoldPackOnKill.tags = RoR2Content.Items.BonusGoldPackOnKill.tags.Add(ItemTag.AIBlacklist);
@@ -153,18 +154,22 @@ namespace LittleGameplayTweaks
                     }
                     break;
                 case "goolake":
-                    Inventory[] InventoryList = UnityEngine.Object.FindObjectsOfType(typeof(RoR2.Inventory)) as RoR2.Inventory[];
-                    for (var i = 0; i < InventoryList.Length; i++)
+                    if (WConfig.cfgElderLemurianBands.Value == true)
                     {
-                        if (NetworkServer.active)
+                        Inventory[] InventoryList = UnityEngine.Object.FindObjectsOfType(typeof(RoR2.Inventory)) as RoR2.Inventory[];
+                        for (var i = 0; i < InventoryList.Length; i++)
                         {
-                            //Debug.LogWarning(InventoryList[i]); ////DISABLE THIS
-                            if (InventoryList[i].name.StartsWith("LemurianBruiserFireMaster") || InventoryList[i].name.StartsWith("LemurianBruiserIceMaster"))
+                            if (NetworkServer.active)
                             {
-                                InventoryList[i].GiveItem(RoR2Content.Items.UseAmbientLevel);
-                                InventoryList[i].GiveItem(RoR2Content.Items.BoostHp, 15);
-                                InventoryList[i].GiveItem(ChangesCharacters.MarriageLemurianIdentifier);
+                                //Debug.LogWarning(InventoryList[i]); ////DISABLE THIS
+                                if (InventoryList[i].name.StartsWith("LemurianBruiserFireMaster") || InventoryList[i].name.StartsWith("LemurianBruiserIceMaster"))
+                                {
+                                    InventoryList[i].GiveItem(RoR2Content.Items.UseAmbientLevel);
+                                    InventoryList[i].GiveItem(ChangesCharacters.MarriageLemurianIdentifier);
+                                }
                             }
+
+                            
                         }
                     }
                     break;
@@ -217,8 +222,8 @@ namespace LittleGameplayTweaks
                                 {
                                     instant = 2;
                                     GameObject newseer = GameObject.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/SeerStation.prefab").WaitForCompletion(), seerList[i].gameObject.transform.parent);                 
-                                    newseer.transform.localPosition = new Vector3(10f, -0.81f, 4f);
-                                    newseer.transform.localRotation = new Quaternion(0f, 0.3827f, 0f, -0.9239f);
+                                    newseer.transform.localPosition = new Vector3(-45.9807f, -15.22f, 9.5654f);
+                                    newseer.transform.localRotation = new Quaternion(0f, 0.7772f, 0f, 0.6293f);
                                     if (nextscenelist.Count > 0)
                                     {
                                         newseer.GetComponent<SeerStationController>().SetTargetScene(nextscenelist[random.Next(nextscenelist.Count)]);
@@ -345,6 +350,23 @@ namespace LittleGameplayTweaks
             }
         }
 
+        public static void EquipmentBonusRate()
+        {
+            /*if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.TPDespair.ZetAspects"))
+            {
+                //This is probably not even needed
+                Debug.Log("LittleGameplayTweaks : Zet Aspects, not changing Elite Equip drop chance");
+                return;
+            }*/
+            for (int i = 0; i < EliteCatalog.eliteDefs.Length; i++)
+            {
+                //Debug.LogWarning(EliteCatalog.eliteDefs[i].eliteEquipmentDef);
+                if (EliteCatalog.eliteDefs[i].eliteEquipmentDef.dropOnDeathChance == 0.00025f)
+                {
+                    EliteCatalog.eliteDefs[i].eliteEquipmentDef.dropOnDeathChance = WConfig.BonusAspectDropRate.Value / 100;
+                }
+            }
+        }
 
         private static bool ColliderPickup(Collider collider)
         {

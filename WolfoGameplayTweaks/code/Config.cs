@@ -14,6 +14,7 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<float> DCCSEnemyFamilyChance;
         //
         public static ConfigEntry<bool> DCCSInteractableChanges;
+        public static ConfigEntry<bool> DCCSCategoryChest;
         public static ConfigEntry<bool> DCCSInteractableCostChanges;
         public static ConfigEntry<bool> DCCSInteractablesStageCredits;
         public static ConfigEntry<bool> cfgGoldShoresCredits;
@@ -28,7 +29,10 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> InteractableNoLunarCost;
         public static ConfigEntry<bool> InteractableHealingShrine;
         public static ConfigEntry<bool> InteractableBloodShrineScaleWithTime;
+        public static ConfigEntry<bool> InteractableBloodShrineLessCost;
         public static ConfigEntry<bool> InteractablesCombatShrineHP;
+
+        public static ConfigEntry<bool> InteractableFastHalcyShrine;
 
         public static ConfigEntry<int> InteractableRedSoupAmount;
         public static ConfigEntry<int> MegaDroneCost;
@@ -42,12 +46,14 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> CharactersVoidFiendEquip;
         //
         //Changes - Items
-        public static ConfigEntry<bool> ItemsCaptainMatrix;
-        public static ConfigEntry<bool> ItemsScopeBuff;
-        public static ConfigEntry<bool> ItemsEuologyLunarElites;
-        public static ConfigEntry<bool> ItemSquidMechanical;
-        public static ConfigEntry<bool> ItemDefenseNucleus;
-        public static ConfigEntry<bool> MinionsInherit;
+        //public static ConfigEntry<bool> ItemsCaptainMatrix;
+        //public static ConfigEntry<bool> ItemsScopeBuff;
+        //public static ConfigEntry<bool> ItemsKnurlArmor;
+        //public static ConfigEntry<bool> ItemsVoidRing;
+        //public static ConfigEntry<bool> ItemsEuologyLunarElites;
+        //public static ConfigEntry<bool> ItemSquidMechanical;
+        //public static ConfigEntry<bool> ItemDefenseNucleus;
+        //public static ConfigEntry<bool> MinionsInherit;
         //
         //Changes - Enemies
         public static ConfigEntry<bool> cfgScavBossItem;
@@ -55,6 +61,7 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> cfgScavNewTwisted;
         public static ConfigEntry<bool> cfgScavTwistedScaling;
         public static ConfigEntry<bool> cfgMendingCoreBuff;
+        public static ConfigEntry<bool> cfgElderLemurianBands;
         //public static ConfigEntry<bool> cfgVoidlingNerf;
         //
         //Rates
@@ -105,6 +112,12 @@ namespace LittleGameplayTweaks
                 "Changes to spawn interactable spawn pools",
                 true,
                 "Mountain Shrine on Sulfur Pools, No Gunner Turret on Stage 4 & 5, Rare Printers and Cleansing Pools are a bit more common."
+            );
+            DCCSCategoryChest = ConfigFileUNSORTED.Bind(
+                "Spawnpool - Interactables",
+                "Category Chest limitation",
+                false,
+                "Only one type of Category chest per stage. This feature was cut from the mod, but config for people who still want it."
             );
             DCCSInteractableCostChanges = ConfigFileUNSORTED.Bind(
                 "Spawnpool - Interactables",
@@ -162,6 +175,18 @@ namespace LittleGameplayTweaks
                 true,
                 "Normally Blood Shrines Reward is only based on HP quickly making them a bad source of money"
             );
+            InteractableBloodShrineLessCost = ConfigFileUNSORTED.Bind(
+                "Changes - Interactables",
+                "Blood Shrine 50 70 90",
+                true,
+                "Less cost cuz 75 blood cost breaks items. Also means you get less gold ig"
+            );
+            InteractableFastHalcyShrine = ConfigFileUNSORTED.Bind(
+                "Changes - Interactables",
+                "Halcy Shrine suck gold faster",
+                true,
+                "Suck gold at rate of 3 instead of 1"
+            );
             InteractablesCombatShrineHP = ConfigFileUNSORTED.Bind(
                 "Changes - Interactables",
                 "Combat Shrine enemies multipled HP in multiplayer",
@@ -203,7 +228,7 @@ namespace LittleGameplayTweaks
 
             //
             //Changes - Items
-            ItemsCaptainMatrix = ConfigFileUNSORTED.Bind(
+            /*ItemsCaptainMatrix = ConfigFileUNSORTED.Bind(
                 "Changes - Items",
                 "Red Defense Microbots",
                 false,
@@ -214,6 +239,12 @@ namespace LittleGameplayTweaks
                 "Laser Scope gives 10 crit",
                 true,
                 "Other crit items give crit chance on first stack"
+            );
+            ItemsKnurlArmor = ConfigFileUNSORTED.Bind(
+                "Changes - Items",
+                "Knurl gives 14 Armor",
+                true,
+                "The stats it gives arent that important and not many items give armor."
             );
             ItemsEuologyLunarElites = ConfigFileUNSORTED.Bind(
                 "Changes - Items",
@@ -238,7 +269,7 @@ namespace LittleGameplayTweaks
                 "Minions Inherit Elite Equip",
                 true,
                 "If you have a Elite Aspect your minions spawn as Elites"
-            );
+            );*/
             //
             //Changes - Characters
             CharactersCaptainKeepInHiddemRealm = ConfigFileUNSORTED.Bind(
@@ -302,8 +333,14 @@ namespace LittleGameplayTweaks
                 "Changes - Enemies",
                 "Mending Healing Core",
                 true,
-                "Mending Healing Core starts with some invulnerability and has more hp."
+                "Mending Healing Core heals more and with some invulnerability."
             );
+            cfgElderLemurianBands = ConfigFileUNSORTED.Bind(
+                 "Changes - Enemies",
+                 "Aquaduct Elder Lemurian Buff",
+                 true,
+                 "They will be able to activate their bands and scale with level."
+             );
             /*cfgVoidlingNerf = ConfigFileUNSORTED.Bind(
                 "Changes - Enemies",
                 "Nerf Voidlings damage",

@@ -23,6 +23,10 @@ namespace LittleGameplayTweaks
 
         public static void Start()
         {
+            CharacterBody TwipTwip = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar3Body").GetComponent<CharacterBody>();
+            TwipTwip.baseMaxHealth *= 0.8f;
+            TwipTwip.levelMaxHealth *= 0.8f;
+
             MultiCharacterSpawnCard cscScavLunar = LegacyResourcesAPI.Load<MultiCharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScavLunar");
 
             cscScavLunar.masterPrefabs[0].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath;
@@ -103,12 +107,12 @@ namespace LittleGameplayTweaks
             ScavLunarWTankMaster.GetComponent<GivePickupsOnStart>().equipmentString = "CrippleWard";
             ScavLunarWTankMaster.GetComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
                 new GivePickupsOnStart.ItemInfo { itemString = ("Bear"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("OutOfCombatArmor"), count = 3, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("BarrierOnKill"), count = 5, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("ArmorPlate"), count = 3, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("SlowOnHit"), count = 3, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("IceRing"), count = 2, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("ImmuneToDebuff"), count = 2, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("OutOfCombatArmor"), count = 1, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("BarrierOnKill"), count = 1, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("ArmorPlate"), count = 1, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("SlowOnHit"), count = 1, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("IceRing"), count = 1, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("ImmuneToDebuff"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("HalfAttackSpeedHalfCooldowns"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("HalfSpeedDoubleHealth"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("SecondarySkillMagazine"), count = 3, },
@@ -128,8 +132,8 @@ namespace LittleGameplayTweaks
             ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[4].shouldFireEquipment = true;
             ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().equipmentString = "GummyClone";
             ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                new GivePickupsOnStart.ItemInfo { itemString = ("BoostEquipmentRecharge"), count = 40, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("EquipmentMagazine"), count = 2, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("BoostEquipmentRecharge"), count = 10, },
+                //new GivePickupsOnStart.ItemInfo { itemString = ("EquipmentMagazine"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("PermanentDebuffOnHit"), count = 2, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("RandomDamageZone"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("Incubator"), count = 3, },
@@ -137,7 +141,7 @@ namespace LittleGameplayTweaks
                 new GivePickupsOnStart.ItemInfo { itemString = ("LevelBonus"), count = 1, },
                 //Decorations
                 new GivePickupsOnStart.ItemInfo { itemString = ("RegeneratingScrap"), count = 5, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("GhostOnKill"), count = 1, },
+                //new GivePickupsOnStart.ItemInfo { itemString = ("GhostOnKill"), count = 1, }, //Causes issues with FlatItemBuffs rework
                 new GivePickupsOnStart.ItemInfo { itemString = ("SprintWisp"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
             };
@@ -173,9 +177,12 @@ namespace LittleGameplayTweaks
             On.RoR2.GivePickupsOnStart.Start += (orig, self) =>
             {
                 orig(self);
-                if (self.inventory && self.inventory.GetItemCount(DLC1Content.Items.GummyCloneIdentifier) > 0)
+                if (self.inventory )
                 {
-                    self.inventory.SetEquipmentIndex(EquipmentIndex.None);
+                    if (self.inventory.GetItemCount(DLC1Content.Items.GummyCloneIdentifier) > 0 || self.inventory.GetItemCount(RoR2Content.Items.Ghost) > 0)
+                    {
+                        self.inventory.SetEquipmentIndex(EquipmentIndex.None);
+                    }
                 };
             };
 

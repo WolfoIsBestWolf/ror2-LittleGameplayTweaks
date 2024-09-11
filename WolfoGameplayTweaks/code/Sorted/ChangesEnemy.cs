@@ -46,7 +46,7 @@ namespace LittleGameplayTweaks
                     if (self.characterBody)
                     {
                         //self.characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
-                        self.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 2.5f);
+                        self.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 2f);
                     }
                 };
             }
@@ -369,8 +369,11 @@ namespace LittleGameplayTweaks
 
         public static void MarriedEldersBands()
         {
-            IL.EntityStates.LemurianBruiserMonster.FireMegaFireball.FixedUpdate += MarriedLemurianBandActivator;
-            On.RoR2.Util.GetBestBodyName += MarriedLemurianNameHook; //Maybe a little excessive idk
+            if (WConfig.cfgElderLemurianBands.Value == true)
+            {
+                IL.EntityStates.LemurianBruiserMonster.FireMegaFireball.FixedUpdate += MarriedLemurianBandActivator;
+                On.RoR2.Util.GetBestBodyName += MarriedLemurianNameHook; //Maybe a little excessive idk
+            }
 
             ItemDef AACannon = LegacyResourcesAPI.Load<ItemDef>("ItemDefs/AACannon");
             MarriageLemurianIdentifier.name = "MarriageLemurianIdentifier";
@@ -383,6 +386,20 @@ namespace LittleGameplayTweaks
             MarriageLemurianIdentifier.canRemove = false;
             MarriageLemurianIdentifier.pickupIconSprite = AACannon.pickupIconSprite;
             MarriageLemurianIdentifier.pickupModelPrefab = AACannon.pickupModelPrefab;
+
+            RecalculateStatsAPI.GetStatCoefficients += delegate (CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)
+            {
+                bool flag = sender.inventory != null;
+                if (flag)
+                {
+                    if (sender.inventory.GetItemCount(MarriageLemurianIdentifier) > 0)
+                    {
+                        args.damageMultAdd += -0.5f;
+                        args.healthMultAdd += -0.5f;
+                    }
+                }
+            };
+
 
             CustomItem customItem = new CustomItem(MarriageLemurianIdentifier, new ItemDisplayRule[0]);
             ItemAPI.Add(customItem);
@@ -400,7 +417,7 @@ namespace LittleGameplayTweaks
                 {
                     if (entityState.characterBody.inventory.GetItemCount(MarriageLemurianIdentifier) == 1)
                     {
-                        entityState.characterBody.ClearTimedBuffs(RoR2Content.Buffs.ElementalRingsCooldown);
+                        //entityState.characterBody.ClearTimedBuffs(RoR2Content.Buffs.ElementalRingsCooldown);
                         return 4f;
                     }
                     return damageCoeff;
