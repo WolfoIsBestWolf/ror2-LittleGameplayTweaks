@@ -107,33 +107,20 @@ namespace LittleGameplayTweaks
 
 
             RoR2.CharacterAI.AISkillDriver[] skilllist = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavMaster").GetComponents<RoR2.CharacterAI.AISkillDriver>();
-            for (var i = 0; i < skilllist.Length; i++)
-            {
-                if (skilllist[i].customName.Contains("Sit"))
-                {
-                    skilllist[i].maxUserHealthFraction = 1f;
-                    skilllist[i].minUserHealthFraction = 0.3f;
-                    //skilllist[i].moveTargetType = RoR2.CharacterAI.AISkillDriver.TargetType.NearestFriendlyInSkillRange;
-                    skilllist[i].selectionRequiresOnGround = false;
-                    skilllist[i].maxDistance = 1000;
-                    skilllist[i].minDistance = 60;
-                }
-            }
+            skilllist[1].maxUserHealthFraction = 1f;
+            skilllist[1].minUserHealthFraction = 0.3f;
+            skilllist[1].selectionRequiresOnGround = false;
+            skilllist[1].maxDistance = 1000;
+            skilllist[1].minDistance = 60;
+
 
             //Walkers Sprinting more
             skilllist = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/EngiWalkerTurretMaster").GetComponents<RoR2.CharacterAI.AISkillDriver>();
-            for (var i = 0; i < skilllist.Length; i++)
+            skilllist[0].shouldSprint = true;
+            if (skilllist[0].minDistance == 110)
             {
-                if (skilllist[i].customName.StartsWith("ReturnToLeader"))
-                {
-                    skilllist[i].shouldSprint = true;
-                    if (skilllist[i].minDistance == 110)
-                    {
-                        skilllist[i].minDistance = 50;
-                    }
-                }
+                skilllist[0].minDistance = 50;
             }
-
 
             //Equipment Drone fire Equipment even if no enemies
             skilllist = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/EquipmentDroneMaster").GetComponents<RoR2.CharacterAI.AISkillDriver>();
@@ -141,6 +128,24 @@ namespace LittleGameplayTweaks
             skilllist[2].shouldFireEquipment = true;
             skilllist[5].shouldFireEquipment = true;
             skilllist[6].shouldFireEquipment = true;
+
+            //
+            //XI
+            skilllist = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/MajorAndMinorConstruct/MegaConstructMaster.prefab").WaitForCompletion().GetComponents<RoR2.CharacterAI.AISkillDriver>();
+            //0 SpawnMinorConstructs
+            //1 Shield
+            //2 FollowFast
+            //3 ShootStep
+            //4 FollowStep
+            //5 StrafeStep
+            //6 FleeStep
+            //7 StopStep
+            if (skilllist.Length > 6)
+            {
+                skilllist[6].enabled = false;
+            }
+
+
         }
 
         public static void Characters()

@@ -8,6 +8,9 @@ namespace LittleGameplayTweaks
         public static ConfigFile ConfigFileUNSORTED = new ConfigFile(Paths.ConfigPath + "\\Wolfo.Little_Gameplay_Tweaks.cfg", true);
 
         //
+        public static ConfigEntry<bool> LevelMaximum;
+
+
         public static ConfigEntry<bool> DCCSEnemyChanges;
         public static ConfigEntry<bool> DCCSEnemyChangesLooping;
         public static ConfigEntry<bool> DCCSEnemyNewFamilies;
@@ -16,15 +19,23 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> DCCSInteractableChanges;
         public static ConfigEntry<bool> DCCSCategoryChest;
         public static ConfigEntry<bool> DCCSInteractableCostChanges;
-        public static ConfigEntry<bool> DCCSInteractablesStageCredits;
-        public static ConfigEntry<bool> cfgGoldShoresCredits;
+       
+
         public static ConfigEntry<float> InteractablesMountainMultiplier;
+
+        //
+        //Changes - Stages
+        public static ConfigEntry<bool> DCCSInteractablesStageCredits;
+        public static ConfigEntry<bool> cfgVoidStagesNoTime;
+        public static ConfigEntry<bool> cfgGoldShoresCredits;
+        public static ConfigEntry<bool> cfgLoopWeather;
         //
         //Changes - Interactables
         public static ConfigEntry<bool> FasterPrinter;
         public static ConfigEntry<bool> FasterScrapper;
         public static ConfigEntry<bool> FasterShrines;
         public static ConfigEntry<int> FasterDeepVoidSignal;
+        public static ConfigEntry<bool> FasterArenaCells;
 
         public static ConfigEntry<bool> InteractableNoLunarCost;
         public static ConfigEntry<bool> InteractableHealingShrine;
@@ -80,6 +91,13 @@ namespace LittleGameplayTweaks
 
         public static void InitConfig()
         {
+            LevelMaximum = ConfigFileUNSORTED.Bind(
+                "!Optional",
+                "999 Maximum Level",
+                false,
+                "Makes enemy level go up to level 999. This will make looping a lot more dangerous but it's my preferred way to play."
+            );
+
             //DCCS Enemy
             DCCSEnemyChanges = ConfigFileUNSORTED.Bind(
                 "Spawnpool - Enemy",
@@ -102,7 +120,7 @@ namespace LittleGameplayTweaks
             DCCSEnemyFamilyChance = ConfigFileUNSORTED.Bind(
                 "Spawnpool - Enemy",
                 "Family event weight",
-                2.5f,
+                2.22f,
                 "Weight for family event. Vanilla is 2"
             );
             //
@@ -125,23 +143,39 @@ namespace LittleGameplayTweaks
                 true,
                 "Combat and Blood shrines most notably"
             );
-            DCCSInteractablesStageCredits = ConfigFileUNSORTED.Bind(
-                "Spawnpool - Interactables",
-                "Makes certain stages have more credits",
-                true,
-                "Plains & Roost & Aquaduct get +20, Sirens & Grove get +40."
-            );
-            cfgGoldShoresCredits = ConfigFileUNSORTED.Bind(
-                "Spawnpool - Interactables",
-                "Gilded Coast gets interactables",
-                true,
-                "Mostly combat shrines"
-            );
+
+
             InteractablesMountainMultiplier = ConfigFileUNSORTED.Bind(
                 "Spawnpool - Interactables",
                 "Mountain Shrine multiplier",
                 2f,
                 "Multiply Mountain Shrine weight compared to other shrines"
+            );
+            //
+            //
+            DCCSInteractablesStageCredits = ConfigFileUNSORTED.Bind(
+                "Changes - Stages",
+                "Makes certain stages have more credits",
+                true,
+                "Plains & Roost & Aquaduct get +20, Sirens & Grove get +40."
+            );
+            cfgVoidStagesNoTime = ConfigFileUNSORTED.Bind(
+                "Changes - Stages",
+                "Make all 3 Void Stages untimed stages",
+                true,
+                "Untimed but counts as stage completed"
+            );
+            cfgGoldShoresCredits = ConfigFileUNSORTED.Bind(
+                "Changes - Stages",
+                "Gilded Coast gets interactables",
+                true,
+                "Mostly combat shrines"
+            );
+            cfgLoopWeather = ConfigFileUNSORTED.Bind(
+                "Changes - Stages",
+                "Loop Weather for some more stages",
+                true,
+                "Nothing nearly as fancy as the other ones."
             );
             //
             //Changes - Interactables
@@ -168,6 +202,12 @@ namespace LittleGameplayTweaks
                 "Faster Deep Void Signal",
                 45,
                 "Vanilla is 60."
+            );
+            FasterArenaCells = ConfigFileUNSORTED.Bind(
+                "Changes - Interactables",
+                "Faster Void Fields Cells",
+                true,
+                "30s for the first 4, 45s for the next 4, 60s for the last. Arena Cells emmit regen."
             );
             InteractableBloodShrineScaleWithTime = ConfigFileUNSORTED.Bind(
                 "Changes - Interactables",
@@ -373,8 +413,8 @@ namespace LittleGameplayTweaks
             //Rates
             YellowPercentage = ConfigFileUNSORTED.Bind(
                 "Rates",
-                "Boss Item Percent",
-                25f,
+                "Boss Item TP Percent",
+                20f,
                 "Percent for a yellow item to replace a green from a teleporter. Vanilla is 15"
             );
             BonusAspectDropRate = ConfigFileUNSORTED.Bind(

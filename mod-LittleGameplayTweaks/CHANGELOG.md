@@ -1,5 +1,48 @@
 ## Changelog:
 ```
+v3.1.0 -
+Added 2 loop weathers variants. (Sunset Plains, Dusk Acres) (No terrain chanes, disabled with Stage Aesthetics)
+
+The portal after False Son now takes you to A stage 5 instead of always Helminth Roost.
+
+Void Fields, Void Locus and Planetarium now all count as a stage but don't have time pass.
+Cells now take less time to charge.
+(30 for the first 4, 45 the next 4, 60 the last)
+(3 minutes less charging)
+Cells now emmit regeneration before activation.
+
+!Fixed Disturbed Impact using the wrong interactables spawn pool. (Vanilla bug)
+!Fixed Golden Dieback using the wrong monster and interactable spawn pool. (Vanilla bug)
+!Fixed old stage 3s, 4s, 5s never spawning Sots interactables. (Vanilla bug)
+!Fixed Distant Roost(2) never spawning Sotv or Sots monsters or interactables. (Gearbox reintroduced this bug)
+!Fixed Wetlands Aspect never spawning Sotv or Sots monsters or interactables. (Gearbox reintroduced this bug)
+
+~Replaced Lesser Wisp with Jellyfish on Verdant/Viscous Falls
++Loop Parent on Viscous Falls
++Loop Solus Control Unit on Viscous Falls
+
++Loop Hermit Crab on Aquaduct
+~Moved Loop Acid Larva from Aquaduct to Wetlands
++Bison on Reformed Altar
+~More minibosses on Reformed Altar
+
+!Less Grandparent on Helminth
++Likelier Void Devestators from Void Seeds. (Especially on Loops)
+~Adjusted rates of various loop exclusive enemies.
+
+Added TC280 to Disturbed Impact
+Added Shrine of Order to Shattered Abode, Reformed Altar (as Shrine)
+Added Shrine of Order to Siphoned Forest, Aphelian Sanctuary, Void Fields (as Rare)
+
+Shrine of Shaping now costs 40 credits (instead of 50) and only starts spawning on stage 3 (instead of 2).
+
+XI construct now flees less, hopefully making the fight better.
+Mod no longer increases Yellow Printer rates.
+Boss item drop rate lowered to 1/5 (down from 1/4)
+Config to allow enemies to level up to 999. (Disabled by default)
+
+
+
 v3.0.2
 Less interactables in Gilded Coast
 Yellow printers no longer appear on stage 2 (mod was meant to make them stage 3 earliest but didn't work)

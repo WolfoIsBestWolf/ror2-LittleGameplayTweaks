@@ -12,6 +12,7 @@ namespace LittleGameplayTweaks
     public class ChangesInteractables
     {
         public static InteractableSpawnCard RedMultiShopISC = ScriptableObject.CreateInstance<InteractableSpawnCard>();
+        public static DirectorCard ADTrippleRed = new DirectorCard { };
         public static InteractableSpawnCard iscShrineGoldFake = Object.Instantiate(LegacyResourcesAPI.Load<InteractableSpawnCard>("SpawnCards/InteractableSpawnCard/iscShrineGoldshoresAccess"));
         public static readonly GameObject MiliMutliShopMain = R2API.PrefabAPI.InstantiateClone(Resources.Load<GameObject>("prefabs/networkedobjects/chest/TripleShopLarge"), "TripleShopRed", true);
         public static readonly GameObject MiliMutliShopTerminal = R2API.PrefabAPI.InstantiateClone(Resources.Load<GameObject>("prefabs/networkedobjects/chest/MultiShopLargeTerminal"), "MultiShopRedTerminal", true);
@@ -69,7 +70,6 @@ namespace LittleGameplayTweaks
                 ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombatSnowy Variant.prefab").WaitForCompletion();
                 ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
             }
-
 
             //This is kinda dumb
             On.EntityStates.LunarTeleporter.LunarTeleporterBaseState.FixedUpdate += LunarTeleporterBaseState_FixedUpdate;
@@ -407,6 +407,10 @@ namespace LittleGameplayTweaks
             RedMultiShopISC.orientToFloor = false;
             RedMultiShopISC.slightlyRandomizeOrientation = false;
             RedMultiShopISC.skipSpawnWhenSacrificeArtifactEnabled = true;
+
+            ADTrippleRed.spawnCard = ChangesInteractables.RedMultiShopISC;
+                ADTrippleRed.selectionWeight = 2;
+            ADTrippleRed.minimumStageCompletions = 4;
         }
 
 

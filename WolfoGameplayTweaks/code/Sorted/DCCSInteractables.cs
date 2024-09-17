@@ -1,6 +1,9 @@
 using RoR2;
 //using System;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
+using RoR2.ExpansionManagement;
+using HG;
 
 namespace LittleGameplayTweaks
 {
@@ -14,26 +17,20 @@ namespace LittleGameplayTweaks
                 DCCSThings_NoDLC();
                 DCCSThings_DLC1();
                 DCCSThings_DLC2();
+                FixSotsSpawnpools();
             }
-            if (WConfig.DCCSInteractablesStageCredits.Value)
-            {
-                On.RoR2.ClassicStageInfo.Start += MoreSceneCredits;
-            }
-            if (WConfig.cfgGoldShoresCredits.Value)
-            {
-                On.RoR2.ClassicStageInfo.Start += GoldShoresCredits;
-            }
+            
+
             if (WConfig.DCCSInteractableCostChanges.Value == true)
             {
                 Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/DuplicatorWild/iscDuplicatorWild.asset").WaitForCompletion().directorCreditCost = 15; //10 Default
 
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/VoidTriple/iscVoidTriple.asset").WaitForCompletion().directorCreditCost = 25; //40 default
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/VoidTriple/iscVoidTriple.asset").WaitForCompletion().directorCreditCost = 30; //40 default
                 
                 //Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/VoidCoinBarrel/iscVoidCoinBarrel.asset").WaitForCompletion().directorCreditCost = 15; //15 default
                 RoR2.LegacyResourcesAPI.Load<InteractableSpawnCard>("SpawnCards/InteractableSpawnCard/iscLunarChest").directorCreditCost = 15; //25 default
                 RoR2.LegacyResourcesAPI.Load<InteractableSpawnCard>("SpawnCards/InteractableSpawnCard/iscLunarChest").requiredFlags = 0;
                 RoR2.LegacyResourcesAPI.Load<InteractableSpawnCard>("SpawnCards/InteractableSpawnCard/iscBrokenMegaDrone").directorCreditCost = 25;
-               
 
                 RoR2.LegacyResourcesAPI.Load<InteractableSpawnCard>("SpawnCards/InteractableSpawnCard/iscShrineHealing").directorCreditCost = 5;
 
@@ -41,14 +38,129 @@ namespace LittleGameplayTweaks
                 Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSandy.asset").WaitForCompletion().directorCreditCost = 5;
                 Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSnowy.asset").WaitForCompletion().directorCreditCost = 5;
 
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBlood/iscShrineBlood.asset").WaitForCompletion().directorCreditCost -= 5; //20 default
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBlood/iscShrineBloodSandy.asset").WaitForCompletion().directorCreditCost -= 5;
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBlood/iscShrineBloodSnowy.asset").WaitForCompletion().directorCreditCost -= 5;
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBlood/iscShrineBlood.asset").WaitForCompletion().directorCreditCost = 15; //20 default
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBlood/iscShrineBloodSandy.asset").WaitForCompletion().directorCreditCost = 15;
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBlood/iscShrineBloodSnowy.asset").WaitForCompletion().directorCreditCost = 15;
 
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCombat/iscShrineCombat.asset").WaitForCompletion().directorCreditCost -= 5; //20 default
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCombat/iscShrineCombatSandy.asset").WaitForCompletion().directorCreditCost -= 5;
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCombat/iscShrineCombatSnowy.asset").WaitForCompletion().directorCreditCost -= 5;
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCombat/iscShrineCombat.asset").WaitForCompletion().directorCreditCost = 15; //20 default
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCombat/iscShrineCombatSandy.asset").WaitForCompletion().directorCreditCost = 15;
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCombat/iscShrineCombatSnowy.asset").WaitForCompletion().directorCreditCost = 15;
+
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC2/iscShrineColossusAccess.asset").WaitForCompletion().directorCreditCost = 40;
+
             }
+
+
+        }
+
+        public static void FixSotsSpawnpools()
+        {
+            Debug.Log("Gearbox Games");
+            ExpansionDef DLC2 = Addressables.LoadAssetAsync<ExpansionDef>(key: "RoR2/DLC2/Common/DLC2.asset").WaitForCompletion();
+            ExpansionDef[] required = new ExpansionDef[] { DLC2 };
+
+
+            DccsPool dpFrozenWallInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/frozenwall/dpFrozenWallInteractables.asset").WaitForCompletion();
+            DccsPool dpWispGraveyardInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/wispgraveyard/dpWispGraveyardInteractables.asset").WaitForCompletion();
+            DccsPool dpSulfurPoolsInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC1/sulfurpools/dpSulfurPoolsInteractables.asset").WaitForCompletion();
+            DccsPool dpHabitatfallInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/habitatfall/dpHabitatfallInteractables.asset").WaitForCompletion();
+
+            DccsPool dpDampCaveInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/dampcave/dpDampCaveInteractables.asset").WaitForCompletion();
+            DccsPool dpShipgraveyardInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/shipgraveyard/dpShipgraveyardInteractables.asset").WaitForCompletion();
+            DccsPool dpRootJungleInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/rootjungle/dpRootJungleInteractables.asset").WaitForCompletion();
+            
+            DccsPool dpSkyMeadowInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/skymeadow/dpSkyMeadowInteractables.asset").WaitForCompletion();
+
+             DccsPool dpArtifactWorld02Monsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/artifactworld02/dpArtifactWorld02Monsters.asset").WaitForCompletion();
+
+
+            DirectorCardCategorySelection dccsFrozenWallInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsFrozenWallInteractablesDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsWispGraveyardInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsWispGraveyardInteractablesDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsSulfurPoolsInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsSulfurPoolsInteractablesDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsHabitatfallInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/habitatfall/dccsHabitatfallInteractables.asset").WaitForCompletion();
+
+            DirectorCardCategorySelection dccsDampCaveInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsDampCaveInteractablesDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsShipgraveyardInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsShipgraveyardInteractablesDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsRootJungleInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsRootJungleInteractablesDLC2.asset").WaitForCompletion();
+
+            DirectorCardCategorySelection dccsSkyMeadowInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsSkyMeadowInteractablesDLC2.asset").WaitForCompletion();
+
+            DirectorCardCategorySelection dccsArtifactWorld02Monsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/artifactworld02/dccsArtifactWorld02Monsters_DLC1.asset").WaitForCompletion();
+
+
+
+            //
+            DirectorCardCategorySelection dccsITDampCaveMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC1/itdampcave/dccsITDampCaveMonstersDLC2.asset").WaitForCompletion();
+            DccsPool dpITDampCaveMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC1/itdampcave/dpITDampCaveMonsters.asset").WaitForCompletion();
+
+            dpITDampCaveMonsters.poolCategories[0].includedIfConditionsMet[0].dccs = dccsITDampCaveMonstersDLC2;
+            //
+            dpArtifactWorld02Monsters.poolCategories[0].includedIfConditionsMet[0].dccs = dccsArtifactWorld02Monsters_DLC1;
+            //
+            dpHabitatfallInteractables.poolCategories[0].includedIfConditionsMet[0].dccs = dccsHabitatfallInteractables;
+
+
+            //
+
+            DccsPool.ConditionalPoolEntry NEW_ENTRY = new DccsPool.ConditionalPoolEntry
+            {
+                dccs = dccsFrozenWallInteractablesDLC2,
+                requiredExpansions = required,
+                weight = 1,
+            };
+            ArrayUtils.ArrayAppend(ref dpFrozenWallInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
+
+            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
+            {
+                dccs = dccsWispGraveyardInteractablesDLC2,
+                requiredExpansions = required,
+                weight = 1,
+            };
+            ArrayUtils.ArrayAppend(ref dpWispGraveyardInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
+
+            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
+            {
+                dccs = dccsSulfurPoolsInteractablesDLC2,
+                requiredExpansions = required,
+                weight = 1,
+            };
+            ArrayUtils.ArrayAppend(ref dpSulfurPoolsInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
+
+            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
+            {
+                dccs = dccsDampCaveInteractablesDLC2,
+                requiredExpansions = required,
+                weight = 1,
+            };
+            ArrayUtils.ArrayAppend(ref dpDampCaveInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
+
+            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
+            {
+                dccs = dccsShipgraveyardInteractablesDLC2,
+                requiredExpansions = required,
+                weight = 1,
+            };
+            ArrayUtils.ArrayAppend(ref dpShipgraveyardInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
+
+            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
+            {
+                dccs = dccsRootJungleInteractablesDLC2,
+                requiredExpansions = required,
+                weight = 1,
+            };
+            ArrayUtils.ArrayAppend(ref dpRootJungleInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
+
+            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
+            {
+                dccs = dccsSkyMeadowInteractablesDLC2,
+                requiredExpansions = required,
+                weight = 1,
+            };
+            ArrayUtils.ArrayAppend(ref dpSkyMeadowInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
+
+
+
+
         }
 
         public static void DCCSThings_NoDLC()
@@ -92,15 +204,11 @@ namespace LittleGameplayTweaks
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineChance/iscShrineChance.asset").WaitForCompletion(),
                 selectionWeight = 5,
             };
-            DirectorCard ADTrippleRed = new DirectorCard
-            {
-                spawnCard = ChangesInteractables.RedMultiShopISC,
-                selectionWeight = 2,
-                minimumStageCompletions = 4,
-            };
 
 
+ 
             //Remove Gunner Turret from Stage 4/5
+ 
             dccsDampCaveInteractables.categories[4].cards = dccsDampCaveInteractables.categories[4].cards.Remove(dccsDampCaveInteractables.categories[4].cards[0]);
             dccsShipgraveyardInteractables.categories[4].cards = dccsShipgraveyardInteractables.categories[4].cards.Remove(dccsShipgraveyardInteractables.categories[4].cards[0]);
             dccsRootJungleInteractables.categories[4].cards = dccsRootJungleInteractables.categories[4].cards.Remove(dccsRootJungleInteractables.categories[4].cards[0]);
@@ -126,122 +234,7 @@ namespace LittleGameplayTweaks
                 dccsFrozenWallInteractables, dccsWispGraveyardInteractables,
                 dccsDampCaveInteractables, dccsShipgraveyardInteractables, dccsRootJungleInteractables,
                 dccsSkyMeadowInteractables };
-
-            //Doesn't work because it doesn't get unloaded resources
-            //DirectorCardCategorySelection[] allinteractables = Resources.GetBuiltinResource<DirectorCardCategorySelection>();
-
-            for (int dccs = 0; allinteractables.Length > dccs; dccs++)
-            {
-                //Debug.Log(allinteractables[dccs]);
-                for (int cat = 0; allinteractables[dccs].categories.Length > cat; cat++)
-                {
-                    if (allinteractables[dccs].categories[cat].name.Equals("Chests"))
-                    {
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
-                        {
-                            if (!allinteractables[dccs].name.Equals("dccsSkyMeadowInteractables"))
-                            {
-                                if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.StartsWith("iscCategoryChest"))
-                                {
-                                    allinteractables[dccs].categories[cat].cards[card].selectionWeight *= 3;
-                                }
-                            }
-                        }
-                    }
-                    else if (allinteractables[dccs].categories[cat].name.Equals("Shrines"))
-                    {
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
-                        {
-                            if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.Equals("iscShrineCleanse"))
-                            {
-                                if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 3)
-                                {
-                                    allinteractables[dccs].categories[cat].cards[card].selectionWeight = 15;
-                                }
-                            }
-                            else if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.StartsWith("iscShrineBoss"))
-                            {
-                                //Bro RoRR has way more mountains this should help
-                                allinteractables[dccs].categories[cat].cards[card].selectionWeight = (int)(allinteractables[dccs].categories[cat].cards[card].selectionWeight * WConfig.InteractablesMountainMultiplier.Value);
-                            }
-                        }
-                    }
-                    else if (allinteractables[dccs].categories[cat].name.Equals("Drones"))
-                    {
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
-                        {
-                            if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.Equals("iscBrokenEquipmentDrone"))
-                            {
-                                allinteractables[dccs].categories[cat].cards[card].selectionWeight = 3;
-                            }
-                        }
-                    }
-                    else if (allinteractables[dccs].categories[cat].name.Equals("Rare"))
-                    {
-                        allinteractables[dccs].categories[cat].selectionWeight += 0.1f;
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
-                        {
-                            if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.Equals("iscRadarTower"))
-                            {
-                                allinteractables[dccs].categories[cat].cards[card].selectionWeight = 20;
-                            }
-                            if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.Equals("iscGoldChest"))
-                            {
-                                allinteractables[dccs].AddCard(cat, ADTrippleRed);
-                            }
-                        }
-                    }
-                    else if (allinteractables[dccs].categories[cat].name.Equals("Duplicator"))
-                    {
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
-                        {
-                            switch (allinteractables[dccs].categories[cat].cards[card].spawnCard.name)
-                            {
-                                case "iscDuplicator":
-                                    if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 30)
-                                    {
-                                        allinteractables[dccs].categories[cat].cards[card].selectionWeight = 27;
-                                    }
-                                    break;
-                                case "iscDuplicatorLarge":
-                                    if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 6)
-                                    {
-                                        allinteractables[dccs].categories[cat].cards[card].selectionWeight = 7;
-                                    }
-                                    break;
-                                case "iscDuplicatorMilitary":
-                                    if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 1)
-                                    {
-                                        if (dccs < 6)
-                                        {
-                                            allinteractables[dccs].categories[cat].cards[card].selectionWeight = 2;
-                                        }
-                                        else
-                                        {
-                                            allinteractables[dccs].categories[cat].cards[card].selectionWeight = 3;
-                                        }
-                                    }
-                                    if (allinteractables[dccs].categories[cat].cards[card].minimumStageCompletions == 4)
-                                    {
-                                        allinteractables[dccs].categories[cat].cards[card].minimumStageCompletions = 3;
-                                    }
-                                    break;
-                                case "iscDuplicatorWild":
-                                    if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 2)
-                                    {
-                                        allinteractables[dccs].categories[cat].cards[card].selectionWeight = 3;
-                                    }
-                                    if (allinteractables[dccs].categories[cat].cards[card].minimumStageCompletions == 1)
-                                    {
-                                        allinteractables[dccs].categories[cat].cards[card].minimumStageCompletions = 2;
-                                    }
-                                    break;
-                            }
-                        }
-                    }
-
-                }
-            }
+            DoToAllDCCS(allinteractables);
 
         }
 
@@ -379,122 +372,8 @@ namespace LittleGameplayTweaks
                 dccsDampCaveInteractablesDLC1, dccsShipgraveyardInteractablesDLC1, dccsRootJungleInteractablesDLC1,
                 dccsSkyMeadowInteractablesDLC1, dccsArtifactWorldInteractablesDLC1 };
 
-            //Doesn't work because it doesn't get unloaded resources
-            //DirectorCardCategorySelection[] allinteractables = Resources.GetBuiltinResource<DirectorCardCategorySelection>();
-
-            for (int dccs = 0; allinteractables.Length > dccs; dccs++)
-            {
-                //Debug.Log(allinteractables[dccs]);
-                for (int cat = 0; allinteractables[dccs].categories.Length > cat; cat++)
-                {
-                    if (allinteractables[dccs].categories[cat].name.Equals("Chests"))
-                    {
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
-                        {
-                            if (!allinteractables[dccs].name.Equals("dccsSkyMeadowInteractablesDLC1"))
-                            {
-                                if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.StartsWith("iscCategoryChest2"))
-                                {
-                                    allinteractables[dccs].categories[cat].cards[card].selectionWeight *= 3;
-                                }
-                            }
-                        }
-                    }
-                    else if (allinteractables[dccs].categories[cat].name.Equals("Shrines"))
-                    {
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
-                        {
-                            if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.Equals("iscShrineCleanse"))
-                            {
-                                if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 3)
-                                {
-                                    allinteractables[dccs].categories[cat].cards[card].selectionWeight = 14;
-                                }
-                            }
-                            else if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.StartsWith("iscShrineBoss"))
-                            {
-                                //Bro RoRR has way more mountains this should help
-                                allinteractables[dccs].categories[cat].cards[card].selectionWeight = (int)(allinteractables[dccs].categories[cat].cards[card].selectionWeight * WConfig.InteractablesMountainMultiplier.Value);
-                            }
-                        }
-                    }
-                    else if (allinteractables[dccs].categories[cat].name.Equals("Drones"))
-                    {
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
-                        {
-                            if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.Equals("iscBrokenEquipmentDrone"))
-                            {
-                                allinteractables[dccs].categories[cat].cards[card].selectionWeight = 4;
-                            }
-                        }
-                    }
-                    else if (allinteractables[dccs].categories[cat].name.Equals("Rare"))
-                    {
-                        allinteractables[dccs].categories[cat].selectionWeight += 0.1f;
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
-                        {
-                            if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.Equals("iscRadarTower"))
-                            {
-                                allinteractables[dccs].categories[cat].cards[card].selectionWeight = 20;
-                            }
-                            if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.Equals("iscGoldChest"))
-                            {
-                                allinteractables[dccs].AddCard(cat, ADTrippleRed);
-                            }
-                        }
-                    }
-                    else if (allinteractables[dccs].categories[cat].name.Equals("Duplicator"))
-                    {
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
-                        {
-                            switch (allinteractables[dccs].categories[cat].cards[card].spawnCard.name)
-                            {
-                                case "iscDuplicator":
-                                    if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 30)
-                                    {
-                                        allinteractables[dccs].categories[cat].cards[card].selectionWeight = 27;
-                                    }
-                                    break;
-                                case "iscDuplicatorLarge":
-                                    if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 6)
-                                    {
-                                        allinteractables[dccs].categories[cat].cards[card].selectionWeight = 7;
-                                    }
-                                    break;
-                                case "iscDuplicatorMilitary":
-                                    if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 1)
-                                    {
-                                        if (dccs < 6)
-                                        {
-                                            allinteractables[dccs].categories[cat].cards[card].selectionWeight = 2;
-                                        }
-                                        else
-                                        {
-                                            allinteractables[dccs].categories[cat].cards[card].selectionWeight = 3;
-                                        }
-                                    }
-                                    if (allinteractables[dccs].categories[cat].cards[card].minimumStageCompletions == 4)
-                                    {
-                                        allinteractables[dccs].categories[cat].cards[card].minimumStageCompletions = 3;
-                                    }
-                                    break;
-                                case "iscDuplicatorWild":
-                                    if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 2)
-                                    {
-                                        allinteractables[dccs].categories[cat].cards[card].selectionWeight = 3;
-                                    }
-                                    if (allinteractables[dccs].categories[cat].cards[card].minimumStageCompletions == 1)
-                                    {
-                                        allinteractables[dccs].categories[cat].cards[card].minimumStageCompletions = 2;
-                                    }
-                                    break;
-                            }
-                        }
-                    }
-
-                }
-            }
-
+            DoToAllDCCS(allinteractables);
+          
         }
 
         public static void DCCSThings_DLC2()
@@ -536,26 +415,27 @@ namespace LittleGameplayTweaks
             DirectorCardCategorySelection dccsSkyMeadowInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsSkyMeadowInteractablesDLC2.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsHelminthRoostInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/helminthroost/dccsHelminthRoostInteractables.asset").WaitForCompletion();
 
-           
+            DirectorCardCategorySelection dccsArenaInteractablesDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/arena/dccsArenaInteractablesDLC1.asset").WaitForCompletion();
 
+
+            DirectorCard ShrineOrder_SAND = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSandy.asset").WaitForCompletion(),
+                selectionWeight = 1,
+            };
+            DirectorCard ShrineOrder_DEFAULT10 = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestack.asset").WaitForCompletion(),
+                selectionWeight = 10,
+            };
+            DirectorCard ShrineOrder_SNOW = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSnowy.asset").WaitForCompletion(),
+                selectionWeight = 1,
+            };
             DirectorCard ADShrineCleanse1 = new DirectorCard
             {
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanse.asset").WaitForCompletion(),
-                selectionWeight = 5,
-            };
-            DirectorCard AdShrineCombat = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCombat/iscShrineCombat.asset").WaitForCompletion(),
-                selectionWeight = 20,
-            };
-            DirectorCard AdShrineGold = new DirectorCard
-            {
-                spawnCard = ChangesInteractables.iscShrineGoldFake,
-                selectionWeight = 10,
-            };
-            DirectorCard ADShrineChance = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineChance/iscShrineChance.asset").WaitForCompletion(),
                 selectionWeight = 5,
             };
             DirectorCard ADShrineBoss10 = new DirectorCard
@@ -569,23 +449,27 @@ namespace LittleGameplayTweaks
                 selectionWeight = 4,
                 minimumStageCompletions = 4,
             };
-            DirectorCard ADTrippleRed = new DirectorCard
-            {
-                spawnCard = ChangesInteractables.RedMultiShopISC,
-                selectionWeight = 2,
-                minimumStageCompletions = 1
-            };
 
- 
-            ADTrippleRed.minimumStageCompletions = 3;
- 
+
+            dccsLemurianTempleInteractables.AddCard(2, ShrineOrder_SAND);
+            dccsVillageInteractablesDLC1.AddCard(2, ShrineOrder_DEFAULT10);
+            dccsVillagenightInteractablesDLC2.AddCard(2, ShrineOrder_DEFAULT10);
+
+
+            dccsSnowyForestInteractablesDLC2.AddCard(5, ShrineOrder_SNOW);
+            dccsAncientLoftInteractablesDLC2.AddCard(4, ShrineOrder_SAND);
+            dccsArenaInteractablesDLC1.categories[2].cards[0].spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestack.asset").WaitForCompletion();
+
+
+
+
 
             dccsBlackBeachInteractablesDLC2.categories[7].selectionWeight = 5;
 
             dccsSnowyForestInteractablesDLC2.AddCard(3, ADBrokenMegaDrone);
-            dccsVillagenightInteractablesDLC2.AddCard(2, ADBrokenMegaDrone);
+            dccsVillagenightInteractablesDLC2.AddCard(3, ADBrokenMegaDrone);
 
-            dccsSulfurPoolsInteractablesDLC2.categories[2].cards = dccsSulfurPoolsInteractablesDLC2.categories[2].cards.Remove(dccsSulfurPoolsInteractablesDLC2.categories[2].cards[3], dccsSulfurPoolsInteractablesDLC2.categories[2].cards[2]);
+            dccsSulfurPoolsInteractablesDLC2.categories[2].cards = dccsSulfurPoolsInteractablesDLC2.categories[2].cards.Remove(dccsSulfurPoolsInteractablesDLC2.categories[2].cards[3]);
             dccsSulfurPoolsInteractablesDLC2.AddCard(2, ADShrineBoss10);
 
             //Remove Gunner Turret from Stage 4/5
@@ -593,6 +477,7 @@ namespace LittleGameplayTweaks
             dccsShipgraveyardInteractablesDLC2.categories[4].cards = dccsShipgraveyardInteractablesDLC2.categories[4].cards.Remove(dccsShipgraveyardInteractablesDLC2.categories[4].cards[0]);
             dccsRootJungleInteractablesDLC2.categories[4].cards = dccsRootJungleInteractablesDLC2.categories[4].cards.Remove(dccsRootJungleInteractablesDLC2.categories[4].cards[0]);
             dccsSkyMeadowInteractablesDLC2.categories[4].cards = dccsSkyMeadowInteractablesDLC2.categories[4].cards.Remove(dccsSkyMeadowInteractablesDLC2.categories[4].cards[0]);
+            dccsHelminthRoostInteractables.categories[4].cards = dccsHelminthRoostInteractables.categories[4].cards.Remove(dccsHelminthRoostInteractables.categories[4].cards[0]);
 
 
             if (WConfig.DCCSCategoryChest.Value)
@@ -629,167 +514,107 @@ namespace LittleGameplayTweaks
                 dccsHelminthRoostInteractables
             };
 
-            //Doesn't work because it doesn't get unloaded resources
-            //DirectorCardCategorySelection[] allinteractables = Resources.GetBuiltinResource<DirectorCardCategorySelection>();
+            DoToAllDCCS(allinteractables);
+
+        }
+
+
+        public static void DoToAllDCCS(DirectorCardCategorySelection[] allinteractables)
+        {
+            DirectorCardCategorySelection.Category category;
+            DirectorCard Dcard;
 
             for (int dccs = 0; allinteractables.Length > dccs; dccs++)
             {
                 //Debug.Log(allinteractables[dccs]);
                 for (int cat = 0; allinteractables[dccs].categories.Length > cat; cat++)
                 {
-                    if (allinteractables[dccs].categories[cat].name.Equals("Chests"))
+                    category = allinteractables[dccs].categories[cat];
+                    if (category.name.Equals("Chests"))
                     {
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
+                        for (int card = 0; card < category.cards.Length; card++)
                         {
-                            if (!allinteractables[dccs].name.Equals("dccsSkyMeadowInteractablesDLC2"))
+                            if (category.cards[card].spawnCard.name.EndsWith("oryChest2"))
                             {
-                                if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.StartsWith("iscCategoryChest2"))
-                                {
-                                    allinteractables[dccs].categories[cat].cards[card].selectionWeight *= 3;
-                                }
+                                category.cards[card].selectionWeight *= 3;
                             }
                         }
                     }
-                    else if (allinteractables[dccs].categories[cat].name.Equals("Shrines"))
+                    else if (category.name.Equals("Shrines"))
                     {
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
+                        for (int card = 0; card < category.cards.Length; card++)
                         {
-                            if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.Equals("iscShrineCleanse"))
+                            if (category.cards[card].spawnCard.name.EndsWith("ShrineCleanse"))
                             {
-                                if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 3)
+                                if (category.cards[card].selectionWeight == 3)
                                 {
-                                    allinteractables[dccs].categories[cat].cards[card].selectionWeight = 14;
+                                    category.cards[card].selectionWeight = 14;
                                 }
                             }
-                            else if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.StartsWith("iscShrineBoss"))
+                            else if (category.cards[card].spawnCard.name.StartsWith("iscShrineBoss"))
                             {
                                 //Bro RoRR has way more mountains this should help
-                                allinteractables[dccs].categories[cat].cards[card].selectionWeight = (int)(allinteractables[dccs].categories[cat].cards[card].selectionWeight * WConfig.InteractablesMountainMultiplier.Value);
+                                category.cards[card].selectionWeight = (int)(category.cards[card].selectionWeight * WConfig.InteractablesMountainMultiplier.Value);
                             }
                         }
                     }
-                    else if (allinteractables[dccs].categories[cat].name.Equals("Drones"))
+                    else if (category.name.Equals("Drones"))
                     {
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
+                        for (int card = 0; card < category.cards.Length; card++)
                         {
-                            if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.Equals("iscBrokenEquipmentDrone"))
+                            if (category.cards[card].spawnCard.name.EndsWith("EquipmentDrone"))
                             {
-                                allinteractables[dccs].categories[cat].cards[card].selectionWeight = 4;
+                                category.cards[card].selectionWeight = 4;
                             }
                         }
                     }
-                    else if (allinteractables[dccs].categories[cat].name.Equals("Rare"))
+                    else if (category.name.Equals("Rare"))
                     {
-                        allinteractables[dccs].categories[cat].selectionWeight += 0.1f;
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
+                        category.selectionWeight += 0.1f;
+                        for (int card = 0; card < category.cards.Length; card++)
                         {
-                            if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.Equals("iscRadarTower"))
+                            if (category.cards[card].spawnCard.name.EndsWith("RadarTower"))
                             {
-                                allinteractables[dccs].categories[cat].cards[card].selectionWeight = 20;
+                                category.cards[card].selectionWeight = 20;
                             }
-                            if (allinteractables[dccs].categories[cat].cards[card].spawnCard.name.Equals("iscGoldChest"))
+                            if (category.cards[card].spawnCard.name.EndsWith("GoldChest"))
                             {
-                                allinteractables[dccs].AddCard(cat, ADTrippleRed);
+                                allinteractables[dccs].AddCard(cat, ChangesInteractables.ADTrippleRed);
                             }
                         }
                     }
-                    else if (allinteractables[dccs].categories[cat].name.Equals("Duplicator"))
+                    else if (category.name.Equals("Duplicator"))
                     {
-                        for (int card = 0; allinteractables[dccs].categories[cat].cards.Length > card; card++)
+                        for (int card = 0; card < category.cards.Length; card++)
                         {
-                            switch (allinteractables[dccs].categories[cat].cards[card].spawnCard.name)
+                            switch (category.cards[card].spawnCard.name)
                             {
-                                case "iscDuplicator":
-                                    if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 30)
-                                    {
-                                        allinteractables[dccs].categories[cat].cards[card].selectionWeight = 27;
-                                    }
-                                    break;
                                 case "iscDuplicatorLarge":
-                                    if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 6)
+                                    if (category.cards[card].selectionWeight == 6)
                                     {
-                                        allinteractables[dccs].categories[cat].cards[card].selectionWeight = 7;
+                                        category.cards[card].selectionWeight = 7;
                                     }
                                     break;
                                 case "iscDuplicatorMilitary":
-                                    if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 1)
+                                    if (category.cards[card].selectionWeight == 1)
                                     {
-                                        if (dccs < 6)
-                                        {
-                                            allinteractables[dccs].categories[cat].cards[card].selectionWeight = 2;
-                                        }
-                                        else
-                                        {
-                                            allinteractables[dccs].categories[cat].cards[card].selectionWeight = 3;
-                                        }
+                                        category.cards[card].selectionWeight = 2;
                                     }
-                                    if (allinteractables[dccs].categories[cat].cards[card].minimumStageCompletions == 4)
-                                    {
-                                        allinteractables[dccs].categories[cat].cards[card].minimumStageCompletions = 3;
-                                    }
+                                    category.cards[card].minimumStageCompletions = 3;
                                     break;
                                 case "iscDuplicatorWild":
-                                    if (allinteractables[dccs].categories[cat].cards[card].selectionWeight == 2)
-                                    {
-                                        allinteractables[dccs].categories[cat].cards[card].selectionWeight = 3;
-                                    }
-                                    if (allinteractables[dccs].categories[cat].cards[card].minimumStageCompletions == 1)
-                                    {
-                                        allinteractables[dccs].categories[cat].cards[card].minimumStageCompletions = 2;
-                                    }
+                                    category.cards[card].minimumStageCompletions = 2;
                                     break;
                             }
                         }
                     }
-
+                    else if (category.name.StartsWith("Storm"))
+                    {
+                        category.cards[1].minimumStageCompletions = 2;
+                    }
                 }
             }
 
-        }
-
-
-        public static void GoldShoresCredits(On.RoR2.ClassicStageInfo.orig_Start orig, ClassicStageInfo self)
-        {
-            if (Run.instance && SceneInfo.instance)
-            {
-                if (SceneInfo.instance.sceneDef.baseSceneName == "goldshores")
-                {
-                    self.sceneDirectorInteractibleCredits += 64; //For Fun ig
-                }
-            }
-            orig(self);
-        }
-
-        public static void MoreSceneCredits(On.RoR2.ClassicStageInfo.orig_Start orig, ClassicStageInfo self)
-        {
-            if (Run.instance && SceneInfo.instance)
-            {
-                switch (SceneInfo.instance.sceneDef.baseSceneName)
-                {
-                    case "golemplains":
-                        self.sceneDirectorInteractibleCredits += 20; //Rather buff these two a bit than nerf Snowy Ig we'll see
-                        break;
-                    case "blackbeach":
-                        self.sceneDirectorInteractibleCredits += 20; //
-                        break;
-                    case "goolake":
-                        self.sceneDirectorInteractibleCredits += 20; //Has 60 less due to the Lemurians a bit too harsh imo
-                        break;
-                    case "sulfurpools":
-                        self.sceneDirectorInteractibleCredits += 20; //Has 60 less due to the Lemurians a bit too harsh imo
-                        break;
-                    case "rootjungle":
-                        self.sceneDirectorInteractibleCredits += 40; //Depths sometimes has 560 so raising the other two by 40 seems fine
-                        break;
-                    case "shipgraveyard":
-                        self.sceneDirectorInteractibleCredits += 40; //Depths has 400 or 560
-                        break;
-                    case "artifactworld":
-                        self.sceneDirectorInteractibleCredits += 40; //For Fun ig
-                        break;
-                }
-            }
-            orig(self);
         }
 
     }

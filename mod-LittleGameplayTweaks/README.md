@@ -1,14 +1,43 @@
-## Enemies
+## Spawn Pools
 A couple enemies have been moved or replaced to encourage enemy diversity.\
+Check Wiki entry on details.\
 Grovetender will replace Stone Titan in Sundered Grove and Bighorn Bison spawn in Snowy Forest as examples.
 
 Every stage will have at least 1 enemy addition on loops.
 
 Adds Clay, Solus, Parent, Worms and Vermin Family Events and cleans up Family variety for more diversity.\
 The Gup family event now spawns Geep and Gip too.
-Family events are now a 1/40 instead of 1/50 chance.  
+Family events are now a 1/45 instead of 1/50 chance.  
 
-Scavengers will be given more items depending on how "advanced" the Scavenger is. (ie Elites will be given good amount more items)\
+Rare Printers, Cleansing Pools and Mountain Shrines are made more common.
+
+Shrine of Order and TC280 (on loops) will spawn on some additional stages.
+
+Makes Shrine of Blood, Combat, Order, Healing, Lunar Chest, Void Potential, Tc280 cost less to spawn.
+
+
+![Image of Grovetender in Sundered Grove and Solus Control Unit in Rallypoint Delta](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks/main/modPageImages/ltgGrovetender.png)
+
+## Stages
+![Image of Sunset/Dusk stages](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks/main/modPageImages/ltgStages.png)
+
+Titanic Plains and Scorched Acres now have different lighting on Loops.\
+(This is automatically disabled with Stage Aesthetics.)
+
+Plains/Roost and Sirens/Grove get a small amount more interactable credits to even them out against Siphoned/Verdant/Shattered/Abyssal.  
+
+Gilded Coast will have some interactables. (Combat Shrines, Cleansing Pools, a chest or two more)
+
+Void Fields, Void Locust and Planetarium now all have stopped time, but count as a stage when completed.
+
+Void Fields cells now charge faster (30s for the first 4, 45s for the next 4, 60 for the last).\
+Cells now have a regenerating aura before activating them.
+
+
+
+
+## Enemies
+Elite Scavengers will be given more items.\
 Scavengers can be encountered as bosses and will be given 2 of a Boss Item.
 
 Adds 3 new Twisted Scavengers.
@@ -19,17 +48,11 @@ Healing Cores from Mending Elites now use ambient level and start with invulnera
 
 Equipment Drones use their Equipment when targeting you so they can still use it when no enemies are around.
 
-![Image of Grovetender in Sundered Grove and Solus Control Unit in Rallypoint Delta](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks/main/modPageImages/ltgGrovetender.png)
 
 ## Interactables
 Faster Interactables : Printers, Scrappers and Shrines take less time between uses.
 
-Rare Mili Multi Shop.
-
-Rare Printers and Cleansing Pools are made more common to give them more spotlight.
-
-Plains/Roost and Sirens/Grove get more interactable credits to even them out against Siphoned/Abyssal.  
-Makes Shrine of Blood, Combat, Order, Healing, Lunar Chest, Void Potential, Tc280 cost less to spawn.
+A new rare interactable, Mili-Multi Shop.
 
 Primordial Teleporter will always have a Purple Orb to Void Locust.\
 Deep Void Signal now takes 45 seconds instead of 60.
@@ -42,9 +65,10 @@ TC280 price reduced from 350 to 300.
 
 ![Image of Red Multishop](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks/main/modPageImages/ltgRedMulti.png)
 
+
 ## Items
-Elite Equipment have a 1/1500 chance of dropping.
-Boss items are now a 25% chance to drop from a teleporter instead of 15%
+Elite Equipment have a 1/1500 chance of dropping.\
+Boss items are now a 20% chance to drop from a teleporter instead of 15%
 
 
 ## Character
@@ -82,8 +106,8 @@ Fixes vanilla bug where Twisted Scavengers don't scale in multiplayer.
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\
 If you're reporting a bug that isn't something obvious include the log file.
 
-Every player needs this mod installed.\
+### Every player needs this mod installed.
+
 Most things are configuerable.
 
 Also download my other mods
-

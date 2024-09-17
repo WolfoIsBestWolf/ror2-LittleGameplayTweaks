@@ -21,7 +21,7 @@ using UnityEngine.Networking;
 namespace LittleGameplayTweaks
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("com.Wolfo.LittleGameplayTweaks", "LittleGameplayTweaks", "3.0.2")]
+    [BepInPlugin("com.Wolfo.LittleGameplayTweaks", "LittleGameplayTweaks", "3.1.0")]
     //[R2APISubmoduleDependency(nameof(ContentAddition), nameof(LanguageAPI), nameof(PrefabAPI), nameof(ItemAPI), nameof(LoadoutAPI), nameof(EliteAPI))]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
 
@@ -36,15 +36,24 @@ namespace LittleGameplayTweaks
 
         public void Awake()
         {
-            WConfig.InitConfig();
-
-            DCCSEnemies.Start();
-            DCCSInteractables.Start();
+            WConfig.InitConfig();          
 
             GameModeCatalog.availability.CallWhenAvailable(EquipmentBonusRate);
             //ChangesItems.Start();
             ChangesCharacters.Start();
             ChangesInteractables.Start();
+            ChangesStages.Start();
+
+            bool otherSeed = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("HIFU.StageAesthetic");
+            if (!otherSeed && WConfig.cfgLoopWeather.Value)
+            {
+                LoopStageVariants.Start();
+            }
+
+               
+
+            DCCSEnemies.Start();
+            DCCSInteractables.Start();
 
             Prismatic.Start();
             TwistedScavs.Start();
@@ -78,6 +87,12 @@ namespace LittleGameplayTweaks
 
         internal static void ModSupport()
         {
+            if (WConfig.LevelMaximum.Value)
+            {
+                Run.ambientLevelCap = 999;
+            }
+            
+
 
             DCCSEnemies.ModSupport();
             ChangesInteractables.ModSupport();
