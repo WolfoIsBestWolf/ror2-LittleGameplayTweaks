@@ -71,8 +71,8 @@ namespace LittleGameplayTweaks
             
             DccsPool dpSkyMeadowInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/skymeadow/dpSkyMeadowInteractables.asset").WaitForCompletion();
 
-             DccsPool dpArtifactWorld02Monsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/artifactworld02/dpArtifactWorld02Monsters.asset").WaitForCompletion();
-
+            DccsPool dpArtifactWorld02Monsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/artifactworld02/dpArtifactWorld02Monsters.asset").WaitForCompletion();
+           
 
             DirectorCardCategorySelection dccsFrozenWallInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsFrozenWallInteractablesDLC2.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsWispGraveyardInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsWispGraveyardInteractablesDLC2.asset").WaitForCompletion();
@@ -87,7 +87,7 @@ namespace LittleGameplayTweaks
 
             DirectorCardCategorySelection dccsArtifactWorld02Monsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/artifactworld02/dccsArtifactWorld02Monsters_DLC1.asset").WaitForCompletion();
 
-
+           
 
             //
             DirectorCardCategorySelection dccsITDampCaveMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC1/itdampcave/dccsITDampCaveMonstersDLC2.asset").WaitForCompletion();
@@ -159,6 +159,29 @@ namespace LittleGameplayTweaks
             ArrayUtils.ArrayAppend(ref dpSkyMeadowInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
 
 
+
+            DccsPool dpLakesMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/lakes/dpLakesMonsters.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsLakesMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lakes/dccsLakesMonstersDLC2.asset").WaitForCompletion();
+
+            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
+            {
+                dccs = dccsLakesMonstersDLC2,
+                requiredExpansions = required,
+                weight = 1,
+            };
+            ArrayUtils.ArrayAppend(ref dpLakesMonsters.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
+
+
+            DccsPool dpSnowyForestMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC1/snowyforest/dpSnowyForestMonsters.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsSnowyForestMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsSnowyForestMonstersDLC2.asset").WaitForCompletion();
+
+            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
+            {
+                dccs = dccsSnowyForestMonstersDLC2,
+                requiredExpansions = required,
+                weight = 1,
+            };
+            ArrayUtils.ArrayAppend(ref dpSnowyForestMonsters.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
 
 
         }
@@ -258,7 +281,7 @@ namespace LittleGameplayTweaks
 
             DirectorCardCategorySelection dccsSkyMeadowInteractablesDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/skymeadow/dccsSkyMeadowInteractablesDLC1.asset").WaitForCompletion();
 
-            DirectorCardCategorySelection dccsArtifactWorldInteractablesDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/artifactworld/dccsArtifactWorldInteractablesDLC1.asset").WaitForCompletion();
+            //DirectorCardCategorySelection dccsArtifactWorldInteractablesDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/artifactworld/dccsArtifactWorldInteractablesDLC1.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsGoldshoresInteractablesDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/goldshores/dccsGoldshoresInteractablesDLC1.asset").WaitForCompletion();
 
 
@@ -297,17 +320,16 @@ namespace LittleGameplayTweaks
             {
                 spawnCard = ChangesInteractables.RedMultiShopISC,
                 selectionWeight = 2,
-                minimumStageCompletions = 1
+                minimumStageCompletions = 2
             };
 
+ 
             DirectorCardCategorySelection dccsInfiniteTowerInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC1/GameModes/InfiniteTowerRun/InfiniteTowerAssets/dccsInfiniteTowerInteractables.asset").WaitForCompletion();
             dccsInfiniteTowerInteractables.AddCard(2, ADTrippleRed);
             dccsInfiniteTowerInteractables.categories[2].selectionWeight += 0.1f;
             //
-
-            ADTrippleRed.minimumStageCompletions = 3;
+ 
             //CategoryChest shenanigans
-
             if (WConfig.DCCSCategoryChest.Value)
             {
                 dccsGolemplainsInteractablesDLC1.categories[0].cards = dccsGolemplainsInteractablesDLC1.categories[0].cards.Remove(dccsGolemplainsInteractablesDLC1.categories[0].cards[7], dccsGolemplainsInteractablesDLC1.categories[0].cards[5]);
@@ -329,30 +351,40 @@ namespace LittleGameplayTweaks
             }
 
 
-
-            //dccsBlackBeachInteractablesDLC1.categories[2].selectionWeight = 7;
-            //dccsBlackBeachInteractablesDLC1.categories[2].cards[2].selectionWeight = 2;
-            dccsBlackBeachInteractablesDLC1.categories[7].selectionWeight = 5;
-
-            //dccsDampCaveInteractablesDLC1.categories[2].cards[0].selectionWeight *= 2;
-            //dccsDampCaveInteractablesDLC1.categories[2].cards[1].selectionWeight *= 3;
-            //dccsDampCaveInteractablesDLC1.categories[2].cards[2].selectionWeight *= 2;
-
-            dccsSnowyForestInteractablesDLC1.AddCard(3, ADBrokenMegaDrone);
-
-            dccsSulfurPoolsInteractablesDLC1.categories[2].cards = dccsSulfurPoolsInteractablesDLC1.categories[2].cards.Remove(dccsSulfurPoolsInteractablesDLC1.categories[2].cards[3], dccsSulfurPoolsInteractablesDLC1.categories[2].cards[2]);
-            dccsSulfurPoolsInteractablesDLC1.AddCard(2, ADShrineBoss10);
-
-            dccsArtifactWorldInteractablesDLC1.categories[2].cards[1] = ADShrineCleanse1;
+            if (ConfigStages.Stage_1_Roost.Value)
+            {
+                dccsBlackBeachInteractablesDLC1.categories[7].selectionWeight = 5;
+            }
+            if (ConfigStages.Stage_1_Snow.Value)
+            {
+                dccsSnowyForestInteractablesDLC1.AddCard(3, ADBrokenMegaDrone);
+            }
+            if (ConfigStages.Stage_3_Sulfur.Value)
+            {
+                dccsSulfurPoolsInteractablesDLC1.categories[2].cards = dccsSulfurPoolsInteractablesDLC1.categories[2].cards.Remove(dccsSulfurPoolsInteractablesDLC1.categories[2].cards[3], dccsSulfurPoolsInteractablesDLC1.categories[2].cards[2]);
+                dccsSulfurPoolsInteractablesDLC1.AddCard(2, ADShrineBoss10);
+            }
 
             //Remove Gunner Turret from Stage 4/5
-            dccsDampCaveInteractablesDLC1.categories[4].cards = dccsDampCaveInteractablesDLC1.categories[4].cards.Remove(dccsDampCaveInteractablesDLC1.categories[4].cards[0]);
-            dccsShipgraveyardInteractablesDLC1.categories[4].cards = dccsShipgraveyardInteractablesDLC1.categories[4].cards.Remove(dccsShipgraveyardInteractablesDLC1.categories[4].cards[0]);
-            dccsRootJungleInteractablesDLC1.categories[4].cards = dccsRootJungleInteractablesDLC1.categories[4].cards.Remove(dccsRootJungleInteractablesDLC1.categories[4].cards[0]);
-            dccsSkyMeadowInteractablesDLC1.categories[4].cards = dccsSkyMeadowInteractablesDLC1.categories[4].cards.Remove(dccsSkyMeadowInteractablesDLC1.categories[4].cards[0]);
+            if (ConfigStages.Stage_4_Damp_Abyss.Value)
+            {
+                dccsDampCaveInteractablesDLC1.categories[4].cards = dccsDampCaveInteractablesDLC1.categories[4].cards.Remove(dccsDampCaveInteractablesDLC1.categories[4].cards[0]);
+            }
+            if (ConfigStages.Stage_4_Ship.Value)
+            {
+                dccsShipgraveyardInteractablesDLC1.categories[4].cards = dccsShipgraveyardInteractablesDLC1.categories[4].cards.Remove(dccsShipgraveyardInteractablesDLC1.categories[4].cards[0]);
+            }
+            if (ConfigStages.Stage_4_Root_Jungle.Value)
+            {
+                dccsRootJungleInteractablesDLC1.categories[4].cards = dccsRootJungleInteractablesDLC1.categories[4].cards.Remove(dccsRootJungleInteractablesDLC1.categories[4].cards[0]);
+            }
+            if (ConfigStages.Stage_5_Sky.Value)
+            {
+                dccsSkyMeadowInteractablesDLC1.categories[4].cards = dccsSkyMeadowInteractablesDLC1.categories[4].cards.Remove(dccsSkyMeadowInteractablesDLC1.categories[4].cards[0]);
+            }
+
 
             //Goldshores Random Interactables Test
-
             DirectorCardCategorySelection.Category GoldShoreShrines = new DirectorCardCategorySelection.Category
             {
                 name = "Shrines",
@@ -370,7 +402,7 @@ namespace LittleGameplayTweaks
                 dccsGooLakeInteractablesDLC1, dccsFoggySwampInteractablesDLC1, dccsAncientLoftInteractablesDLC1,
                 dccsFrozenWallInteractablesDLC1, dccsWispGraveyardInteractablesDLC1, dccsSulfurPoolsInteractablesDLC1,
                 dccsDampCaveInteractablesDLC1, dccsShipgraveyardInteractablesDLC1, dccsRootJungleInteractablesDLC1,
-                dccsSkyMeadowInteractablesDLC1, dccsArtifactWorldInteractablesDLC1 };
+                dccsSkyMeadowInteractablesDLC1 };
 
             DoToAllDCCS(allinteractables);
           
@@ -433,10 +465,16 @@ namespace LittleGameplayTweaks
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSnowy.asset").WaitForCompletion(),
                 selectionWeight = 1,
             };
-            DirectorCard ADShrineCleanse1 = new DirectorCard
+            DirectorCard ADShrineCleanse4 = new DirectorCard
             {
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanse.asset").WaitForCompletion(),
-                selectionWeight = 5,
+                selectionWeight = 4,
+                minimumStageCompletions = 1,
+            };
+            DirectorCard ADShrineCleanse15 = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanse.asset").WaitForCompletion(),
+                selectionWeight = 15,
             };
             DirectorCard ADShrineBoss10 = new DirectorCard
             {
@@ -451,33 +489,73 @@ namespace LittleGameplayTweaks
             };
 
 
-            dccsLemurianTempleInteractables.AddCard(2, ShrineOrder_SAND);
-            dccsVillageInteractablesDLC1.AddCard(2, ShrineOrder_DEFAULT10);
-            dccsVillagenightInteractablesDLC2.AddCard(2, ShrineOrder_DEFAULT10);
 
+           
 
-            dccsSnowyForestInteractablesDLC2.AddCard(5, ShrineOrder_SNOW);
-            dccsAncientLoftInteractablesDLC2.AddCard(4, ShrineOrder_SAND);
-            dccsArenaInteractablesDLC1.categories[2].cards[0].spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestack.asset").WaitForCompletion();
-
-
-
-
-
-            dccsBlackBeachInteractablesDLC2.categories[7].selectionWeight = 5;
-
-            dccsSnowyForestInteractablesDLC2.AddCard(3, ADBrokenMegaDrone);
-            dccsVillagenightInteractablesDLC2.AddCard(3, ADBrokenMegaDrone);
-
-            dccsSulfurPoolsInteractablesDLC2.categories[2].cards = dccsSulfurPoolsInteractablesDLC2.categories[2].cards.Remove(dccsSulfurPoolsInteractablesDLC2.categories[2].cards[3]);
-            dccsSulfurPoolsInteractablesDLC2.AddCard(2, ADShrineBoss10);
-
+            if (ConfigStages.Stage_1_Roost.Value)
+            {
+                dccsBlackBeachInteractablesDLC2.categories[7].selectionWeight = 5;
+                dccsBlackBeachInteractablesDLC2.AddCard(2, ADShrineCleanse4);
+            }
+            if (ConfigStages.Stage_1_Snow.Value)
+            {
+                dccsSnowyForestInteractablesDLC2.AddCard(3, ADBrokenMegaDrone);
+                dccsSnowyForestInteractablesDLC2.AddCard(5, ShrineOrder_SNOW);
+            }
+            if (ConfigStages.Stage_1_Lake.Value)
+            {
+                dccsLakesInteractablesDLC2.AddCard(2, ADShrineCleanse4);
+                dccsLakesnightInteractables.AddCard(2, ADShrineCleanse4);
+            }
+            if (ConfigStages.Stage_1_Village.Value)
+            {
+                dccsVillageInteractablesDLC1.AddCard(2, ShrineOrder_DEFAULT10);
+                dccsVillagenightInteractablesDLC2.AddCard(2, ShrineOrder_DEFAULT10);
+                dccsVillagenightInteractablesDLC2.AddCard(3, ADBrokenMegaDrone);
+            }
+            if (ConfigStages.Stage_2_Ancient.Value)
+            {
+                dccsAncientLoftInteractablesDLC2.AddCard(4, ShrineOrder_SAND);
+            }
+            if (ConfigStages.Stage_2_Temple.Value)
+            {
+                dccsLemurianTempleInteractables.AddCard(2, ShrineOrder_SAND);
+            }
+            if (ConfigStages.Stage_X_Arena_Void.Value)
+            {
+                dccsArenaInteractablesDLC1.categories[2].cards[0].spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestack.asset").WaitForCompletion();
+            }
+            if (ConfigStages.Stage_3_Sulfur.Value)
+            {
+                dccsSulfurPoolsInteractablesDLC2.categories[2].cards = dccsSulfurPoolsInteractablesDLC2.categories[2].cards.Remove(dccsSulfurPoolsInteractablesDLC2.categories[2].cards[3]);
+                dccsSulfurPoolsInteractablesDLC2.AddCard(2, ADShrineBoss10);
+            }
+            if (ConfigStages.Stage_3_Tree.Value)
+            {
+                dccsHabitatInteractables.categories[2].cards[0] = ADShrineCleanse15;
+                dccsHabitatfallInteractables.categories[2].cards[0] = ADShrineCleanse15;
+            }
             //Remove Gunner Turret from Stage 4/5
-            dccsDampCaveInteractablesDLC2.categories[4].cards = dccsDampCaveInteractablesDLC2.categories[4].cards.Remove(dccsDampCaveInteractablesDLC2.categories[4].cards[0]);
-            dccsShipgraveyardInteractablesDLC2.categories[4].cards = dccsShipgraveyardInteractablesDLC2.categories[4].cards.Remove(dccsShipgraveyardInteractablesDLC2.categories[4].cards[0]);
-            dccsRootJungleInteractablesDLC2.categories[4].cards = dccsRootJungleInteractablesDLC2.categories[4].cards.Remove(dccsRootJungleInteractablesDLC2.categories[4].cards[0]);
-            dccsSkyMeadowInteractablesDLC2.categories[4].cards = dccsSkyMeadowInteractablesDLC2.categories[4].cards.Remove(dccsSkyMeadowInteractablesDLC2.categories[4].cards[0]);
-            dccsHelminthRoostInteractables.categories[4].cards = dccsHelminthRoostInteractables.categories[4].cards.Remove(dccsHelminthRoostInteractables.categories[4].cards[0]);
+            if (ConfigStages.Stage_4_Damp_Abyss.Value)
+            {
+                dccsDampCaveInteractablesDLC2.categories[4].cards = dccsDampCaveInteractablesDLC2.categories[4].cards.Remove(dccsDampCaveInteractablesDLC2.categories[4].cards[0]);
+            }
+            if (ConfigStages.Stage_4_Ship.Value)
+            {
+                dccsShipgraveyardInteractablesDLC2.categories[4].cards = dccsShipgraveyardInteractablesDLC2.categories[4].cards.Remove(dccsShipgraveyardInteractablesDLC2.categories[4].cards[0]);
+            }
+            if (ConfigStages.Stage_4_Root_Jungle.Value)
+            {
+                dccsRootJungleInteractablesDLC2.categories[4].cards = dccsRootJungleInteractablesDLC2.categories[4].cards.Remove(dccsRootJungleInteractablesDLC2.categories[4].cards[0]);
+            }
+            if (ConfigStages.Stage_5_Sky.Value)
+            {
+                dccsSkyMeadowInteractablesDLC2.categories[4].cards = dccsSkyMeadowInteractablesDLC2.categories[4].cards.Remove(dccsSkyMeadowInteractablesDLC2.categories[4].cards[0]);
+            }
+            if (ConfigStages.Stage_5_Helminth.Value)
+            {
+                dccsHelminthRoostInteractables.categories[4].cards = dccsHelminthRoostInteractables.categories[4].cards.Remove(dccsHelminthRoostInteractables.categories[4].cards[0]);
+            }
 
 
             if (WConfig.DCCSCategoryChest.Value)

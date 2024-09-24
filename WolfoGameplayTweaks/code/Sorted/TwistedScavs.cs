@@ -188,39 +188,40 @@ namespace LittleGameplayTweaks
 
             if (WConfig.cfgScavTwistedScaling.Value)
             {
-                On.RoR2.ScriptedCombatEncounter.BeginEncounter += (orig, self) =>
-                {
-                    orig(self);
-                    if (self.name.StartsWith("ScavLunar"))
-                    {
-                        if (Run.instance.livingPlayerCount == 0)
-                        {
-                            float extraHealth = 1f;
-                            extraHealth += Run.instance.difficultyCoefficient / 2.5f;
-                            int num3 = Mathf.Max(1, Run.instance.participatingPlayerCount);
-                            extraHealth *= (Mathf.Pow((float)num3, 0.5f));
-
-                            Debug.LogFormat("Replacing previous HP bonus with: currentBoostHpCoefficient={0}", new object[]
-    {
-                        extraHealth,
-    });
-
-                            for (int i = 0; i < self.combatSquad.membersList.Count; i++)
-                            {
-                                Debug.Log(self.combatSquad.membersList[i]);
-                                self.combatSquad.membersList[i].inventory.RemoveItem(RoR2Content.Items.BoostHp, self.combatSquad.membersList[i].inventory.GetItemCount(RoR2Content.Items.BoostHp));
-                                self.combatSquad.membersList[i].inventory.GiveItem(RoR2Content.Items.BoostHp, Mathf.RoundToInt((extraHealth - 1f) * 10f));
-                            }
-                        }
-                       
-                    }
-                };
+                On.RoR2.ScriptedCombatEncounter.BeginEncounter += ScavLunarScaling;
             }
 
 
 
         }
 
+        private static void ScavLunarScaling(On.RoR2.ScriptedCombatEncounter.orig_BeginEncounter orig, ScriptedCombatEncounter self)
+        {
+            orig(self);
+            if (self.name.StartsWith("ScavLunar"))
+            {
+                if (Run.instance.livingPlayerCount == 0)
+                {
+                    float extraHealth = 1f;
+                    extraHealth += Run.instance.difficultyCoefficient / 2.5f;
+                    int num3 = Mathf.Max(1, Run.instance.participatingPlayerCount);
+                    extraHealth *= (Mathf.Pow((float)num3, 0.5f));
+
+                    Debug.LogFormat("Replacing previous HP bonus with: currentBoostHpCoefficient={0}", new object[]
+{
+                        extraHealth,
+});
+
+                    for (int i = 0; i < self.combatSquad.membersList.Count; i++)
+                    {
+                        Debug.Log(self.combatSquad.membersList[i]);
+                        self.combatSquad.membersList[i].inventory.RemoveItem(RoR2Content.Items.BoostHp, self.combatSquad.membersList[i].inventory.GetItemCount(RoR2Content.Items.BoostHp));
+                        self.combatSquad.membersList[i].inventory.GiveItem(RoR2Content.Items.BoostHp, Mathf.RoundToInt((extraHealth - 1f) * 10f));
+                    }
+                }
+
+            }
+        }
     }
 
 }

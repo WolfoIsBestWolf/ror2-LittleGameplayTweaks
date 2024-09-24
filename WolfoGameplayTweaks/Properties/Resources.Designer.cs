@@ -99,15 +99,5 @@ namespace LittleGameplayTweaks.Properties {
                 return ((byte[])(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] UniqueAffixVoid {
-            get {
-                object obj = ResourceManager.GetObject("UniqueAffixVoid", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

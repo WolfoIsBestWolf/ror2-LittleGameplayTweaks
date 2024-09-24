@@ -1,7 +1,31 @@
 ## Changelog:
 ```
+v3.2.0
+Loop Weathers now seperate mod as dependency and added 4 more.
+
+!Fixed Siphoned Forest never using it's Sots enemy spawn pool. (Why would they add loop scorchling here tho?)
+!Fixed Treeborn having its Cleansing Pool replaced with a Blood Shrine in it's Sotv interactables pool. (???)
+!Added Loop Cleansing Pools to Verdant Falls & Distant Roost. 
+-Because the spawn pools for when you only have Sots have them. But not any of the other 3 spawn pools. (???)
+
+Made False Son freeze-able.
+Made False Son get Adapative Armor on loops.
+
+Made the tar in Aquaduct apply Tar Slow.
+Made the Rallypoint Timed Chest time requirement scale on loops. (5 minutes per stage)
+Made Blood Shrines consistently give 2/3/4 chests worth of gold at normal health instead of scaling with time.
+Halcyon Shrines might spawn Halcyonites instead of Golems on later stages.
+Moved "Lunar Family" into "invasion" category where Void Family events are and added it to more stages.
+
+
+v3.1.1
+!Fixed Verdant Falls never using it's Sots enemy spawn pool. (It's meant to spawn Children)
+Added requested config to disable changes per Stage. (Enemy + Interactable + More Credits changes)
+Added requested config for Regen Cells and Beetle Skin.
+
+
 v3.1.0 -
-Added 2 loop weathers variants. (Sunset Plains, Dusk Acres) (No terrain chanes, disabled with Stage Aesthetics)
+Added 2 loop weathers variants. (Sunset Plains, Dusk Acres) (No terrain chanes)
 
 The portal after False Son now takes you to A stage 5 instead of always Helminth Roost.
 

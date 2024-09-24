@@ -22,6 +22,7 @@ namespace LittleGameplayTweaks
             Characters();
 
             MarriedEldersBands();
+ 
         }
 
         public static void Enemies()
@@ -50,6 +51,16 @@ namespace LittleGameplayTweaks
                     }
                 };
             }
+
+
+            GameObject FalseSon = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/FalseSonBoss/FalseSonBossBody.prefab").WaitForCompletion();
+            FalseSon.GetComponent<SetStateOnHurt>().canBeFrozen = true;
+            FalseSon = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/FalseSonBoss/FalseSonBossBodyLunarShard.prefab").WaitForCompletion();
+            FalseSon.GetComponent<SetStateOnHurt>().canBeFrozen = true;
+            FalseSon = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/FalseSonBoss/FalseSonBossBodyBrokenLunarShard.prefab").WaitForCompletion();
+            FalseSon.GetComponent<SetStateOnHurt>().canBeFrozen = true;
+
+            On.RoR2.ScriptedCombatEncounter.BeginEncounter += FalseSonAdaptive;
 
 
             //Scav
@@ -145,6 +156,27 @@ namespace LittleGameplayTweaks
                 skilllist[6].enabled = false;
             }
 
+
+        }
+
+        private static void FalseSonAdaptive(On.RoR2.ScriptedCombatEncounter.orig_BeginEncounter orig, ScriptedCombatEncounter self)
+        {
+            orig(self);
+
+            if (Run.instance.stageClearCount > 4)
+            {
+                if (self.spawns.Length > 0 && self.spawns[0].spawnCard.name.StartsWith("cscFalse"))
+                {
+                    for(int i = 0; i < self.combatSquad.membersList.Count; i++)
+                    {
+                        Inventory inventory = self.combatSquad.membersList[i].inventory;
+                        if (inventory.GetItemCount(RoR2Content.Items.AdaptiveArmor) == 0)
+                        {
+                            inventory.GiveItem(RoR2Content.Items.AdaptiveArmor);
+                        }
+                    }
+                }
+            }
 
         }
 

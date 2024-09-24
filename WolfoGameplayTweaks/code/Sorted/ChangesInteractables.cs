@@ -29,6 +29,8 @@ namespace LittleGameplayTweaks
             StupidPriceChanger();
             Faster();
 
+            On.RoR2.TimedChestController.PreStartClient += TimedChestController_PreStartClient;
+
             BasicPickupDropTable dtLockbox = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/Base/TreasureCache/dtLockbox.asset").WaitForCompletion();
             dtLockbox.canDropBeReplaced = false;
 
@@ -73,6 +75,16 @@ namespace LittleGameplayTweaks
 
             //This is kinda dumb
             On.EntityStates.LunarTeleporter.LunarTeleporterBaseState.FixedUpdate += LunarTeleporterBaseState_FixedUpdate;
+        }
+
+        private static void TimedChestController_PreStartClient(On.RoR2.TimedChestController.orig_PreStartClient orig, TimedChestController self)
+        {
+            orig(self);
+            if (Run.instance.stageClearCount > 3)
+            {
+                float newTime = self.lockTime / 2 * Run.instance.stageClearCount;
+                self.lockTime = newTime;
+            }          
         }
 
         public static void LunarTeleporterBaseState_FixedUpdate(On.EntityStates.LunarTeleporter.LunarTeleporterBaseState.orig_FixedUpdate orig, EntityStates.LunarTeleporter.LunarTeleporterBaseState self)
@@ -252,14 +264,11 @@ namespace LittleGameplayTweaks
                     orig(self);
                     self.goldToPaidHpRatio *= Mathf.Pow(Run.instance.difficultyCoefficient, 0.4f);
                 };
+                On.RoR2.ShrineBloodBehavior.AddShrineStack += SetShrineBloodAmount;
             }
             if (WConfig.InteractableBloodShrineLessCost.Value == true)
             {
-                On.RoR2.ShrineBloodBehavior.Start += (orig, self) =>
-                {
-                    orig(self);
-                    self.goldToPaidHpRatio *= Mathf.Pow(Run.instance.difficultyCoefficient, 0.4f);
-                };
+ 
                 On.RoR2.ShrineBloodBehavior.AddShrineStack += (orig, self, interactor) =>
                 {
                     orig(self, interactor);
@@ -300,7 +309,22 @@ namespace LittleGameplayTweaks
 
         }
 
+        private static void SetShrineBloodAmount(On.RoR2.ShrineBloodBehavior.orig_AddShrineStack orig, ShrineBloodBehavior self, Interactor interactor)
+        {
+            CharacterBody component = interactor.GetComponent<CharacterBody>();
 
+            if(Stage.instance && component)
+            {
+                int newGold = 50 + self.purchaseCount * 25;
+                float difficultyScaledCost = Run.instance.GetDifficultyScaledCost(newGold, Stage.instance.entryDifficultyCoefficient);
+                //_entryDifficultyCoefficient
+
+                float HealthForDiv = component.baseMaxHealth + component.levelMaxHealth * (component.level - 1);
+
+                self.goldToPaidHpRatio = difficultyScaledCost / HealthForDiv / self.purchaseInteraction.cost * 100;
+            }
+            orig(self, interactor);
+        }
 
         internal static void FakeGoldShrine()
         {

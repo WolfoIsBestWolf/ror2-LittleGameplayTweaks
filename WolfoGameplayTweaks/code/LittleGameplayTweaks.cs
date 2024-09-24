@@ -21,7 +21,7 @@ using UnityEngine.Networking;
 namespace LittleGameplayTweaks
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("com.Wolfo.LittleGameplayTweaks", "LittleGameplayTweaks", "3.1.0")]
+    [BepInPlugin("com.Wolfo.LittleGameplayTweaks", "LittleGameplayTweaks", "3.2.0")]
     //[R2APISubmoduleDependency(nameof(ContentAddition), nameof(LanguageAPI), nameof(PrefabAPI), nameof(ItemAPI), nameof(LoadoutAPI), nameof(EliteAPI))]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
 
@@ -36,7 +36,8 @@ namespace LittleGameplayTweaks
 
         public void Awake()
         {
-            WConfig.InitConfig();          
+            WConfig.InitConfig();
+            ConfigStages.InitConfig();
 
             GameModeCatalog.availability.CallWhenAvailable(EquipmentBonusRate);
             //ChangesItems.Start();
@@ -44,14 +45,9 @@ namespace LittleGameplayTweaks
             ChangesInteractables.Start();
             ChangesStages.Start();
 
-            bool otherSeed = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("HIFU.StageAesthetic");
-            if (!otherSeed && WConfig.cfgLoopWeather.Value)
-            {
-                LoopStageVariants.Start();
-            }
-
-               
-
+            //GameObject ass = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DisplayColossusItem.prefab").WaitForCompletion();
+            //GameObject ass2 = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/AurelioniteHeart.prefab").WaitForCompletion();
+        
             DCCSEnemies.Start();
             DCCSInteractables.Start();
 
@@ -353,15 +349,18 @@ namespace LittleGameplayTweaks
             if (WConfig.cfgScavBossItem.Value)
             {
                 ChangesCharacters.DropTableForBossScav = AllScavCompatibleBossItems[WRect.random.Next(AllScavCompatibleBossItems.Count)];
-                int ran = random.Next(10);
-                if (ran > 4)
+                if (Run.instance && Run.instance.stageClearCount > 7)
                 {
-                    LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").forbiddenAsBoss = false;
-                }
-                else
-                {
-                    LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").forbiddenAsBoss = true;
-                }
+                    int ran = random.Next(10);
+                    if (ran > 5)
+                    {
+                        LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").forbiddenAsBoss = false;
+                    }
+                    else
+                    {
+                        LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").forbiddenAsBoss = true;
+                    }
+                }              
             }
         }
 

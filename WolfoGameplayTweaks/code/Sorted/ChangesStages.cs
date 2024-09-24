@@ -34,13 +34,15 @@ namespace LittleGameplayTweaks
                 Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidstage/voidstage.asset").WaitForCompletion().sceneType = SceneType.UntimedStage;
                 Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion().sceneType = SceneType.UntimedStage;
             }
-            if (WConfig.FasterArenaCells.Value)
+            if (WConfig.RegenArenaCells.Value)
             {
-                On.RoR2.ArenaMissionController.OnStartServer += ArenaMissionController_OnEnable;
-
                 On.EntityStates.Missions.Arena.NullWard.WardOnAndReady.OnEnter += WardOnAndReady_OnEnter;
                 On.EntityStates.Missions.Arena.NullWard.Active.OnEnter += Active_OnEnter;
             }
+            On.RoR2.ArenaMissionController.OnStartServer += ArenaMissionController_OnEnable;
+
+          
+ 
 
             GameObject DestinationPortal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PM DestinationPortal.prefab").WaitForCompletion();
             DestinationPortal.GetComponent<SceneExitController>().useRunNextStageScene = true;
@@ -69,11 +71,27 @@ namespace LittleGameplayTweaks
 
                 switch (SceneInfo.instance.sceneDef.cachedName)
                 {
-                    //DccsPool dpFrozenWallInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/frozenwall/dpFrozenWallInteractables.asset").WaitForCompletion();
-
                     case "foggyswamp":
                         self.interactableDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/foggyswamp/dpFoggySwampInteractables.asset").WaitForCompletion();
                         self.monsterDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/foggyswamp/dpFoggySwampMonsters.asset").WaitForCompletion();
+                        break;
+                    case "goolake":
+                        BuffDef SlowTar = Addressables.LoadAssetAsync<BuffDef>(key: "RoR2/Base/Common/bdClayGoo.asset").WaitForCompletion();
+                        GameObject MiscProps = GameObject.Find("/HOLDER: Misc Props"); 
+                        GameObject WaterFall = GameObject.Find("/HOLDER: GameplaySpace/mdlGlDam/GL_AqueductPartial/GL_Waterfall");
+                        if (MiscProps)
+                        {
+                            GameObject GooPlaneOld1 = MiscProps.transform.GetChild(2).gameObject;
+                            GameObject GooPlaneOld2 = MiscProps.transform.GetChild(3).gameObject;
+                            if (WaterFall)
+                            {
+                                WaterFall.transform.GetChild(8).GetComponent<DebuffZone>().buffType = SlowTar;
+                                GooPlaneOld1.GetComponentInChildren<DebuffZone>().buffType = SlowTar;
+                                GooPlaneOld2.GetComponentInChildren<DebuffZone>().buffType = SlowTar;
+                            }
+                        }     
+                        //UnityEngine.RenderSettings.defaultReflectionMode
+
                         break;
                     case "blackbeach2":
                         self.interactableDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/blackbeach/dpBlackBeachInteractables.asset").WaitForCompletion();
@@ -138,28 +156,34 @@ namespace LittleGameplayTweaks
             orig(self);
             for (int i = 0; i < self.nullWards.Length; i++)
             {
-                if (i < 4)
+                if (WConfig.FasterArenaCells.Value)
                 {
-                    self.nullWards[i].GetComponent<HoldoutZoneController>().baseChargeDuration = 30;
+                    if (i < 4)
+                    {
+                        self.nullWards[i].GetComponent<HoldoutZoneController>().baseChargeDuration = 30;
+                    }
+                    else if (i < 8)
+                    {
+                        self.nullWards[i].GetComponent<HoldoutZoneController>().baseChargeDuration = 45;
+                    }
+                    else
+                    {
+                    }
                 }
-                else if (i < 8)
+                if (WConfig.RegenArenaCells.Value)
                 {
-                    self.nullWards[i].GetComponent<HoldoutZoneController>().baseChargeDuration = 45;
+                    BuffWard buffWard = self.nullWards[i].AddComponent<BuffWard>();
+                    buffWard.enabled = false;
+                    buffWard.radius = 5;
+                    buffWard.buffDuration = 1.5f;
+                    buffWard.buffDef = DLC1Content.Buffs.MushroomVoidActive;
+                    buffWard = self.nullWards[i].AddComponent<BuffWard>();
+                    buffWard.enabled = false;
+                    buffWard.radius = 5;
+                    buffWard.buffDuration = 1.5f;
+                    buffWard.buffDef = HiddenRegen;
                 }
-                else
-                {
-                }
-
-                BuffWard buffWard = self.nullWards[i].AddComponent<BuffWard>();
-                buffWard.enabled = false;
-                buffWard.radius = 5;
-                buffWard.buffDuration = 1.5f;
-                buffWard.buffDef = DLC1Content.Buffs.MushroomVoidActive;
-                buffWard = self.nullWards[i].AddComponent<BuffWard>();
-                buffWard.enabled = false;
-                buffWard.radius = 5;
-                buffWard.buffDuration = 1.5f;
-                buffWard.buffDef = HiddenRegen;
+               
             }
         }
 
@@ -172,22 +196,39 @@ namespace LittleGameplayTweaks
                 switch (SceneInfo.instance.sceneDef.baseSceneName)
                 {
                     case "golemplains":
+                        if (ConfigStages.Stage_1_Golem.Value)
+                        { }
                         self.sceneDirectorInteractibleCredits += 20; //Rather buff these two a bit than nerf Snowy Ig we'll see
                         break;
                     case "blackbeach":
+                        if (ConfigStages.Stage_1_Roost.Value)
+                        { 
                         self.sceneDirectorInteractibleCredits += 20; //
+                        }
                         break;
                     case "goolake":
+                        if (ConfigStages.Stage_2_Goolake.Value)
+                        { 
                         self.sceneDirectorInteractibleCredits += 20; //Has 60 less due to the Lemurians a bit too harsh imo
+                        }
                         break;
                     case "sulfurpools":
+                        if (ConfigStages.Stage_3_Sulfur.Value)
+                        { 
                         self.sceneDirectorInteractibleCredits += 30; //Hell stage
+                        }
                         break;
                     case "rootjungle":
+                        if (ConfigStages.Stage_4_Root_Jungle.Value)
+                        {
                         self.sceneDirectorInteractibleCredits += 30; //Depths sometimes has 560 so raising the other two by 40 seems fine
+                        }
                         break;
                     case "shipgraveyard":
-                        self.sceneDirectorInteractibleCredits += 30; //Depths has 400 or 560
+                        if (ConfigStages.Stage_4_Ship.Value)
+                        { 
+                        self.sceneDirectorInteractibleCredits += 30; //Depths has 400 or 560}
+                        }
                         break;
                 }
             }

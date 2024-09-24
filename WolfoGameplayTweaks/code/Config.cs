@@ -7,8 +7,9 @@ namespace LittleGameplayTweaks
 	{
         public static ConfigFile ConfigFileUNSORTED = new ConfigFile(Paths.ConfigPath + "\\Wolfo.Little_Gameplay_Tweaks.cfg", true);
 
-        //
         public static ConfigEntry<bool> LevelMaximum;
+
+        public static ConfigEntry<bool> SulfurPoolsSkin;
 
 
         public static ConfigEntry<bool> DCCSEnemyChanges;
@@ -36,6 +37,7 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> FasterShrines;
         public static ConfigEntry<int> FasterDeepVoidSignal;
         public static ConfigEntry<bool> FasterArenaCells;
+        public static ConfigEntry<bool> RegenArenaCells;
 
         public static ConfigEntry<bool> InteractableNoLunarCost;
         public static ConfigEntry<bool> InteractableHealingShrine;
@@ -104,6 +106,12 @@ namespace LittleGameplayTweaks
                 "Changes to spawn enemy spawn pools (Pre Loop)",
                 true,
                 "Adds and changes some enemy variety"
+            );
+            SulfurPoolsSkin = ConfigFileUNSORTED.Bind(
+                "Spawnpool - Enemy",
+                "Sulfur Pool Beetles Skin",
+                true,
+                "ReImplement the unused Sulfur Pools skin"
             );
             DCCSEnemyChangesLooping = ConfigFileUNSORTED.Bind(
                 "Spawnpool - Enemy",
@@ -205,9 +213,15 @@ namespace LittleGameplayTweaks
             );
             FasterArenaCells = ConfigFileUNSORTED.Bind(
                 "Changes - Interactables",
-                "Faster Void Fields Cells",
+                "Void Fields Cells - Faster early cells",
                 true,
-                "30s for the first 4, 45s for the next 4, 60s for the last. Arena Cells emmit regen."
+                "30s for the first 4, 45s for the next 4, 60s for the last. "
+            );
+            RegenArenaCells = ConfigFileUNSORTED.Bind(
+                "Changes - Interactables",
+                "Void Fields Cells - Regen",
+                true,
+                "Cells give regeneration before actvating so you can heal faster."
             );
             InteractableBloodShrineScaleWithTime = ConfigFileUNSORTED.Bind(
                 "Changes - Interactables",
@@ -236,8 +250,8 @@ namespace LittleGameplayTweaks
             InteractableRedSoupAmount = ConfigFileUNSORTED.Bind(
                 "Changes - Interactables",
                 "RedToWhite Cauldron extra item amount",
-                2,
-                "This is in addition to the 3 that Vanilla pays out with\nie If you want 5 set it to 2"
+                1,
+                "This is in addition to the 3 that Vanilla pays out with\nie If you want 4 set it to 2"
             );
 
             InteractableNoLunarCost = ConfigFileUNSORTED.Bind(
