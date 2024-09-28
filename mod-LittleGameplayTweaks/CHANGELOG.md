@@ -1,5 +1,10 @@
 ## Changelog:
 ```
+v3.2.2
+!Fixed Golem Plains never using it's Sots enemy spawn pool. (Loop Halcyionite is meant to spawn here)
+Added Emergency Drone to Sulfur Pools
+
+v3.2.1 - Sulfur Pool Beetle config now works without having spawn pools config enabled.
 v3.2.0
 Loop Weathers now seperate mod as dependency and added 4 more.
 

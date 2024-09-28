@@ -184,6 +184,18 @@ namespace LittleGameplayTweaks
             ArrayUtils.ArrayAppend(ref dpSnowyForestMonsters.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
 
 
+            DccsPool dpGolemplainsMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/golemplains/dpGolemplainsMonsters.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsGolemplainsMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsGolemplainsMonstersDLC2.asset").WaitForCompletion();
+
+            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
+            {
+                dccs = dccsGolemplainsMonstersDLC2,
+                requiredExpansions = required,
+                weight = 1,
+            };
+            ArrayUtils.ArrayAppend(ref dpGolemplainsMonsters.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
+
+
         }
 
         public static void DCCSThings_NoDLC()
@@ -481,6 +493,11 @@ namespace LittleGameplayTweaks
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBoss/iscShrineBoss.asset").WaitForCompletion(),
                 selectionWeight = 10,
             };
+            DirectorCard ADBrokenEmergencyDrone = new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<InteractableSpawnCard>("spawncards/interactablespawncard/iscBrokenEmergencyDrone"),
+                selectionWeight = 3,
+            };
             DirectorCard ADBrokenMegaDrone = new DirectorCard
             {
                 spawnCard = LegacyResourcesAPI.Load<InteractableSpawnCard>("spawncards/interactablespawncard/iscBrokenMegaDrone"),
@@ -529,6 +546,7 @@ namespace LittleGameplayTweaks
             {
                 dccsSulfurPoolsInteractablesDLC2.categories[2].cards = dccsSulfurPoolsInteractablesDLC2.categories[2].cards.Remove(dccsSulfurPoolsInteractablesDLC2.categories[2].cards[3]);
                 dccsSulfurPoolsInteractablesDLC2.AddCard(2, ADShrineBoss10);
+                dccsSulfurPoolsInteractablesDLC2.AddCard(3, ADBrokenEmergencyDrone);
             }
             if (ConfigStages.Stage_3_Tree.Value)
             {

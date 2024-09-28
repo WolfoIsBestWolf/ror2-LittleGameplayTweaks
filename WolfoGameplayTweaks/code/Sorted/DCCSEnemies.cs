@@ -26,11 +26,36 @@ namespace LittleGameplayTweaks
             {
                 Families();
             }
-
+            if (WConfig.SulfurPoolsSkin.Value == true)
+            {
+                SulfurPoolsBeetle();
+            }
             On.RoR2.DccsPool.AreConditionsMet += DccsPool_AreConditionsMet;
         }
 
- 
+        public static void SulfurPoolsBeetle()
+        {
+            DirectorCardCategorySelection dccsSulfurPoolsMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC1/sulfurpools/dccsSulfurPoolsMonstersDLC1.asset").WaitForCompletion();
+
+            int num = -1;
+            num = FindSpawnCard(dccsSulfurPoolsMonstersDLC1.categories[2].cards, "Beetle");
+            if (num > -1)
+            {
+                dccsSulfurPoolsMonstersDLC1.categories[2].cards[num].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleSulfur.asset").WaitForCompletion();
+            }
+            num = FindSpawnCard(dccsSulfurPoolsMonstersDLC1.categories[1].cards, "BeetleGuard");
+            if (num > -1)
+            {
+                dccsSulfurPoolsMonstersDLC1.categories[1].cards[num].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleGuardSulfur.asset").WaitForCompletion();
+            }
+            num = FindSpawnCard(dccsSulfurPoolsMonstersDLC1.categories[0].cards, "BeetleQueen");
+            if (num > -1)
+            {
+                dccsSulfurPoolsMonstersDLC1.categories[0].cards[num].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleQueenSulfur.asset").WaitForCompletion();
+            }
+            On.EntityStates.BeetleQueenMonster.SummonEggs.OnEnter += FixSulfurPoolsBeetleQueen;
+        }
+
 
         private static bool DccsPool_AreConditionsMet(On.RoR2.DccsPool.orig_AreConditionsMet orig, DccsPool self, DccsPool.ConditionalPoolEntry entry)
         {   
@@ -210,27 +235,6 @@ namespace LittleGameplayTweaks
             {
                 dccsWispGraveyardMonstersDLC1.AddCard(1, DC_ClayGrenadier);
             }
-
-            if (WConfig.SulfurPoolsSkin.Value)
-            {
-                num = FindSpawnCard(dccsSulfurPoolsMonstersDLC1.categories[2].cards, "Beetle");
-                if (num > -1)
-                {
-                    dccsSulfurPoolsMonstersDLC1.categories[2].cards[num].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleSulfur.asset").WaitForCompletion();
-                }
-                num = FindSpawnCard(dccsSulfurPoolsMonstersDLC1.categories[1].cards, "BeetleGuard");
-                if (num > -1)
-                {
-                    dccsSulfurPoolsMonstersDLC1.categories[1].cards[num].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleGuardSulfur.asset").WaitForCompletion();
-                }
-                num = FindSpawnCard(dccsSulfurPoolsMonstersDLC1.categories[0].cards, "BeetleQueen");
-                if (num > -1)
-                {
-                    dccsSulfurPoolsMonstersDLC1.categories[0].cards[num].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleQueenSulfur.asset").WaitForCompletion();
-                }
-                On.EntityStates.BeetleQueenMonster.SummonEggs.OnEnter += FixSulfurPoolsBeetleQueen;
-            }
-
             if (ConfigStages.Stage_3_Sulfur.Value)
             {
                 num = FindSpawnCard(dccsSulfurPoolsMonstersDLC1.categories[0].cards, "MegaConstruct");

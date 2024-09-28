@@ -1,6 +1,6 @@
 {
     "name": "LittleGameplayTweaks",
-    "version_number": "3.2.0",
+    "version_number": "3.2.1",
     "website_url": "https://github.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks",
     "description": "More enemy variety, 6 more loop lighting changes, slightly faster Interactables, Prismatic Trials+, and some more.",
     "dependencies": [

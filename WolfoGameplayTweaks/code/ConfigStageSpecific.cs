@@ -30,8 +30,6 @@ namespace LittleGameplayTweaks
 
         public static void InitConfig()
         {
-            UnityEngine.Debug.LogWarning(ConfigFileSTAGES);
-
             Stage_1_Golem = ConfigFileSTAGES.Bind(
                 "Stage 1",
                 "Golem Plains",

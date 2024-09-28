@@ -16,9 +16,9 @@ namespace LittleGameplayTweaks
         public static void Start()
         {
 
-            DirectorCardCategorySelection dccsLunarCampMonsters = ScriptableObject.CreateInstance<FamilyDirectorCardCategorySelection>();
-            DirectorCardCategorySelection dccsLunarCampInteractables = ScriptableObject.CreateInstance<FamilyDirectorCardCategorySelection>();
-            DirectorCardCategorySelection dccsLunarCampFlavorProps = ScriptableObject.CreateInstance<FamilyDirectorCardCategorySelection>();
+            DirectorCardCategorySelection dccsLunarCampMonsters = ScriptableObject.CreateInstance<DirectorCardCategorySelection>();
+            DirectorCardCategorySelection dccsLunarCampInteractables = ScriptableObject.CreateInstance<DirectorCardCategorySelection>();
+            DirectorCardCategorySelection dccsLunarCampFlavorProps = ScriptableObject.CreateInstance<DirectorCardCategorySelection>();
 
             DirectorCard LoopLunarExploder = new DirectorCard
             {

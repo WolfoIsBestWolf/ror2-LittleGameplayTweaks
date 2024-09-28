@@ -53,6 +53,7 @@ namespace LittleGameplayTweaks
 
             Prismatic.Start();
             TwistedScavs.Start();
+            //InteractableFamilyEvents.Start(); //Crackhead idea
 
             GameModeCatalog.availability.CallWhenAvailable(ModSupport);
             On.RoR2.UI.MainMenu.MainMenuController.Start += OneTimeOnlyLateRunner;

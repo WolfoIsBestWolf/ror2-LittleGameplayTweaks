@@ -73,6 +73,16 @@ namespace LoopVariants.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] spmSPVine {
+            get {
+                object obj = ResourceManager.GetObject("spmSPVine", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] texDCGrass {
             get {
                 object obj = ResourceManager.GetObject("texDCGrass", resourceCulture);
@@ -116,6 +126,176 @@ namespace LoopVariants.Properties {
         public static byte[] texHRLavaDiffuse_opt {
             get {
                 object obj = ResourceManager.GetObject("texHRLavaDiffuse_opt", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRampArtifactShellSoft {
+            get {
+                object obj = ResourceManager.GetObject("texRampArtifactShellSoft", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRampCaptainAirstrike {
+            get {
+                object obj = ResourceManager.GetObject("texRampCaptainAirstrike", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRampMagmaWorm {
+            get {
+                object obj = ResourceManager.GetObject("texRampMagmaWorm", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRampTeleporterSoft {
+            get {
+                object obj = ResourceManager.GetObject("texRampTeleporterSoft", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texSkyboxSP {
+            get {
+                object obj = ResourceManager.GetObject("texSkyboxSP", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texSPCoralEmi {
+            get {
+                object obj = ResourceManager.GetObject("texSPCoralEmi", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texSPCoralString {
+            get {
+                object obj = ResourceManager.GetObject("texSPCoralString", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texSPGrass {
+            get {
+                object obj = ResourceManager.GetObject("texSPGrass", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texSPGrassEMI {
+            get {
+                object obj = ResourceManager.GetObject("texSPGrassEMI", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texSPGroundDIFMain {
+            get {
+                object obj = ResourceManager.GetObject("texSPGroundDIFMain", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texSPGroundDIFPale {
+            get {
+                object obj = ResourceManager.GetObject("texSPGroundDIFPale", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texSPGroundDIFVein {
+            get {
+                object obj = ResourceManager.GetObject("texSPGroundDIFVein", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texSPGroundRed {
+            get {
+                object obj = ResourceManager.GetObject("texSPGroundRed", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texSPGroundRed_FORLAVA {
+            get {
+                object obj = ResourceManager.GetObject("texSPGroundRed_FORLAVA", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texSPSpheremoss {
+            get {
+                object obj = ResourceManager.GetObject("texSPSpheremoss", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texSPSphereRock {
+            get {
+                object obj = ResourceManager.GetObject("texSPSphereRock", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texSPTallGrass {
+            get {
+                object obj = ResourceManager.GetObject("texSPTallGrass", resourceCulture);
                 return ((byte[])(obj));
             }
         }

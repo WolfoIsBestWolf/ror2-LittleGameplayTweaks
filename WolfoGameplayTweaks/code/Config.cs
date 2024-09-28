@@ -251,7 +251,7 @@ namespace LittleGameplayTweaks
                 "Changes - Interactables",
                 "RedToWhite Cauldron extra item amount",
                 1,
-                "This is in addition to the 3 that Vanilla pays out with\nie If you want 4 set it to 2"
+                "This is in addition to the 3 that Vanilla pays out with\nie If you want 5 items total, set it to 2.  Set to 0 to disable."
             );
 
             InteractableNoLunarCost = ConfigFileUNSORTED.Bind(

@@ -287,26 +287,28 @@ namespace LittleGameplayTweaks
             }
             if (WConfig.InteractableRedSoupAmount.Value != 0)
             {
-                On.RoR2.ShopTerminalBehavior.DropPickup += (orig, self) =>
-                {
-                    if (self.name.StartsWith("LunarCauldron, RedToWhite"))
-                    {
-                        if(!self.GetComponent<PurchaseInteraction>().available)
-                        {
-                            for (int i = 0; i < WConfig.InteractableRedSoupAmount.Value; i++)
-                            {
-                                PickupDropletController.CreatePickupDroplet(self.pickupIndex, (self.dropTransform ? self.dropTransform : self.transform).position, self.transform.TransformVector(self.dropVelocity));
-                            };
-                        }
-                        if (!self.hasBeenPurchased)
-                        {
-                           
-                        }
-                    }
-                    orig(self);
-                };
+                On.RoR2.ShopTerminalBehavior.DropPickup += RedToWhiteSoupMore;
             }
 
+        }
+
+        private static void RedToWhiteSoupMore(On.RoR2.ShopTerminalBehavior.orig_DropPickup orig, ShopTerminalBehavior self)
+        {
+            if (self.name.StartsWith("LunarCauldron, RedToWhite"))
+            {
+                if (!self.GetComponent<PurchaseInteraction>().available)
+                {
+                    for (int i = 0; i < WConfig.InteractableRedSoupAmount.Value; i++)
+                    {
+                        PickupDropletController.CreatePickupDroplet(self.pickupIndex, (self.dropTransform ? self.dropTransform : self.transform).position, self.transform.TransformVector(self.dropVelocity));
+                    };
+                }
+                if (!self.hasBeenPurchased)
+                {
+
+                }
+            }
+            orig(self);
         }
 
         private static void SetShrineBloodAmount(On.RoR2.ShrineBloodBehavior.orig_AddShrineStack orig, ShrineBloodBehavior self, Interactor interactor)

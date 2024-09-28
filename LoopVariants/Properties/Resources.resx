@@ -121,6 +121,9 @@
   <data name="spmDCFern1_Atlas" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Damp\spmDCFern1_Atlas.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="spmSPVine" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\spmSPVine.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="texDCGrass" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Damp\texDCGrass.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -135,6 +138,57 @@
   </data>
   <data name="texHRLavaDiffuse_opt" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Helminth\texHRLavaDiffuse_opt.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texRampArtifactShellSoft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texRampArtifactShellSoft.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texRampCaptainAirstrike" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texRampCaptainAirstrike.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texRampMagmaWorm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texRampMagmaWorm.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texRampTeleporterSoft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texRampTeleporterSoft.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texSkyboxSP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texSkyboxSP.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texSPCoralEmi" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texSPCoralEmi.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texSPCoralString" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texSPCoralString.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texSPGrass" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texSPGrass.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texSPGrassEMI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texSPGrassEMI.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texSPGroundDIFMain" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texSPGroundDIFMain.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texSPGroundDIFPale" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texSPGroundDIFPale.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texSPGroundDIFVein" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texSPGroundDIFVein.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texSPGroundRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texSPGroundRed.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texSPGroundRed_FORLAVA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texSPGroundRed_FORLAVA.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texSPSpheremoss" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texSPSpheremoss.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texSPSphereRock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texSPSphereRock.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texSPTallGrass" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SulfurPools\texSPTallGrass.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="texWhiteSandSimple" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Damp\texWhiteSandSimple.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
