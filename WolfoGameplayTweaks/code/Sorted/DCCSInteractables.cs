@@ -491,7 +491,7 @@ namespace LittleGameplayTweaks
             DirectorCard ADShrineBoss10 = new DirectorCard
             {
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBoss/iscShrineBoss.asset").WaitForCompletion(),
-                selectionWeight = 10,
+                selectionWeight = 11,
             };
             DirectorCard ADBrokenEmergencyDrone = new DirectorCard
             {

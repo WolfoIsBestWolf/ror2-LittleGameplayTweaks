@@ -1,8 +1,8 @@
 {
     "name": "LittleGameplayTweaks",
-    "version_number": "3.2.1",
+    "version_number": "3.2.2",
     "website_url": "https://github.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks",
-    "description": "More enemy variety, 6 more loop lighting changes, slightly faster Interactables, Prismatic Trials+, and some more.",
+    "description": "Greater enemy variety in spawnpools, slightly faster Interactables, Prismatic Runs, and some more.",
     "dependencies": [
         "Wolfo-WLoopWeather-1.0.0",
 		"bbepis-BepInExPack-5.4.9",

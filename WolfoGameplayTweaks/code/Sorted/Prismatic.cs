@@ -64,42 +64,7 @@ namespace LittleGameplayTweaks
 
             //
             //Circumventing run ending early
-            On.RoR2.WeeklyRun.AdvanceStage += (orig, self, nextScene) =>
-            {
-                bool PrismaticTrialExtender = false;
-                if (self.ruleBook.GetRuleChoice(RuleDefPrismatic).localName.Equals("Endless") && self.stageClearCount == 1 && SceneInfo.instance.countsAsStage)
-                {
-                    self.stageClearCount = 0;
-                    PrismaticTrialExtender = true;
-                }
-                orig(self, nextScene);
-                if (PrismaticTrialExtender == true)
-                {
-                    self.stageClearCount = 2;
-                    PrismaticTrialExtender = false;
-                }
-
-                if (self.ruleBook.GetRuleChoice(RuleDefPrismatic).localName.Equals("Endless"))
-                {
-                    //self.bossAffixes[0] = bossAffixes[random.Next(bossAffixes.Length)];
-                    int kill = 3;// + self.participatingPlayerCount - 1;
-                    int crystal = 5;// + self.participatingPlayerCount - 1;
-                    if (nextScene.stageOrder == 4)
-                    {
-                        kill += 1;
-                        crystal += 1;
-                    }
-                    else if (nextScene.stageOrder == 5)
-                    {
-                        kill += 2;
-                        crystal += 3;
-                    }
-                    self.crystalCount = (uint)crystal;
-                    self.crystalsRequiredToKill = (uint)kill;
-
-                }
-                self.crystalRewardValue = (uint)self.GetDifficultyScaledCost(30);
-            };
+            On.RoR2.WeeklyRun.AdvanceStage += WeeklyRun_AdvanceStage;
 
             //Always gets set to only Overloading/Blazing at the start of the run so you can't set it in the prefab
             On.RoR2.WeeklyRun.Start += (orig, self) =>
@@ -193,7 +158,7 @@ namespace LittleGameplayTweaks
             On.RoR2.RunReport.PlayerInfo.Generate += PlayerInfo_Generate;
 
 
-            LanguageAPI.Add("TITLE_WEEKLY", "Prismatic Trials+", "en");
+            //LanguageAPI.Add("TITLE_WEEKLY", "Prismatic Trial", "en");
             //LanguageAPI.Add("GAMEMODE_WEEKLY_RUN_NAME", "Prismatic\nTrial", "en");
             LanguageAPI.Add("GAMEMODE_WEEKLY_RUN_NAME", "Prismatic", "en");
             LanguageAPI.Add("GAMEMODE_WEEKLY_RUN_NAME", "Prismatisch", "de");
@@ -262,6 +227,42 @@ namespace LittleGameplayTweaks
             };
         }
 
+        private static void WeeklyRun_AdvanceStage(On.RoR2.WeeklyRun.orig_AdvanceStage orig, WeeklyRun self, SceneDef nextScene)
+        {
+            bool PrismaticTrialExtender = false;
+            if (self.ruleBook.GetRuleChoice(RuleDefPrismatic).localName.Equals("Endless") && self.stageClearCount == 1 && SceneInfo.instance.countsAsStage)
+            {
+                self.stageClearCount = 0;
+                PrismaticTrialExtender = true;
+            }
+            orig(self, nextScene);
+            if (PrismaticTrialExtender == true)
+            {
+                self.stageClearCount = 2;
+                PrismaticTrialExtender = false;
+            }
+
+            if (self.ruleBook.GetRuleChoice(RuleDefPrismatic).localName.Equals("Endless"))
+            {
+                //self.bossAffixes[0] = bossAffixes[random.Next(bossAffixes.Length)];
+                int kill = 3;// + self.participatingPlayerCount - 1;
+                int crystal = 5;// + self.participatingPlayerCount - 1;
+                if (nextScene.stageOrder == 4)
+                {
+                    kill += 1;
+                    crystal += 1;
+                }
+                else if (nextScene.stageOrder == 5)
+                {
+                    kill += 2;
+                    crystal += 3;
+                }
+                self.crystalCount = (uint)crystal;
+                self.crystalsRequiredToKill = (uint)kill;
+
+            }
+            self.crystalRewardValue = (uint)self.GetDifficultyScaledCost(30);
+        }
 
         private static System.Collections.IEnumerator FixClientsLate(On.RoR2.Stage.orig_Start orig, Stage self)
         {
@@ -459,8 +460,9 @@ namespace LittleGameplayTweaks
                 RoR2Content.Equipment.AffixRed.equipmentIndex,
                 RoR2Content.Equipment.AffixBlue.equipmentIndex,
                 RoR2Content.Equipment.AffixWhite.equipmentIndex,
+                RoR2Content.Equipment.AffixLunar.equipmentIndex,
                 DLC1Content.Elites.Earth.eliteEquipmentDef.equipmentIndex,
-                RoR2Content.Equipment.AffixLunar.equipmentIndex
+                DLC2Content.Equipment.EliteAurelioniteEquipment.equipmentIndex
                 };
             }
             //

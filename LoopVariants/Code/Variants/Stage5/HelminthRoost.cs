@@ -35,6 +35,18 @@ namespace LoopVariants
 
             Texture2D rampGold = Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/DLC1/Common/ColorRamps/texRampStrongerBurn.png").WaitForCompletion();
 
+            Texture2D texRampMagmaWorm = new Texture2D(256, 8, TextureFormat.DXT1, false);
+            texRampMagmaWorm.LoadImage(Properties.Resources.Gold_texRampMagmaWorm, true);
+            texRampMagmaWorm.filterMode = FilterMode.Bilinear;
+            texRampMagmaWorm.wrapMode = TextureWrapMode.Repeat;
+            Texture2D texRampCaptainAirstrike = new Texture2D(128, 16, TextureFormat.DXT1, false);
+            texRampCaptainAirstrike.LoadImage(Properties.Resources.Gold_texRampCaptainAirstrike, true);
+            texRampCaptainAirstrike.filterMode = FilterMode.Bilinear;
+            texRampCaptainAirstrike.wrapMode = TextureWrapMode.Repeat;
+            Texture2D texSPGroundRed_FORLAVA = new Texture2D(1024, 1024, TextureFormat.DXT5, false);
+            texSPGroundRed_FORLAVA.LoadImage(Properties.Resources.Gold_texSPGroundRed, true);
+            texSPGroundRed_FORLAVA.filterMode = FilterMode.Bilinear;
+            texSPGroundRed_FORLAVA.wrapMode = TextureWrapMode.Repeat;
 
             //matHRCrystal Blue inside of Caves
             //matHRWalls used for Buildings
@@ -42,9 +54,15 @@ namespace LoopVariants
             //Color NewLava = new Color(0.5f, 0.5f, 0f, 1); //0.9623 0.3237 0 1
             Color NewLava = new Color(1f, 1f, 0f, 0.5f); //0.9623 0.3237 0 1
             matHRLava.color = NewLava;
+            matHRLava.SetColor("_FlashColor", new Color(-0.1f, -0.1f, -0.1f, 1f));
+
+            //matHRLava.SetTexture("_GreenChannelTex", texSPGroundRed_FORLAVA); //texSPGroundRed
+            //matHRLava.SetTexture("_FlowHeightRamp", texRampMagmaWorm); //texRampMagmaWorm
+            //matHRLava.SetTexture("_FresnelRamp", texRampCaptainAirstrike); //texRampCaptainAirstrike
             matHRLava.SetFloat("_FlowHeightPower", 7f);
 
             matHRTerrainLava.color = new Color(0.9f, 0.9f, 0f, 1);
+            matHRTerrainLava.SetColor("_FlashColor", new Color(-0.1f, -0.1f, -0.1f, 1f));
 
             //_FlowNormalStrength 0.34 //Lava movement
             //_FlowHeightPower: 8.53 //Brightness?
@@ -87,7 +105,13 @@ namespace LoopVariants
         {
             GameObject Weather = GameObject.Find("/HOLDER: Lighting");
             PostProcessVolume pp = Weather.GetComponentInChildren<PostProcessVolume>();
+            RampFog rampFog = (RampFog)pp.profile.settings[0];
+            //rampFog.fogColorEnd.value = new Color();
+            rampFog.fogOne.value = 0.5f;
+            pp.profile.settings[0] = rampFog;
             pp.priority++;
+
+
             Weather.transform.GetChild(5).GetChild(1).GetComponent<Light>().intensity = 0.2f;
 
 

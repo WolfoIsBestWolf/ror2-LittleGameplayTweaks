@@ -42,6 +42,8 @@ namespace LoopVariants
  
         public static void Setup()
         {
+            //matEliteHauntedOverlay
+
             matDCCrystal = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCCrystal.mat").WaitForCompletion());
             matDCCrystalPebble = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCCrystalPebble.mat").WaitForCompletion());
             //matDCCoral = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCCoral.mat").WaitForCompletion());
@@ -86,9 +88,9 @@ namespace LoopVariants
             RampFog new_RampFog = (RampFog)Object.Instantiate(ppSceneDampcaveHot.settings[0]);
             Bloom new_Bloom = (Bloom)Object.Instantiate(ppSceneDampcaveHot.settings[1]);
 
-            new_RampFog.fogColorEnd.value = new Color(0.7f, 0.3f, 0.4f, 1f)*0.9f;//0.8962 0.6807 0.334 1
-            new_RampFog.fogColorMid.value = new Color(0.5f, 0.1f, 0.2f, 0.6f);//0.6588 0.2196 0.3229 0.4471
-            //new_RampFog.fogColorStart = new Color();//0.3882 0.2196 0.4627 0
+            new_RampFog.fogColorEnd.value = new Color(0.7f, 0.3f, 0.4f, 1.2f)*0.9f;//0.8962 0.6807 0.334 1
+            new_RampFog.fogColorMid.value = new Color(0.5f, 0.1f, 0.2f, 0.7f);//0.6588 0.2196 0.3229 0.4471
+            new_RampFog.fogColorStart.value = new Color(0.46f, 0.22f, 0.36f, 0);//0.3882 0.2196 0.4627 0
             new_RampFog.fogOne.value = 0.12f;//0.159
 
             new_Bloom.intensity.overrideState = true;
@@ -120,6 +122,11 @@ namespace LoopVariants
             texWhiteSandSimple.LoadImage(Properties.Resources.texWhiteSandSimple, true);
             texWhiteSandSimple.filterMode = FilterMode.Bilinear;
             texWhiteSandSimple.wrapMode = TextureWrapMode.Repeat;
+
+            Texture2D texMalachite = new Texture2D(4096, 4096, TextureFormat.DXT5, false);
+            texMalachite.LoadImage(Properties.Resources.texMalachite, true);
+            texMalachite.filterMode = FilterMode.Bilinear;
+            texMalachite.wrapMode = TextureWrapMode.Repeat;
 
 
             Texture2D texDCGrass = new Texture2D(512, 512, TextureFormat.DXT5, false);
@@ -163,6 +170,27 @@ namespace LoopVariants
             matDCTerrainWalls.SetTexture("_RedChannelSideTex", texDCRockSide);
             matDCTerrainWalls.SetTexture("_RedChannelTopTex", texDCRockSide);
 
+
+
+            matDCTerrainFloor.SetTexture("_GreenChannelTex", texMalachite);
+            matDCTerrainFloor.SetTextureScale("_GreenChannelTex", new Vector2(1f, 1f));
+            matDCTerrainWalls.SetTexture("_GreenChannelTex", texMalachite);
+            matDCTerrainWalls.SetTextureScale("_GreenChannelTex", new Vector2(1f, 1f));
+            matDCTerrainSmallColumn.SetTexture("_GreenChannelTex", texMalachite);
+            matDCTerrainSmallColumn.SetTextureScale("_GreenChannelTex", new Vector2(1f, 1f));
+            matDCTerrainGiantColumns.SetTexture("_GreenChannelTex", texMalachite);
+            matDCTerrainGiantColumns.SetTextureScale("_GreenChannelTex", new Vector2(1f, 1f));
+            
+
+            //matDCTerrainFloor.SetTexture("_RedChannelSideTex", texMalachite);
+            //matDCTerrainFloor.SetTextureScale("_RedChannelSideTex", new Vector2(0.05f, 0.05f));
+            /*matDCTerrainSmallColumn.SetTexture("_RedChannelSideTex", texMalachite);
+            matDCTerrainSmallColumn.SetTextureScale("_RedChannelSideTex", new Vector2(0.05f, 0.05f));
+            matDCTerrainGiantColumns.SetTexture("_RedChannelSideTex", texMalachite);
+            matDCTerrainGiantColumns.SetTextureScale("_RedChannelSideTex", new Vector2(0.05f, 0.05f));*/
+            //matDCTerrainWalls.SetTexture("_RedChannelSideTex", texMalachite);
+            //matDCTerrainWalls.SetTextureScale("_RedChannelSideTex", new Vector2(0.05f, 0.05f));
+
             Fronds_0_LOD0.mainTexture = spmDCFern1_Atlas;
             Fronds_0_LOD1.mainTexture = spmDCFern1_Atlas;
 
@@ -205,12 +233,13 @@ namespace LoopVariants
                 light.color = LampColorNew;
             }
             //
-            GameObject Crystals = GameObject.Find("/HOLDER: Crystals");
+            //Reconsider maybe
+            /*GameObject Crystals = GameObject.Find("/HOLDER: Crystals");
             lightsList = Crystals.GetComponentsInChildren<Light>();
             foreach (Light light in lightsList)
             {
                 light.color = CrystalLight;
-            }
+            }*/
             //
             GameObject Gameplay = GameObject.Find("/HOLDER: Gameplay Space");
             Transform Heroes = Gameplay.transform.GetChild(0);

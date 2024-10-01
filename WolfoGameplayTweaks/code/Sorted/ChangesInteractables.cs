@@ -241,9 +241,11 @@ namespace LittleGameplayTweaks
             if (WConfig.InteractableFastHalcyShrine.Value)
             {
                 RoR2.LegacyResourcesAPI.Load<SpawnCard>("SpawnCards/InteractableSpawnCard/iscShrineHalcyon").prefab.GetComponent<HalcyoniteShrineInteractable>().goldDrainValue = 3;
-
             }
-
+            if (WConfig.InteractableFastHalcyShrine.Value)
+            {
+                RoR2.LegacyResourcesAPI.Load<SpawnCard>("SpawnCards/InteractableSpawnCard/iscShrineHalcyon").prefab.GetComponent<HalcyoniteShrineInteractable>().monsterCredit = 80;
+            }
 
             if (WConfig.InteractableNoLunarCost.Value == true)
             {
@@ -259,11 +261,6 @@ namespace LittleGameplayTweaks
 
             if (WConfig.InteractableBloodShrineScaleWithTime.Value == true)
             {
-                On.RoR2.ShrineBloodBehavior.Start += (orig, self) =>
-                {
-                    orig(self);
-                    self.goldToPaidHpRatio *= Mathf.Pow(Run.instance.difficultyCoefficient, 0.4f);
-                };
                 On.RoR2.ShrineBloodBehavior.AddShrineStack += SetShrineBloodAmount;
             }
             if (WConfig.InteractableBloodShrineLessCost.Value == true)

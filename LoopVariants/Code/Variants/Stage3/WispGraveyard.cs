@@ -27,6 +27,7 @@ namespace LoopVariants
 
             GameObject EclipseWeather = GameObject.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/eclipseworld/Weather, Eclipse.prefab").WaitForCompletion());
             EclipseWeather.transform.GetChild(0).GetComponent<UnityEngine.ReflectionProbe>().bakedTexture = Addressables.LoadAssetAsync<Cubemap>(key: "RoR2/Base/wispgraveyard/ReflectionProbe-2.exr").WaitForCompletion();
+            EclipseWeather.transform.GetChild(1).GetComponent<UnityEngine.Light>().intensity = 0.7f;
             EclipseWeather.transform.GetChild(4).gameObject.SetActive(true);
 
             /*SetAmbientLight Lighting = EclipseWeather.transform.GetChild(2).GetComponent<SetAmbientLight>();

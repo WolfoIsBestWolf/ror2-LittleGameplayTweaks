@@ -46,6 +46,8 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> InteractablesCombatShrineHP;
 
         public static ConfigEntry<bool> InteractableFastHalcyShrine;
+        public static ConfigEntry<bool> InteractableHalcShrineNerf;
+        public static ConfigEntry<bool> InteractableHalcyShrineHalcy;
 
         public static ConfigEntry<int> InteractableRedSoupAmount;
         public static ConfigEntry<int> MegaDroneCost;
@@ -240,6 +242,18 @@ namespace LittleGameplayTweaks
                 "Halcy Shrine suck gold faster",
                 true,
                 "Suck gold at rate of 3 instead of 1"
+            );
+            InteractableHalcShrineNerf = ConfigFileUNSORTED.Bind(
+                "Changes - Interactables",
+                "Halcy Shrine - Less Monsters",
+                true,
+                "Halcyon Shrines get 300 credits for monsters, which is a lot. A Void Seed as a whole is 120 Credits.\nThis setting takes it down to 80 per wave 240 Total"
+            );
+            InteractableHalcyShrineHalcy = ConfigFileUNSORTED.Bind(
+                "Changes - Interactables",
+                "Halcy Shrine - Spawn Halcyonites",
+                true,
+                "Have a chance to spawn Halcyonties instead of Golems"
             );
             InteractablesCombatShrineHP = ConfigFileUNSORTED.Bind(
                 "Changes - Interactables",

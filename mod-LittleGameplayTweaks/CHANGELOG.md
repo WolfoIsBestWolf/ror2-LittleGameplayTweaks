@@ -1,8 +1,16 @@
 ## Changelog:
 ```
 v3.2.2
+Toned down Halcyonites replacing Golems during Shrines and added Config for it.
+Toned down Halcyonite Shrines Monster spawning in general.
+-80 monster credits per wave, 240 Total (Vanilla is: 100 pre wave, 300 Total)(Void Seed in comparison only has 120 Credits)
+
 !Fixed Golem Plains never using it's Sots enemy spawn pool. (Loop Halcyionite is meant to spawn here)
-Added Emergency Drone to Sulfur Pools
++Emergency Drone on Sulfur Pools
++Loop Exploder on Sulfur Pools
+~Scorch Wurm on Sulfur Pools (Removed in Rallypoint)
++Loop Brass Contraption on Reformed Altar
+
 
 v3.2.1 - Sulfur Pool Beetle config now works without having spawn pools config enabled.
 v3.2.0

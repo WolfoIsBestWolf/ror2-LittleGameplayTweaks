@@ -63,9 +63,319 @@ namespace LoopVariants.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] Gold_texRampCaptainAirstrike {
+            get {
+                object obj = ResourceManager.GetObject("Gold_texRampCaptainAirstrike", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] Gold_texRampMagmaWorm {
+            get {
+                object obj = ResourceManager.GetObject("Gold_texRampMagmaWorm", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] Gold_texSPGroundRed {
+            get {
+                object obj = ResourceManager.GetObject("Gold_texSPGroundRed", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] Material_2_Color {
+            get {
+                object obj = ResourceManager.GetObject("Material_2_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJDistantTreeFoliage_Color {
+            get {
+                object obj = ResourceManager.GetObject("RJDistantTreeFoliage_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJDistantTreeFoliageCard {
+            get {
+                object obj = ResourceManager.GetObject("RJDistantTreeFoliageCard", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJfern_Billboard_Color {
+            get {
+                object obj = ResourceManager.GetObject("RJfern_Billboard_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJfern_Color {
+            get {
+                object obj = ResourceManager.GetObject("RJfern_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJHangingMoss_Color {
+            get {
+                object obj = ResourceManager.GetObject("RJHangingMoss_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJMossFoliage_Billboard_Color {
+            get {
+                object obj = ResourceManager.GetObject("RJMossFoliage_Billboard_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJMossFoliage_Color {
+            get {
+                object obj = ResourceManager.GetObject("RJMossFoliage_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJpinkshroom_Billboard_Color {
+            get {
+                object obj = ResourceManager.GetObject("RJpinkshroom_Billboard_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJpinkshroom_Color {
+            get {
+                object obj = ResourceManager.GetObject("RJpinkshroom_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJShroomFoliage_Billboard_Color {
+            get {
+                object obj = ResourceManager.GetObject("RJShroomFoliage_Billboard_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJShroomFoliage_Color {
+            get {
+                object obj = ResourceManager.GetObject("RJShroomFoliage_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJTowerTreeBark {
+            get {
+                object obj = ResourceManager.GetObject("RJTowerTreeBark", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJTowerTreeFoliage {
+            get {
+                object obj = ResourceManager.GetObject("RJTowerTreeFoliage", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJTowerTreeFoliage_Billboard_Color {
+            get {
+                object obj = ResourceManager.GetObject("RJTowerTreeFoliage_Billboard_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJTowerTreeFoliage_Color {
+            get {
+                object obj = ResourceManager.GetObject("RJTowerTreeFoliage_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJTreeBigFoliage_Billboard_Color {
+            get {
+                object obj = ResourceManager.GetObject("RJTreeBigFoliage_Billboard_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RJTreeBigFoliage_Color {
+            get {
+                object obj = ResourceManager.GetObject("RJTreeBigFoliage_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] spmDCFern1_Atlas {
             get {
                 object obj = ResourceManager.GetObject("spmDCFern1_Atlas", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] spmRJgrass1_Billboard_Color {
+            get {
+                object obj = ResourceManager.GetObject("spmRJgrass1_Billboard_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] spmRJgrass1_Billboard_Subsurface {
+            get {
+                object obj = ResourceManager.GetObject("spmRJgrass1_Billboard_Subsurface", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] spmRJgrass1_Color {
+            get {
+                object obj = ResourceManager.GetObject("spmRJgrass1_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] spmRJgrass1_Subsurface {
+            get {
+                object obj = ResourceManager.GetObject("spmRJgrass1_Subsurface", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] spmRJgrass2_Billboard_Color {
+            get {
+                object obj = ResourceManager.GetObject("spmRJgrass2_Billboard_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] spmRJgrass2_Billboard_Subsurface {
+            get {
+                object obj = ResourceManager.GetObject("spmRJgrass2_Billboard_Subsurface", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] spmRJgrass2_Color {
+            get {
+                object obj = ResourceManager.GetObject("spmRJgrass2_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] spmRJgrass2_Subsurface {
+            get {
+                object obj = ResourceManager.GetObject("spmRJgrass2_Subsurface", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] spmRJgrasstest_Billboard_Color {
+            get {
+                object obj = ResourceManager.GetObject("spmRJgrasstest_Billboard_Color", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] spmRJgrasstest_Color {
+            get {
+                object obj = ResourceManager.GetObject("spmRJgrasstest_Color", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -133,6 +443,16 @@ namespace LoopVariants.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] texMalachite {
+            get {
+                object obj = ResourceManager.GetObject("texMalachite", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] texRampArtifactShellSoft {
             get {
                 object obj = ResourceManager.GetObject("texRampArtifactShellSoft", resourceCulture);
@@ -153,6 +473,16 @@ namespace LoopVariants.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] texRampGreaterWisp {
+            get {
+                object obj = ResourceManager.GetObject("texRampGreaterWisp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] texRampMagmaWorm {
             get {
                 object obj = ResourceManager.GetObject("texRampMagmaWorm", resourceCulture);
@@ -163,9 +493,209 @@ namespace LoopVariants.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] texRampRJMushroom {
+            get {
+                object obj = ResourceManager.GetObject("texRampRJMushroom", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] texRampTeleporterSoft {
             get {
                 object obj = ResourceManager.GetObject("texRampTeleporterSoft", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJDirtDiffuse {
+            get {
+                object obj = ResourceManager.GetObject("texRJDirtDiffuse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJGrassTerrain {
+            get {
+                object obj = ResourceManager.GetObject("texRJGrassTerrain", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJGrassTerrain2 {
+            get {
+                object obj = ResourceManager.GetObject("texRJGrassTerrain2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJLichenTerrain {
+            get {
+                object obj = ResourceManager.GetObject("texRJLichenTerrain", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJMoss {
+            get {
+                object obj = ResourceManager.GetObject("texRJMoss", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJMossPatch1Diffuse {
+            get {
+                object obj = ResourceManager.GetObject("texRJMossPatch1Diffuse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJMossPatch2Diffuse {
+            get {
+                object obj = ResourceManager.GetObject("texRJMossPatch2Diffuse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJMossPatchLargeDiffuse {
+            get {
+                object obj = ResourceManager.GetObject("texRJMossPatchLargeDiffuse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJpinkshroomEmission {
+            get {
+                object obj = ResourceManager.GetObject("texRJpinkshroomEmission", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJShroomBigDiffuse {
+            get {
+                object obj = ResourceManager.GetObject("texRJShroomBigDiffuse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJShroomBigEmissive {
+            get {
+                object obj = ResourceManager.GetObject("texRJShroomBigEmissive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJShroomBounceDiffuse {
+            get {
+                object obj = ResourceManager.GetObject("texRJShroomBounceDiffuse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJShroomShelfDiffuse {
+            get {
+                object obj = ResourceManager.GetObject("texRJShroomShelfDiffuse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJShroomShelfEmissive {
+            get {
+                object obj = ResourceManager.GetObject("texRJShroomShelfEmissive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJShroomSmallDiffuse {
+            get {
+                object obj = ResourceManager.GetObject("texRJShroomSmallDiffuse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJShroomSmallEmissive {
+            get {
+                object obj = ResourceManager.GetObject("texRJShroomSmallEmissive", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJTree {
+            get {
+                object obj = ResourceManager.GetObject("texRJTree", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJTreeTop {
+            get {
+                object obj = ResourceManager.GetObject("texRJTreeTop", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] texRJTriangleDiffuse {
+            get {
+                object obj = ResourceManager.GetObject("texRJTriangleDiffuse", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -306,6 +836,16 @@ namespace LoopVariants.Properties {
         public static byte[] texWhiteSandSimple {
             get {
                 object obj = ResourceManager.GetObject("texWhiteSandSimple", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] VeinEM {
+            get {
+                object obj = ResourceManager.GetObject("VeinEM", resourceCulture);
                 return ((byte[])(obj));
             }
         }

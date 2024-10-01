@@ -12,75 +12,73 @@ namespace LoopVariants
 {
     public class Main_Variants
     {
-        public static List<string> ExistingVariants = new List<string>() { "wispgraveyard", "golemplains", "goolake", "dampcavesimple", "snowyforest", "helminthroost", "foggyswamp" };
-
+        
 
         public static void Start()
         {
- 
+
             //1
-            LanguageAPI.Add("MAP_GOLEMPLAINS_TITLE_LOOP", "Sunset Prairie"); //Sunset
-            LanguageAPI.Add("MAP_GOLEMPLAINS_SUBTITLE_LOOP", "Grounds Alpha");
+            //Sunset
+            LanguageAPI.Add("MAP_GOLEMPLAINS_TITLE_LOOP", "Sunset Prairie"); //Titanic Plains
+            LanguageAPI.Add("MAP_GOLEMPLAINS_SUBTITLE_LOOP", "Grounds Alpha"); //Ground Zero
 
-            LanguageAPI.Add("MAP_BLACKBEACH_TITLE_LOOP", "Distant Roost"); //Stormy?
-            LanguageAPI.Add("MAP_BLACKBEACH_SUBTITLE_LOOP", "Ground Zero");
+            //LanguageAPI.Add("MAP_BLACKBEACH_TITLE_LOOP", "Distant Roost"); //Stormy?
+            //LanguageAPI.Add("MAP_BLACKBEACH_SUBTITLE_LOOP", "Ground Zero"); //Ground Zero
 
-            LanguageAPI.Add("MAP_SNOWYFOREST_TITLE_LOOP", "Aurora Woods"); //Aurorare Borelasis?
-            LanguageAPI.Add("MAP_SNOWYFOREST_SUBTITLE_LOOP", "Astral Light");
+            //Aurorare Borelasis
+            LanguageAPI.Add("MAP_SNOWYFOREST_TITLE_LOOP", "Aurora Woods"); //Siphoned Forest
+            LanguageAPI.Add("MAP_SNOWYFOREST_SUBTITLE_LOOP", "Astral Light"); //Ground Zero
             //
             //2
-            LanguageAPI.Add("MAP_GOOLAKE_TITLE_LOOP", "Abandoned Tarpit"); //Tar Flood?
-            LanguageAPI.Add("MAP_GOOLAKE_SUBTITLE_LOOP", "Flowing Endlessly");
+            //Tar Flood
+            LanguageAPI.Add("MAP_GOOLAKE_TITLE_LOOP", "Abandoned Tarpit"); //Abandoned Aqueduct
+            LanguageAPI.Add("MAP_GOOLAKE_SUBTITLE_LOOP", "Flowing Endlessly"); //Origin of Tar
 
-            //LanguageAPI.Add("MAP_FOGGYSWAMP_TITLE_LOOP", "Wetland Aspect"); 
-            //LanguageAPI.Add("MAP_FOGGYSWAMP_SUBTITLE_LOOP", "Rehabilitation Zone");
-            LanguageAPI.Add("MAP_FOGGYSWAMP_TITLE_LOOP", "Wetland Moor"); //Rainy? Foggy? Smth with Nkuhana?
-            LanguageAPI.Add("MAP_FOGGYSWAMP_SUBTITLE_LOOP", "Clouded Minds");
+            //Rainy? Foggy? Smth with Nkuhana?
+            LanguageAPI.Add("MAP_FOGGYSWAMP_TITLE_LOOP", "Wetland Moor");  //Wetland Aspect
+            LanguageAPI.Add("MAP_FOGGYSWAMP_SUBTITLE_LOOP", "Clouded Minds"); //Rehabilitation Zone
 
-
-            LanguageAPI.Add("MAP_ANCIENTLOFT_TITLE_LOOP", "Aphelian Sanctuary"); //Provi fan club tea time
+            //Provi fan club tea time
+            LanguageAPI.Add("MAP_ANCIENTLOFT_TITLE_LOOP", "Aphelian Sanctuary"); 
             LanguageAPI.Add("MAP_ANCIENTLOFT_SUBTITLE_LOOP", "Cleansing Center");
             //
             //3
+
             LanguageAPI.Add("MAP_FROZENWALL_TITLE_LOOP", "Rallypoint Delta");
-            //LanguageAPI.Add("MAP_FROZENWALL_SUBTITLE_LOOP", "'Contact Light' Survivor Camp");
-            LanguageAPI.Add("MAP_FROZENWALL_SUBTITLE_LOOP", "Failed Rescue");
+            LanguageAPI.Add("MAP_FROZENWALL_SUBTITLE_LOOP", "Failed Rescue"); //"'Contact Light' Survivor Camp"
 
-            LanguageAPI.Add("MAP_WISPGRAVEYARD_TITLE_LOOP", "Blighted Acres"); //Dusk
-            LanguageAPI.Add("MAP_WISPGRAVEYARD_SUBTITLE_LOOP", "Protective Garden");
+            //Dusk
+            LanguageAPI.Add("MAP_WISPGRAVEYARD_TITLE_LOOP", "Blighted Acres"); //Scorched Acres
+            LanguageAPI.Add("MAP_WISPGRAVEYARD_SUBTITLE_LOOP", "Protective Garden"); //Wisp Installation
 
-            /* LanguageAPI.Add("MAP_SULFURPOOLS_TITLE_LOOP", "Sulfur Pools");  //Sulfur Blue Fire? Sulfur Red?
-            LanguageAPI.Add("MAP_SULFURPOOLS_SUBTITLE_LOOP", "Pungent Spring");*/
-
-            LanguageAPI.Add("MAP_SULFURPOOLS_TITLE_LOOP", "Sulfur Flames");  //Sulfur Blue Fire? Sulfur Red?
-            LanguageAPI.Add("MAP_SULFURPOOLS_SUBTITLE_LOOP", "Blazing Blue");
+            //Sulfur Blue Fire? Sulfur Red?
+            LanguageAPI.Add("MAP_SULFURPOOLS_TITLE_LOOP", "Sulfur Flames");  //"Sulfur Pools"
+            LanguageAPI.Add("MAP_SULFURPOOLS_SUBTITLE_LOOP", "Blazing Blue"); //"Pungent Spring"
+            //LanguageAPI.Add("MAP_SULFURPOOLS_SUBTITLE_LOOP", "Api Biru");
+            //LanguageAPI.Add("MAP_SULFURPOOLS_SUBTITLE_LOOP", "Ijen\u2019s Wrath");
 
             //
             //4
-            //Crimson Abyss? Crimson Depths?
-            LanguageAPI.Add("MAP_DAMPCAVE_TITLE_LOOP", "Scarlet Abyss"); //Red Plane?
-            LanguageAPI.Add("MAP_DAMPCAVE_SUBTITLE_LOOP", "Dimensional Activity");
+            //Crimson Abyss? Crimson Depths? Red Plane?
+            LanguageAPI.Add("MAP_DAMPCAVE_TITLE_LOOP", "Scarlet Abyss"); //Abyssal Depths
+            LanguageAPI.Add("MAP_DAMPCAVE_SUBTITLE_LOOP", "Dimensional Activity"); //Tectonic Relics
 
-            LanguageAPI.Add("MAP_SHIPGRAVEYARD_TITLE_LOOP", "Siren's Call");
-            LanguageAPI.Add("MAP_SHIPGRAVEYARD_SUBTITLE_LOOP", "Ship Graveyard");
+            LanguageAPI.Add("MAP_SHIPGRAVEYARD_TITLE_LOOP", "Siren's Call");//Siren's Call
+            LanguageAPI.Add("MAP_SHIPGRAVEYARD_SUBTITLE_LOOP", "Ship Graveyard");//Ship Graveyard
 
-            /*LanguageAPI.Add("MAP_ROOTJUNGLE_TITLE_LOOP", "Sundered Grove"); //Copy Golden Dieback
-            LanguageAPI.Add("MAP_ROOTJUNGLE_SUBTITLE_LOOP", "Dormant Locus");*/
-
-            LanguageAPI.Add("MAP_ROOTJUNGLE_TITLE_LOOP", "Renewing Grove"); //Copy Golden Dieback
-            LanguageAPI.Add("MAP_ROOTJUNGLE_SUBTITLE_LOOP", "Living Anew");
+            //Copy Golden Dieback
+            LanguageAPI.Add("MAP_ROOTJUNGLE_TITLE_LOOP", "Renewing Grove");//"Sundered Grove"
+            LanguageAPI.Add("MAP_ROOTJUNGLE_SUBTITLE_LOOP", "Fruits of Labor");//"Dormant Locus"
 
             //
             //5
-            LanguageAPI.Add("MAP_SKYMEADOW_TITLE_LOOP", "Sky Meadow");
-            LanguageAPI.Add("MAP_SKYMEADOW_SUBTITLE_LOOP", "Sprite Fields"); //Hostile Paradise? Use that somewhere
+            //Hostile Paradise? Use that somewhere
+            LanguageAPI.Add("MAP_SKYMEADOW_TITLE_LOOP", "Sky Meadow");// "Sky Meadow"
+            LanguageAPI.Add("MAP_SKYMEADOW_SUBTITLE_LOOP", "Sprite Fields"); //"Sprite Fields"
 
-            //LanguageAPI.Add("MAP_HELMINTHROOST_TITLE_LOOP", "Helminth Hatchery"); //Molten Gold River
-            //LanguageAPI.Add("MAP_HELMINTHROOST_SUBTITLE_LOOP", "A Brother\u2019s Respite");
-
-            LanguageAPI.Add("MAP_HELMINTHROOST_TITLE_LOOP", "Helminth Forge"); //Molten Gold River
-            //LanguageAPI.Add("MAP_HELMINTHROOST_SUBTITLE_LOOP", "Another\u2019s Design");
-            LanguageAPI.Add("MAP_HELMINTHROOST_SUBTITLE_LOOP", "Another\u2019s Reproof");
+            //Molten Gold River
+            LanguageAPI.Add("MAP_HELMINTHROOST_TITLE_LOOP", "Helminth Forge");  //"Helminth Hatchery")
+            LanguageAPI.Add("MAP_HELMINTHROOST_SUBTITLE_LOOP", "Another\u2019s Reproof"); //"A Brother\u2019s Respite"
 
             //6
             LanguageAPI.Add("MAP_MOON_TITLE_LOOP" , "Cessation"); //The Spooky
@@ -115,6 +113,14 @@ namespace LoopVariants
             {
                 Nerf_OfficialStage1LoopSpawnpools();
             }
+
+            SceneDef lakes = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/lakes/lakes.asset").WaitForCompletion();
+            SceneDef village = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/village/village.asset").WaitForCompletion();
+            SceneDef habitat = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/habitat/habitat.asset").WaitForCompletion();
+            LoopVariantsMain.loopSceneDefToNon.Add("lakesnight", lakes);
+            LoopVariantsMain.loopSceneDefToNon.Add("villagenight", village);
+            LoopVariantsMain.loopSceneDefToNon.Add("habitatfall", habitat);
+
             if (WConfig.MultiplayerTesting.Value)
             {
                 On.RoR2.Networking.ServerAuthManager.HandleSetClientAuth += ServerAuthManager_HandleSetClientAuth;
@@ -122,51 +128,7 @@ namespace LoopVariants
             }  
         }
 
-        public static void RemoveVariantNames()
-        {
-
-            if (!WConfig.Stage_1_Golem.Value)
-            {
-                ExistingVariants.Remove("golemplains");
-            }
-            if (!WConfig.Stage_1_Snow.Value)
-            {
-                ExistingVariants.Remove("snowyforest");
-            }
-            //
-            if (!WConfig.Stage_2_Goolake.Value)
-            {
-                ExistingVariants.Remove("goolake");
-            }
-            if (!WConfig.Stage_2_Swamp.Value)
-            {
-                ExistingVariants.Remove("foggyswamp");
-            }
-            //
-            if (!WConfig.Stage_3_Wisp.Value)
-            {
-                ExistingVariants.Remove("wispgraveyard");
-            }
-            if (!WConfig.Stage_3_Sulfur.Value)
-            {
-                ExistingVariants.Remove("sulfurpools");
-            }
-            //
-            if (!WConfig.Stage_4_Damp_Abyss.Value)
-            {
-                ExistingVariants.Remove("dampcavesimple");
-            }
-            if (!WConfig.Stage_4_Root_Jungle.Value)
-            {
-                ExistingVariants.Remove("rootjungle");
-            }
-            //
-            if (!WConfig.Stage_5_Helminth.Value)
-            {
-                ExistingVariants.Remove("helminthroost");
-            }
-        }
-
+        
 
         public static void Nerf_OfficialStage1LoopSpawnpools()
         {

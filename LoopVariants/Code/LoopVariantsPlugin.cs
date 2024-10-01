@@ -18,7 +18,7 @@ using UnityEngine.Networking;
 namespace LoopVariants
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Wolfo.LoopVariants", "WolfosLoopVariants", "1.1.0")]
+    [BepInPlugin("Wolfo.LoopVariants", "WolfosLoopVariants", "1.2.0")]
     //[R2APISubmoduleDependency(nameof(ContentAddition), nameof(LanguageAPI), nameof(PrefabAPI), nameof(ItemAPI), nameof(LoadoutAPI), nameof(EliteAPI))]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
 
@@ -27,48 +27,129 @@ namespace LoopVariants
     {
         public static ExpansionDef DLC2 = Addressables.LoadAssetAsync<ExpansionDef>(key: "RoR2/DLC2/Common/DLC2.asset").WaitForCompletion();
 
-        public Dictionary<string, SceneDef> loopSceneDefToNon = new Dictionary<string, SceneDef>();
+        public static Dictionary<string, SceneDef> loopSceneDefToNon = new Dictionary<string, SceneDef>();
+        public static List<string> ExistingVariants = new List<string>() { "wispgraveyard", "golemplains", "goolake", "dampcavesimple", "snowyforest", "helminthroost", "foggyswamp", "rootjungle", "sulfurpools" };
 
-        public bool OnlyLoop = false;
 
         public void Awake()
         {
             WConfig.InitConfig();
             WConfig.InitConfigStages();
 
-
-            bool stageAesth = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("HIFU.StageAesthetic");
+            //bool stageAesth = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("HIFU.StageAesthetic");
             if (WConfig.cfgLoopWeather.Value)
             {
 
-                //Add Component
-                //On.RoR2.Run.PreStartClient += AddComponent_StartOfRun;
+                ChatMessageBase.chatMessageTypeToIndex.Add(typeof(SendSyncLoopWeather), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+                ChatMessageBase.chatMessageIndexToType.Add(typeof(SendSyncLoopWeather));
 
-                //Stage choosing only called on Client
+                Main_Variants.Start();
+                RemoveVariantNames();
+
+                //Add component and roll for first stage
                 On.RoR2.Run.Start += AddRoll_StartOfRun;
 
-                //
-                //On.RoR2.Stage.PreStartClient += ApplyLoopWeatherChanges;
-                On.RoR2.Stage.Start += ApplyLoopWeatherChanges;
+                //Advances Roll and applies stuff
+                //On.RoR2.Stage.Start += ApplyLoopWeatherChanges;
+                RoR2.SceneDirector.onPrePopulateSceneServer += ApplyLoopWeatherChanges2;
                 On.RoR2.UI.AssignStageToken.Start += ApplyLoopNameChanges;
 
                 On.RoR2.Run.PickNextStageScene += Official_Variants_MainPath;
                 On.RoR2.SceneExitController.IfLoopedUseValidLoopStage += Official_Variants_AltPath;
                 //
-                Main_Variants.RemoveVariantNames();
-                Main_Variants.Start();
+                
+                
+            }
+        }
 
-                ChatMessageBase.chatMessageTypeToIndex.Add(typeof(SendSyncLoopWeather), (byte)ChatMessageBase.chatMessageIndexToType.Count);
-                ChatMessageBase.chatMessageIndexToType.Add(typeof(SendSyncLoopWeather));
+        private void ApplyLoopWeatherChanges2(SceneDirector obj)
+        {
+            ChooseIfNextStageLoop(true);
 
-                SceneDef lakes = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/lakes/lakes.asset").WaitForCompletion();
-                SceneDef village = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/village/village.asset").WaitForCompletion();
-                SceneDef habitat = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/habitat/habitat.asset").WaitForCompletion();
-                loopSceneDefToNon.Add("lakesnight", lakes);
-                loopSceneDefToNon.Add("villagenight", village);
-                loopSceneDefToNon.Add("habitatfall", habitat);
+            SyncLoopWeather weather = Run.instance.GetComponent<SyncLoopWeather>();
+            Debug.Log("Stage Start : " + SceneCatalog.mostRecentSceneDef.baseSceneName);
+            Debug.Log("Loop weather for curr " + weather.CurrentStage_LoopVariant);
+            Debug.Log("Loop weather for next " + weather.NextStage_LoopVariant);
+
+            if (Run.instance.loopClearCount > 0 && WConfig.Chance_Loop.Value == 100)
+            {
+                weather.CurrentStage_LoopVariant = true;
+            }
+            else if (Run.instance.loopClearCount == 0 && WConfig.Chance_PreLoop.Value == 0)
+            {
+                weather.CurrentStage_LoopVariant = false;
             }
 
+
+            if (weather && weather.CurrentStage_LoopVariant)
+            {
+                //Should just work lol?
+                try
+                {
+                    switch (SceneInfo.instance.sceneDef.baseSceneName)
+                    {
+                        case "golemplains":
+                            if (WConfig.Stage_1_Golem.Value)
+                            {
+                                Variants_1_GolemPlains.LoopWeather();
+                            }
+                            break;
+                        case "snowyforest":
+                            if (WConfig.Stage_1_Snow.Value)
+                            {
+                                Variants_1_SnowyForest.LoopWeather();
+                            }
+                            break;
+                        case "goolake":
+                            if (WConfig.Stage_2_Goolake.Value)
+                            {
+                                Variants_2_Goolake.LoopWeather();
+                            }
+                            break;
+                        case "foggyswamp":
+                            if (WConfig.Stage_2_Swamp.Value)
+                            {
+                                Variants_2_FoggySwamp.LoopWeather();
+                            }
+                            break;
+                        case "wispgraveyard":
+                            if (WConfig.Stage_3_Wisp.Value)
+                            {
+                                Variants_3_WispGraveyard.LoopWeather();
+                            }
+                            break;
+                        case "sulfurpools":
+                            if (WConfig.Stage_3_Sulfur.Value)
+                            {
+                                Variants_3_Sulfur.LoopWeather();
+                            }
+                            break;
+                        case "dampcavesimple":
+                            if (WConfig.Stage_4_Damp_Abyss.Value)
+                            {
+                                Variants_4_DampCaveSimpleAbyss.LoopWeather();
+                            }
+                            break;
+                        case "rootjungle":
+                            if (WConfig.Stage_4_Root_Jungle.Value)
+                            {
+                                Variants_4_RootJungle.LoopWeather();
+                            }
+                            break;
+                        case "helminthroost":
+                            if (WConfig.Stage_5_Helminth.Value)
+                            {
+                                Variants_5_HelminthRoost.LoopWeather();
+                            }
+                            break;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("LoopVariants Error: " + e);
+                }
+
+            }
 
 
         }
@@ -133,7 +214,7 @@ namespace LoopVariants
                         case "sulfurpools":
                             if (WConfig.Stage_3_Sulfur.Value)
                             {
-                                //Variants_3_Sulfur.LoopWeather();
+                                Variants_3_Sulfur.LoopWeather();
                             }
                             break;
                         case "dampcavesimple":
@@ -145,7 +226,7 @@ namespace LoopVariants
                         case "rootjungle":
                             if (WConfig.Stage_4_Root_Jungle.Value)
                             {
-                                //VariantsRootJungle.Loop_4_Jungle();
+                                Variants_4_RootJungle.LoopWeather();
                             }
                             break;
                         case "helminthroost":
@@ -348,6 +429,52 @@ namespace LoopVariants
 
         }
 
+        public static void RemoveVariantNames()
+        {
+
+            if (!WConfig.Stage_1_Golem.Value)
+            {
+                ExistingVariants.Remove("golemplains");
+            }
+            if (!WConfig.Stage_1_Snow.Value)
+            {
+                ExistingVariants.Remove("snowyforest");
+            }
+            //
+            if (!WConfig.Stage_2_Goolake.Value)
+            {
+                ExistingVariants.Remove("goolake");
+            }
+            if (!WConfig.Stage_2_Swamp.Value)
+            {
+                ExistingVariants.Remove("foggyswamp");
+            }
+            //
+            if (!WConfig.Stage_3_Wisp.Value)
+            {
+                ExistingVariants.Remove("wispgraveyard");
+            }
+            if (!WConfig.Stage_3_Sulfur.Value)
+            {
+                ExistingVariants.Remove("sulfurpools");
+            }
+            //
+            if (!WConfig.Stage_4_Damp_Abyss.Value)
+            {
+                ExistingVariants.Remove("dampcavesimple");
+            }
+            if (!WConfig.Stage_4_Root_Jungle.Value)
+            {
+                ExistingVariants.Remove("rootjungle");
+            }
+            //
+            if (!WConfig.Stage_5_Helminth.Value)
+            {
+                ExistingVariants.Remove("helminthroost");
+            }
+        }
+
+
         private static void ApplyLoopNameChanges(On.RoR2.UI.AssignStageToken.orig_Start orig, RoR2.UI.AssignStageToken self)
         {
             orig(self);
@@ -357,7 +484,7 @@ namespace LoopVariants
                 if (weather && weather.CurrentStage_LoopVariant)
                 {
                     SceneDef mostRecentSceneDef = SceneCatalog.mostRecentSceneDef;
-                    if (Main_Variants.ExistingVariants.Contains(mostRecentSceneDef.baseSceneName))
+                    if (ExistingVariants.Contains(mostRecentSceneDef.baseSceneName))
                     {
                         self.titleText.SetText(Language.GetString(mostRecentSceneDef.nameToken + "_LOOP"), true);
                         self.subtitleText.SetText(Language.GetString(mostRecentSceneDef.subtitleToken + "_LOOP"), true);

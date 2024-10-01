@@ -26,6 +26,9 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> Stage_5_Sky;
         public static ConfigEntry<bool> Stage_5_Helminth;
         public static ConfigEntry<bool> Stage_X_Arena_Void;
+        public static ConfigEntry<bool> Stage_X_Void_Seed;
+        public static ConfigEntry<bool> Stage_X_GoldShores;
+        public static ConfigEntry<bool> Stage_X_HalcShrine;
 
 
         public static void InitConfig()
@@ -139,12 +142,12 @@ namespace LittleGameplayTweaks
                 "Stage specific changes as described on the mod pages wiki section"
             );
             Stage_X_Arena_Void = ConfigFileSTAGES.Bind(
-                "Stage X",
+                "Other",
                 "Void Fields",
                 true,
                 "Stage specific changes as described on the mod pages wiki section"
             );
-
+ 
         }
 
     }

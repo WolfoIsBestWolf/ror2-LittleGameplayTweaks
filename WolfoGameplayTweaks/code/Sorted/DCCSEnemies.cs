@@ -193,6 +193,15 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
+            DirectorCard cscScorchling = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC2/Scorchling/cscScorchling.asset").WaitForCompletion(),
+                preventOverhead = false,
+                selectionWeight = 2,
+                minimumStageCompletions = 1,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+
             int num = -1;
 
 
@@ -248,6 +257,7 @@ namespace LittleGameplayTweaks
                 dccsSulfurPoolsMonstersDLC1.AddCard(0, DC_ElectricWorm); //Keep Beetle Queen but still add this dude
                 dccsSulfurPoolsMonstersDLC1.AddCard(1, DC_HermitCrab); //Seems fitting for another trash mob
                 dccsSulfurPoolsMonstersDLC1.AddCard(1, DC_AcidLarva); //Seems fitting for another trash mob
+                dccsSulfurPoolsMonstersDLC1.AddCard(1, cscScorchling); 
             }
             if (ConfigStages.Stage_4_Root_Jungle.Value)
             {
@@ -739,6 +749,7 @@ namespace LittleGameplayTweaks
 
 
 
+
             //Golem Plains already has Lamps, Lamp Boss and Hermit Crab
             if (ConfigStages.Stage_1_Roost.Value)
             {
@@ -784,6 +795,7 @@ namespace LittleGameplayTweaks
             {
                 dccsSulfurPoolsMonstersDLC1.AddCard(0, LoopGrandparent); //Loop Parents
                 dccsSulfurPoolsMonstersDLC1.AddCard(2, LoopParent); //Idk Yellow on Yellow action or smth
+                dccsSulfurPoolsMonstersDLC1.AddCard(2, LoopLunarExploder);
             }
             if (ConfigStages.Stage_4_Damp_Abyss.Value)
             {
@@ -827,7 +839,7 @@ namespace LittleGameplayTweaks
             DirectorCardCategorySelection dccsGooLakeMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsGooLakeMonstersDLC2.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsFoggySwampMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsFoggySwampMonstersDLC2.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsAncientLoftMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsAncientLoftMonstersDLC2.asset").WaitForCompletion();
-            //DirectorCardCategorySelection dccsLemurianTempleMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lemuriantemple/dccsLemurianTempleMonstersDLC1.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsLemurianTempleMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lemuriantemple/dccsLemurianTempleMonstersDLC1.asset").WaitForCompletion();
 
             DirectorCardCategorySelection dccsFrozenWallMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsFrozenWallMonstersDLC2.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsWispGraveyardMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsWispGraveyardMonstersDLC2.asset").WaitForCompletion();
@@ -854,12 +866,19 @@ namespace LittleGameplayTweaks
 
 
 
-
+            DirectorCard cscBell = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Bell/cscBell.asset").WaitForCompletion(),
+                preventOverhead = true,
+                selectionWeight = 1,
+                minimumStageCompletions = 4,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
             DirectorCard cscHalcy = new DirectorCard
             {
                 spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC2/Halcyonite/cscHalcyonite.asset").WaitForCompletion(),
                 preventOverhead = false,
-                selectionWeight = 3,
+                selectionWeight = 1,
                 minimumStageCompletions = 3,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
@@ -867,7 +886,7 @@ namespace LittleGameplayTweaks
             {
                 spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC2/Halcyonite/cscHalcyonite.asset").WaitForCompletion(),
                 preventOverhead = false,
-                selectionWeight = 10,
+                selectionWeight = 4,
                 minimumStageCompletions = 7,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
@@ -965,6 +984,14 @@ namespace LittleGameplayTweaks
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
 
+            DirectorCard cscScorchling = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC2/Scorchling/cscScorchling.asset").WaitForCompletion(),
+                preventOverhead = false,
+                selectionWeight = 2,
+                minimumStageCompletions = 5,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
             DirectorCard DC_Child = new DirectorCard
             {
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC2/Child/cscChild.asset").WaitForCompletion(),
@@ -1206,8 +1233,21 @@ namespace LittleGameplayTweaks
                 dccsAncientLoftMonstersDLC2.AddCard(0, LoopGrovetender);
                 dccsAncientLoftMonstersDLC2.AddCard(1, LoopElderLemurian); //Loop Elder Lemurian
             }
+            if (ConfigStages.Stage_2_Temple.Value)
+            {
+                dccsLemurianTempleMonstersDLC1.AddCard(1, cscBell); //Loop Elder Lemurian
+            }
             if (ConfigStages.Stage_3_Frozen.Value)
             {
+                num = FindSpawnCard(dccsFrozenWallMonstersDLC2.categories[0].cards, "Scorchling");
+                if (num > -1)
+                {
+                    dccsFrozenWallMonstersDLC2.categories[0].cards[num].minimumStageCompletions = 500;
+                    dccsFrozenWallMonstersDLC2.categories[0].cards[num].selectionWeight--;
+
+                }
+
+
                 dccsFrozenWallMonstersDLC2.AddCard(0, DoubleLoopVoidReaver);
                 dccsFrozenWallMonstersDLC2.AddCard(2, LoopVulture2); //Like the Big Ball leads them to it so they can eat more People and Iron
             }
@@ -1218,6 +1258,10 @@ namespace LittleGameplayTweaks
                 dccsWispGraveyardMonstersDLC2.AddCard(2, LoopPest);
                 dccsWispGraveyardMonstersDLC2.AddCard(2, LoopVulture);
             }
+            /*if (ConfigStages.Stage_3_Sulfur.Value)
+            {
+                //DOES NOT EXIST IN DLC2
+            }*/
             if (ConfigStages.Stage_4_Damp_Abyss.Value)
             {
                 if (dccsDampCaveMonstersDLC2.categories[0].cards.Length >= 5)
@@ -1282,10 +1326,14 @@ namespace LittleGameplayTweaks
 
 
             //
-            DirectorCardCategorySelection dccsShrineHalcyoniteActivationMonsterWave = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsShrineHalcyoniteActivationMonsterWave.asset").WaitForCompletion();
-
-            dccsShrineHalcyoniteActivationMonsterWave.AddCard(0, cscHalcy);
-            dccsShrineHalcyoniteActivationMonsterWave.AddCard(0, cscHalcy2);
+            
+            if (WConfig.InteractableHalcyShrineHalcy.Value)
+            {
+                DirectorCardCategorySelection dccsShrineHalcyoniteActivationMonsterWave = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsShrineHalcyoniteActivationMonsterWave.asset").WaitForCompletion();
+                dccsShrineHalcyoniteActivationMonsterWave.AddCard(0, cscHalcy);
+                dccsShrineHalcyoniteActivationMonsterWave.AddCard(0, cscHalcy2);
+            }
+           
 
             
         }

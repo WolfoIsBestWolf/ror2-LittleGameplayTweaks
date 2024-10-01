@@ -146,16 +146,10 @@ namespace LoopVariants
 
             #endregion
 
-
-
-
             //Higher Water?
-
-
-
             GameObject Altar = GameObject.Find("/HOLDER: Hidden Altar Stuff");
             HookLightingIntoPostProcessVolume AmbientLight = Altar.transform.GetChild(2).GetComponent<HookLightingIntoPostProcessVolume>();
-            AmbientLight.defaultAmbientColor = new Color(0.2363f, 0.3038f, 0.42f, 1f) * 1.25f;//0.4763 0.3976 0.6338 1
+            AmbientLight.defaultAmbientColor = new Color(0.2363f, 0.3038f, 0.42f, 1f) * 1.4f;//0.4763 0.3976 0.6338 1
 
 
             PostProcessVolume process = SceneInfo.instance.GetComponent<PostProcessVolume>();

@@ -1,5 +1,14 @@
 ## Changelog:
 ```
+v1.2.0
+Added loop weather for Sundered Grove (Orange, Autumn-y, has Fruit from Golden Dieback)
+Added loop weather for Sulfur Pools (Blue Smoke)
+
+Adjusted fog on Abyssal and Helminth variant slightly.
+Increased visibility on Wetland and Scorched variant slightly.
+Fixed Fruit in Golden Dieback, not working.
+
+
 v1.1.0
 Added loop weather for Wetlands Aspect (Foggy, Rainy, More Water)
 
@@ -15,7 +24,6 @@ If stage order is random (Artifact of Wander), 50/50 chance to use the loop or p
 --Void Reavers
 --Imp Overlords
 --Grandparents
-
 
 
 v1.0.3 Left debug multiplayer testing on whoops.
