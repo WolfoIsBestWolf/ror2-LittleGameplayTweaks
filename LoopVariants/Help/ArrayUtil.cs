@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace LittleGameplayTweaks
+namespace LoopVariants
 {
     public static class ArrayUtil
     {

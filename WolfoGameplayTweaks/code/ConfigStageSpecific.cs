@@ -25,6 +25,8 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> Stage_4_Root_Jungle;
         public static ConfigEntry<bool> Stage_5_Sky;
         public static ConfigEntry<bool> Stage_5_Helminth;
+        public static ConfigEntry<bool> Stage_F_Moon;
+        public static ConfigEntry<bool> Stage_F_Meridian;
         public static ConfigEntry<bool> Stage_X_Arena_Void;
         public static ConfigEntry<bool> Stage_X_Void_Seed;
         public static ConfigEntry<bool> Stage_X_GoldShores;
@@ -141,6 +143,18 @@ namespace LittleGameplayTweaks
                 true,
                 "Stage specific changes as described on the mod pages wiki section"
             );
+            Stage_F_Moon = ConfigFileSTAGES.Bind(
+                 "Stage Final",
+                 "Commencement",
+                 true,
+                 "Stage specific changes as described on the mod pages wiki section"
+             );
+            Stage_F_Meridian = ConfigFileSTAGES.Bind(
+                 "Stage Final",
+                 "Prime Meridian",
+                 true,
+                 "Stage specific changes as described on the mod pages wiki section"
+             );
             Stage_X_Arena_Void = ConfigFileSTAGES.Bind(
                 "Other",
                 "Void Fields",

@@ -71,10 +71,6 @@ namespace LittleGameplayTweaks
 
                 switch (SceneInfo.instance.sceneDef.cachedName)
                 {
-                    case "foggyswamp":
-                        self.interactableDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/foggyswamp/dpFoggySwampInteractables.asset").WaitForCompletion();
-                        self.monsterDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/foggyswamp/dpFoggySwampMonsters.asset").WaitForCompletion();
-                        break;
                     case "goolake":
                         BuffDef SlowTar = Addressables.LoadAssetAsync<BuffDef>(key: "RoR2/Base/Common/bdClayGoo.asset").WaitForCompletion();
                         GameObject MiscProps = GameObject.Find("/HOLDER: Misc Props"); 
@@ -92,18 +88,6 @@ namespace LittleGameplayTweaks
                         }     
                         //UnityEngine.RenderSettings.defaultReflectionMode
 
-                        break;
-                    case "blackbeach2":
-                        self.interactableDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/blackbeach/dpBlackBeachInteractables.asset").WaitForCompletion();
-                        self.monsterDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/blackbeach/dpBlackBeachMonsters.asset").WaitForCompletion();
-                        break;
-                    case "habitatfall":
-                        self.interactableDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/habitatfall/dpHabitatfallInteractables.asset").WaitForCompletion();
-                        self.monsterDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/habitatfall/dpHabitatfallMonsters.asset").WaitForCompletion();
-                        break;
-                    case "villagenight":
-                        self.interactableDccsPool = null;
-                        self.interactableCategories = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/villagenight/dccsVillagenightInteractablesDLC2.asset").WaitForCompletion();
                         break;
                     case "meridian":
                         Run.instance.PickNextStageSceneFromCurrentSceneDestinations();

@@ -18,17 +18,25 @@ No idea how this mod interacts with Stage Aesthetics or Cooler Stages.
 
 #
 ### Inspirations :
-Titanic Plains : Version made for old trailers.\
-Siphoned Forest : Aurora Borealis are kinda cool.  \
-Abandoned Aqueduct : Unused Tar River, Passage of time overfilling it.\
-Wetland Aspect : Internal name FoggySwamp, Passage of time overfilling it.\
-Scorched Acres : Unused Eclipse Weather. (they just tested it here for the menu for some reason)\
-Sulfur Pools : Real Blue "Lava" Volcanos\
-Abyssal Depths : Red Plane color-scheme\
-Sundered Grove : Spring/Autumn theme with Fruits\
-Helminth Hatchery : Molten Gold
+- Titanic Plains : Version made for old trailers.
+- Siphoned Forest : Aurora Borealis are cool, the one it already has was barley visible.  
+- Abandoned Aqueduct : Unused Tar River, Passage of time overfilling it.
+- Wetland Aspect : Internal name FoggySwamp, Passage of time overfilling it.
+- Reformed Altar : Directly connected to Treeborn, so should be Golden Dieback on loop.
+- Scorched Acres : Unused Eclipse Weather. (they just tested it here for the menu for some reason)
+- Sulfur Pools : Real Blue "Lava" Volcanos. 
+- Abyssal Depths : Red Plane color-scheme
+- Sundered Grove : Spring/Autumn theme with Fruits
+- Helminth Hatchery : Molten Gold
  
 
+
+Basically all of these can fit the "Passage of Time" theme.\
+Even the more interesting changes such as Blue Lava Sulfur Pools, the background Volcano erupting as an idea for that.
+
+Additionally this mod changes the Treeborn visible in Prime Meridian to Golden Dieback.
+
+![Missing Immage](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks/main/modPageImages/ltgStagesMeridian.png)
 
 ##
  

@@ -17,7 +17,7 @@ namespace LittleGameplayTweaks
                 DCCSThings_NoDLC();
                 DCCSThings_DLC1();
                 DCCSThings_DLC2();
-                FixSotsSpawnpools();
+                
             }
             
 
@@ -53,151 +53,7 @@ namespace LittleGameplayTweaks
 
         }
 
-        public static void FixSotsSpawnpools()
-        {
-            Debug.Log("Gearbox Games");
-            ExpansionDef DLC2 = Addressables.LoadAssetAsync<ExpansionDef>(key: "RoR2/DLC2/Common/DLC2.asset").WaitForCompletion();
-            ExpansionDef[] required = new ExpansionDef[] { DLC2 };
-
-
-            DccsPool dpFrozenWallInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/frozenwall/dpFrozenWallInteractables.asset").WaitForCompletion();
-            DccsPool dpWispGraveyardInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/wispgraveyard/dpWispGraveyardInteractables.asset").WaitForCompletion();
-            DccsPool dpSulfurPoolsInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC1/sulfurpools/dpSulfurPoolsInteractables.asset").WaitForCompletion();
-            DccsPool dpHabitatfallInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/habitatfall/dpHabitatfallInteractables.asset").WaitForCompletion();
-
-            DccsPool dpDampCaveInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/dampcave/dpDampCaveInteractables.asset").WaitForCompletion();
-            DccsPool dpShipgraveyardInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/shipgraveyard/dpShipgraveyardInteractables.asset").WaitForCompletion();
-            DccsPool dpRootJungleInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/rootjungle/dpRootJungleInteractables.asset").WaitForCompletion();
-            
-            DccsPool dpSkyMeadowInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/skymeadow/dpSkyMeadowInteractables.asset").WaitForCompletion();
-
-            DccsPool dpArtifactWorld02Monsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/artifactworld02/dpArtifactWorld02Monsters.asset").WaitForCompletion();
-           
-
-            DirectorCardCategorySelection dccsFrozenWallInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsFrozenWallInteractablesDLC2.asset").WaitForCompletion();
-            DirectorCardCategorySelection dccsWispGraveyardInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsWispGraveyardInteractablesDLC2.asset").WaitForCompletion();
-            DirectorCardCategorySelection dccsSulfurPoolsInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsSulfurPoolsInteractablesDLC2.asset").WaitForCompletion();
-            DirectorCardCategorySelection dccsHabitatfallInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/habitatfall/dccsHabitatfallInteractables.asset").WaitForCompletion();
-
-            DirectorCardCategorySelection dccsDampCaveInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsDampCaveInteractablesDLC2.asset").WaitForCompletion();
-            DirectorCardCategorySelection dccsShipgraveyardInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsShipgraveyardInteractablesDLC2.asset").WaitForCompletion();
-            DirectorCardCategorySelection dccsRootJungleInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsRootJungleInteractablesDLC2.asset").WaitForCompletion();
-
-            DirectorCardCategorySelection dccsSkyMeadowInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsSkyMeadowInteractablesDLC2.asset").WaitForCompletion();
-
-            DirectorCardCategorySelection dccsArtifactWorld02Monsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/artifactworld02/dccsArtifactWorld02Monsters_DLC1.asset").WaitForCompletion();
-
-           
-
-            //
-            DirectorCardCategorySelection dccsITDampCaveMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC1/itdampcave/dccsITDampCaveMonstersDLC2.asset").WaitForCompletion();
-            DccsPool dpITDampCaveMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC1/itdampcave/dpITDampCaveMonsters.asset").WaitForCompletion();
-
-            dpITDampCaveMonsters.poolCategories[0].includedIfConditionsMet[0].dccs = dccsITDampCaveMonstersDLC2;
-            //
-            dpArtifactWorld02Monsters.poolCategories[0].includedIfConditionsMet[0].dccs = dccsArtifactWorld02Monsters_DLC1;
-            //
-            dpHabitatfallInteractables.poolCategories[0].includedIfConditionsMet[0].dccs = dccsHabitatfallInteractables;
-
-
-            //
-
-            DccsPool.ConditionalPoolEntry NEW_ENTRY = new DccsPool.ConditionalPoolEntry
-            {
-                dccs = dccsFrozenWallInteractablesDLC2,
-                requiredExpansions = required,
-                weight = 1,
-            };
-            ArrayUtils.ArrayAppend(ref dpFrozenWallInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
-
-            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
-            {
-                dccs = dccsWispGraveyardInteractablesDLC2,
-                requiredExpansions = required,
-                weight = 1,
-            };
-            ArrayUtils.ArrayAppend(ref dpWispGraveyardInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
-
-            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
-            {
-                dccs = dccsSulfurPoolsInteractablesDLC2,
-                requiredExpansions = required,
-                weight = 1,
-            };
-            ArrayUtils.ArrayAppend(ref dpSulfurPoolsInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
-
-            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
-            {
-                dccs = dccsDampCaveInteractablesDLC2,
-                requiredExpansions = required,
-                weight = 1,
-            };
-            ArrayUtils.ArrayAppend(ref dpDampCaveInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
-
-            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
-            {
-                dccs = dccsShipgraveyardInteractablesDLC2,
-                requiredExpansions = required,
-                weight = 1,
-            };
-            ArrayUtils.ArrayAppend(ref dpShipgraveyardInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
-
-            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
-            {
-                dccs = dccsRootJungleInteractablesDLC2,
-                requiredExpansions = required,
-                weight = 1,
-            };
-            ArrayUtils.ArrayAppend(ref dpRootJungleInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
-
-            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
-            {
-                dccs = dccsSkyMeadowInteractablesDLC2,
-                requiredExpansions = required,
-                weight = 1,
-            };
-            ArrayUtils.ArrayAppend(ref dpSkyMeadowInteractables.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
-
-
-
-            DccsPool dpLakesMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/lakes/dpLakesMonsters.asset").WaitForCompletion();
-            DirectorCardCategorySelection dccsLakesMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lakes/dccsLakesMonstersDLC2.asset").WaitForCompletion();
-
-            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
-            {
-                dccs = dccsLakesMonstersDLC2,
-                requiredExpansions = required,
-                weight = 1,
-            };
-            ArrayUtils.ArrayAppend(ref dpLakesMonsters.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
-
-
-            DccsPool dpSnowyForestMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC1/snowyforest/dpSnowyForestMonsters.asset").WaitForCompletion();
-            DirectorCardCategorySelection dccsSnowyForestMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsSnowyForestMonstersDLC2.asset").WaitForCompletion();
-
-            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
-            {
-                dccs = dccsSnowyForestMonstersDLC2,
-                requiredExpansions = required,
-                weight = 1,
-            };
-            ArrayUtils.ArrayAppend(ref dpSnowyForestMonsters.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
-
-
-            DccsPool dpGolemplainsMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/golemplains/dpGolemplainsMonsters.asset").WaitForCompletion();
-            DirectorCardCategorySelection dccsGolemplainsMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsGolemplainsMonstersDLC2.asset").WaitForCompletion();
-
-            NEW_ENTRY = new DccsPool.ConditionalPoolEntry
-            {
-                dccs = dccsGolemplainsMonstersDLC2,
-                requiredExpansions = required,
-                weight = 1,
-            };
-            ArrayUtils.ArrayAppend(ref dpGolemplainsMonsters.poolCategories[0].includedIfConditionsMet, NEW_ENTRY);
-
-
-        }
-
+       
         public static void DCCSThings_NoDLC()
         {
             DirectorCardCategorySelection dccsGolemplainsInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/golemplains/dccsGolemplainsInteractables.asset").WaitForCompletion();
@@ -618,7 +474,7 @@ namespace LittleGameplayTweaks
         public static void DoToAllDCCS(DirectorCardCategorySelection[] allinteractables)
         {
             DirectorCardCategorySelection.Category category;
-            DirectorCard Dcard;
+            //DirectorCard Dcard;
 
             for (int dccs = 0; allinteractables.Length > dccs; dccs++)
             {
@@ -713,5 +569,19 @@ namespace LittleGameplayTweaks
 
         }
 
+
+
+        public class InteractableSkinner : MonoBehaviour
+        {
+            public Material replacement;
+
+
+            public void Start()
+            {
+
+            }
+
+
+        }
     }
 }

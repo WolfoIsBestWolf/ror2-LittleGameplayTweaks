@@ -11,7 +11,7 @@ namespace LoopVariants
 {
     public class Variants_4_DampCaveSimpleAbyss
     {
-
+ 
 
         //public static Material matDCCoral;
         //public static Material matDCCoralActive;
@@ -35,43 +35,88 @@ namespace LoopVariants
         public static Material matDCTerrainGiantColumns;
         public static Material matDCTerrainSmallColumn;
         public static Material matDCTerrainWalls;
+        public static Material matDCPortalCard;
 
         public static PostProcessProfile ppSceneDampcaveHot;
         public static PostProcessProfile ppSceneDampcaveInTunnels;
 
+        
  
         public static void Setup()
         {
+            /*
+            Texture2D texWhiteSandSimple = new Texture2D(1024, 1024, TextureFormat.DXT5, true);
+            texWhiteSandSimple.LoadImage(Properties.Resources.texWhiteSandSimple, false);
+
+            Texture2D texDCGrass = new Texture2D(512, 512, TextureFormat.DXT5, true);
+            texDCGrass.LoadImage(Properties.Resources.texDCGrass, false);
+
+            Texture2D texDCGravelDiffuse = new Texture2D(512, 512, TextureFormat.DXT5, true);
+            texDCGravelDiffuse.LoadImage(Properties.Resources.texDCGravelDiffuse, false);
+
+            Texture2D texDCRockSide = new Texture2D(256, 256, TextureFormat.DXT5, true);
+            texDCRockSide.LoadImage(Properties.Resources.texDCRockSide, false);
+
+
+            Texture2D spmDCFern1_Atlas = new Texture2D(64, 256, TextureFormat.DXT5, true);
+            spmDCFern1_Atlas.LoadImage(Properties.Resources.spmDCFern1_Atlas, false);
+            */
+
+
+            Texture2D texMalachite = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/Damp/texMalachite.png");
+            Texture2D spmDCFern1_Atlas = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/Damp/spmDCFern1_Atlas.png");
+            Texture2D texDCRockSide = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/Damp/texDCRockSide.png");
+            Texture2D texDCGravelDiffuse = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/Damp/texDCGravelDiffuse.png");
+            Texture2D texDCGrass = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/Damp/texDCGrass.png");
+            Texture2D texWhiteSandSimple = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/Damp/texWhiteSandSimple.png");
+         
+
+
             //matEliteHauntedOverlay
 
             matDCCrystal = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCCrystal.mat").WaitForCompletion());
+            matDCCrystal.color = Color.red;  //1 0.852 0.2783 1
+            //_FlowHeightRamp //texRampMageFire
+            //_FresnelRamp //texRampDroneFire
+
             matDCCrystalPebble = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCCrystalPebble.mat").WaitForCompletion());
+            matDCCrystalPebble.color = Color.red;
+
+
             //matDCCoral = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCCoral.mat").WaitForCompletion());
             //matDCCoralActive = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCCoralActive.mat").WaitForCompletion());
             //matDCHeatvent1 = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCHeatvent1.mat").WaitForCompletion());
             matDCHeatvent1 = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/voidstage/matVoidOverhang.mat").WaitForCompletion());
+            
             //matDCMagmaFlow = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCMagmaFlow.mat").WaitForCompletion());
             matDCStalagmite = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCStalagmite.mat").WaitForCompletion());
+            
             matDCChainsSmall = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCChainsSmall.mat").WaitForCompletion());
 
             Fronds_0_LOD0 = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/Fronds_0_LOD0.mat").WaitForCompletion());
             Fronds_0_LOD1 = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/Fronds_0_LOD1.mat").WaitForCompletion());
+            Fronds_0_LOD0.mainTexture = spmDCFern1_Atlas;
+            Fronds_0_LOD1.mainTexture = spmDCFern1_Atlas;
+            Fronds_0_LOD0.color = new Color(1.5f, 1f, 1.25f, 1f);
+            Fronds_0_LOD1.color = new Color(1.5f, 1f, 1.25f, 1f);
 
 
             matDCTerrainFloor = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCTerrainFloor.mat").WaitForCompletion());
             matDCTerrainGiantColumns = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCTerrainGiantColumns.mat").WaitForCompletion());
             matDCTerrainWalls = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCTerrainWalls.mat").WaitForCompletion());
-
             matDCTerrainSmallColumn = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcavesimple/matDCTerrainSmallColumn.mat").WaitForCompletion());
+
             matDCBoulder = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcavesimple/matDCBoulder.mat").WaitForCompletion());
             matDCPebble = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcavesimple/matDCPebble.mat").WaitForCompletion());
 
+            matDCPortalCard = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCPortalCard.mat").WaitForCompletion());
+            matDCPortalCard.SetColor("_TintColor", new Color(0.4f, 0.1f, 0.2f, 1f )); //0.4151 0.1872 0 1
+
 
             //Crystal Decors
-            matDCCrystal.color = Color.red;  //1 0.852 0.2783 1
-            matDCCrystalPebble.color = Color.red;
-            //_FlowHeightRamp //texRampMageFire
-            //_FresnelRamp //texRampDroneFire
+           
+           
+            
 
 
             //matDCTerrainFloor
@@ -118,69 +163,40 @@ namespace LoopVariants
             ppSceneDampcaveInTunnels.settings[2] = new_Bloom;
             //
             //
-            Texture2D texWhiteSandSimple = new Texture2D(1024,1024, TextureFormat.DXT5, false);
-            texWhiteSandSimple.LoadImage(Properties.Resources.texWhiteSandSimple, true);
-            texWhiteSandSimple.filterMode = FilterMode.Bilinear;
-            texWhiteSandSimple.wrapMode = TextureWrapMode.Repeat;
 
-            Texture2D texMalachite = new Texture2D(4096, 4096, TextureFormat.DXT5, false);
-            texMalachite.LoadImage(Properties.Resources.texMalachite, true);
-            texMalachite.filterMode = FilterMode.Bilinear;
-            texMalachite.wrapMode = TextureWrapMode.Repeat;
-
-
-            Texture2D texDCGrass = new Texture2D(512, 512, TextureFormat.DXT5, false);
-            texDCGrass.LoadImage(Properties.Resources.texDCGrass, true);
-            texDCGrass.filterMode = FilterMode.Bilinear;
-            texDCGrass.wrapMode = TextureWrapMode.Repeat;
-
-            Texture2D texDCGravelDiffuse = new Texture2D(512, 512, TextureFormat.DXT5, false);
-            texDCGravelDiffuse.LoadImage(Properties.Resources.texDCGravelDiffuse, true);
-            texDCGravelDiffuse.filterMode = FilterMode.Bilinear;
-            texDCGravelDiffuse.wrapMode = TextureWrapMode.Repeat;
-
-            Texture2D texDCRockSide = new Texture2D(256, 256, TextureFormat.DXT5, false);
-            texDCRockSide.LoadImage(Properties.Resources.texDCRockSide, true);
-            texDCRockSide.filterMode = FilterMode.Bilinear;
-            texDCRockSide.wrapMode = TextureWrapMode.Repeat;
-
-            Texture2D spmDCFern1_Atlas = new Texture2D(64, 256, TextureFormat.DXT5, false);
-            spmDCFern1_Atlas.LoadImage(Properties.Resources.spmDCFern1_Atlas, true);
-            spmDCFern1_Atlas.filterMode = FilterMode.Bilinear;
-            spmDCFern1_Atlas.wrapMode = TextureWrapMode.Repeat;
 
 
             matDCTerrainFloor.SetTexture("_BlueChannelTex", texDCGravelDiffuse);
-            matDCTerrainFloor.SetTexture("_GreenChannelTex", texDCGrass);
+            //matDCTerrainFloor.SetTexture("_GreenChannelTex", texDCGrass);
             matDCTerrainFloor.SetTexture("_RedChannelSideTex", texDCRockSide);
             matDCTerrainFloor.SetTexture("_RedChannelTopTex", texDCRockSide);
 
             matDCTerrainGiantColumns.SetTexture("_BlueChannelTex", texDCGravelDiffuse);
-            matDCTerrainGiantColumns.SetTexture("_GreenChannelTex", texDCGrass);
+            //matDCTerrainGiantColumns.SetTexture("_GreenChannelTex", texDCGrass);
             matDCTerrainGiantColumns.SetTexture("_RedChannelSideTex", texDCRockSide);
             matDCTerrainGiantColumns.SetTexture("_RedChannelTopTex", texDCRockSide);
 
             matDCTerrainSmallColumn.SetTexture("_BlueChannelTex", texWhiteSandSimple); //texWhiteSandSimple
-            matDCTerrainSmallColumn.SetTexture("_GreenChannelTex", texDCGrass);
+            //matDCTerrainSmallColumn.SetTexture("_GreenChannelTex", texDCGrass);
             matDCTerrainSmallColumn.SetTexture("_RedChannelSideTex", texDCRockSide);
             matDCTerrainSmallColumn.SetTexture("_RedChannelTopTex", texDCRockSide);
 
             matDCTerrainWalls.SetTexture("_BlueChannelTex", texWhiteSandSimple); //texWhiteSandSimple
-            matDCTerrainWalls.SetTexture("_GreenChannelTex", texDCGrass);
+            //matDCTerrainWalls.SetTexture("_GreenChannelTex", texDCGrass);
             matDCTerrainWalls.SetTexture("_RedChannelSideTex", texDCRockSide);
             matDCTerrainWalls.SetTexture("_RedChannelTopTex", texDCRockSide);
 
 
 
             matDCTerrainFloor.SetTexture("_GreenChannelTex", texMalachite);
-            matDCTerrainFloor.SetTextureScale("_GreenChannelTex", new Vector2(1f, 1f));
+            matDCTerrainFloor.SetTextureScale("_GreenChannelTex", new Vector2(0.9f, 0.9f));
             matDCTerrainWalls.SetTexture("_GreenChannelTex", texMalachite);
-            matDCTerrainWalls.SetTextureScale("_GreenChannelTex", new Vector2(1f, 1f));
+            matDCTerrainWalls.SetTextureScale("_GreenChannelTex", new Vector2(0.2f, 0.2f));
             matDCTerrainSmallColumn.SetTexture("_GreenChannelTex", texMalachite);
-            matDCTerrainSmallColumn.SetTextureScale("_GreenChannelTex", new Vector2(1f, 1f));
+            matDCTerrainSmallColumn.SetTextureScale("_GreenChannelTex", new Vector2(0.2f, 0.2f));
             matDCTerrainGiantColumns.SetTexture("_GreenChannelTex", texMalachite);
-            matDCTerrainGiantColumns.SetTextureScale("_GreenChannelTex", new Vector2(1f, 1f));
-            
+            matDCTerrainGiantColumns.SetTextureScale("_GreenChannelTex", new Vector2(0.2f, 0.2f));
+
 
             //matDCTerrainFloor.SetTexture("_RedChannelSideTex", texMalachite);
             //matDCTerrainFloor.SetTextureScale("_RedChannelSideTex", new Vector2(0.05f, 0.05f));
@@ -190,20 +206,17 @@ namespace LoopVariants
             matDCTerrainGiantColumns.SetTextureScale("_RedChannelSideTex", new Vector2(0.05f, 0.05f));*/
             //matDCTerrainWalls.SetTexture("_RedChannelSideTex", texMalachite);
             //matDCTerrainWalls.SetTextureScale("_RedChannelSideTex", new Vector2(0.05f, 0.05f));
-
-            Fronds_0_LOD0.mainTexture = spmDCFern1_Atlas;
-            Fronds_0_LOD1.mainTexture = spmDCFern1_Atlas;
-
-
         }
-
+ 
         public static void LoopWeather()
         {
             GameObject Weather = GameObject.Find("/HOLDER: Lighting, PP, Wind, Misc");
             Light Sun = Weather.transform.GetChild(0).GetComponent<Light>();
             Sun.color = new Color(1, 0.55f, 0.65f); //0.8974 0.898 0.3961 1 //Barley does anything
             Sun.intensity = 0.6f; //0.5f
+            Sun.transform.localEulerAngles = new Vector3(60, 200, 0);
 
+            //41.2134 222.6395 0
 
             SetAmbientLight newAmbient = Weather.AddComponent<SetAmbientLight>();
             newAmbient.setAmbientLightColor = true;
@@ -217,6 +230,15 @@ namespace LoopVariants
 
             SceneInfo.instance.GetComponent<PostProcessVolume>().sharedProfile = ppSceneDampcaveHot;
             Weather.transform.Find("DCPPInTunnels").GetComponent<PostProcessVolume>().sharedProfile = ppSceneDampcaveInTunnels;
+
+
+            #region PortalCards
+            GameObject PortalCards = GameObject.Find("/HOLDER: Portal Cards");
+
+            PortalCards.transform.GetChild(0).GetComponent<MeshRenderer>().material = matDCPortalCard;
+            PortalCards.transform.GetChild(1).GetComponent<MeshRenderer>().material = matDCPortalCard;
+
+            #endregion
 
 
 

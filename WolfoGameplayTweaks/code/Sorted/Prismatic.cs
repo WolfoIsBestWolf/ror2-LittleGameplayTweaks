@@ -22,12 +22,12 @@ namespace LittleGameplayTweaks
 
             Texture2D texPrismRuleOn = new Texture2D(128, 128, TextureFormat.DXT5, false);
             texPrismRuleOn.LoadImage(Properties.Resources.texPrismRuleOn, true);
-            texPrismRuleOn.filterMode = FilterMode.Bilinear;
+            //texPrismRuleOn.filterMode = FilterMode.Bilinear;
             texPrismRuleOn.wrapMode = TextureWrapMode.Clamp;
             Sprite texPrismRuleOnS = Sprite.Create(texPrismRuleOn, new Rect(0, 0, 128, 128), new Vector2(0.5f, 0.5f));
             Texture2D texPrismRuleOff = new Texture2D(128, 128, TextureFormat.DXT5, false);
             texPrismRuleOff.LoadImage(Properties.Resources.texPrismRuleOff, true);
-            texPrismRuleOff.filterMode = FilterMode.Bilinear;
+            //texPrismRuleOff.filterMode = FilterMode.Bilinear;
             texPrismRuleOn.wrapMode = TextureWrapMode.Clamp;
             Sprite texPrismRuleOffS = Sprite.Create(texPrismRuleOff, new Rect(0, 0, 128, 128), new Vector2(0.5f, 0.5f));
 
@@ -423,7 +423,7 @@ namespace LittleGameplayTweaks
             //Proper Map Normal Icon
             Texture2D texRuleMapIsNormal = new Texture2D(256, 256, TextureFormat.DXT5, false);
             texRuleMapIsNormal.LoadImage(Properties.Resources.texRuleMapIsNormal, true);
-            texRuleMapIsNormal.filterMode = FilterMode.Bilinear;
+            //texRuleMapIsNormal.filterMode = FilterMode.Bilinear;
             texRuleMapIsNormal.wrapMode = TextureWrapMode.Clamp;
             Sprite texRuleMapIsNormalS = Sprite.Create(texRuleMapIsNormal, new Rect(0, 0, 256, 256), new Vector2(0.5f, 0.5f));
 

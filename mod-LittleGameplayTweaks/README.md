@@ -33,6 +33,8 @@ Cells now have a regenerating aura before activating them.
 
 
 ## Enemies
+False Son gets Adaptive Armor on loops and is now freeze-able.
+
 Elite Scavengers will be given more items.\
 Scavengers can be encountered as bosses and will be given 2 of a Boss Item.
 

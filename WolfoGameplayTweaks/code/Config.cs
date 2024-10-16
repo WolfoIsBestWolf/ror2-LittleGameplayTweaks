@@ -454,7 +454,7 @@ namespace LittleGameplayTweaks
             ShopChancePercentage = ConfigFileUNSORTED.Bind(
                 "Rates",
                 "Natural Bazaar Portal Chance",
-                20f,
+                15f,
                 "Vanilla is 5%"
             );
             VoidPortalChance = ConfigFileUNSORTED.Bind(

@@ -1,11 +1,7 @@
 ﻿using BepInEx;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
-using R2API;
 using R2API.Utils;
 using RoR2;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Security;
 using System.Security.Permissions;
@@ -73,14 +69,35 @@ namespace LittleGameplayTweaks
             //goolake.bossTrack = dampcavesimple.bossTrack;
 
 
+            //8 Fake Actor
+            //13 Debris ? 
+            //15 CollissionHull
+
             //Still Ripped
-            Physics.IgnoreLayerCollision(15, 13, false); //How much does this actually like affect
-            Physics.IgnoreLayerCollision(10, 13, false); //For Simulacrum
+            //Physics.IgnoreLayerCollision(15, 13, false); //How much does this actually like affect
+            //Physics.IgnoreLayerCollision(10, 13, false); //For Simulacrum
+            GameObject PickupDroplet = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Common/PickupDroplet.prefab").WaitForCompletion();
+            PickupDroplet.AddComponent<ItemOrbPhysicsChanger>();
+            /*PickupDroplet.layer = 28;
+            Physics.IgnoreLayerCollision(28, 28, true); //How much does this actually like affect
+            Physics.IgnoreLayerCollision(10, 28, false); //For Simulacrum
+            Physics.IgnoreLayerCollision(10, 28, false);*/ //For Simulacrum
             On.RoR2.MapZone.TryZoneStart += PickupTeleportHook;
         }
-
-
-
+         
+        public class ItemOrbPhysicsChanger : MonoBehaviour
+        {
+            private int timer = 0;
+            public void FixedUpdate()
+            {
+                timer++;
+                if (timer == 30)
+                {
+                    this.gameObject.layer = 8;
+                    Destroy(this);
+                }
+            }
+        }
 
         internal static void ModSupport()
         {
@@ -340,9 +357,6 @@ namespace LittleGameplayTweaks
 
             On.RoR2.UI.MainMenu.MainMenuController.Start -= OneTimeOnlyLateRunner;
         }
-
-
-
 
         public static void ClassicStageInfoMethod(On.RoR2.ClassicStageInfo.orig_Awake orig, global::RoR2.ClassicStageInfo self)
         {

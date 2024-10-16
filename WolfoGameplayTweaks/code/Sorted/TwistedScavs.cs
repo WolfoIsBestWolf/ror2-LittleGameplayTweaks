@@ -6,6 +6,7 @@ using RoR2.Navigation;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
+using RoR2.ExpansionManagement;
 
 namespace LittleGameplayTweaks
 {
@@ -23,6 +24,9 @@ namespace LittleGameplayTweaks
 
         public static void Start()
         {
+            ExpansionDef DLC1 = Addressables.LoadAssetAsync<ExpansionDef>(key: "RoR2/DLC1/Common/DLC1.asset").WaitForCompletion();
+
+
             CharacterBody TwipTwip = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar3Body").GetComponent<CharacterBody>();
             TwipTwip.baseMaxHealth *= 0.8f;
             TwipTwip.levelMaxHealth *= 0.8f;
@@ -42,6 +46,10 @@ namespace LittleGameplayTweaks
 
             ContentAddition.AddBody(ScavLunarWGoomanBody);
             ContentAddition.AddMaster(ScavLunarWGoomanMaster);
+
+            ScavLunarWGoomanBody.AddComponent<ExpansionRequirementComponent>().requiredExpansion = DLC1;
+            ScavLunarWTankBody.AddComponent<ExpansionRequirementComponent>().requiredExpansion = DLC1;
+            ScavLunarWSpeedBody.AddComponent<ExpansionRequirementComponent>().requiredExpansion = DLC1;
 
 
             ScavLunarWSpeedMaster.GetComponent<CharacterMaster>().bodyPrefab = ScavLunarWSpeedBody;
@@ -141,7 +149,7 @@ namespace LittleGameplayTweaks
                 new GivePickupsOnStart.ItemInfo { itemString = ("LevelBonus"), count = 1, },
                 //Decorations
                 new GivePickupsOnStart.ItemInfo { itemString = ("RegeneratingScrap"), count = 5, },
-                //new GivePickupsOnStart.ItemInfo { itemString = ("GhostOnKill"), count = 1, }, //Causes issues with FlatItemBuffs rework
+                new GivePickupsOnStart.ItemInfo { itemString = ("GhostOnKill"), count = 1, }, //Causes issues with FlatItemBuffs rework. Seemingly would be fine if ghosts dont get items
                 new GivePickupsOnStart.ItemInfo { itemString = ("SprintWisp"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
             };
@@ -191,7 +199,7 @@ namespace LittleGameplayTweaks
                 On.RoR2.ScriptedCombatEncounter.BeginEncounter += ScavLunarScaling;
             }
 
-
+            //cscScavLunar.masterPrefabs = cscScavLunar.masterPrefabs.Add(TwistedScavs.ScavLunarWGoomanMaster, TwistedScavs.ScavLunarWSpeedMaster, TwistedScavs.ScavLunarWTankMaster);
 
         }
 

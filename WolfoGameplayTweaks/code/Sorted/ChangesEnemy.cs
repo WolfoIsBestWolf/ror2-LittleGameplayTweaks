@@ -68,7 +68,7 @@ namespace LittleGameplayTweaks
             {
                 On.RoR2.ScavengerItemGranter.Start += GiveScavMoreItems;
                 RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").forbiddenAsBoss = false;
-                RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGolem").forbiddenAsBoss = false;
+                //RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGolem").forbiddenAsBoss = false;
             }
             if (WConfig.cfgScavMoreItemsElites.Value)
             {

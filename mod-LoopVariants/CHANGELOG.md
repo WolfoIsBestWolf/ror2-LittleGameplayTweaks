@@ -1,5 +1,46 @@
 ## Changelog:
 ```
+v1.3.0
+Added Loop Weather for Reformed Altar. (Golden Dieback leaves, yellow vibe)
+Added Loop Change to Prime Meridian. (Golden Dieback leaves)
+-Since Treeborn is very visible in both these stages, it makes sense to change it to Golden Dieback on loops.
+
+Added Risk of Options support.
+Added more Aquaducts to Tar filled Aquaduct
+Lowered Tar debuff duration by 1s.
+Made mod translatable.
+Took AssetBundle out of .dll.
+Fixed Sulfur Pods Helfire using wrong config.
+Fixed wrong Disturbed Impact spawn pool having Cleansing Pools removed.
+
+
+v1.2.3
+Fixed an issue with Abyssal Variant rocks being more red than intended.
+Removed Cleansing Pool and Wild Printer from Stage 1 Disturbed Impact
+
+v1.2.2
+Tied applying weather directly to recieving the information for clients.
+(Might mean they see the normal version for a couple frames when loading weirdly)
+(But should mean they never get out of sync)
+
+Added a config to disable Helfire Sulfur Pods on Sulfur Variant.
+Made Moss patches less slimy in Sundered Variant
+
+v1.2.1
+Made textures added by mod able to scale down. (Optimization)
+(Apparently something I needed to add manually and this optimization is missing from most textures I ever added)
+
+Matched Sunset Plains Sun rotation more to Trailer Plains rotation
+Increased visibility on Forest, reduced shadow strength on Plains.
+Made new Abyssal Depths ground less noisy.
+Reduced light amount in Sulfur Pools variant. (Potentially optimization)(Config to reduce further)
+Reduced fruit amount in Sundered Grove variant.  (Potentially optimization)
+Grove Variant should load faster.
+
+Config to make variants chance based on Loop2+ (Disabled by default)
+(ie: You want guaranteed variants Loop 1 but not on Loop 2,3,4, because you'd see the default variants less if most your runs do multiple loops)
+
+
 v1.2.0
 Added loop weather for Sundered Grove (Orange, Autumn-y, has Fruit from Golden Dieback)
 Added loop weather for Sulfur Pools (Blue Smoke)

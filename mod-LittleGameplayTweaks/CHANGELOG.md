@@ -1,5 +1,16 @@
 ## Changelog:
 ```
+v3.2.4 
+Changed item teleport implementation to avoid messing with physics layers.
+Fixed Scorch Wurm not being removed from Rallypoint.
+Loop Greater Wisp on Siphoned because they look nice with Borealis.
+Loop Solus Probe on Rallypoint Delta
+Loop Lunar enemies on Prime Meridian
+Loop Lunar Golem on Disturbed Impact
+Loop Lunar Wisp on Scorched Acres
+
+
+v3.2.3 - Made Sots spawn pool fixes standalone, added as dependency.
 v3.2.2
 Toned down Halcyonites replacing Golems during Shrines and added Config for it.
 Toned down Halcyonite Shrines Monster spawning in general.

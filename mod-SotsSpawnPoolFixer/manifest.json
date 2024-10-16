@@ -1,0 +1,10 @@
+{
+    "name": "DLCSpawnPoolFixer",
+    "version_number": "1.0.1",
+    "website_url": "https://github.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks",
+    "description": "Fixes wrong spawn pools being chosen often ever since Sots and many Sots spawn pools not being implemented.",
+    "dependencies": [
+		"bbepis-BepInExPack-5.4.9",
+		"RiskofThunder-HookGenPatcher-1.2.1"
+    ]
+}

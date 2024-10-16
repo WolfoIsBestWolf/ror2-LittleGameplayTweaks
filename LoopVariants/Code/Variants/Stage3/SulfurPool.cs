@@ -20,10 +20,7 @@ namespace LoopVariants
         public static Material matSPPortalCard;
         public static Material matSPMoss;
 
-    
-     
- 
-       
+
         public static Material matSPDistantVolcanoCloud;
 
         //Foliage
@@ -38,7 +35,7 @@ namespace LoopVariants
         public static Material matSPCrystal;
 
         //Most Ground
-        public static Material matSPGround;       
+        public static Material matSPGround;
         public static Material matSPSphere;
 
         public static Material matSPMountain;
@@ -48,7 +45,7 @@ namespace LoopVariants
         public static Material matSPProps;
         public static Material matSPEnvSmoke; //Fog from heatvents
         public static Material matSPEnvSmokeScreen; //Fog on screen
-        public static Material matSPEnvPoolSmoke;  
+        public static Material matSPEnvPoolSmoke;
 
 
         public static Material matSPCloseLowFog;
@@ -75,17 +72,21 @@ namespace LoopVariants
         {
             bool shouldBeFire = false;
 
-            if (Run.instance)
+            if (WConfig.cfgGameplayChanges.Value  && WConfig.Stage_3_Sulfur.Value && WConfig.Stage_3_Sulfur_Hellfire.Value)
             {
-                SceneDef mostRecentSceneDef = SceneCatalog.mostRecentSceneDef;
-                if (mostRecentSceneDef && mostRecentSceneDef.baseSceneName.StartsWith("sulfur"))
+                if (Run.instance)
                 {
-                    LoopVariantsMain.SyncLoopWeather weather = Run.instance.GetComponent<LoopVariantsMain.SyncLoopWeather>();
-                    if (weather && weather.CurrentStage_LoopVariant)
+                    SceneDef mostRecentSceneDef = SceneCatalog.mostRecentSceneDef;
+                    if (mostRecentSceneDef && mostRecentSceneDef.baseSceneName.StartsWith("sulfur"))
                     {
-                        shouldBeFire = true;
+                        LoopVariantsMain.SyncLoopWeather weather = Run.instance.GetComponent<LoopVariantsMain.SyncLoopWeather>();
+                        if (weather && weather.CurrentStage_LoopVariant)
+                        {
+                            shouldBeFire = true;
 
+                        }
                     }
+
                 }
 
             }
@@ -100,6 +101,7 @@ namespace LoopVariants
                 {
                     return;
                 }
+                self.teamComponent.teamIndex = TeamIndex.Monster;
                 self.hasExploded = true;
                 if (EntityStates.Destructible.SulfurPodDeath.explosionEffectPrefab)
                 {
@@ -133,6 +135,11 @@ namespace LoopVariants
                             CharacterBody body = hurtBox.healthComponent.body;
                             float baseDamage = self.damageStat * 0.5f * EntityStates.Destructible.SulfurPodDeath.explosionDamageCoefficient * Run.instance.teamlessDamageCoefficient;
 
+                            if (body.teamComponent && body.teamComponent.teamIndex == TeamIndex.Monster)
+                            {
+                                baseDamage *= 5;
+                            }
+
                             InflictDotInfo inflictDotInfo = new InflictDotInfo
                             {
                                 attackerObject = self.gameObject,
@@ -150,12 +157,12 @@ namespace LoopVariants
                     {
                         attacker = self.gameObject,
                         damageColorIndex = DamageColorIndex.Poison,
-                        baseDamage = self.damageStat*0.25f * EntityStates.Destructible.SulfurPodDeath.explosionDamageCoefficient * Run.instance.teamlessDamageCoefficient,
+                        baseDamage = self.damageStat * 0.25f * EntityStates.Destructible.SulfurPodDeath.explosionDamageCoefficient * Run.instance.teamlessDamageCoefficient,
                         radius = EntityStates.Destructible.SulfurPodDeath.explosionRadius,
                         falloffModel = BlastAttack.FalloffModel.None,
                         procCoefficient = 0.5f,
                         damageType = DamageType.PoisonOnHit,
-                        teamIndex = TeamIndex.None,
+                        teamIndex = TeamIndex.Monster,
                         position = self.transform.position,
                         baseForce = EntityStates.Destructible.SulfurPodDeath.explosionForce,
                         attackerFiltering = AttackerFiltering.NeverHitSelf
@@ -167,13 +174,9 @@ namespace LoopVariants
 
         }
 
-
         public static void Setup()
         {
-            if (WConfig.Stage_3_Sulfur.Value)
-            {
-                On.EntityStates.Destructible.SulfurPodDeath.Explode += SulfurPodHelfire;
-            }
+            On.EntityStates.Destructible.SulfurPodDeath.Explode += SulfurPodHelfire;
             blueLava.name = "sdLavaBlue";
             blueLava.damage = 69f;
             blueLava.isLava = true;
@@ -181,85 +184,85 @@ namespace LoopVariants
             blueLava.materialSwitchString = "dirt";
             blueLava.approximateColor = new Color(0, 0.5f, 1f);
 
-
+            /*
             Texture2D texSPGroundRed = new Texture2D(1024, 1024, TextureFormat.DXT5, false);
-            texSPGroundRed.LoadImage(Properties.Resources.texSPGroundRed, true);
-            texSPGroundRed.filterMode = FilterMode.Bilinear;
-            texSPGroundRed.wrapMode = TextureWrapMode.Repeat;
-
-
+            texSPGroundRed.LoadImage(Properties.Resources.texSPGroundRed, false);
+           
             Texture2D texSPGroundRed_FORLAVA = new Texture2D(1024, 1024, TextureFormat.DXT5, false);
-            texSPGroundRed_FORLAVA.LoadImage(Properties.Resources.texSPGroundRed_FORLAVA, true);
-            texSPGroundRed_FORLAVA.filterMode = FilterMode.Bilinear;
-            texSPGroundRed_FORLAVA.wrapMode = TextureWrapMode.Repeat;
-
-
+            texSPGroundRed_FORLAVA.LoadImage(Properties.Resources.texSPGroundRed_FORLAVA, false);
+          
             Texture2D texSPGroundDIFVein = new Texture2D(1024, 1024, TextureFormat.DXT5, false);
-            texSPGroundDIFVein.LoadImage(Properties.Resources.texSPGroundDIFVein, true);
-            texSPGroundDIFVein.filterMode = FilterMode.Bilinear;
-            texSPGroundDIFVein.wrapMode = TextureWrapMode.Repeat;
-
+            texSPGroundDIFVein.LoadImage(Properties.Resources.texSPGroundDIFVein, false);
+            
             Texture2D VeinEM = new Texture2D(2048, 2048, TextureFormat.DXT5, false);
-            VeinEM.LoadImage(Properties.Resources.VeinEM, true);
-            VeinEM.filterMode = FilterMode.Bilinear;
-            VeinEM.wrapMode = TextureWrapMode.Repeat;
-
+            VeinEM.LoadImage(Properties.Resources.VeinEM, false);     
 
             Texture2D texSPGroundDIFMain = new Texture2D(1024, 1024, TextureFormat.DXT5, false);
-            texSPGroundDIFMain.LoadImage(Properties.Resources.texSPGroundDIFMain, true);
-            texSPGroundDIFMain.filterMode = FilterMode.Bilinear;
-            texSPGroundDIFMain.wrapMode = TextureWrapMode.Repeat;
-
+            texSPGroundDIFMain.LoadImage(Properties.Resources.texSPGroundDIFMain, false);
+        
             Texture2D texSPGroundDIFPale = new Texture2D(1024, 1024, TextureFormat.DXT5, false);
-            texSPGroundDIFPale.LoadImage(Properties.Resources.texSPGroundDIFPale, true);
-            texSPGroundDIFPale.filterMode = FilterMode.Bilinear;
-            texSPGroundDIFPale.wrapMode = TextureWrapMode.Repeat;
-
+            texSPGroundDIFPale.LoadImage(Properties.Resources.texSPGroundDIFPale, false);
+            
             Texture2D texSPSpheremoss = new Texture2D(1024, 1024, TextureFormat.DXT5, false);
-            texSPSpheremoss.LoadImage(Properties.Resources.texSPSpheremoss, true);
-            texSPSpheremoss.filterMode = FilterMode.Bilinear;
-            texSPSpheremoss.wrapMode = TextureWrapMode.Repeat;
-
+            texSPSpheremoss.LoadImage(Properties.Resources.texSPSpheremoss, false);
+            
             Texture2D texSPSphereRock = new Texture2D(1024, 1024, TextureFormat.DXT1, false);
-            texSPSphereRock.LoadImage(Properties.Resources.texSPSphereRock, true);
-            texSPSphereRock.filterMode = FilterMode.Bilinear;
-            texSPSphereRock.wrapMode = TextureWrapMode.Repeat;
-
+            texSPSphereRock.LoadImage(Properties.Resources.texSPSphereRock, false);
+            
             Texture2D texRampMagmaWorm = new Texture2D(256, 8, TextureFormat.DXT1, false);
             texRampMagmaWorm.LoadImage(Properties.Resources.texRampMagmaWorm, true);
-            texRampMagmaWorm.filterMode = FilterMode.Bilinear;
-            texRampMagmaWorm.wrapMode = TextureWrapMode.Repeat;
+            
             Texture2D texRampCaptainAirstrike = new Texture2D(128, 16, TextureFormat.DXT1, false);
             texRampCaptainAirstrike.LoadImage(Properties.Resources.texRampCaptainAirstrike, true);
-            texRampCaptainAirstrike.filterMode = FilterMode.Bilinear;
-            texRampCaptainAirstrike.wrapMode = TextureWrapMode.Repeat;
-
+            
             Texture2D texRampTeleporterSoft = new Texture2D(128, 16, TextureFormat.DXT1, false);
             texRampTeleporterSoft.LoadImage(Properties.Resources.texRampTeleporterSoft, true);
-            texRampTeleporterSoft.filterMode = FilterMode.Bilinear;
-            texRampTeleporterSoft.wrapMode = TextureWrapMode.Repeat;
+           
             Texture2D texRampArtifactShellSoft = new Texture2D(256, 16, TextureFormat.DXT5, false);
             texRampArtifactShellSoft.LoadImage(Properties.Resources.texRampArtifactShellSoft, true);
-            texRampArtifactShellSoft.filterMode = FilterMode.Bilinear;
             texRampArtifactShellSoft.wrapMode = TextureWrapMode.Clamp;
 
             Texture2D texRampGreaterWisp = new Texture2D(256, 16, TextureFormat.DXT5, false);
             texRampGreaterWisp.LoadImage(Properties.Resources.texRampGreaterWisp, true);
-            texRampGreaterWisp.filterMode = FilterMode.Bilinear;
             texRampGreaterWisp.wrapMode = TextureWrapMode.Clamp;
 
+            Texture2D texSPGrass = new Texture2D(128, 256, TextureFormat.DXT5, false);
+            texSPGrass.LoadImage(Properties.Resources.texSPGrass, false);
+            texSPGrass.wrapMode = TextureWrapMode.Clamp;
 
- 
+            Texture2D texSPTallGrass = new Texture2D(256, 256, TextureFormat.DXT5, false);
+            texSPTallGrass.LoadImage(Properties.Resources.texSPTallGrass, false);
+            texSPTallGrass.wrapMode = TextureWrapMode.Clamp;
 
-            Texture2D texRampLightning = Object.Instantiate(Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/Base/Common/ColorRamps/texRampLightning.png").WaitForCompletion());
+            Texture2D spmSPVine = new Texture2D(128, 512, TextureFormat.DXT5, false);
+            spmSPVine.LoadImage(Properties.Resources.spmSPVine, false);
+            spmSPVine.wrapMode = TextureWrapMode.Clamp;
 
-
-            /*matHREgg = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC2/helminthroost/Assets/matHREgg.mat").WaitForCompletion());
-            matHREgg.mainTexture = BLUE_texHRLavaDiffuse;
-            matHREgg.SetTexture("_EmTex", BLUE_texHREggEmmisive);  
-            matHREgg.SetTexture("_BlueChannelTex", texSPSphereRock); //texHRTerrainHorizontalDiffuse
-            matHREgg.SetTexture("_GreenChannelTex", texSPSpheremoss); //texRampCaptainAirstrike
             */
+
+            Texture2D spmSPVine = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/spmSPVine.png");
+            Texture2D texRampArtifactShellSoft = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texRampArtifactShellSoft.png");
+            Texture2D texRampCaptainAirstrike = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texRampCaptainAirstrike.png");
+            Texture2D texRampGreaterWisp = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texRampGreaterWisp.png");
+            Texture2D texRampMagmaWorm = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texRampMagmaWorm.png");
+            Texture2D texRampTeleporterSoft = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texRampTeleporterSoft.png");
+            Cubemap texSkyboxSP = Files.Bundle.LoadAsset<Cubemap>("Assets/LoopVariants/SulfurPools/texSkyboxSP.png");
+            Texture2D texSPCoralEmi = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texSPCoralEmi.png");
+            Texture2D texSPCoralString = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texSPCoralString.png");
+            Texture2D texSPGrass = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texSPGrass.png");
+            Texture2D texSPGrassEMI = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texSPGrassEMI.png");
+            Texture2D texSPGroundDIFMain = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texSPGroundDIFMain.png");
+            Texture2D texSPGroundDIFPale = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texSPGroundDIFPale.png");
+            Texture2D texSPGroundDIFVein = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texSPGroundDIFVein.png");
+            Texture2D texSPGroundRed = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texSPGroundRed.png");
+            Texture2D texSPGroundRed_FORLAVA = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texSPGroundRed_FORLAVA.png");
+            Texture2D texSPSpheremoss = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texSPSpheremoss.png");
+            Texture2D texSPSphereRock = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texSPSphereRock.png");
+            Texture2D texSPTallGrass = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/texSPTallGrass.png");
+            Texture2D VeinEM = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/SulfurPools/VeinEM.png");
+ 
+            Texture2D texRampLightning = Object.Instantiate(Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/Base/Common/ColorRamps/texRampLightning.png").WaitForCompletion());
+          
             matHRLava = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC2/helminthroost/Assets/matHRLava.mat").WaitForCompletion());
             matHRLava.color = new Color(0f, 0f, 1f, 1f); //0.9623 0.3237 0 1
             //matHRLava.SetTexture("_BlueChannelTex", texFSLichen); //texFSLichen
@@ -300,7 +303,7 @@ namespace LoopVariants
 
 
             matSulfurPodBody = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/SulfurPod/matSulfurPodBody.mat").WaitForCompletion());
-            matSulfurPodBody.color = new Color(0f,0f,0f,0f);//0.4417 0.5094 0.286 1
+            matSulfurPodBody.color = new Color(0f, 0f, 0f, 0f);//0.4417 0.5094 0.286 1
             matSulfurPodBody.SetTexture("_BlueChannelTex", texSPSphereRock);
             matSulfurPodBody.SetTexture("_GreenChannelTex", texSPGroundDIFPale);
             matSulfurPodBody.SetTexture("_FresnelRamp", texRampGreaterWisp);
@@ -314,16 +317,16 @@ namespace LoopVariants
             matSPSphere.SetTexture("_GreenChannelTex", texSPSpheremoss); //texSPSpheremoss
             matSPSphere.SetTexture("_RedChannelTopTex", texSPSphereRock); //texSPSphereRock
             matSPSphere.SetTexture("_RedChannelSideTex", texSPGroundRed); //texSPGroundRed
-            matSPSphere.SetTexture("_EmTex", VeinEM); 
-            matSPSphere.SetColor("_EmColor", new Color(1, 2f, 5f, 1f)); 
+            matSPSphere.SetTexture("_EmTex", VeinEM);
+            matSPSphere.SetColor("_EmColor", new Color(1, 2f, 5f, 1f));
 
 
-           
+
             #region Fog / Gas Clouds
             //All 4 share a yellow main color but it just doesn't do anything
             //Also have EM colors that don't do shit
 
-            Color newGas = new Color();
+            //Color newGas = new Color();
 
             matSPCloseLowFog = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/sulfurpools/matSPCloseLowFog.mat").WaitForCompletion());
             matSPCloseLowFog.SetColor("_TintColor", new Color(0f, 0.06f, 0.18f, 1f));//
@@ -331,12 +334,12 @@ namespace LoopVariants
             matSPDistantLowFog = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/sulfurpools/matSPDistantLowFog.mat").WaitForCompletion());
             matSPDistantLowFog.SetColor("_TintColor", new Color(0.1f, 0.2f, 0.55f, 1f)); // 0.2075 0.1986 0.001 1
 
- 
+
             matSPDistantMountainClouds = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/sulfurpools/matSPDistantMountainClouds.mat").WaitForCompletion());
             matSPDistantMountainClouds.SetColor("_TintColor", new Color(0.1f, 0.2f, 0.55f, 1f));//
 
             matSPDistantVolcanoCloud = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/sulfurpools/matSPDistantVolcanoCloud.mat").WaitForCompletion());
-            matSPDistantVolcanoCloud.SetColor("_TintColor", new Color(0, 0.1f, 1f , 1f)); // {r: 0.49056602, g: 0.2592463, b: 0, a: 1}
+            matSPDistantVolcanoCloud.SetColor("_TintColor", new Color(0, 0.1f, 1f, 1f)); // {r: 0.49056602, g: 0.2592463, b: 0, a: 1}
 
 
             matSPPortalCard = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/sulfurpools/matSPPortalCard.mat").WaitForCompletion());
@@ -354,19 +357,10 @@ namespace LoopVariants
             PostProcessProfile original_Cave = Addressables.LoadAssetAsync<PostProcessProfile>(key: "RoR2/DLC1/sulfurpools/ppSceneSulfurPoolsCave.asset").WaitForCompletion();
             ppSceneSulfurPools = Object.Instantiate(original);
             ppSceneSulfurPoolsCave = Object.Instantiate(original_Cave);
- 
+
             //PP - WORLD
             RampFog rampFog = Object.Instantiate((RampFog)ppSceneSulfurPools.settings[0]);
-            //rampFog.fogColorEnd.value = new Color(0.4902f, 0.3671f, 0.1647f, 0.949f); //0.4902 0.3671 0.1647 0.949
-            /*rampFog.fogColorEnd.value = new Color(0.31f, 0.367f, 0.48f, 0.949f); //0.4902 0.3671 0.1647 0.949
-            rampFog.fogColorMid.value = new Color(0.18f, 0.17f, 0.31f, 0.3569f); //0.3458 0.3765 0.1255 0.3569
-            rampFog.fogColorStart.value = new Color(0.3243f, 0.3412f, 0.1791f, 0); //0.3243 0.3412 0.1791 0
-            rampFog.fogIntensity.value = 1; //1
-            rampFog.fogOne.value = 0.11f; //0.11
-            rampFog.fogPower.value = 1.7f; //1.7
-            rampFog.fogZero.value = -0.12f; //-0.12
-            rampFog.skyboxStrength.value = 0.175f;//0.175
-            */
+            
             rampFog.fogColorEnd.value = new Color(0.2f, 0.2f, 0.4f, 1f); //0.3312 0.3962 0.1962 1
             rampFog.fogColorMid.value = new Color(0.10f, 0.11f, 0.18f, 0.7f); //0.1792 0.1095 0.104 1
             rampFog.fogColorStart.value = new Color(0.27f, 0.277f, 0.38f, 0); //0.3774 0.2723 0.2723 0
@@ -380,41 +374,25 @@ namespace LoopVariants
 
             //PP - CAVE
             rampFog = Object.Instantiate((RampFog)ppSceneSulfurPoolsCave.settings[0]);
-            rampFog.fogColorEnd.value = new Color(0.2f, 0.2f, 0.4f,  1f); //0.3312 0.3962 0.1962 1
+            rampFog.fogColorEnd.value = new Color(0.2f, 0.2f, 0.4f, 1f); //0.3312 0.3962 0.1962 1
             rampFog.fogColorMid.value = new Color(0.10f, 0.11f, 0.18f, 1); //0.1792 0.1095 0.104 1
             rampFog.fogColorStart.value = new Color(0.27f, 0.277f, 0.38f, 0); //0.3774 0.2723 0.2723 0
-            /*rampFog.fogIntensity.value = 1; //1
-            rampFog.fogOne.value = 0.09f; //0.09
-            rampFog.fogPower.value = 7f; //7
-            rampFog.fogZero.value = -0.36f; //-0.36
-            rampFog.skyboxStrength.value = 0f; //0
-            */
+ 
             ppSceneSulfurPoolsCave.settings[0] = rampFog;
             #endregion
 
             matSkyboxSP = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/sulfurpools/matSkyboxSP.mat").WaitForCompletion());
 
-            Texture2D texSkyboxSPFAKE = new Texture2D(3072, 2048, TextureFormat.RGBA32, false);
+            /* Texture2D texSkyboxSPFAKE = new Texture2D(3072, 2048, TextureFormat.RGBA32, false);
             texSkyboxSPFAKE.LoadImage(Properties.Resources.texSkyboxSP, false);
-            texSkyboxSPFAKE.filterMode = FilterMode.Bilinear;
-            texSkyboxSPFAKE.wrapMode = TextureWrapMode.Clamp;
-
-       
+            texSkyboxSPFAKE.wrapMode = TextureWrapMode.Clamp;*/
 
 
-            Cubemap texSkyboxSP = new Cubemap(1024, TextureFormat.RGBA32, false);
-            texSkyboxSP.filterMode = FilterMode.Bilinear;
+
+
+            /*Cubemap texSkyboxSP = new Cubemap(1024, TextureFormat.RGBA32, false);
             texSkyboxSP.wrapMode = TextureWrapMode.Clamp;
-
-            /*Debug.Log(texSkyboxSPFAKE.isReadable);
-            Debug.Log(texSkyboxSP.isReadable);
-            Debug.Log(texSkyboxSPFAKE.GetPixels(0, 0, 1024, 1024));
-            Debug.Log(texSkyboxSPFAKE.GetPixels(1024, 0, 1024, 1024));
-            Debug.Log(texSkyboxSPFAKE.GetPixels(2048, 0, 1024, 1024));
-            Debug.Log(texSkyboxSPFAKE.GetPixels(0, 1024, 1024, 1024));
-            Debug.Log(texSkyboxSPFAKE.GetPixels(1024, 1024, 1024, 1024));
-            Debug.Log(texSkyboxSPFAKE.GetPixels(2048, 1024, 1024, 1024));*/
-
+ 
             texSkyboxSP.SetPixels(texSkyboxSPFAKE.GetPixels(0, 0, 1024, 1024), CubemapFace.PositiveX);
 
             texSkyboxSP.SetPixels(texSkyboxSPFAKE.GetPixels(1024, 0, 1024, 1024), CubemapFace.PositiveZ);
@@ -426,7 +404,7 @@ namespace LoopVariants
             texSkyboxSP.SetPixels(texSkyboxSPFAKE.GetPixels(1024, 1024, 1024, 1024), CubemapFace.NegativeX);
 
             texSkyboxSP.SetPixels(texSkyboxSPFAKE.GetPixels(2048, 1024, 1024, 1024), CubemapFace.NegativeZ);
-            texSkyboxSP.Apply();
+            texSkyboxSP.Apply();*/
             matSkyboxSP.SetTexture("_Tex", texSkyboxSP); //texSkyboxSP
 
 
@@ -437,29 +415,19 @@ namespace LoopVariants
             matSPGrass = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/sulfurpools/matSPGrass.mat").WaitForCompletion());
             matSPGrassEmi = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/sulfurpools/matSPGrassEmi.mat").WaitForCompletion());
 
-            Texture2D texSPGrass = new Texture2D(128, 256, TextureFormat.DXT5, false);
-            texSPGrass.LoadImage(Properties.Resources.texSPGrass, false);
-            texSPGrass.filterMode = FilterMode.Bilinear;
-            texSPGrass.wrapMode = TextureWrapMode.Clamp;
+            
 
             matSPGrass.mainTexture = texSPGrass;
             matSPGrassEmi.mainTexture = texSPGrass;
             //
             matSPTallGrass = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/sulfurpools/matSPTallGrass.mat").WaitForCompletion());
-            
-            Texture2D texSPTallGrass = new Texture2D(256, 256, TextureFormat.DXT5, false);
-            texSPTallGrass.LoadImage(Properties.Resources.texSPTallGrass, false);
-            texSPTallGrass.filterMode = FilterMode.Bilinear;
-            texSPTallGrass.wrapMode = TextureWrapMode.Clamp;
+
+          
 
             matSPTallGrass.mainTexture = texSPTallGrass;
             //
             matSPVine = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/sulfurpools/matSPVine.mat").WaitForCompletion());
             
-            Texture2D spmSPVine = new Texture2D(128, 512, TextureFormat.DXT5, false);
-            spmSPVine.LoadImage(Properties.Resources.spmSPVine, false);
-            spmSPVine.filterMode = FilterMode.Bilinear;
-            spmSPVine.wrapMode = TextureWrapMode.Clamp;
 
             matSPVine.mainTexture = spmSPVine;
             //
@@ -479,9 +447,8 @@ namespace LoopVariants
             matSPEnvPoolSmoke = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC1/sulfurpools/matSPEnvPoolSmoke.mat").WaitForCompletion());
             matSPEnvPoolSmoke.SetColor("_TintColor", NewSmoke);
 
-            //
+             
         }
-
 
         public static void LoopWeather()
         {
@@ -498,12 +465,12 @@ namespace LoopVariants
 
 
             SetAmbientLight Ambient = Weather.transform.GetChild(3).GetComponent<SetAmbientLight>();
- 
+
             //Ambient Light
             Ambient.ambientSkyColor = new Color(0.45f, 0.45f, 0.6f, 1);//0.6431 0.5449 0.3569 1
             /*//Ambient.ambientGroundColor = new Color();// These don't do anything
             //Ambient.ambientEquatorColor = new Color();//*/
- 
+
             Ambient.skyboxMaterial = matSkyboxSP;
             Ambient.ApplyLighting();
 
@@ -519,12 +486,13 @@ namespace LoopVariants
 
 
             //float corners = 200;
-            
+
             GameObject Light_HOLDER = new GameObject("LavaLight_Holder_Inner");
+            Light_HOLDER.AddComponent<ApplyToAllLights>();
             Light_HOLDER.transform.position = new Vector3(0, -60f, 0);
             Light_HOLDER.transform.localScale = new Vector3(1f, 1f, 1f);
 
-            GameObject lavaLight_Object = new GameObject("LavaLight1");
+            GameObject lavaLight_Object = new GameObject("LavaLight1");         
             lavaLight_Object.transform.SetParent(Light_HOLDER.transform);
             lavaLight_Object.transform.localPosition = new Vector3(-40, 0, -260);
             lavaLight_Object.transform.localEulerAngles = new Vector3(270, 0, 0);
@@ -535,6 +503,7 @@ namespace LoopVariants
             //lavaLight.spotAngle = 90;
             //lavaLight.innerSpotAngle = 90;
             lavaLight.range = 200f;
+            //lavaLight.shadows = LightShadows.Hard;
 
 
             GameObject lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
@@ -577,85 +546,89 @@ namespace LoopVariants
             lavaLight_Object2.transform.localPosition = new Vector3(-175, 0f, -70);
 
             lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(-185, 0f, -25);
+            lavaLight_Object2.transform.localPosition = new Vector3(-190, 0f, 30);
 
             lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
             lavaLight_Object2.transform.localPosition = new Vector3(-80, 0f, -35);
 
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(-150, 0f, -125);
+            /*lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+            lavaLight_Object2.transform.localPosition = new Vector3(-150, 0f, -125);*/
 
             lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
             lavaLight_Object2.transform.localPosition = new Vector3(-120, 0f, -190);
 
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(-50, 0f, 225);
+            /*lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+            lavaLight_Object2.transform.localPosition = new Vector3(-50, 0f, -225);*/
 
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(10, 0f, -280);
+            /*lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+            lavaLight_Object2.transform.localPosition = new Vector3(10, 0f, -280);*/
 
-            
-            ////OUTER
-            Light_HOLDER = new GameObject("LavaLight_Holder_Outer");
-            Light_HOLDER.transform.position = new Vector3(0, -110f, 0);
-            Light_HOLDER.transform.localScale = new Vector3(1f, 1f, 1f);
 
-            lavaLight_Object = new GameObject("LavaLight2");
-            lavaLight_Object.transform.SetParent(Light_HOLDER.transform);
-            lavaLight = lavaLight_Object.AddComponent<Light>();
-            lavaLight.color = new Color(0, 0.5f, 1f);
-            lavaLight.type = LightType.Point;
-            lavaLight.intensity = 12f;
-            lavaLight.range = 300f;
-            lavaLight_Object.transform.localEulerAngles = new Vector3(270, 0, 0);
-            lavaLight_Object.transform.localPosition = new Vector3(-225, 0, -430);
+            if (!WConfig.Stage_3_Sulfur_ExtraLights.Value)
+            {
+                ////OUTER
+                Light_HOLDER = new GameObject("LavaLight_Holder_Outer");
+                Light_HOLDER.transform.position = new Vector3(0, -110f, 0);
+                Light_HOLDER.transform.localScale = new Vector3(1f, 1f, 1f);
+                Light_HOLDER.AddComponent<ApplyToAllLights>();
 
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(-190, 0f, -290);
+                lavaLight_Object = new GameObject("LavaLight2");
+                lavaLight_Object.transform.SetParent(Light_HOLDER.transform);
+                lavaLight = lavaLight_Object.AddComponent<Light>();
+                lavaLight.color = new Color(0, 0.5f, 1f);
+                lavaLight.type = LightType.Point;
+                lavaLight.intensity = 12f;
+                lavaLight.range = 300f;
+                //lavaLight.shadows = LightShadows.None;
+                lavaLight_Object.transform.localEulerAngles = new Vector3(270, 0, 0);
+                lavaLight_Object.transform.localPosition = new Vector3(-190, 0f, -290);
+           
 
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(-190, 0f, -290);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(-280, 0f, -180);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(-360, 0f, -60);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(-360, 0f, 100);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(-340, 0f, 230);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(-230, 0f, 270);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(-110, 0f, 320);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(0, 0f, 275);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(140, 0f, 240);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(160, 0f, 380);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(300, 0f, 275);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(350, 0f, 160);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(420, 0f, 60);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(320, 0f, -55);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(370, 0f, -135);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(360, 0f, -260);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(320, 0f, -380);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(200, 0f, -330);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(30, 0f, -340);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(20, 0f, -460);
-            lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
-            lavaLight_Object2.transform.localPosition = new Vector3(-75, 0f, -600);
-
+                /*lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(-225, 0, -430);*/
+                /*lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(-190, 0f, -290);*/
+                lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(-280, 0f, -180);
+                lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(-360, 0f, -60);
+                lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(-360, 0f, 100);
+                lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(-340, 0f, 230);
+                /*lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(-230, 0f, 270);*/
+                lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(-110, 0f, 320);
+                lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(0, 0f, 275);
+                lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(140, 0f, 240);
+                /*lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(160, 0f, 380);*/
+                /*lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(300, 0f, 275);*/
+                lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(350, 0f, 160);
+                /*lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(420, 0f, 60);*/
+                lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(380, 0f, 55);
+                lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(370, 0f, -135);
+                lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(360, 0f, -260);
+                /*lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(320, 0f, -380);*/
+                lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(200, 0f, -330);
+                lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(30, 0f, -340);
+                /*lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(20, 0f, -460);
+                lavaLight_Object2 = Object.Instantiate(lavaLight_Object, Light_HOLDER.transform);
+                lavaLight_Object2.transform.localPosition = new Vector3(-75, 0f, -600);*/
+            }
 
 
             #endregion
@@ -812,5 +785,49 @@ namespace LoopVariants
 
         }
 
+
+        public class ApplyToAllLights : MonoBehaviour
+        {
+
+            public LightType type;
+            public LightShadows shadows;
+            public float intensity;
+            public Color colorNew;
+            public float range;
+            public float spotAngle;
+            public float innerSpotAngle;
+            public Vector3 newEulerAngles;
+
+            public void ApplyFromChild()
+            {
+                Light light = this.gameObject.GetComponentInChildren<Light>();
+                this.type = light.type;
+                this.shadows = light.shadows;
+                this.intensity = light.intensity;
+                this.colorNew = light.color;
+                this.range = light.range;
+                this.spotAngle = light.spotAngle;
+                this.innerSpotAngle = light.innerSpotAngle;
+                this.newEulerAngles = light.transform.eulerAngles;
+            }
+
+            public void ApplyToAllChildren()
+            {
+                Light[] lightsList = this.gameObject.GetComponentsInChildren<Light>();
+                foreach (Light light in lightsList)
+                {
+                    light.type = this.type;
+                    light.shadows = this.shadows;
+                    light.intensity = this.intensity;
+                    light.color = this.colorNew;
+                    light.range = this.range;
+                    light.spotAngle = this.spotAngle;
+                    light.innerSpotAngle = this.innerSpotAngle;
+                    light.transform.eulerAngles = this.newEulerAngles;
+                }
+
+            }
+        }
     }
+    
 }

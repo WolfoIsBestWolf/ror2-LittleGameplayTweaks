@@ -31,10 +31,8 @@ namespace LoopVariants
         {
 
             GameObject SunReal = GameObject.Find("/Directional Light (SUN)");
-            SunReal.GetComponent<Light>().intensity = 0.21f;
-
-            GameObject SunReal2 = Object.Instantiate(SunReal);
-            SunReal2.GetComponent<Light>().shadows = LightShadows.None;
+            SunReal.GetComponent<Light>().shadowStrength /= 0.5f;
+ 
             //How the fuck do you make shadows less hard
 
             #region Higher Water
@@ -86,7 +84,7 @@ namespace LoopVariants
             Tools.UpTransformByY(LeafOnWater.GetChild(45), 1);
 
 
-            float defaultHeight = -154.4f;
+            //float defaultHeight = -154.4f;
             float desiredHeight = -149.5f;
 
             Tools.UpTransformByY(WaterSmallNook,  5.1f); //154?

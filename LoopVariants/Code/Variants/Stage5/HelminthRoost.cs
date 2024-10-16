@@ -11,8 +11,6 @@ namespace LoopVariants
 {
     public class Variants_5_HelminthRoost
     {
-
-
         public static Material matHRLava;
         public static Material matHRTerrain;
         public static Material matHRTerrainLava;
@@ -35,18 +33,15 @@ namespace LoopVariants
 
             Texture2D rampGold = Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/DLC1/Common/ColorRamps/texRampStrongerBurn.png").WaitForCompletion();
 
-            Texture2D texRampMagmaWorm = new Texture2D(256, 8, TextureFormat.DXT1, false);
+            /* Texture2D texRampMagmaWorm = new Texture2D(256, 8, TextureFormat.DXT1, true);
             texRampMagmaWorm.LoadImage(Properties.Resources.Gold_texRampMagmaWorm, true);
-            texRampMagmaWorm.filterMode = FilterMode.Bilinear;
-            texRampMagmaWorm.wrapMode = TextureWrapMode.Repeat;
-            Texture2D texRampCaptainAirstrike = new Texture2D(128, 16, TextureFormat.DXT1, false);
+            
+            Texture2D texRampCaptainAirstrike = new Texture2D(128, 16, TextureFormat.DXT1, true);
             texRampCaptainAirstrike.LoadImage(Properties.Resources.Gold_texRampCaptainAirstrike, true);
-            texRampCaptainAirstrike.filterMode = FilterMode.Bilinear;
-            texRampCaptainAirstrike.wrapMode = TextureWrapMode.Repeat;
-            Texture2D texSPGroundRed_FORLAVA = new Texture2D(1024, 1024, TextureFormat.DXT5, false);
-            texSPGroundRed_FORLAVA.LoadImage(Properties.Resources.Gold_texSPGroundRed, true);
-            texSPGroundRed_FORLAVA.filterMode = FilterMode.Bilinear;
-            texSPGroundRed_FORLAVA.wrapMode = TextureWrapMode.Repeat;
+            
+            Texture2D texSPGroundRed_FORLAVA = new Texture2D(1024, 1024, TextureFormat.DXT5, true);
+            texSPGroundRed_FORLAVA.LoadImage(Properties.Resources.Gold_texSPGroundRed, true);   
+             */
 
             //matHRCrystal Blue inside of Caves
             //matHRWalls used for Buildings
@@ -84,20 +79,25 @@ namespace LoopVariants
 
             //lava
             //_FresnelRamp texRampCaptainAirstrike
+            //texRampMinorConstructElectric
+            //texRampStrongerBurn
 
-            Texture2D texHRLavaDiffuse = new Texture2D(512, 512, TextureFormat.DXT5, false);
+
+            Texture2D texHRLavaDiffuse = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/Helminth/texHRLavaDiffuse.png");
+
+            /*Texture2D texHRLavaDiffuse = new Texture2D(512, 512, TextureFormat.DXT5, true);
             texHRLavaDiffuse.LoadImage(Properties.Resources.texHRLavaDiffuse, true);
-            texHRLavaDiffuse.filterMode = FilterMode.Bilinear;
-            texHRLavaDiffuse.wrapMode = TextureWrapMode.Repeat;
+            */
 
             matHRTerrain.SetTexture("_GreenChannelTex", texHRLavaDiffuse);
             matHRWorm.SetTexture("_GreenChannelTex", texHRLavaDiffuse);
 
+
+            matHRCrystal.color = new Color(0.2f,0.2f,0.2f,1f);//0.1542 0.2571 0.4245 1
             matHRCrystal.SetTexture("_FlowHeightRamp", rampGold); //texRampBombOrb
+            
 
 
-            //texRampMinorConstructElectric
-            //texRampStrongerBurn
         }
 
 
@@ -155,5 +155,7 @@ namespace LoopVariants
 
 
         }
-     }
+
+
+    }
 }

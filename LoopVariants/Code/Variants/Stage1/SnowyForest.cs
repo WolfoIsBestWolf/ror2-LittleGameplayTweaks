@@ -37,7 +37,7 @@ namespace LoopVariants
 
             Light Sun = Weather.transform.GetChild(1).GetComponent<Light>();
             Sun.color = new Color(0.6667f, 0.9373f, 0.8f, 1f);//0.6667 0.9373 0.9373 1
-            Sun.intensity = 0.8f; //0.4f
+            Sun.intensity = 0.7f; //0.4f
                                   //0.2796 0.2745 0.3443 0.5
 
             PostProcessVolume process = SceneInfo.instance.gameObject.GetComponent<PostProcessVolume>();
@@ -50,15 +50,12 @@ namespace LoopVariants
             new_RampFog.fogIntensity.value *= 1.2f;
 
             //0.231
-
             new_RampFog.skyboxStrength.value *= 0.33f;
 
             VillageNightPP.settings[0] = new_RampFog;
 
             process.profile = VillageNightPP;
             process.sharedProfile = VillageNightPP;
-
-
 
             process = Weather.transform.GetChild(2).GetComponent<PostProcessVolume>();
             process.enabled = false;
@@ -81,7 +78,7 @@ namespace LoopVariants
             newAmbient.ambientEquatorColor = new Color(0.078f, 0.133f, 0.124f, 0.8f); //0.0781 0.1296 0.1272 0.8
             newAmbient.ambientGroundColor = new Color(0.223f, 0.36f, 0.352f, 0.8f); //0.2231 0.3562 0.3562 0.8 
             */
-            newAmbient.ambientIntensity = 1;
+            newAmbient.ambientIntensity = 1.2f;
 
             newAmbient.setSkyboxMaterial = true;
             newAmbient.skyboxMaterial = Addressables.LoadAssetAsync<Material>(key: "RoR2/Junk/slice1/matSkybox2.mat").WaitForCompletion();
