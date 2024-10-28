@@ -27,13 +27,21 @@ namespace LoopVariants
         {
             PluginInfo = info;
 
+            if (!Directory.Exists(GetPathToFile("LoopWeather")))
+            {
+                Folder = "";
+            }
+            
+            //If this shit still don't work just account for flattening
+
+
             if (Directory.Exists(GetPathToFile(Folder + "Languages")))
             {
                 On.RoR2.Language.SetFolders += SetFolders;
             }
             else
             {
-                Debug.LogWarning("NO LANGUAGES FOLDER");
+                Debug.LogWarning("COULD NOT FIND LANGUAGES FOLDER");
             }
             if (Directory.Exists(GetPathToFile(Folder + "AssetBundles")))
             {
@@ -41,7 +49,7 @@ namespace LoopVariants
             }
             else
             {
-                Debug.LogWarning("NO ASSETBUNDLES FOLDER");
+                Debug.LogWarning("COULD NOT FIND ASSETBUNDLES FOLDER");
             }
         }
 

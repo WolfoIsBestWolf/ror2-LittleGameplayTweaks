@@ -1,5 +1,6 @@
 ## Changelog:
 ```
+v1.0.2 - Lowered weights in LoopStage1 stage pool. (Forgot)
 v1.0.1 -
 Lowered Titanic Plains and Distant Roost weight to 0.75. 
 -(Normally: Both variants have a weight of 1, making them more common than other stage 1s.)

@@ -1,11 +1,12 @@
 {
     "name": "LittleGameplayTweaks",
-    "version_number": "3.2.4",
+    "version_number": "3.3.0",
     "website_url": "https://github.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks",
     "description": "Greater enemy variety in spawnpools, slightly faster Interactables, Prismatic Runs, and some more.",
     "dependencies": [
         "Wolfo-WLoopWeather-1.0.0",
 		"Wolfo-DLCSpawnPoolFixer-1.0.0",
+		"Rune580-Risk_Of_Options-2.8.2",
 		"bbepis-BepInExPack-5.4.9",
 		"RiskofThunder-HookGenPatcher-1.2.1",
 		"tristanmcpherson-R2API-5.0.5"

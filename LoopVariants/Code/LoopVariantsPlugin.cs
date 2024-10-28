@@ -18,7 +18,7 @@ using UnityEngine.Networking;
 namespace LoopVariants
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Wolfo.LoopVariants", "WolfosLoopVariants", "1.3.0")]
+    [BepInPlugin("Wolfo.LoopVariants", "WolfosLoopVariants", "1.3.1")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
 
 
@@ -57,8 +57,8 @@ namespace LoopVariants
                 On.RoR2.SceneExitController.IfLoopedUseValidLoopStage += Official_Variants_AltPath;
                 On.RoR2.BazaarController.IsUnlockedBeforeLooping += Official_Variants_Bazaar;
                 //
-                
-                
+
+
             }
         }
 
@@ -73,7 +73,7 @@ namespace LoopVariants
 
         private bool Official_Variants_Bazaar(On.RoR2.BazaarController.orig_IsUnlockedBeforeLooping orig, BazaarController self, SceneDef sceneDef)
         {
-            
+
             if (Run.instance)
             {
                 SyncLoopWeather weather = Run.instance.GetComponent<SyncLoopWeather>();
@@ -100,7 +100,7 @@ namespace LoopVariants
 
             }
 
-            return orig(self,sceneDef);
+            return orig(self, sceneDef);
         }
 
         private static void ApplyLoopWeatherChanges()
@@ -111,14 +111,7 @@ namespace LoopVariants
             Debug.Log("Loop weather for next " + weather.NextStage_LoopVariant);
 
 
-            if (Run.instance.loopClearCount > 0 && WConfig.Chance_Loop_2.Value == -1f && WConfig.Chance_Loop.Value == 100)
-            {
-                weather.CurrentStage_LoopVariant = true;
-            }
-            else if (Run.instance.loopClearCount == 0 && WConfig.Chance_PreLoop.Value == 0)
-            {
-                weather.CurrentStage_LoopVariant = false;
-            }
+
 
 
             if (weather && weather.CurrentStage_LoopVariant)
@@ -206,7 +199,7 @@ namespace LoopVariants
 
         }
 
- 
+
         private void Official_Variants_MainPath(On.RoR2.Run.orig_PickNextStageScene orig, Run self, WeightedSelection<SceneDef> choices)
         {
             orig(self, choices);
@@ -232,8 +225,11 @@ namespace LoopVariants
                     {
                         if (self.nextStageScene && self.nextStageScene.loopedSceneDef)
                         {
-                            Debug.Log("Replacing " + self.nextStageScene + " with " + self.nextStageScene.loopedSceneDef);
-                            self.nextStageScene = self.nextStageScene.loopedSceneDef;
+                            if (self.IsExpansionEnabled(self.nextStageScene.loopedSceneDef.requiredExpansion))
+                            {
+                                Debug.Log("Replacing " + self.nextStageScene + " with " + self.nextStageScene.loopedSceneDef);
+                                self.nextStageScene = self.nextStageScene.loopedSceneDef;
+                            }
                         }
                     }
                 }
@@ -326,7 +322,14 @@ namespace LoopVariants
                     Debug.LogWarning("SyncLoopWeather wasn't added when the run started, How?");
                     weather = Run.instance.gameObject.AddComponent<SyncLoopWeather>();
                 }
-
+                if (Run.instance.loopClearCount > 0 && WConfig.Chance_Loop_2.Value == -1f && WConfig.Chance_Loop.Value == 100)
+                {
+                    weather.CurrentStage_LoopVariant = true;
+                }
+                else if (Run.instance.loopClearCount == 0 && WConfig.Chance_PreLoop.Value == 0)
+                {
+                    weather.CurrentStage_LoopVariant = false;
+                }
 
                 bool Current_Use_Loop = false;
                 bool Next = false;
@@ -446,13 +449,28 @@ namespace LoopVariants
             if (Run.instance)
             {
                 SyncLoopWeather weather = Run.instance.GetComponent<SyncLoopWeather>();
-                if (weather && weather.CurrentStage_LoopVariant)
+                if (weather)
                 {
-                    SceneDef mostRecentSceneDef = SceneCatalog.mostRecentSceneDef;
-                    if (ExistingVariants.Contains(mostRecentSceneDef.baseSceneName))
+                    if (NetworkServer.active)
                     {
-                        self.titleText.SetText(Language.GetString(mostRecentSceneDef.nameToken + "_LOOP"), true);
-                        self.subtitleText.SetText(Language.GetString(mostRecentSceneDef.subtitleToken + "_LOOP"), true);
+                        if (Run.instance.loopClearCount > 0 && WConfig.Chance_Loop_2.Value == -1f && WConfig.Chance_Loop.Value == 100)
+                        {
+                            weather.CurrentStage_LoopVariant = true;
+                        }
+                        else if (Run.instance.loopClearCount == 0 && WConfig.Chance_PreLoop.Value == 0)
+                        {
+                            weather.CurrentStage_LoopVariant = false;
+                        }
+                    }
+                    
+                    if (weather.CurrentStage_LoopVariant)
+                    {
+                        SceneDef mostRecentSceneDef = SceneCatalog.mostRecentSceneDef;
+                        if (ExistingVariants.Contains(mostRecentSceneDef.baseSceneName))
+                        {
+                            self.titleText.SetText(Language.GetString(mostRecentSceneDef.nameToken + "_LOOP"), true);
+                            self.subtitleText.SetText(Language.GetString(mostRecentSceneDef.subtitleToken + "_LOOP"), true);
+                        }
                     }
                 }
             }

@@ -1,5 +1,13 @@
 ## Changelog:
 ```
+v1.3.3 - 
+Fixed Extra Aquaducts in variant Aquaduct not blocking spawn points.
+Removed Rescue Ship detail in variant Aquaduct because it kept melting reality and changed it's color to poison (???)
+You can no longer go to Viscious Falls without owning Sots.
+
+
+v1.3.2 - Attempt at fixing problem with how r2dmodman keeps folder structures
+v1.3.1 - Attempt at fixing problem with how r2dmodman keeps folder structures
 v1.3.0
 Added Loop Weather for Reformed Altar. (Golden Dieback leaves, yellow vibe)
 Added Loop Change to Prime Meridian. (Golden Dieback leaves)

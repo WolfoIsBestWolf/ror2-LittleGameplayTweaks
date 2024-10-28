@@ -12,8 +12,6 @@ namespace LoopVariants
 {
     public class Main_Variants
     {
-        
-
         public static void Start()
         {
             //1
@@ -24,12 +22,14 @@ namespace LoopVariants
             //Aurora Borealis
             Variants_1_SnowyForest.Setup();
 
+            //FUCK you sets your verdant falls on fire.
+
             //2
             //Overflowing Tar
             Variants_2_Goolake.Setup();
             //Overflowing Rain + Fog
             Variants_2_FoggySwamp.Setup();
-            //
+            //Eclipse but like more eclipsed idk
             Variants_2_AncientLoft.Setup();
             //Blessed? Fall Tree too
             Variants_2_LemurianTemple.Setup();

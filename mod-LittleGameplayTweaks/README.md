@@ -1,3 +1,9 @@
+### Info
+This mod is required by all players.
+
+If you wish to use this mod with players who do not have it. You can disable any new content added by this mod.\
+This includes, the new Twisted Scavengers, Red Multishops and Aquaduct Elders using bands.
+
 ## Spawn Pools
 A couple enemies have been moved or replaced to encourage enemy diversity.\
 Check Wiki entry on details.\
@@ -33,6 +39,13 @@ Cells now have a regenerating aura before activating them.
 
 
 ## Enemies
+Config for raising the enemy level cap to 999.\
+-(Will make stage 10+ a lot harder).
+
+Tier 2 elites have been made cheaper. (30x instead of 36x)\
+-(Both of these be turned off anytime ingame via Risk of Options)
+
+
 False Son gets Adaptive Armor on loops and is now freeze-able.
 
 Elite Scavengers will be given more items.\
@@ -57,7 +70,7 @@ Deep Void Signal now takes 45 seconds instead of 60.
 
 Red to White Cauldrons now grant 4 White items instead of 3.\
 Shrine of Blood now costs 50/70/90% blood.\
-Shrine of Blood now consistently gives 2/3/4 chests regardless of base health. (Still scaling with HP up items)
+Shrine of Blood now gives 40/70/100 gold regardless of base health. (Scales with time)
 Shrine of Woods price reduced from 25/37/55 to 10/13/18/25.\
 Gunner Turret price reduced from 35 to 25.\
 TC280 price reduced from 350 to 300.

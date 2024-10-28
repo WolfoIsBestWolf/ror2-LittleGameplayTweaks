@@ -2,7 +2,8 @@ Wish Seekers of the Storm had more loop variants so I tried my hand at it.
 
 Config to make them and official variants happen pre-loop.\
 Or make them chance based on loops.\
-You can turn off individual variants if you dislike them.
+You can turn off individual variants if you dislike them.\
+You can configure things in game via Risk of Options.
 
 
 The loop variants are meant to have enemy changes, but this will remain part of [LittleGameplayTweaks](https://thunderstore.io/package/Wolfo/LittleGameplayTweaks/).\
@@ -14,7 +15,7 @@ No idea how this mod interacts with Stage Aesthetics or Cooler Stages.
 
 ## Weather changes in-game :
   
-![Missing Immage](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks/main/modPageImages/ltgStages.png)
+![Image not showing up from Github](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks/main/modPageImages/ltgStages.png)
 
 #
 ### Inspirations :
@@ -34,9 +35,9 @@ No idea how this mod interacts with Stage Aesthetics or Cooler Stages.
 Basically all of these can fit the "Passage of Time" theme.\
 Even the more interesting changes such as Blue Lava Sulfur Pools, the background Volcano erupting as an idea for that.
 
-Additionally this mod changes the Treeborn visible in Prime Meridian to Golden Dieback.
+Additionally this mod changes the Treeborn visible in Prime Meridian to Golden Dieback on loops.
 
-![Missing Immage](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks/main/modPageImages/ltgStagesMeridian.png)
+![Image not showing up from Github](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks/main/modPageImages/ltgStagesMeridian.png)
 
 ##
  

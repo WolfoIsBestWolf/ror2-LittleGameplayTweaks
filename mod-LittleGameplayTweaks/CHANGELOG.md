@@ -1,5 +1,22 @@
 ## Changelog:
 ```
+v3.3.0
+Made Tier2 elites cheaper (30x instead of 36x)
+-This and level 999 config can be turned off ingame via Risk of Options and will update mid run.
+
+Mod now only edits one set of spawn pools. (Decided based on DLCs you own)(Helps with load times)
+Added Large Category chests to the 5 new stages.
+All void enemies can now spawn during Escape Sequence on Loops.
+
+For level 999 config.
+-Disabled level up effect and noise after level 200.
+-Final bosses limited to level 200 since they get bonus stats.
+
+Added some options to Risk of Options.
+Added config to disable all content added by mod. (For Host only mod packs. Only Clients having this mod probably doesn't do anything)
+TP Item hook activates sooner. Should save more Lunar Coins.
+
+
 v3.2.4 
 Changed item teleport implementation to avoid messing with physics layers.
 Fixed Scorch Wurm not being removed from Rallypoint.

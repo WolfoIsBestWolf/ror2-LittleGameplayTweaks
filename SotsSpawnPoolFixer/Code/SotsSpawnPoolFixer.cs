@@ -38,6 +38,12 @@ namespace SotsSpawnPoolFixer
             sgStage1._sceneEntries[1].weight = 0.75f;
             sgStage1._sceneEntries[2].weight = 0.75f;
             sgStage1._sceneEntries[3].weight = 0.75f;
+
+            SceneCollection loopSgStage1 = Addressables.LoadAssetAsync<SceneCollection>(key: "RoR2/Base/SceneGroups/loopSgStage1.asset").WaitForCompletion();
+            loopSgStage1._sceneEntries[0].weight = 0.75f;
+            loopSgStage1._sceneEntries[1].weight = 0.75f;
+            loopSgStage1._sceneEntries[2].weight = 0.75f;
+            loopSgStage1._sceneEntries[3].weight = 0.75f;
         }
 
         private static bool DccsPool_AreConditionsMet(On.RoR2.DccsPool.orig_AreConditionsMet orig, DccsPool self, DccsPool.ConditionalPoolEntry entry)

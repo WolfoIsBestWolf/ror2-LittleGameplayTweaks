@@ -1,0 +1,28 @@
+{
+	"strings":
+	{      
+	
+		"PORTAL_DESTINATION_HELMINTH": "Reject being Reborn",
+	
+		"FAMILY_PARENT": "<style=cWorldEvent>[WARNING] A familial bond is being interrupted..</style>",
+		"FAMILY_CLAY": "<style=cWorldEvent>[WARNING] You feel parasitic influences..</style>",
+		"FAMILY_ROBOBALL": "<style=cWorldEvent>[WARNING] You hear the whirring of wings and machinery..</style>",
+		"FAMILY_PESTS": "<style=cWorldEvent>[WARNING] You have invaded rampant breeding grounds..</style>",
+		"FAMILY_WORMS": "<style=cWorldEvent>[WARNING] His brother loved worms..</style>",
+		
+  
+		"RULE_PRISMATIC_NEW_NAME": "Remix",
+        "RULE_PRISMATIC_NEW_DESC": "The Prismatic Trial will not end on it's own.\nBosses will start being elite on Stage 4",
+        "RULE_PRISMATIC_OLD_NAME": "Vanilla",
+        "RULE_PRISMATIC_OLD_DESC": "The Prismatic Trial will end after beating Stage 2.\nBosses will be elite on Stage 2",
+ 
+		"MULTISHOP_LEGENDARY_TERMINAL_NAME": "Mili-Multishop Terminal",
+		
+		"SCAVLUNAR_FAST_BODY_NAME": "Feefee the Nimble",
+        "SCAVLUNAR_SLOW_BODY_NAME": "Dobdob the Stagnant",
+        "SCAVLUNAR_GOOBO_BODY_NAME": "Quabquab the Lonesome",
+            
+
+		
+	}
+}

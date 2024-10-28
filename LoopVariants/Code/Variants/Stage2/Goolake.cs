@@ -111,20 +111,14 @@ namespace LoopVariants
                 //GooPlaneRiver.GetComponent<ParticleSystem>()
 
                 //Add some sort of DECAL decor of tar around the rims and edges of the lake and junk
-                GameObject VoidDecalOriginal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidCamp/VoidCamp.prefab").WaitForCompletion().transform.GetChild(4).gameObject;
-                Material matClayBossGooDecal = Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Clay/matClayBossGooDecal.mat").WaitForCompletion();
-
-
-                GameObject TarDecal = GameObject.Instantiate(VoidDecalOriginal, DecorTarHolder_River.transform);
-                TarDecal.GetComponent<ThreeEyedGames.Decal>().Material = matClayBossGooDecal;
+                GameObject TarDecal = GameObject.Instantiate(DecalOG, DecorTarHolder_River.transform);
                 TarDecal.GetComponent<ThreeEyedGames.Decal>().LimitTo = GL_Terrain;
                 TarDecal.transform.localPosition = new Vector3(265.3105f, -123.385f, 225.0929f);
                 TarDecal.transform.localEulerAngles = new Vector3(0f, 45f, 0f);
                 TarDecal.transform.localScale = new Vector3(150f, 40f, 67f);
                 
 
-                TarDecal = GameObject.Instantiate(VoidDecalOriginal, DecorTarHolder_River.transform);
-                TarDecal.GetComponent<ThreeEyedGames.Decal>().Material = matClayBossGooDecal;
+                TarDecal = GameObject.Instantiate(DecalOG, DecorTarHolder_River.transform);
                 TarDecal.GetComponent<ThreeEyedGames.Decal>().Fade = 2f;
                 TarDecal.transform.localPosition = new Vector3(136.7616f, -135.4982f, 218.1272f);
                 //VoidDecal.transform.localEulerAngles = new Vector3(0f, 243.8361f, 340.6543f);
@@ -194,18 +188,27 @@ namespace LoopVariants
             #endregion
 
             //Tried to take/learn this from StageVariety but this shit does not work.
-            NodeGraph groundNodegraph = SceneInfo.instance.groundNodes;
-            NodeGraph airNodegraph = SceneInfo.instance.airNodes;
             List<NodeGraph.NodeIndex> dest = new List<NodeGraph.NodeIndex>();
+            HullMask forbid = (HullMask)7;
             Bounds bounds = new Bounds
             {
                 min = new Vector3(230, -120, -300),
                 max = new Vector3(250, -30, -228),
             };
+            NodeGraph groundNodegraph = SceneInfo.instance.groundNodes;
             groundNodegraph.blockMap.GetItemsInBounds(bounds, dest);
+            foreach (NodeGraph.NodeIndex index in dest)
+            {
+                groundNodegraph.nodes[index.nodeIndex].forbiddenHulls = forbid;
+            };
+
+
+            NodeGraph airNodegraph = SceneInfo.instance.airNodes;
             airNodegraph.blockMap.GetItemsInBounds(bounds, dest);
-
-
+            foreach (NodeGraph.NodeIndex index in dest)
+            {
+                airNodegraph.nodes[index.nodeIndex].forbiddenHulls = forbid;
+            };
             #region MoreAquaducts
             Transform OriginalAquaduct = GameplaySpace.transform.GetChild(4).GetChild(0);
             GameObject SecondAquadcut = GameObject.Instantiate(OriginalAquaduct.gameObject); //Aquaduct
@@ -266,16 +269,13 @@ namespace LoopVariants
             NEWDECAL.transform.localEulerAngles = new Vector3(0, 0, 0);
             #endregion
 
-            //Randomizer Stuff gets set earlier so does not work here
-            /*
-            SceneObjectToggleGroup randomizer = SceneInfo.instance.gameObject.GetComponentInChildren<SceneObjectToggleGroup>();
-            randomizer.toggleGroups[0].maxEnabled = 0;
-            randomizer.toggleGroups[0].minEnabled = 0;
-            if (randomizer)
+
+            //Just turned neon green randomly????
+            GameObject RescueShip = GameObject.Find("/HOLDER: Stage Count Toggled Objects/RescueshipBroken/escapeship/DropshipArmature/ROOT/Base");
+            if (RescueShip)
             {
-                randomizer.toggleGroups[4].maxEnabled = 25;
-                randomizer.toggleGroups[4].minEnabled = 25;
-            }*/
+                RescueShip.SetActive(false);
+            }
 
             // IGuess check for StageVariety
             if (WConfig.cfgGameplayChanges.Value)
