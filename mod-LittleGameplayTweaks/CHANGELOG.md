@@ -1,5 +1,10 @@
 ## Changelog:
 ```
+v3.3.1
+Fixed incorrect elite tier being modified when used with mods that add elite tiers.
+Removed Lunar Wisp from Loop Acres.
+Added Lunar enemies to Loop Sanctuary to match loop weather.
+
 v3.3.0
 Made Tier2 elites cheaper (30x instead of 36x)
 -This and level 999 config can be turned off ingame via Risk of Options and will update mid run.

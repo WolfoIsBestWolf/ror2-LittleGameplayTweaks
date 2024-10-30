@@ -1,6 +1,6 @@
 {
     "name": "LittleGameplayTweaks",
-    "version_number": "3.3.0",
+    "version_number": "3.3.1",
     "website_url": "https://github.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks",
     "description": "Greater enemy variety in spawnpools, slightly faster Interactables, Prismatic Runs, and some more.",
     "dependencies": [

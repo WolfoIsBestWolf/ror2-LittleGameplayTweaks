@@ -27,6 +27,7 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> DCCSEnemyChanges;
         public static ConfigEntry<bool> DCCSEnemyChangesLooping;
         public static ConfigEntry<bool> DCCSEnemyNewFamilies;
+        public static ConfigEntry<bool> FamiliesStage1;
         public static ConfigEntry<float> DCCSEnemyFamilyChance;
         //
         public static ConfigEntry<bool> DCCSInteractableChanges;
@@ -157,6 +158,12 @@ namespace LittleGameplayTweaks
                 "Family event additions and changes",
                 true,
                 "Add new family events and reorganizes existing ones"
+            );
+            FamiliesStage1 = ConfigFileUNSORTED.Bind(
+                "Spawnpool - Enemy",
+                "Stage 1 Family Events",
+                true,
+                "Allow most family events to happen on stage 1"
             );
             DCCSEnemyFamilyChance = ConfigFileUNSORTED.Bind(
                 "Spawnpool - Enemy",
@@ -455,14 +462,13 @@ namespace LittleGameplayTweaks
         {
             if (CombatDirector.eliteTiers.Length > 1)
             {
-                //Maybe get Tier2 automatically idk
                 if (cheaperTier2.Value)
                 {
-                    CombatDirector.eliteTiers[4].costMultiplier = CombatDirector.baseEliteCostMultiplier * 5f;
+                    CombatDirector.eliteTiers[LittleGameplayTweaks.FindTier2Elite()].costMultiplier = CombatDirector.baseEliteCostMultiplier * 5f;
                 }
                 else
                 {
-                    CombatDirector.eliteTiers[4].costMultiplier = CombatDirector.baseEliteCostMultiplier * 6f;
+                    CombatDirector.eliteTiers[LittleGameplayTweaks.FindTier2Elite()].costMultiplier = CombatDirector.baseEliteCostMultiplier * 6f;
                 }
             }   
         }
@@ -524,7 +530,8 @@ namespace LittleGameplayTweaks
             ModSettingsManager.AddOption(new CheckBoxOption(DCCSEnemyChanges, true));
             ModSettingsManager.AddOption(new CheckBoxOption(DCCSEnemyChangesLooping, true));
             ModSettingsManager.AddOption(new CheckBoxOption(DCCSEnemyNewFamilies, true));
-
+            ModSettingsManager.AddOption(new CheckBoxOption(FamiliesStage1, true));
+            
             ModSettingsManager.AddOption(new CheckBoxOption(DCCSInteractableChanges, true));
             ModSettingsManager.AddOption(new CheckBoxOption(DCCSInteractableCostChanges, true));
             ModSettingsManager.AddOption(new FloatFieldOption(InteractablesMountainMultiplier, true));

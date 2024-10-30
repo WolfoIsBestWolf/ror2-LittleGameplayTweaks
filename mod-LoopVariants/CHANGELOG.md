@@ -1,5 +1,8 @@
 ## Changelog:
 ```
+v1.4.0
+Added eclipsed Aphelian Sanctuary
+
 v1.3.3 - 
 Fixed Extra Aquaducts in variant Aquaduct not blocking spawn points.
 Removed Rescue Ship detail in variant Aquaduct because it kept melting reality and changed it's color to poison (???)

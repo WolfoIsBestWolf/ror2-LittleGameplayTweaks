@@ -14,6 +14,7 @@ namespace LoopVariants
         public static ConfigEntry<bool> cfgLoopWeather;
 
         public static ConfigEntry<bool> cfgGameplayChanges;
+        public static ConfigEntry<bool> cfgEnemyAdditions;
 
         public static ConfigEntry<float> Chance_PreLoop;
         public static ConfigEntry<float> Chance_Loop;
@@ -39,6 +40,12 @@ namespace LoopVariants
                 true,
                 "Does not include new gameobjects that might block a path.\nSome changes will not activate if you are already on the stage.\nIf you plan on playing with people that do not have this mod it's better to disable this.\n\nAquaduct : Slowing Tar\nSulfur Pools : Weaker but Lethal Helfire Pods\nSundered Grove : Healing Fruits"
             );
+            /*cfgEnemyAdditions = ConfigFileSTAGES.Bind(
+               "!Main",
+               "Enable Variants to have additional enemy variety.",
+               true,
+               "This is not currently implemented"
+           );*/
             Chance_PreLoop = ConfigFileSTAGES.Bind(
                 "Chances",
                 "Loop Weather chance pre-loop",
@@ -75,7 +82,12 @@ namespace LoopVariants
                 false,
                 "Removes kicking from lobbies so you can join yourself with 2 game instances on the same account."
             );
-
+            WIP = ConfigFileSTAGES.Bind(
+                "Testing",
+                "Wip",
+                false,
+                "Not much to see"
+            );
             InitConfigStages();
             RiskConfig();
         }
@@ -193,6 +205,7 @@ namespace LoopVariants
 
         public static ConfigEntry<bool> Stage_6_Commencement;
         public static ConfigEntry<bool> Stage_6_Meridian;
+        public static ConfigEntry<bool> WIP;
 
 
 
@@ -241,13 +254,7 @@ namespace LoopVariants
                 true,
                 "Enable alt weather for this stage"
             );
-            Stage_2_Temple = ConfigFileSTAGES.Bind(
-                "Stage 2",
-                "Reformed Altar",
-                true,
-                "Enable alt weather for this stage"
-            );
-            /*Stage_2_Ancient = ConfigFileSTAGES.Bind(
+            Stage_2_Ancient = ConfigFileSTAGES.Bind(
                 "Stage 2",
                 "Aphelian Sanctuary",
                 true,
@@ -264,7 +271,7 @@ namespace LoopVariants
                 "Rally Point",
                 true,
                 "Enable alt weather for this stage"
-            );*/
+            );
             Stage_3_Wisp = ConfigFileSTAGES.Bind(
                 "Stage 3",
                 "Scorched Acres",
@@ -338,6 +345,7 @@ namespace LoopVariants
                 true,
                 "Change trees to Golden Dieback coloration on loops"
             );
+            
         }
 
     }

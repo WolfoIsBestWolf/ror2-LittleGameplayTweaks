@@ -183,17 +183,38 @@ namespace LittleGameplayTweaks
             }
         }
 
+
+        public static int FindTier2Elite()
+        {
+            for (int i = 0; i < CombatDirector.eliteTiers.Length; i++)
+            {
+                for (int E = 0; E < CombatDirector.eliteTiers[i].eliteTypes.Length; E++)
+                {
+                    if (CombatDirector.eliteTiers[i].eliteTypes[E] == RoR2Content.Elites.Poison)
+                    {
+                        Debug.Log("Tier2 Elite Tier at "+i);
+                        return i;
+                    }
+                }
+            }
+            Debug.LogWarning("Could not find Tier2 Elite Tier");
+            return 111; //Force out of bounds
+        }
+
         internal static void ModSupport()
         {
             if (WConfig.cheaperTier2.Value)
             {
-                CombatDirector.eliteTiers[4].costMultiplier = CombatDirector.baseEliteCostMultiplier * 5f;
-            }
-            else
-            {
-                CombatDirector.eliteTiers[4].costMultiplier = CombatDirector.baseEliteCostMultiplier * 6f;
-            }
+                try
+                {
+                    CombatDirector.eliteTiers[FindTier2Elite()].costMultiplier = CombatDirector.baseEliteCostMultiplier * 5f;
+                }
+                catch
+                {
 
+                }
+           }
+         
             if (WConfig.LevelMaximum.Value)
             {
                 RoR2.Run.ambientLevelCap = 999;

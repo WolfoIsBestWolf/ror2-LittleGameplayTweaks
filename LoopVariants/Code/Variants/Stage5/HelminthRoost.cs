@@ -92,11 +92,12 @@ namespace LoopVariants
             matHRTerrain.SetTexture("_GreenChannelTex", texHRLavaDiffuse);
             matHRWorm.SetTexture("_GreenChannelTex", texHRLavaDiffuse);
 
+            //matHRWorm.mainTexture = Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/Helminth/texHRWormRChannelDiffuse.png");
+            //matHRWorm.SetTexture("_BlueChannelTex", Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/Helminth/texHRWormBChannelDiffuse.png"));
+            //matHRWorm.SetTexture("_FresnelRamp", Files.Bundle.LoadAsset<Texture2D>("Assets/LoopVariants/Helminth/texRampNullifier.png"));
 
             matHRCrystal.color = new Color(0.2f,0.2f,0.2f,1f);//0.1542 0.2571 0.4245 1
             matHRCrystal.SetTexture("_FlowHeightRamp", rampGold); //texRampBombOrb
-            
-
 
         }
 
@@ -104,10 +105,18 @@ namespace LoopVariants
         public static void LoopWeather()
         {
             GameObject Weather = GameObject.Find("/HOLDER: Lighting");
+
+            Light Sun = Weather.transform.GetChild(5).GetChild(1).GetComponent<Light>();
+            //Sun.color = new Color();//0.5647 0.8706 0.8863 1
+            Sun.shadowStrength = 0.6f;
+
             PostProcessVolume pp = Weather.GetComponentInChildren<PostProcessVolume>();
             RampFog rampFog = (RampFog)pp.profile.settings[0];
-            //rampFog.fogColorEnd.value = new Color();
             rampFog.fogOne.value = 0.5f;
+            /*rampFog.fogColorEnd.value = new Color();//0.3208 0.1234 0.1044 1
+            rampFog.fogColorMid.value = new Color();//0.5176 0.3338 0.2706 0.4471
+            rampFog.fogColorStart.value = new Color();//0.7453 0.3527 0.2988 0
+            */
             pp.profile.settings[0] = rampFog;
             pp.priority++;
 

@@ -1236,6 +1236,10 @@ namespace LittleGameplayTweaks
                 dccsAncientLoftMonstersDLC2.AddCard(0, LoopGrovetender);
                 dccsAncientLoftMonstersDLC2.AddCard(2, LoopElderLemurian); //Loop Elder Lemurian
                 //dccsAncientLoftMonstersDLC2.AddCard(1, LoopLunarWisp);
+                dccsAncientLoftMonstersDLC2.AddCard(1, LoopLunarExploder);
+                dccsAncientLoftMonstersDLC2.AddCard(0, LoopLunarGolem);
+                dccsAncientLoftMonstersDLC2.AddCard(0, LoopLunarWisp);
+                
             }
             if (ConfigStages.Stage_2_Temple.Value)
             {
@@ -1248,7 +1252,6 @@ namespace LittleGameplayTweaks
                 {
                     dccsFrozenWallMonstersDLC2.categories[0].cards[num].minimumStageCompletions = 500;
                     dccsFrozenWallMonstersDLC2.categories[0].cards[num].selectionWeight--;
-
                 }
                 dccsFrozenWallMonstersDLC2.AddCard(1, DoubleLoopVoidReaver);
                 dccsFrozenWallMonstersDLC2.AddCard(1, LoopRoboBallMini);
@@ -1256,7 +1259,7 @@ namespace LittleGameplayTweaks
             }
             if (ConfigStages.Stage_3_Wisp.Value)
             {
-                dccsWispGraveyardMonstersDLC2.AddCard(1, LoopLunarWisp);
+                //dccsWispGraveyardMonstersDLC2.AddCard(1, LoopLunarWisp);
                 dccsWispGraveyardMonstersDLC2.AddCard(2, DC_Child);
                 dccsWispGraveyardMonstersDLC2.AddCard(2, Loop_GreaterWisp);
                 dccsWispGraveyardMonstersDLC2.AddCard(2, LoopPest);
@@ -1568,6 +1571,9 @@ namespace LittleGameplayTweaks
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
 
+            int familyMin = WConfig.FamiliesStage1.Value ? 0 : 1;
+
+
             dccsGolemFamilyAbyssal.categories[0].cards[0] = DC_TitanDampCaves;
             dccsGolemFamilyAbyssal.name = "dccsGolemFamilyAbyssal";
 
@@ -1577,7 +1583,7 @@ namespace LittleGameplayTweaks
             dccsClayFamily.AddCard(1, DC_ClayTemp);
             dccsClayFamily.AddCard(1, DC_ClayGrenadier);
             dccsClayFamily.name = "dccsClayFamily";
-            dccsClayFamily.minimumStageCompletion = 0;
+            dccsClayFamily.minimumStageCompletion = familyMin;
             dccsClayFamily.maximumStageCompletion = 1000000;
             dccsClayFamily.selectionChatString = "FAMILY_CLAY";
 
@@ -1588,7 +1594,7 @@ namespace LittleGameplayTweaks
             dccsRoboBallFamily.AddCard(1, DC_RoboBallMini);
             dccsRoboBallFamily.AddCard(2, DC_VultureNoCeling);
             dccsRoboBallFamily.name = "dccsRoboBallFamily";
-            dccsRoboBallFamily.minimumStageCompletion = 0;
+            dccsRoboBallFamily.minimumStageCompletion = familyMin;
             dccsRoboBallFamily.maximumStageCompletion = 1000000;
             dccsRoboBallFamily.selectionChatString = "FAMILY_ROBOBALL";
 
@@ -1596,7 +1602,7 @@ namespace LittleGameplayTweaks
             dccsVerminFamily.AddCard(0, DC_BlindPest);
             dccsVerminFamily.AddCard(0, DC_BlindVermin);
             dccsVerminFamily.name = "dccsVerminFamily";
-            dccsVerminFamily.minimumStageCompletion = 0;
+            dccsVerminFamily.minimumStageCompletion = familyMin;
             dccsVerminFamily.maximumStageCompletion = 9;
             dccsVerminFamily.selectionChatString = "FAMILY_PESTS";
 
@@ -1604,7 +1610,7 @@ namespace LittleGameplayTweaks
             dccsVerminFamilySnowy.AddCard(0, DC_BlindPestSnowy);
             dccsVerminFamilySnowy.AddCard(0, DC_BlindVerminSnowy);
             dccsVerminFamilySnowy.name = "dccsVerminSnowyFamily";
-            dccsVerminFamilySnowy.minimumStageCompletion = 0;
+            dccsVerminFamilySnowy.minimumStageCompletion = familyMin;
             dccsVerminFamilySnowy.maximumStageCompletion = 9;
             dccsVerminFamilySnowy.selectionChatString = "FAMILY_PESTS";
             //<style=cWorldEvent>[WARNING] You hear squeaks and chirps around you..</style>
@@ -1620,14 +1626,13 @@ namespace LittleGameplayTweaks
             dccsWormsFamily.selectionChatString = "FAMILY_WORMS";
 
 
-
-            dccsLemurianFamily.minimumStageCompletion = 0;
-            dccsJellyfishFamily.minimumStageCompletion = 0;
-            dccsGupFamily.minimumStageCompletion = 0;
-            dccsBeetleFamily.minimumStageCompletion = 0;
-            dccsImpFamily.minimumStageCompletion = 0;
-            dccsWispFamily.minimumStageCompletion = 0;
-            dccsConstructFamily.minimumStageCompletion = 0;
+            dccsBeetleFamily.minimumStageCompletion = familyMin;
+            dccsLemurianFamily.minimumStageCompletion = familyMin;
+            dccsJellyfishFamily.minimumStageCompletion = familyMin;
+            dccsGupFamily.minimumStageCompletion = familyMin;     
+            dccsImpFamily.minimumStageCompletion = familyMin;
+            dccsWispFamily.minimumStageCompletion = familyMin;
+            dccsConstructFamily.minimumStageCompletion = familyMin;
 
             dccsLemurianFamily.maximumStageCompletion = 14;
             dccsLunarFamily.minimumStageCompletion = 4;

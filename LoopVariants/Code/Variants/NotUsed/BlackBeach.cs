@@ -19,6 +19,11 @@ namespace LoopVariants
 
         public static void LoopWeather()
         {
+            SceneInfo.instance.GetComponent<PostProcessVolume>().profile = Addressables.LoadAssetAsync<PostProcessProfile>(key: "RoR2/Base/title/PostProcessing/ppSceneShipgraveyard.asset").WaitForCompletion();
+        }
+
+        public static void VariantMonsters()
+        {
 
         }
     }
