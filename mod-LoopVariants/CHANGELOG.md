@@ -1,5 +1,26 @@
 ## Changelog:
 ```
+v1.4.1
+Added config to alternate loop variants, default false. (Loop 0 and 2, basic variants, Loop 1 / 3 alts)
+Made default loop2+ chance 50%.
+
+Moved enemy additions here so they can be tied to Loop Variants. 
+-By default only enabled with LittleGameplayTweaks installed still.
+
+*Child on Dusk Acres
+*Void Floor Barnacle/Reaver, more Imps in Red Depths
+*Void Jailer/Devestator, more Imp Overlords in Loop Red Depths
+*Lunar Exploder in Night Sanctuary
+*Lunar Golem/Wisp in loop Night Sanctuary
+*Geep/Gip on Spring Grove
+*Halcyonite on Gold Helminth
+
+Lowered Credits of Stage 1 Disturbed Impact to 280.
+ReAllowed Stage 1 Grandparent on Viscious.
+Removed Stage 1 Void Seeds on Viscious.
+Added Config to disable name changes.
+
+
 v1.4.0
 Added eclipsed Aphelian Sanctuary
 

@@ -11,8 +11,6 @@ namespace LoopVariants
 {
     public class Variants_4_DampCaveSimpleAbyss
     {
- 
-
         //public static Material matDCCoral;
         //public static Material matDCCoralActive;
         //public static Material matDCMagmaFlow;    
@@ -40,8 +38,11 @@ namespace LoopVariants
         public static PostProcessProfile ppSceneDampcaveHot;
         public static PostProcessProfile ppSceneDampcaveInTunnels;
 
-        
- 
+        //Chains
+        public static Material matTrimSheetLemurianMetalLight;
+
+
+
         public static void Setup()
         {
             /*
@@ -100,6 +101,9 @@ namespace LoopVariants
             Fronds_0_LOD0.color = new Color(1.5f, 1f, 1.25f, 1f);
             Fronds_0_LOD1.color = new Color(1.5f, 1f, 1.25f, 1f);
 
+
+            matTrimSheetLemurianMetalLight = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/Common/TrimSheets/matTrimSheetLemurianMetalLight.mat").WaitForCompletion());
+            matTrimSheetLemurianMetalLight.SetFloat("_SnowBias", 1);
 
             matDCTerrainFloor = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCTerrainFloor.mat").WaitForCompletion());
             matDCTerrainGiantColumns = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/Base/dampcave/matDCTerrainGiantColumns.mat").WaitForCompletion());
@@ -194,10 +198,30 @@ namespace LoopVariants
             matDCTerrainWalls.SetTextureScale("_GreenChannelTex", new Vector2(0.2f, 0.2f));
             matDCTerrainSmallColumn.SetTexture("_GreenChannelTex", texMalachite);
             matDCTerrainSmallColumn.SetTextureScale("_GreenChannelTex", new Vector2(0.2f, 0.2f));
+       
             matDCTerrainGiantColumns.SetTexture("_GreenChannelTex", texMalachite);
             matDCTerrainGiantColumns.SetTextureScale("_GreenChannelTex", new Vector2(0.2f, 0.2f));
 
+ 
+            matDCTerrainFloor.SetFloat("_GreenChannelSmoothness", 0.5f);
+            matDCTerrainWalls.SetFloat("_GreenChannelSmoothness", 1f);
+            matDCTerrainSmallColumn.SetFloat("_GreenChannelSmoothness", 1f);
+            matDCTerrainGiantColumns.SetFloat("_GreenChannelSmoothness", 1f);
 
+            matDCTerrainFloor.SetFloat("_NormalStrength", 0.12f);
+            matDCTerrainWalls.SetFloat("_NormalStrength", 0.12f);
+            matDCTerrainSmallColumn.SetFloat("_NormalStrength", 0.12f);
+            matDCTerrainGiantColumns.SetFloat("_NormalStrength", 0.12f);
+            matDCTerrainWalls.SetFloat("_TextureFactor", 0.05f);
+             
+            matDCTerrainSmallColumn.SetFloat("_RedChannelBias", 4f);  //1.36f
+            matDCTerrainGiantColumns.SetFloat("_RedChannelBias", 1f); //2
+
+            matDCTerrainFloor.SetFloat("_GreenChannelBias", 1f); //0.83f
+            matDCTerrainGiantColumns.SetFloat("_GreenChannelBias", 0f); //0.23f
+           
+            matDCTerrainSmallColumn.shaderKeywords = matDCTerrainWalls.shaderKeywords;
+            
             //matDCTerrainFloor.SetTexture("_RedChannelSideTex", texMalachite);
             //matDCTerrainFloor.SetTextureScale("_RedChannelSideTex", new Vector2(0.05f, 0.05f));
             /*matDCTerrainSmallColumn.SetTexture("_RedChannelSideTex", texMalachite);
@@ -207,7 +231,7 @@ namespace LoopVariants
             //matDCTerrainWalls.SetTexture("_RedChannelSideTex", texMalachite);
             //matDCTerrainWalls.SetTextureScale("_RedChannelSideTex", new Vector2(0.05f, 0.05f));
         }
- 
+
         public static void LoopWeather()
         {
             GameObject Weather = GameObject.Find("/HOLDER: Lighting, PP, Wind, Misc");
@@ -215,6 +239,7 @@ namespace LoopVariants
             Sun.color = new Color(1, 0.55f, 0.65f); //0.8974 0.898 0.3961 1 //Barley does anything
             Sun.intensity = 0.6f; //0.5f
             Sun.transform.localEulerAngles = new Vector3(60, 200, 0);
+            Sun.shadowStrength = 0.5f;
 
             //41.2134 222.6395 0
 
@@ -239,8 +264,6 @@ namespace LoopVariants
             PortalCards.transform.GetChild(1).GetComponent<MeshRenderer>().material = matDCPortalCard;
 
             #endregion
-
-
 
             #region Lights
             Color LampColorNew = new Color(0.5f, 0f, 0.1f);
@@ -343,11 +366,14 @@ namespace LoopVariants
                         case "Fronds_0_LOD1":
                             renderer.sharedMaterial = Fronds_0_LOD1;
                             break;
+                        case "matTrimSheetLemurianMetalLight":
+                            renderer.sharedMaterial = matTrimSheetLemurianMetalLight;
+                            
+                            break;
                     }
 
                 }
             }
-
 
             #region Geyser
             /*//Geyser
@@ -368,6 +394,96 @@ namespace LoopVariants
 
             //iMP EYE DECAL??
         }
-        
+
+        public static void AddVariantMonsters(DirectorCardCategorySelection dccs)
+        {
+            if (dccs == null || !LoopVariantsMain.AddMonsters)
+            {
+                return;
+            }
+            DirectorCard cscVoidBarnacle = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC1/VoidBarnacle/cscVoidBarnacle.asset").WaitForCompletion(),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 5,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            }; 
+            DirectorCard cscVoidBarnacleNoCast = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC1/VoidBarnacle/cscVoidBarnacleNoCast.asset").WaitForCompletion(),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard cscNullifier = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Nullifier/cscNullifier.asset").WaitForCompletion(),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard cscVoidJailer = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC1/VoidJailer/cscVoidJailer.asset").WaitForCompletion(),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 5,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard cscVoidMegaCrab = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC1/VoidMegaCrab/cscVoidMegaCrab.asset").WaitForCompletion(),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 5,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard cscImp = new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscImp"),
+                preventOverhead = true,
+                selectionWeight = 1,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+
+            DirectorCard cscImpBoss = new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscImpBoss"),
+                preventOverhead = true,
+                selectionWeight = 1,
+                minimumStageCompletions = 5,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+
+
+            int num = Main_Variants.FindSpawnCard(dccs.categories[0].cards, "parent");
+            if (num != -1)
+            {
+                dccs.categories[0].cards[num] = cscVoidMegaCrab;
+            }
+            else
+            {
+                dccs.AddCard(0, cscVoidMegaCrab);
+            }
+            num = Main_Variants.FindSpawnCard(dccs.categories[1].cards, "Parent");
+            if (num != -1)
+            {
+                dccs.AddCard(1, cscVoidJailer);
+            }
+            else
+            {
+                dccs.AddCard(1, cscVoidJailer);
+            }
+
+            dccs.AddCard(0, cscImpBoss);
+            dccs.AddCard(2, cscImp);
+            dccs.AddCard(1, cscNullifier);
+            dccs.AddCard(2, cscVoidBarnacle);
+            dccs.AddCard(2, cscVoidBarnacleNoCast);
+        }
     }
 }

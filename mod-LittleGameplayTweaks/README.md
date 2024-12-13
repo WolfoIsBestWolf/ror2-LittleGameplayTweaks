@@ -6,7 +6,7 @@ This includes, the new Twisted Scavengers, Red Multishops and Aquaduct Elders us
 
 ## Spawn Pools
 A couple enemies have been moved or replaced to encourage enemy diversity.\
-Check Wiki entry on details.\
+Check Mod Wiki Tab on details.\
 Grovetender will replace Stone Titan in Sundered Grove and Bighorn Bison spawn in Snowy Forest as examples.
 
 Every stage will have at least 1 enemy addition on loops.
@@ -26,17 +26,22 @@ Makes Shrine of Blood, Combat, Order, Healing, Lunar Chest, Void Potential, Tc28
 
 ## Stages
 
-Plains/Roost and Sirens/Grove get a small amount more interactable credits to even them out against Siphoned/Verdant/Shattered/Abyssal.  
+Plains/Roost and Sirens/Grove get a small amount more interactable credits to even them out against Siphoned/Verdant/Shattered, Abyssal.  
 
 Gilded Coast will have some interactables. (Combat Shrines, Cleansing Pools, a chest or two more)
+
+Primordial Teleporter will always have a Purple Orb to Void Locust.\
+Deep Void Signal now takes 45 seconds instead of 60.
 
 Void Fields, Void Locust and Planetarium now all have stopped time, but count as a stage when completed.
 
 Void Fields cells now charge faster (30s for the first 4, 45s for the next 4, 60 for the last).\
 Cells now have a regenerating aura before activating them.
 
+The Bazaar has a third Lunar Seer.
 
-
+Every 5th stage will also have a Celestial Portal on loops.  
+(Feels weird going to Twisted in the middle of a loop)
 
 ## Enemies
 Config for raising the enemy level cap to 999.\
@@ -55,7 +60,7 @@ Adds 3 new Twisted Scavengers.
 
 The Aquaduct Elder Lemurians now activate their Bands and scale with difficulty.
 
-Healing Cores from Mending Elites now use ambient level and start with invulnerability
+Healing Cores from Mending Elites now increase healing with level.
 
 Equipment Drones use their Equipment when targeting you so they can still use it when no enemies are around.
 
@@ -64,9 +69,6 @@ Equipment Drones use their Equipment when targeting you so they can still use it
 Faster Interactables : Printers, Scrappers and Shrines take less time between uses.
 
 A new rare interactable, Mili-Multi Shop.
-
-Primordial Teleporter will always have a Purple Orb to Void Locust.\
-Deep Void Signal now takes 45 seconds instead of 60.
 
 Red to White Cauldrons now grant 4 White items instead of 3.\
 Shrine of Blood now costs 50/70/90% blood.\
@@ -84,8 +86,6 @@ Boss items are now a 20% chance to drop from a teleporter instead of 15%
 
 Items teleport up if they fall off the map.
 
-The Bazaar has a third Lunar Seer.
-
 Fixes vanilla bug where Twisted Scavengers don't scale in multiplayer.
 
 
@@ -96,12 +96,17 @@ Huntress will now use 2 Ballistas for 6 Shots per cast if you have two from Lysa
 
 Acrid is invulnerable during his spawn animation.  
 
-Commando is invulnerable during his default roll.  
+Commando is invulnerable during his default roll.  x
 
-Engineer Turrets inherit Warbanner.
+## Gamemodes
+### Eclipse
+You can choose artifacts generally considered challenging or variety. (Death, Dissonance)
 
+Allows runs to access Moment Fractured, and enter Moment Whole without Beads.  
+Allows runs to access Void Locust to end the run via Voidling.  
+(Can add more variety during Eclipse climb if you loop, but Mithrix would still be the easiest)  
 
-## Prismatic Trials
+### Prismatic Trials
 Prismatic Trial is now available with changes and fixes it for multiplayer use.
 
 Default settings are a remixed version of Prismatic Trials:  

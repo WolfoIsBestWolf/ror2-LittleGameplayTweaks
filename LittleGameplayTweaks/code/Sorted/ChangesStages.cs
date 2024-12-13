@@ -52,6 +52,47 @@ namespace LittleGameplayTweaks
             {
                 On.RoR2.EscapeSequenceController.OnEnable += EscapeSequenceController_OnEnable;
             }
+
+            On.RoR2.BazaarController.SetUpSeerStations += ThirdSeerNew;
+
+            On.RoR2.TeleporterInteraction.Start += MoreCelestialportal;
+        }
+
+        private static void MoreCelestialportal(On.RoR2.TeleporterInteraction.orig_Start orig, TeleporterInteraction self)
+        {
+            orig(self);
+            if (WConfig.CelestialStage10.Value)
+            {
+                if (NetworkServer.active)
+                {
+                    int stageClearCount = Run.instance.stageClearCount;
+                    if ((stageClearCount + 1) % Run.stagesPerLoop == 0 && stageClearCount > Run.stagesPerLoop && !Run.instance.GetEventFlag("NoMysterySpace"))
+                    {
+                        self.shouldAttemptToSpawnMSPortal = true;
+                    }
+                }
+            }            
+        }
+
+        private static void ThirdSeerNew(On.RoR2.BazaarController.orig_SetUpSeerStations orig, BazaarController self)
+        {
+            if (WConfig.ThirdLunarSeer.Value)
+            {
+                if (NetworkServer.active)
+                {
+                    GameObject newseer = GameObject.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/SeerStation.prefab").WaitForCompletion(), self.seerStations[0].gameObject.transform.parent);
+                    newseer.transform.localPosition = new Vector3(-45.9807f, -15.22f, 9.5654f);
+                    newseer.transform.localRotation = new Quaternion(0f, 0.7772f, 0f, 0.6293f);
+                    SeerStationController seer = newseer.GetComponent<SeerStationController>();
+
+                    self.seerStations = self.seerStations.Add(seer);
+
+                    NetworkServer.Spawn(newseer);
+                }
+            }
+            
+
+            orig(self);
         }
 
         private static void EscapeSequenceController_OnEnable(On.RoR2.EscapeSequenceController.orig_OnEnable orig, EscapeSequenceController self)
@@ -196,7 +237,7 @@ namespace LittleGameplayTweaks
                         case "rootjungle":
                             if (ConfigStages.Stage_4_Root_Jungle.Value)
                             {
-                                self.sceneDirectorInteractibleCredits += 30; //Depths sometimes has 560 so raising the other two by 40 seems fine
+                                self.sceneDirectorInteractibleCredits += 40; //Much likelier to miss an interactable Depths sometimes has 560 so raising the other two by 40 seems fine
                             }
                             break;
                         case "shipgraveyard":

@@ -19,8 +19,6 @@ namespace LoopVariants
         public static Material matHRWorm;
         public static Material matHRCrystal;
 
-
-
         public static void Setup()
         {
             matHRLava = Object.Instantiate(Addressables.LoadAssetAsync<Material>(key: "RoR2/DLC2/helminthroost/Assets/matHRLava.mat").WaitForCompletion());
@@ -101,7 +99,6 @@ namespace LoopVariants
 
         }
 
-
         public static void LoopWeather()
         {
             GameObject Weather = GameObject.Find("/HOLDER: Lighting");
@@ -165,6 +162,22 @@ namespace LoopVariants
 
         }
 
+        public static void AddVariantMonsters(DirectorCardCategorySelection dccs)
+        {
+            if (dccs == null || !LoopVariantsMain.AddMonsters)
+            {
+                return;
+            }
 
+            DirectorCard cscHalcy = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC2/Halcyonite/cscHalcyonite.asset").WaitForCompletion(),
+                preventOverhead = false,
+                selectionWeight = 1,
+                minimumStageCompletions = 3,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            dccs.AddCard(0, cscHalcy);
+        }
     }
 }

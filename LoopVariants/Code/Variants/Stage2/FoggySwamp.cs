@@ -31,7 +31,7 @@ namespace LoopVariants
         {
 
             GameObject SunReal = GameObject.Find("/Directional Light (SUN)");
-            SunReal.GetComponent<Light>().shadowStrength /= 0.5f;
+            SunReal.GetComponent<Light>().shadowStrength = 0.5f;
  
             //How the fuck do you make shadows less hard
 
@@ -164,6 +164,9 @@ namespace LoopVariants
             rampFog.fogPower.value = 2f;
             process.profile.settings[0] = rampFog;
 
+            Bloom bloom = (Bloom)Variants_4_DampCaveSimpleAbyss.ppSceneDampcaveHot.settings[1];
+            bloom.color.value = new Color(1.2f, 1.2f, 1f, 1f);
+
             //0.3535 0.4074 0.4434 1
 
 
@@ -180,6 +183,14 @@ namespace LoopVariants
 
             HalcyShrine.transform.GetChild(9); //StormPPVolume
 
+        }
+
+        public static void AddVariantMonsters(DirectorCardCategorySelection dccs)
+        {
+            if (dccs == null || !LoopVariantsMain.AddMonsters)
+            {
+                return;
+            }
         }
     }
 }

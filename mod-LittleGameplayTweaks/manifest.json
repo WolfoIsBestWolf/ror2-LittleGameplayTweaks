@@ -1,10 +1,9 @@
 {
     "name": "LittleGameplayTweaks",
-    "version_number": "3.3.1",
+    "version_number": "3.3.2",
     "website_url": "https://github.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks",
-    "description": "Greater enemy variety in spawnpools, slightly faster Interactables, Prismatic Runs, and some more.",
+    "description": "Greater enemy variety in spawnpools, interactables quality of life, some things for Eclipse, Prismatic Runs, and some more.",
     "dependencies": [
-        "Wolfo-WLoopWeather-1.0.0",
 		"Wolfo-DLCSpawnPoolFixer-1.0.0",
 		"Rune580-Risk_Of_Options-2.8.2",
 		"bbepis-BepInExPack-5.4.9",

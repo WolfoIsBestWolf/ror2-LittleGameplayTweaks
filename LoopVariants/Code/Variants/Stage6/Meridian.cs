@@ -11,7 +11,6 @@ namespace LoopVariants
 {
     public class Variants_6_Meridian
     {
-
         public static Material matBHFallPlatformSimple;
         public static Material matBHFallTerrainVines;
         public static Material matBHFallDomeTrim;
@@ -70,5 +69,6 @@ namespace LoopVariants
                 }
             }
         }
+
     }
 }

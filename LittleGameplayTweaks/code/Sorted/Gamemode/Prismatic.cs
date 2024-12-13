@@ -3,6 +3,8 @@ using RoR2;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using RoR2.ExpansionManagement;
+using UnityEngine.UI;
 
 namespace LittleGameplayTweaks
 {
@@ -30,36 +32,36 @@ namespace LittleGameplayTweaks
             texPrismRuleOn.wrapMode = TextureWrapMode.Clamp;
             Sprite texPrismRuleOffS = Sprite.Create(texPrismRuleOff, new Rect(0, 0, 128, 128), new Vector2(0.5f, 0.5f));
 
-
+            
             RuleDefPrismatic = new RuleDef("Misc.PrismaticTrialExtended", "End Prismatic Trial Early");
             RuleChoiceDef ruleChoiceDef5 = RuleDefPrismatic.AddChoice("Endless", true, true);
             ruleChoiceDef5.tooltipNameToken = "RULE_PRISMATIC_NEW_NAME";
             ruleChoiceDef5.tooltipBodyToken = "RULE_PRISMATIC_NEW_DESC";
             ruleChoiceDef5.tooltipNameColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.VoidCoin);
-            ruleChoiceDef5.onlyShowInGameBrowserIfNonDefault = true;
+            ruleChoiceDef5.onlyShowInGameBrowserIfNonDefault = false;
             ruleChoiceDef5.sprite = texPrismRuleOnS;
             ruleChoiceDef5.selectionUISound = "Play_UI_artifactSelect";
             RuleDefPrismatic.MakeNewestChoiceDefault();
-            RuleChoiceDef ruleChoiceDef4 = RuleDefPrismatic.AddChoice("Stage2", false, true);
+            RuleChoiceDef ruleChoiceDef4 = RuleDefPrismatic.AddChoice("Stage2", true, true);
             ruleChoiceDef4.tooltipNameToken = "RULE_PRISMATIC_OLD_NAME";
             ruleChoiceDef4.tooltipBodyToken = "RULE_PRISMATIC_OLD_DESC";
             ruleChoiceDef4.tooltipNameColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.VoidCoin);
-            ruleChoiceDef4.onlyShowInGameBrowserIfNonDefault = true;
+            ruleChoiceDef4.onlyShowInGameBrowserIfNonDefault = false;
             ruleChoiceDef4.sprite = texPrismRuleOffS;
             ruleChoiceDef4.selectionUISound = "Play_UI_artifactSelect";
-
+ 
 
             RuleCatalog.availability.CallWhenAvailable(LateRunningMethod);
             //
-            GameEndingDef Ending = RoR2.LegacyResourcesAPI.Load<GameEndingDef>("GameEndingDefs/PrismaticTrialEnding");
+            GameEndingDef Ending = LegacyResourcesAPI.Load<GameEndingDef>("GameEndingDefs/PrismaticTrialEnding");
             Ending.backgroundColor = new Color(0.7f, 0.3f, 0.7f, 0.615f);
             Ending.foregroundColor = new Color(0.9f, 0.6f, 0.9f, 0.833f);
             Ending.endingTextToken = "ACHIEVEMENT_COMPLETEPRISMATICTRIAL_NAME";
             //
 
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/gamemodes/WeeklyRun").GetComponent<WeeklyRun>().userPickable = true;
-            //RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/gamemodes/WeeklyRun").GetComponent<WeeklyRun>().crystalCount = WConfig.PrismaticTrialsCrystalsTotal.Value;
-            //RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/gamemodes/WeeklyRun").GetComponent<WeeklyRun>().crystalsRequiredToKill = WConfig.PrismaticTrialsCrystalsNeeded.Value;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/gamemodes/WeeklyRun").GetComponent<WeeklyRun>().userPickable = true;
+            //LegacyResourcesAPI.Load<GameObject>("Prefabs/gamemodes/WeeklyRun").GetComponent<WeeklyRun>().crystalCount = WConfig.PrismaticTrialsCrystalsTotal.Value;
+            //LegacyResourcesAPI.Load<GameObject>("Prefabs/gamemodes/WeeklyRun").GetComponent<WeeklyRun>().crystalsRequiredToKill = WConfig.PrismaticTrialsCrystalsNeeded.Value;
 
             //
             //Circumventing run ending early
@@ -92,63 +94,8 @@ namespace LittleGameplayTweaks
 
 
             //All Bosses on stage 2 and beyond are set to be Elites
-            On.RoR2.WeeklyRun.OnServerBossAdded += (orig, self, bossGroup, characterMaster) =>
-            {
-                if (bossGroup.name.StartsWith("ScavLunar"))
-                {
-                    return;
-                }
-                orig(self, bossGroup, characterMaster);
-
-                if (self.ruleBook.GetRuleChoice(RuleDefPrismatic).localName.Equals("Endless"))
-                {
-                    if (SceneInfo.instance.sceneDef.baseSceneName == "artifactworld")
-                    {
-                        characterMaster.inventory.SetEquipmentIndex(EquipmentIndex.None);
-                    }
-
-                    if (characterMaster.inventory.GetItemCount(RoR2Content.Items.AdaptiveArmor) > 0)
-                    {
-                        EquipmentIndex equip = characterMaster.inventory.currentEquipmentIndex;
-                        if (equip == RoR2Content.Equipment.AffixBlue.equipmentIndex || equip == RoR2Content.Equipment.AffixRed.equipmentIndex)
-                        {
-                            characterMaster.inventory.RemoveItem(RoR2Content.Items.BoostDamage, (int)(characterMaster.inventory.GetItemCount(RoR2Content.Items.BoostDamage) * 0.35f));
-                        }
-                        else if (equip == DLC1Content.Equipment.EliteVoidEquipment.equipmentIndex)
-                        {
-                            characterMaster.inventory.RemoveItem(RoR2Content.Items.BoostHp, 5);
-                            characterMaster.inventory.RemoveItem(RoR2Content.Items.BoostDamage, (int)(characterMaster.inventory.GetItemCount(RoR2Content.Items.BoostDamage) * 0.60f));
-                        }
-                    }
-
-                    //With Rule only force fake Elite bosses after a certain stage
-                    if (self.stageClearCount < 5)
-                    {
-                        if (characterMaster.inventory.GetItemCount(RoR2Content.Items.BoostHp) == 5)
-                        {
-                            if (self.stageClearCount < 3)
-                            {
-                                characterMaster.inventory.SetEquipmentIndex(EquipmentIndex.None);
-                            }
-                            characterMaster.inventory.RemoveItem(RoR2Content.Items.BoostHp, 5);
-                            characterMaster.inventory.RemoveItem(RoR2Content.Items.BoostDamage, 1);
-                        }
-                    }
-                    else
-                    {
-                        /*
-                        //Elite Bosses would start spawning anyways we don't gotta force it, it's hard enough
-                        float health = (self.stageClearCount - 3) * 6.67f - 5;
-                        float damage = (self.stageClearCount - 3) * 6.67f - 1;
-                        damage /= 4;
-
-                        characterMaster.inventory.GiveItem(RoR2Content.Items.BoostHp, (int)health);
-                        characterMaster.inventory.GiveItem(RoR2Content.Items.BoostDamage, (int)damage);
-                        Debug.Log("Prismatic Trial Boss : BoostHP" + characterMaster.inventory.GetItemCount(RoR2Content.Items.BoostHp) + "  BoostDmg:"+characterMaster.inventory.GetItemCount(RoR2Content.Items.BoostDamage));
-                        */
-                    }
-                }
-            };
+            On.RoR2.WeeklyRun.OnServerBossAdded += EliteStuff_WeeklyRun_OnServerBossAdded;
+    
 
             //Move Modifier Category up
             On.RoR2.UI.RuleBookViewer.Start += RuleBookViewer_Start;
@@ -164,17 +111,14 @@ namespace LittleGameplayTweaks
             //Rewrite these
             LanguageAPI.Add("TITLE_WEEKLY_DESC", "Play a Prismatic Trial, a different take on the normal run", "en");
             LanguageAPI.Add("WEEKLY_RUN_DESCRIPTION", "<style=cWorldEvent>'LittleGameplayTweaks'</style> changes <style=cWorldEvent>Prismatic Trials</style> to serve more as an alternative game mode.\n\n" +
-                                                        "To beat the <style=cWorldEvent>Prismatic Trial</style>, you must break <style=cWorldEvent>Time Crystals</style> before activating the teleporter. Crystals will reward 30$ scaling with time. Teleporters fully charge upon defeating the Boss.\n\n" +
+                                                        "To beat stages in <style=cWorldEvent>Prismatic Trials</style>, you must break <style=cWorldEvent>Time Crystals</style> before activating the teleporter. Crystals will reward 30$ scaling with time. Teleporters fully charge upon defeating the Boss.\n\n" +
                                                         "These Prismatic Trials will have normal stage order and won't end after stage 2. All bosses will be given a random elite aspect starting at Stage 4.\n\n" +
                                                         "You can still choose random stage order, Artifacts and for the run to end after Stage 2 for achievement hunting.", "en");
             //
             //Rule Manipulators
-            On.RoR2.Run.ForceChoice_RuleChoiceMask_RuleChoiceMask_RuleChoiceDef += Run_ForceChoice_RuleChoiceMask_RuleChoiceMask_RuleChoiceDef;
-            On.RoR2.WeeklyRun.OverrideRuleChoices += (orig, self, inc, exc, rng) =>
-            {
-                self.ForceChoice(inc, exc, "Misc.PrismaticTrialExtended.Stage2");
-                orig(self, inc, exc, rng);
-            };
+            //On.RoR2.Run.ForceChoice_RuleChoiceMask_RuleChoiceMask_RuleChoiceDef += Run_ForceChoice_RuleChoiceMask_RuleChoiceMask_RuleChoiceDef;
+            On.RoR2.WeeklyRun.OverrideRuleChoices += WeeklyRun_OverrideRuleChoices;
+ 
             On.RoR2.PreGameController.Awake += (orig, self) =>
             {
                 orig(self);
@@ -224,6 +168,122 @@ namespace LittleGameplayTweaks
                 orig(self, sceneDirector, teleporter);
                 self.crystalActiveList = new List<OnDestroyCallback>();
             };
+        }
+ 
+        internal static RuleDef FindRuleForArtifact(ArtifactIndex artifactIndex)
+		{
+			ArtifactDef artifactDef = ArtifactCatalog.GetArtifactDef(artifactIndex);
+			return RuleCatalog.FindRuleDef("Artifacts." + artifactDef.cachedName);
+		}
+
+        private static void WeeklyRun_OverrideRuleChoices(On.RoR2.WeeklyRun.orig_OverrideRuleChoices orig, WeeklyRun self, RuleChoiceMask mustInclude, RuleChoiceMask mustExclude, ulong runSeed)
+        {
+            //self.ForceChoice(mustInclude, mustExclude, "Difficulty.Normal");
+            self.ForceChoice(mustInclude, mustExclude, "Misc.StartingMoney.50");
+            self.ForceChoice(mustInclude, mustExclude, "Misc.KeepMoneyBetweenStages.Off");
+
+            
+
+            RuleDef rule = RuleCatalog.FindRuleDef("Misc.StageOrder");
+            mustInclude[rule.choices[0].globalIndex] = true;
+            mustInclude[rule.choices[1].globalIndex] = true;
+
+            rule = RuleCatalog.FindRuleDef("Misc.PrismaticTrialExtended");
+            mustInclude[rule.choices[0].globalIndex] = true;
+            mustInclude[rule.choices[1].globalIndex] = true;
+            //self.ForceChoice(mustInclude, mustExclude, "Misc.StageOrder.Random");
+            //self.ForceChoice(mustInclude, mustExclude, "Misc.PrismaticTrialExtended.Stage2");
+
+            if (WConfig.PrismAllowChoiceArtifacts.Value == false)
+            {
+                for (int i = 0; i < ArtifactCatalog.artifactCount; i++)
+                {
+                    self.ForceChoice(mustInclude, mustExclude, FindRuleForArtifact((ArtifactIndex)i).FindChoice("Off"));
+                }
+                Xoroshiro128Plus xoroshiro128Plus = new Xoroshiro128Plus(runSeed);
+                Debug.LogFormat("Weekly Run Seed: {0}", new object[]
+                {
+                runSeed
+                });
+                if (xoroshiro128Plus.nextNormalizedFloat < 1f)
+                {
+                    int num = xoroshiro128Plus.RangeInt(2, 7);
+                    ArtifactIndex[] array = new ArtifactIndex[ArtifactCatalog.artifactCount];
+                    for (int j = 0; j < array.Length; j++)
+                    {
+                        array[j] = (ArtifactIndex)j;
+                    }
+                    Util.ShuffleArray<ArtifactIndex>(array, xoroshiro128Plus);
+                    for (int k = 0; k < num; k++)
+                    {
+                        if (ArtifactCatalog.GetArtifactDef(array[k]) != RoR2Content.Artifacts.randomSurvivorOnRespawnArtifactDef)
+                        {
+                            self.ForceChoice(mustInclude, mustExclude, FindRuleForArtifact(array[k]).FindChoice("On"));
+                        }
+                    }
+                }
+            }
+
+            
+        }
+
+
+        private static void EliteStuff_WeeklyRun_OnServerBossAdded(On.RoR2.WeeklyRun.orig_OnServerBossAdded orig, WeeklyRun self, BossGroup bossGroup, CharacterMaster characterMaster)
+        {
+            if (bossGroup.name.StartsWith("ScavLunar"))
+            {
+                return;
+            }
+            orig(self, bossGroup, characterMaster);
+
+            if (self.ruleBook.GetRuleChoice(RuleDefPrismatic).localName.Equals("Endless"))
+            {
+                if (SceneInfo.instance.sceneDef.baseSceneName == "artifactworld")
+                {
+                    characterMaster.inventory.SetEquipmentIndex(EquipmentIndex.None);
+                }
+
+                if (characterMaster.inventory.GetItemCount(RoR2Content.Items.AdaptiveArmor) > 0)
+                {
+                    EquipmentIndex equip = characterMaster.inventory.currentEquipmentIndex;
+                    if (equip == RoR2Content.Equipment.AffixBlue.equipmentIndex || equip == RoR2Content.Equipment.AffixRed.equipmentIndex)
+                    {
+                        characterMaster.inventory.RemoveItem(RoR2Content.Items.BoostDamage, (int)(characterMaster.inventory.GetItemCount(RoR2Content.Items.BoostDamage) * 0.35f));
+                    }
+                    else if (equip == DLC1Content.Equipment.EliteVoidEquipment.equipmentIndex)
+                    {
+                        characterMaster.inventory.RemoveItem(RoR2Content.Items.BoostHp, 5);
+                        characterMaster.inventory.RemoveItem(RoR2Content.Items.BoostDamage, (int)(characterMaster.inventory.GetItemCount(RoR2Content.Items.BoostDamage) * 0.60f));
+                    }
+                }
+
+                //With Rule only force fake Elite bosses after a certain stage
+                if (self.stageClearCount < 5)
+                {
+                    if (characterMaster.inventory.GetItemCount(RoR2Content.Items.BoostHp) == 5)
+                    {
+                        if (self.stageClearCount < 3)
+                        {
+                            characterMaster.inventory.SetEquipmentIndex(EquipmentIndex.None);
+                        }
+                        characterMaster.inventory.RemoveItem(RoR2Content.Items.BoostHp, 5);
+                        characterMaster.inventory.RemoveItem(RoR2Content.Items.BoostDamage, 1);
+                    }
+                }
+                else
+                {
+                    /*
+                    //Elite Bosses would start spawning anyways we don't gotta force it, it's hard enough
+                    float health = (self.stageClearCount - 3) * 6.67f - 5;
+                    float damage = (self.stageClearCount - 3) * 6.67f - 1;
+                    damage /= 4;
+
+                    characterMaster.inventory.GiveItem(RoR2Content.Items.BoostHp, (int)health);
+                    characterMaster.inventory.GiveItem(RoR2Content.Items.BoostDamage, (int)damage);
+                    Debug.Log("Prismatic Trial Boss : BoostHP" + characterMaster.inventory.GetItemCount(RoR2Content.Items.BoostHp) + "  BoostDmg:"+characterMaster.inventory.GetItemCount(RoR2Content.Items.BoostDamage));
+                    */
+                }
+            }
         }
 
         private static void WeeklyRun_AdvanceStage(On.RoR2.WeeklyRun.orig_AdvanceStage orig, WeeklyRun self, SceneDef nextScene)
@@ -473,7 +533,7 @@ namespace LittleGameplayTweaks
             }*/
 
 
-            GameObject TimeCrystalBody = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/TimeCrystalBody");
+            GameObject TimeCrystalBody = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/TimeCrystalBody");
             TimeCrystalBody.AddComponent<FixCrystalsClient>();
         }
 

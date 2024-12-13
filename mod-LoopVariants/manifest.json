@@ -1,6 +1,6 @@
 {
     "name": "WLoopWeather",
-    "version_number": "1.4.0",
+    "version_number": "1.4.1",
     "website_url": "https://github.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks",
     "description": "Adds more Sots-style loop weather variants and adds config for loop variants to happen pre-loop",
     "dependencies": [

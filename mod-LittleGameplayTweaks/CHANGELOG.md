@@ -1,5 +1,23 @@
 ## Changelog:
 ```
+v3.3.2
+Removed Wloop as dependence.
+Removed various monster additions that are intended for loop weather, are now part of that mod technically.
+
+Made Stage 5s also have a Celestial Portal on loops.
+
+Allowed Eclipse runs to access Moment Whole to end via Twisted Scavs (can't Obliterate, always takes you to Moment Whole)
+Allowed Eclipse runs to access Void Locus to end via Voidling
+Can now choose challenge/variety Artifacts for Eclipse. (Dissonance)
+
+Gave TC280 20 Armor and "ResistantToAoe". Costs 35 Credits instead of 25.
+Made Greater Wisp cheaper to spawn.
+ReAdded loop parent/grandparent to Abyssal during non-variant.
+
+Beetle Family will now use Sulfur skin on Sulfur Pools
+Fixed Large Category Chests being way too common on Sots Stages and added config to disable it.
+
+ 
 v3.3.1
 Fixed incorrect elite tier being modified when used with mods that add elite tiers.
 Removed Lunar Wisp from Loop Acres.

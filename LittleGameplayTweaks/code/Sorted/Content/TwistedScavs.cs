@@ -24,19 +24,19 @@ namespace LittleGameplayTweaks
 
         public static void Start()
         {
-            ScavLunarWSpeedBody = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body"), "ScavLunarWSpeedBody", true);
-            ScavLunarWSpeedMaster = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavLunar1Master"), "ScavLunarWSpeedMaster", true);
+            ScavLunarWSpeedBody = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body"), "ScavLunarWSpeedBody", true);
+            ScavLunarWSpeedMaster = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavLunar1Master"), "ScavLunarWSpeedMaster", true);
 
-            ScavLunarWTankBody = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body"), "ScavLunarWTankBody", true);
-            ScavLunarWTankMaster = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavLunar1Master"), "ScavLunarWTankMaster", true);
+            ScavLunarWTankBody = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body"), "ScavLunarWTankBody", true);
+            ScavLunarWTankMaster = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavLunar1Master"), "ScavLunarWTankMaster", true);
 
-            ScavLunarWGoomanBody = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body"), "ScavLunarWGoomanBody", true);
-            ScavLunarWGoomanMaster = R2API.PrefabAPI.InstantiateClone(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavLunar1Master"), "ScavLunarWGoomanMaster", true);
+            ScavLunarWGoomanBody = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body"), "ScavLunarWGoomanBody", true);
+            ScavLunarWGoomanMaster = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavLunar1Master"), "ScavLunarWGoomanMaster", true);
 
             ExpansionDef DLC1 = Addressables.LoadAssetAsync<ExpansionDef>(key: "RoR2/DLC1/Common/DLC1.asset").WaitForCompletion();
 
 
-            CharacterBody TwipTwip = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar3Body").GetComponent<CharacterBody>();
+            CharacterBody TwipTwip = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar3Body").GetComponent<CharacterBody>();
             TwipTwip.baseMaxHealth *= 0.8f;
             TwipTwip.levelMaxHealth *= 0.8f;
 
@@ -136,7 +136,7 @@ namespace LittleGameplayTweaks
                 //Decorations     
                  new GivePickupsOnStart.ItemInfo { itemString = ("BarrierOnKill"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("SprintArmor"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("BarrierOnOverHeal"), count = 1, },
+                //new GivePickupsOnStart.ItemInfo { itemString = ("BarrierOnOverHeal"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
             };
 
@@ -157,8 +157,8 @@ namespace LittleGameplayTweaks
                 new GivePickupsOnStart.ItemInfo { itemString = ("WardOnLevel"), count = 2, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("LevelBonus"), count = 1, },
                 //Decorations
-                new GivePickupsOnStart.ItemInfo { itemString = ("RegeneratingScrap"), count = 5, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("GhostOnKill"), count = 1, }, //Causes issues with FlatItemBuffs rework. Seemingly would be fine if ghosts dont get items
+                //new GivePickupsOnStart.ItemInfo { itemString = ("RegeneratingScrap"), count = 5, },
+                //new GivePickupsOnStart.ItemInfo { itemString = ("GhostOnKill"), count = 1, }, //Causes issues with FlatItemBuffs rework. Seemingly would be fine if ghosts dont get items
                 new GivePickupsOnStart.ItemInfo { itemString = ("SprintWisp"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
             };

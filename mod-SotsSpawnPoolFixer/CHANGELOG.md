@@ -1,5 +1,15 @@
 ## Changelog:
 ```
+v1.1.1
+Removed fix for Roost2 and Wetland never using DLC pools. (Added in 1.3.6)
+Removed fix for Golden Dieback using Treeborn spawn pool pools. (Added in 1.3.6)
+Removed fix for Bulwark Variant log using inccorect name. (Added in 1.3.6)
+Removed fix for Bulwarks variants not giving correct logs. (Added in 1.3.5)
+
+v1.1.0
+Fixed Bulwark Ambry variants having the wrong logbook unlocks set.
+(Bit overdue, but then again game shoulda updated by now)
+
 v1.0.2 - Lowered weights in LoopStage1 stage pool. (Forgot)
 v1.0.1 -
 Lowered Titanic Plains and Distant Roost weight to 0.75. 

@@ -83,7 +83,6 @@ namespace LoopVariants
  
         }
 
-
         public static void LoopWeather()
         {
             #region Lighting
@@ -235,6 +234,19 @@ namespace LoopVariants
 
 
             #endregion
+        }
+
+        public static void AddVariantMonsters(DirectorCardCategorySelection dccs)
+        {
+            if (dccs == null || !LoopVariantsMain.AddMonsters)
+            {
+                return;
+            }
+
+            //Maybe add Gup?
+            //Nah Gup wouldn't be in a desert
+
+
         }
     }
 }

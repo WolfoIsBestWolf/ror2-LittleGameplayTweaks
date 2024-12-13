@@ -17,6 +17,7 @@ using UnityEngine.Networking;
 namespace LittleGameplayTweaks
 {
     [BepInDependency("com.bepis.r2api")]
+    [BepInDependency("Wolfo.LoopVariants", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin("com.Wolfo.LittleGameplayTweaks", "LittleGameplayTweaks", "3.3.0")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
 
@@ -45,6 +46,7 @@ namespace LittleGameplayTweaks
             DCCSInteractables.Start();
 
             Prismatic.Start();
+            Eclipse.Start();
             if (!WConfig.disableNewContent.Value)
             {
                 TwistedScavs.Start();
@@ -107,20 +109,20 @@ namespace LittleGameplayTweaks
                 {
                     if (dlc2)
                     {
-                        DCCSInteractables.DoChanges(2);
+                        DoDCCSChanges(2);
                     }
                     else if (dlc1)
                     {
-                        DCCSInteractables.DoChanges(1);
+                        DoDCCSChanges(1);
                     }
                     else
                     {
-                        DCCSInteractables.DoChanges(0);
+                        DoDCCSChanges(0);
                     }
                 }
                 else
                 {
-                    DCCSInteractables.DoChanges(-1);
+                    DoDCCSChanges(-1);
                 }
 
                 Debug.Log(userProfile.name + " has DLC1 : " + dlc1);
@@ -131,14 +133,71 @@ namespace LittleGameplayTweaks
                     cscScavLunar.masterPrefabs = cscScavLunar.masterPrefabs.Add(TwistedScavs.ScavLunarWGoomanMaster, TwistedScavs.ScavLunarWSpeedMaster, TwistedScavs.ScavLunarWTankMaster);
                 }
             }
-
-
-
-
-
-
-           
         }
+
+        public static void DoDCCSChanges(int changeNum)
+        {
+            Debug.Log("Doing Spawn Pools for DLC " + changeNum);
+            if (WConfig.DCCSEnemyChanges.Value)
+            {
+                switch (changeNum)
+                {
+                    case 0:
+                        DCCSEnemies.EnemiesPreLoop_NoDLC();
+                        break;
+                    case 1:
+                        DCCSEnemies.EnemiesPreLoop_DLC1();
+                        break;
+                    case 2:
+                        DCCSEnemies.EnemiesPreLoop_DLC2();
+                        break;
+                    default:
+                        DCCSEnemies.EnemiesPreLoop_NoDLC();
+                        DCCSEnemies.EnemiesPreLoop_DLC1();
+                        DCCSEnemies.EnemiesPreLoop_DLC2();
+                        break;
+                }
+            }
+            if (WConfig.DCCSEnemyChangesLooping.Value)
+            {
+                switch (changeNum)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        DCCSEnemies.EnemiesPostLoop_DLC1();
+                        break;
+                    case 2:
+                        DCCSEnemies.EnemiesPostLoop_DLC2();
+                        break;
+                    default:
+                        DCCSEnemies.EnemiesPostLoop_DLC1();
+                        DCCSEnemies.EnemiesPostLoop_DLC2();
+                        break;
+                }
+            }
+            if (WConfig.DCCSInteractableChanges.Value)
+            {
+                switch (changeNum)
+                {
+                    default:
+                        DCCSInteractables.DCCSThings_NoDLC();
+                        DCCSInteractables.DCCSThings_DLC1();
+                        DCCSInteractables.DCCSThings_DLC2();
+                        break;
+                    case 0:
+                        DCCSInteractables.DCCSThings_NoDLC();
+                        break;
+                    case 1:
+                        DCCSInteractables.DCCSThings_DLC1();
+                        break;
+                    case 2:
+                        DCCSInteractables.DCCSThings_DLC2();
+                        break;
+                }
+            }
+        }
+
 
         private void CharacterBody_OnSkillActivated(On.RoR2.CharacterBody.orig_OnSkillActivated orig, CharacterBody self, GenericSkill skill)
         {
@@ -171,11 +230,16 @@ namespace LittleGameplayTweaks
 
         public class ItemOrbPhysicsChanger : MonoBehaviour
         {
-            private int timer = 0;
+            public Rigidbody body;
+
+            public void Awake()
+            {
+                body = this.GetComponent<Rigidbody>();
+            }
+
             public void FixedUpdate()
             {
-                timer++;
-                if (timer == 20)
+                if (body && body.velocity.y < -30)
                 {
                     this.gameObject.layer = 8;
                     Destroy(this);
@@ -224,7 +288,7 @@ namespace LittleGameplayTweaks
 
 
 
-            DCCSEnemies.ModSupport();
+            FamilyEvents.ModSupport();
             ChangesInteractables.ModSupport();
             //ChangesItems.ItemsLate();
             GameModeCatalog.FindGameModePrefabComponent("WeeklyRun").startingScenes = GameModeCatalog.FindGameModePrefabComponent("ClassicRun").startingScenes;
@@ -244,12 +308,6 @@ namespace LittleGameplayTweaks
             RoR2Content.Items.CaptainDefenseMatrix.tags = RoR2Content.Items.CaptainDefenseMatrix.tags.Add(ItemTag.CannotSteal);
             DLC1Content.Items.BearVoid.tags = DLC1Content.Items.BearVoid.tags.Add(ItemTag.BrotherBlacklist);
 
-            if (WConfig.CharactersEngineerWarbanner.Value)
-            {
-                RoR2Content.Items.WardOnLevel.tags = RoR2Content.Items.WardOnLevel.tags.Remove(ItemTag.CannotCopy);
-                RoR2Content.Items.TPHealingNova.tags = RoR2Content.Items.TPHealingNova.tags.Remove(ItemTag.CannotCopy);
-                RoR2Content.Items.TonicAffliction.tags = RoR2Content.Items.TonicAffliction.tags.Add(ItemTag.CannotCopy);
-            }
 
             if (WConfig.EclipseDifficultyAlways.Value == true)
             {
@@ -319,6 +377,7 @@ namespace LittleGameplayTweaks
                     }
                     break;
                 case "bazaar":
+                    /*
                     SeerStationController[] seerList = UnityEngine.Object.FindObjectsOfType(typeof(SeerStationController)) as SeerStationController[];
                     int instant = 10;
                     if (WConfig.ThirdLunarSeer.Value == true)
@@ -385,6 +444,7 @@ namespace LittleGameplayTweaks
                             }
                         }
                     }
+                    */
                     break;
                 case "moon2":
                     ShopTerminalBehavior[] shopList = UnityEngine.Object.FindObjectsOfType(typeof(ShopTerminalBehavior)) as ShopTerminalBehavior[];
@@ -411,9 +471,9 @@ namespace LittleGameplayTweaks
                             {
                                 f (WConfig.GuaranteedRedToWhite.Value == true)
                                 {
-                                    //GameObject RedToWhiteSoup = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/LunarCauldron, RedToWhite Variant");
+                                    //GameObject RedToWhiteSoup = LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/LunarCauldron, RedToWhite Variant");
                                     //Surely I could just activate a Soup
-                                    GameObject newSoup = UnityEngine.Object.Instantiate<GameObject>(RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/LunarCauldron, RedToWhite Variant"), tempcauldron1.position, tempcauldron1.rotation);
+                                    GameObject newSoup = UnityEngine.Object.Instantiate<GameObject>(LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/LunarCauldron, RedToWhite Variant"), tempcauldron1.position, tempcauldron1.rotation);
                                     NetworkServer.Spawn(newSoup);
                                     tempcauldron1.gameObject.SetActive(false);
                                     Debug.Log("No White Soup, making one");

@@ -12,6 +12,18 @@ namespace LittleGameplayTweaks
 	{
         public static ConfigFile ConfigFileUNSORTED = new ConfigFile(Paths.ConfigPath + "\\Wolfo.Little_Gameplay_Tweaks.cfg", true);
 
+        public static ConfigEntry<bool> EclipseAllowVoid;
+        public static ConfigEntry<bool> EclipseAllowTwisted;
+        public static ConfigEntry<bool> EclipseAllowArtifactWorld;
+
+        public static ConfigEntry<bool> EclipseAllowChoiceArtifacts;
+        public static ConfigEntry<bool> EclipseAllowChoiceWeirdArtifacts;
+
+        public static ConfigEntry<bool> PrismElites;
+        //public static ConfigEntry<bool> PrismDefaultRemix;
+        public static ConfigEntry<bool> PrismAllowChoiceArtifacts;
+
+
         public static ConfigEntry<bool> LevelMaximum;
         public static ConfigEntry<int> LevelMaximumFinalBoss;
         public static ConfigEntry<bool> cheaperTier2;
@@ -29,11 +41,12 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> DCCSEnemyNewFamilies;
         public static ConfigEntry<bool> FamiliesStage1;
         public static ConfigEntry<float> DCCSEnemyFamilyChance;
+        
         //
         public static ConfigEntry<bool> DCCSInteractableChanges;
         public static ConfigEntry<bool> DCCSCategoryChest;
         public static ConfigEntry<bool> DCCSInteractableCostChanges;
-       
+        public static ConfigEntry<bool> DccsAddCategoryToSots;
 
         public static ConfigEntry<float> InteractablesMountainMultiplier;
 
@@ -67,11 +80,14 @@ namespace LittleGameplayTweaks
         //
         //Changes - Character
         public static ConfigEntry<bool> CharactersCaptainKeepInHiddemRealm;
-        public static ConfigEntry<bool> CharactersEngineerWarbanner;
+ 
         public static ConfigEntry<bool> CharactersHuntressLysateCell;
         public static ConfigEntry<bool> CharactersCommandoInvul;
         public static ConfigEntry<bool> CharactersVoidFiendEquip;
- 
+
+        public static ConfigEntry<bool> BuffMegaDroneStats;
+        public static ConfigEntry<bool> cscGreaterWispCredits;
+
         //
         //Changes - Enemies
         public static ConfigEntry<bool> cfgScavBossItem;
@@ -89,15 +105,52 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<float> BonusAspectDropRate;
         //
         //public static ConfigEntry<bool> GuaranteedRedToWhite;
+        public static ConfigEntry<bool> CelestialStage10;
         public static ConfigEntry<bool> ThirdLunarSeer;
         public static ConfigEntry<bool> EclipseDifficultyAlways;
         //
-        //Prism
-        public static ConfigEntry<bool> cfgPrismaticElites;
+       
 
 
         public static void InitConfig()
         {
+            EclipseAllowVoid = ConfigFileUNSORTED.Bind(
+                "Gamemodes",
+                "Eclipse allow Moment Whole",
+                true,
+                "Allows Celestial Portal to spawn so you can use Twisted Scav as an alternate final boss in Eclipse. The obelisk will always take you to Moment Whole even if you do not have Beads."
+            );
+            EclipseAllowTwisted = ConfigFileUNSORTED.Bind(
+                "Gamemodes",
+                "Eclipse allow Void Locus",
+                true,
+                "Allows Void Portals to spawn so you can use Voidling as an alternate final boss in Eclipse."
+            );
+            EclipseAllowArtifactWorld = ConfigFileUNSORTED.Bind(
+                "Gamemodes",
+                "Eclipse allow Bulwarks Ambry",
+                false,
+                "Allows computer. For artifact"
+            );
+            EclipseAllowChoiceArtifacts = ConfigFileUNSORTED.Bind(
+                "Gamemodes",
+                "Eclipse choose some Artifacts",
+                true,
+                "Allows the choice of often considered challenge or variety artifacts.\n\nDeath, Chaos, Honor, Evolution, Spite, Soul, Vengence, Dissonance"
+            );
+            /*PrismDefaultRemix = ConfigFileUNSORTED.Bind(
+                "Gamemodes",
+                "Prismatic Remix",
+                true,
+                "Makes Remixed Prismatic Trials the default rule choice"
+            );*/
+            PrismAllowChoiceArtifacts = ConfigFileUNSORTED.Bind(
+                "Gamemodes",
+                "Prismatic choose Artifacts",
+                true,
+                "Choose what artifacts you want to enable in Prismatic runs instead of random ones."
+            );
+
             LevelMaximum = ConfigFileUNSORTED.Bind(
                 "!Main",
                 "999 Maximum Level",
@@ -179,6 +232,12 @@ namespace LittleGameplayTweaks
                 true,
                 "Mountain Shrine on Sulfur Pools, No Gunner Turret on Stage 4 & 5, Rare Printers and Cleansing Pools are a bit more common."
             );
+            DccsAddCategoryToSots = ConfigFileUNSORTED.Bind(
+                "Spawnpool - Interactables",
+                "Large Category Chests on Sots Stages",
+                true,
+                "Seekers of the Storm changes do not have Large Category Chests in the pool by default"
+            );
             DCCSCategoryChest = ConfigFileUNSORTED.Bind(
                 "Spawnpool - Interactables",
                 "Category Chest limitation",
@@ -189,7 +248,7 @@ namespace LittleGameplayTweaks
                 "Spawnpool - Interactables",
                 "Cheaper Interactable Credits",
                 true,
-                "TC280 costs 25 instead of 40.\nShrine of Order costs 5 instead of 30.\nCombat/Blood shrines 15 instead of 20."
+                "TC280 costs 35 instead of 40.\nShrine of Order costs 5 instead of 30.\nCombat/Blood shrines 15 instead of 20."
             );
 
 
@@ -219,25 +278,31 @@ namespace LittleGameplayTweaks
                 true,
                 "Mostly combat shrines"
             );
+            CelestialStage10 = ConfigFileUNSORTED.Bind(
+                "Changes - Stages",
+                "Celestial Portal Stage 10",
+                true,
+                "An additional celestial portal will spawn on the last stage of a loop"
+            );
 
             //Changes - Interactables
             FasterPrinter = ConfigFileUNSORTED.Bind(
                 "Changes - Interactables",
                 "Faster Printers",
                 true,
-                ""
+                "Slighty faster interactables"
             );
             FasterScrapper = ConfigFileUNSORTED.Bind(
                 "Changes - Interactables",
                 "Faster Scrappers",
                 true,
-                ""
+                "Slighty faster interactables"
             );
             FasterShrines = ConfigFileUNSORTED.Bind(
                 "Changes - Interactables",
                 "Faster Shrines",
                 true,
-                ""
+                "Slighty faster interactables"
             );
             FasterDeepVoidSignal = ConfigFileUNSORTED.Bind(
                 "Changes - Interactables",
@@ -313,6 +378,13 @@ namespace LittleGameplayTweaks
                 300,
                 "Vanilla is 350"
             );
+            BuffMegaDroneStats = ConfigFileUNSORTED.Bind(
+                "Changes - Interactables",
+                "TC-280 Prototype buff stats",
+                true,
+                "Give Tc280 20 armor and resistance to aoe attacks like Empathy Cores have"
+            );
+
             TurretDroneCost = ConfigFileUNSORTED.Bind(
                 "Changes - Interactables",
                 "Cost - Gunner Turret",
@@ -344,12 +416,6 @@ namespace LittleGameplayTweaks
               "Commando Invulnerable Tactical Dive",
               true,
               "Tactical Dive will make you Invulnerable like in RoRR"
-            );
-            CharactersEngineerWarbanner = ConfigFileUNSORTED.Bind(
-              "Changes - Characters",
-              "Engineer Warbanner Turrets",
-              true,
-              "Should Engi Turrets inherit Warbanner"
             );
             CharactersVoidFiendEquip = ConfigFileUNSORTED.Bind(
               "Changes - Characters",
@@ -395,6 +461,12 @@ namespace LittleGameplayTweaks
                  "Aquaduct Elder Lemurian Buff",
                  true,
                  "They will be able to activate their bands and scale with level."
+             );
+            cscGreaterWispCredits = ConfigFileUNSORTED.Bind(
+                 "Changes - Enemies",
+                 "Cheaper Greater Wisps",
+                 true,
+                 "Greater Wisps cost a lot for being not much of a threat, this makes them more common"
              );
             //
             //Misc Unsorted
@@ -499,6 +571,13 @@ namespace LittleGameplayTweaks
             ModSettingsManager.AddOption(new CheckBoxOption(disableNewContent, true));
             ModSettingsManager.AddOption(new CheckBoxOption(EclipseDifficultyAlways, false));
 
+            ModSettingsManager.AddOption(new CheckBoxOption(EclipseAllowVoid, false));
+            ModSettingsManager.AddOption(new CheckBoxOption(EclipseAllowTwisted, false));
+            ModSettingsManager.AddOption(new CheckBoxOption(EclipseAllowArtifactWorld, false));
+            ModSettingsManager.AddOption(new CheckBoxOption(EclipseAllowChoiceArtifacts, false));
+            ModSettingsManager.AddOption(new CheckBoxOption(PrismAllowChoiceArtifacts, false));
+            //ModSettingsManager.AddOption(new CheckBoxOption(PrismDefaultRemix, false));
+
             ModSettingsManager.AddOption(new CheckBoxOption(FasterPrinter, true));
             ModSettingsManager.AddOption(new CheckBoxOption(FasterScrapper, true));
             ModSettingsManager.AddOption(new CheckBoxOption(FasterShrines, true));
@@ -516,14 +595,16 @@ namespace LittleGameplayTweaks
             ModSettingsManager.AddOption(new CheckBoxOption(cfgVoidStagesNoTime, true));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgGoldShoresCredits, true));
             ModSettingsManager.AddOption(new CheckBoxOption(ThirdLunarSeer, false));
+            ModSettingsManager.AddOption(new CheckBoxOption(CelestialStage10, false));
 
             ModSettingsManager.AddOption(new CheckBoxOption(cfgMendingCoreBuff, true));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgElderLemurianBands, false));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgScavBossItem, false));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgScavMoreItemsElites, false));
+            ModSettingsManager.AddOption(new CheckBoxOption(cscGreaterWispCredits, true));
 
+            ModSettingsManager.AddOption(new CheckBoxOption(BuffMegaDroneStats, true));
             ModSettingsManager.AddOption(new CheckBoxOption(CharactersCaptainKeepInHiddemRealm, true));
-            ModSettingsManager.AddOption(new CheckBoxOption(CharactersEngineerWarbanner, true));
             ModSettingsManager.AddOption(new CheckBoxOption(CharactersHuntressLysateCell, true));
             ModSettingsManager.AddOption(new CheckBoxOption(CharactersCommandoInvul, true));
 
@@ -531,9 +612,11 @@ namespace LittleGameplayTweaks
             ModSettingsManager.AddOption(new CheckBoxOption(DCCSEnemyChangesLooping, true));
             ModSettingsManager.AddOption(new CheckBoxOption(DCCSEnemyNewFamilies, true));
             ModSettingsManager.AddOption(new CheckBoxOption(FamiliesStage1, true));
-            
+            ModSettingsManager.AddOption(new CheckBoxOption(SulfurPoolsSkin, true));
+
             ModSettingsManager.AddOption(new CheckBoxOption(DCCSInteractableChanges, true));
             ModSettingsManager.AddOption(new CheckBoxOption(DCCSInteractableCostChanges, true));
+            ModSettingsManager.AddOption(new CheckBoxOption(DccsAddCategoryToSots, true));
             ModSettingsManager.AddOption(new FloatFieldOption(InteractablesMountainMultiplier, true));
 
             ModSettingsManager.AddOption(new CheckBoxOption(onlyUpdateMostRecentSpawnPools, true));

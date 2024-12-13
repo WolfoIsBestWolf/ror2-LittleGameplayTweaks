@@ -664,5 +664,32 @@ namespace LoopVariants
 
         }
 
+        public static void AddVariantMonsters(DirectorCardCategorySelection dccs)
+        {
+            if (dccs == null || !LoopVariantsMain.AddMonsters)
+            {
+                return;
+            }
+            DirectorCard DC_Geep = new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGeepBody"),
+                preventOverhead = false,
+                selectionWeight = 1,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+
+            DirectorCard DC_Gip = new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGipBody"),
+                preventOverhead = false,
+                selectionWeight = 1,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Close
+            };
+            dccs.AddCard(1, DC_Geep);
+            dccs.AddCard(2, DC_Gip);
+        }
+
     }
 }

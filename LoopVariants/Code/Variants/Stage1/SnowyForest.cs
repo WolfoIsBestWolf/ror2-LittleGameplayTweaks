@@ -13,8 +13,6 @@ namespace LoopVariants
     {
         public static void Setup()
         {
-            
-
         }
 
         public static void LoopWeather()
@@ -141,6 +139,23 @@ namespace LoopVariants
             Aurara_New.transform.localEulerAngles = new Vector3(0f, 90f, 0f);
             */
 
+        }
+
+        public static void AddVariantMonsters(DirectorCardCategorySelection dccs)
+        {
+            if (dccs == null || !LoopVariantsMain.AddMonsters)
+            {
+                return;
+            }
+            DirectorCard Loop_GreaterWisp = new DirectorCard
+            {
+                spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/GreaterWisp/cscGreaterWisp.asset").WaitForCompletion(),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 4,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            dccs.AddCard(1, Loop_GreaterWisp);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace LittleGameplayTweaks
         private static Material MatMiliMultiShop;
         //
         //
-        //public static GameObject RedToWhiteSoup = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/LunarCauldron, RedToWhite Variant");
+        //public static GameObject RedToWhiteSoup = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/LunarCauldron, RedToWhite Variant");
         //public static bool RedSoupBought = false;
         //
         public static void Start()
@@ -45,13 +45,18 @@ namespace LittleGameplayTweaks
             Addressables.LoadAssetAsync<FreeChestDropTable>(key: "RoR2/DLC1/FreeChest/dtFreeChest.asset").WaitForCompletion().canDropBeReplaced = false;
 
 
+            Addressables.LoadAssetAsync<InteractableSpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanse.asset").WaitForCompletion().maxSpawnsPerStage = 4;
+            Addressables.LoadAssetAsync<InteractableSpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanseSandy.asset").WaitForCompletion().maxSpawnsPerStage = 4;
+            Addressables.LoadAssetAsync<InteractableSpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanseSnowy.asset").WaitForCompletion().maxSpawnsPerStage = 4;
+
+
             GameObject DeepVoidPortalBattery = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortalBattery/DeepVoidPortalBattery.prefab").WaitForCompletion();
             DeepVoidPortalBattery.GetComponent<HoldoutZoneController>().baseChargeDuration = WConfig.FasterDeepVoidSignal.Value;
             DeepVoidPortalBattery.GetComponent<HoldoutZoneController>().baseRadius += 5;
             //Maybe Reduce the time by like 10 seconds idk
 
-            GameObject Teleporter1 = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Teleporters/Teleporter1");
-            GameObject Teleporter2 = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Teleporters/LunarTeleporter Variant");
+            GameObject Teleporter1 = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Teleporters/Teleporter1");
+            GameObject Teleporter2 = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Teleporters/LunarTeleporter Variant");
 
             //Logger.LogMessage(YellowPercentage.Value * 100 + "% Yellow Percentage");
             Teleporter1.GetComponent<BossGroup>().bossDropChance = WConfig.YellowPercentage.Value / 100;
@@ -126,10 +131,10 @@ namespace LittleGameplayTweaks
                     }
                 };
 
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Duplicator").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorMilitary").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorWild").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Duplicator").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorMilitary").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorWild").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
 
                 On.EntityStates.Duplicator.Duplicating.DropDroplet += (orig, self) =>
                 {
@@ -140,7 +145,7 @@ namespace LittleGameplayTweaks
                     }
                 };
 
-                EntityStateConfiguration Duplicating = RoR2.LegacyResourcesAPI.Load<EntityStateConfiguration>("EntityStateConfigurations/EntityStates.Duplicator.Duplicating");
+                EntityStateConfiguration Duplicating = LegacyResourcesAPI.Load<EntityStateConfiguration>("EntityStateConfigurations/EntityStates.Duplicator.Duplicating");
 
                 Duplicating.serializedFieldsCollection.serializedFields[0].fieldValue.stringValue = "0.6";
                 Duplicating.serializedFieldsCollection.serializedFields[1].fieldValue.stringValue = "1.25";
@@ -163,9 +168,9 @@ namespace LittleGameplayTweaks
                     }
                 };
 
-                EntityStateConfiguration Scrapping = RoR2.LegacyResourcesAPI.Load<EntityStateConfiguration>("EntityStateConfigurations/EntityStates.Scrapper.Scrapping");
-                EntityStateConfiguration ScrappingToIdle = RoR2.LegacyResourcesAPI.Load<EntityStateConfiguration>("EntityStateConfigurations/EntityStates.Scrapper.ScrappingToIdle");
-                EntityStateConfiguration WaitToBeginScrapping = RoR2.LegacyResourcesAPI.Load<EntityStateConfiguration>("EntityStateConfigurations/EntityStates.Scrapper.WaitToBeginScrapping");
+                EntityStateConfiguration Scrapping = LegacyResourcesAPI.Load<EntityStateConfiguration>("EntityStateConfigurations/EntityStates.Scrapper.Scrapping");
+                EntityStateConfiguration ScrappingToIdle = LegacyResourcesAPI.Load<EntityStateConfiguration>("EntityStateConfigurations/EntityStates.Scrapper.ScrappingToIdle");
+                EntityStateConfiguration WaitToBeginScrapping = LegacyResourcesAPI.Load<EntityStateConfiguration>("EntityStateConfigurations/EntityStates.Scrapper.WaitToBeginScrapping");
 
                 Scrapping.serializedFieldsCollection.serializedFields[2].fieldValue.stringValue = "1";
                 ScrappingToIdle.serializedFieldsCollection.serializedFields[2].fieldValue.stringValue = "0.4";
@@ -234,23 +239,23 @@ namespace LittleGameplayTweaks
         {
             if (WConfig.InteractableHealingShrine.Value)
             {
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.PurchaseInteraction>().cost = 10;
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.ShrineHealingBehavior>().costMultiplierPerPurchase = 1.4f;
-                RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.ShrineHealingBehavior>().maxPurchaseCount += 1;
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.PurchaseInteraction>().cost = 10;
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.ShrineHealingBehavior>().costMultiplierPerPurchase = 1.4f;
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.ShrineHealingBehavior>().maxPurchaseCount += 1;
             }
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/BrokenDrones/MegaDroneBroken").GetComponent<RoR2.PurchaseInteraction>().cost = WConfig.MegaDroneCost.Value;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/BrokenDrones/Turret1Broken").GetComponent<RoR2.PurchaseInteraction>().cost = WConfig.TurretDroneCost.Value;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/BrokenDrones/MegaDroneBroken").GetComponent<RoR2.PurchaseInteraction>().cost = WConfig.MegaDroneCost.Value;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/BrokenDrones/Turret1Broken").GetComponent<RoR2.PurchaseInteraction>().cost = WConfig.TurretDroneCost.Value;
 
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/LunarCauldron, RedToWhite Variant").GetComponent<ShopTerminalBehavior>().dropVelocity = new Vector3(5, 10, 5);
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/LunarCauldron, RedToWhite Variant").GetComponent<ShopTerminalBehavior>().dropVelocity = new Vector3(5, 10, 5);
             //Addressables.LoadAssetAsync<InteractableSpawnCard>(key: "RoR2/Base/RadarTower/iscRadarTower.asset").WaitForCompletion().prefab.GetComponent<PurchaseInteraction>().cost = 100;
 
             if (WConfig.InteractableFastHalcyShrine.Value)
             {
-                RoR2.LegacyResourcesAPI.Load<SpawnCard>("SpawnCards/InteractableSpawnCard/iscShrineHalcyon").prefab.GetComponent<HalcyoniteShrineInteractable>().goldDrainValue = 3;
+                LegacyResourcesAPI.Load<SpawnCard>("SpawnCards/InteractableSpawnCard/iscShrineHalcyon").prefab.GetComponent<HalcyoniteShrineInteractable>().goldDrainValue = 3;
             }
             if (WConfig.InteractableFastHalcyShrine.Value)
             {
-                RoR2.LegacyResourcesAPI.Load<SpawnCard>("SpawnCards/InteractableSpawnCard/iscShrineHalcyon").prefab.GetComponent<HalcyoniteShrineInteractable>().monsterCredit = 80;
+                LegacyResourcesAPI.Load<SpawnCard>("SpawnCards/InteractableSpawnCard/iscShrineHalcyon").prefab.GetComponent<HalcyoniteShrineInteractable>().monsterCredit = 80;
             }
 
             if (WConfig.InteractableNoLunarCost.Value == true)

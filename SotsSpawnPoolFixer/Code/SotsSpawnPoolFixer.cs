@@ -19,7 +19,7 @@ using HG;
 namespace SotsSpawnPoolFixer
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Wolfo.DLCSpawnPoolFixer", "DLCSpawnPoolFixer", "1.0.1")]
+    [BepInPlugin("Wolfo.DLCSpawnPoolFixer", "DLCSpawnPoolFixer", "1.1.1")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
 
 
@@ -44,11 +44,12 @@ namespace SotsSpawnPoolFixer
             loopSgStage1._sceneEntries[1].weight = 0.75f;
             loopSgStage1._sceneEntries[2].weight = 0.75f;
             loopSgStage1._sceneEntries[3].weight = 0.75f;
-        }
 
+        }
+ 
         private static bool DccsPool_AreConditionsMet(On.RoR2.DccsPool.orig_AreConditionsMet orig, DccsPool self, DccsPool.ConditionalPoolEntry entry)
         {
-            if (entry.dccs && !entry.dccs.name.EndsWith("Family"))
+            if (entry.dccs && entry.dccs.name.EndsWith("Standard"))
             {
                 if (entry.requiredExpansions.Length == 1)
                 {
@@ -74,25 +75,10 @@ namespace SotsSpawnPoolFixer
             if (Run.instance && SceneInfo.instance)
             {
                 //self.sceneDirectorInteractibleCredits += 550;
-
-                switch (SceneInfo.instance.sceneDef.cachedName)
+                if (SceneInfo.instance.sceneDef.cachedName.Equals("villagenight"))
                 {
-                    case "foggyswamp":
-                        self.interactableDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/foggyswamp/dpFoggySwampInteractables.asset").WaitForCompletion();
-                        self.monsterDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/foggyswamp/dpFoggySwampMonsters.asset").WaitForCompletion();
-                        break;
-                    case "blackbeach2":
-                        self.interactableDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/blackbeach/dpBlackBeachInteractables.asset").WaitForCompletion();
-                        self.monsterDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/blackbeach/dpBlackBeachMonsters.asset").WaitForCompletion();
-                        break;
-                    case "habitatfall":
-                        self.interactableDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/habitatfall/dpHabitatfallInteractables.asset").WaitForCompletion();
-                        self.monsterDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/habitatfall/dpHabitatfallMonsters.asset").WaitForCompletion();
-                        break;
-                    case "villagenight":
-                        self.interactableDccsPool = null;
-                        self.interactableCategories = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/villagenight/dccsVillagenightInteractablesDLC2.asset").WaitForCompletion();
-                        break;
+                    self.interactableDccsPool = null;
+                    self.interactableCategories = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/villagenight/dccsVillagenightInteractablesDLC2.asset").WaitForCompletion();
                 }
             }
             orig(self);
@@ -117,8 +103,7 @@ namespace SotsSpawnPoolFixer
 
             DccsPool dpSkyMeadowInteractables = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/skymeadow/dpSkyMeadowInteractables.asset").WaitForCompletion();
 
-            DccsPool dpArtifactWorld02Monsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/artifactworld02/dpArtifactWorld02Monsters.asset").WaitForCompletion();
-
+            
 
             DirectorCardCategorySelection dccsFrozenWallInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsFrozenWallInteractablesDLC2.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsWispGraveyardInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsWispGraveyardInteractablesDLC2.asset").WaitForCompletion();
@@ -130,16 +115,12 @@ namespace SotsSpawnPoolFixer
             DirectorCardCategorySelection dccsRootJungleInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsRootJungleInteractablesDLC2.asset").WaitForCompletion();
 
             DirectorCardCategorySelection dccsSkyMeadowInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsSkyMeadowInteractablesDLC2.asset").WaitForCompletion();
-
+            DccsPool dpArtifactWorld02Monsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/artifactworld02/dpArtifactWorld02Monsters.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsArtifactWorld02Monsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/artifactworld02/dccsArtifactWorld02Monsters_DLC1.asset").WaitForCompletion();
 
 
 
-            //
-            DirectorCardCategorySelection dccsITDampCaveMonstersDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC1/itdampcave/dccsITDampCaveMonstersDLC2.asset").WaitForCompletion();
-            DccsPool dpITDampCaveMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC1/itdampcave/dpITDampCaveMonsters.asset").WaitForCompletion();
-
-            dpITDampCaveMonsters.poolCategories[0].includedIfConditionsMet[0].dccs = dccsITDampCaveMonstersDLC2;
+ ;
             //
             dpArtifactWorld02Monsters.poolCategories[0].includedIfConditionsMet[0].dccs = dccsArtifactWorld02Monsters_DLC1;
             //

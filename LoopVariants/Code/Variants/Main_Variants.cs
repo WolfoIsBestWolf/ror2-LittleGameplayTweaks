@@ -64,7 +64,7 @@ namespace LoopVariants
 
             if (WConfig.Stage_1_LakesVillageNight.Value)
             {
-                Nerf_OfficialStage1LoopSpawnpools();
+                LakesNightVillageNight.EditDccs();
             }
 
             SceneDef lakes = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/lakes/lakes.asset").WaitForCompletion();
@@ -83,38 +83,7 @@ namespace LoopVariants
         }
 
 
-        public static void Nerf_OfficialStage1LoopSpawnpools()
-        {
-            DirectorCardCategorySelection dccsLakesnightMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lakesnight/dccsLakesnightMonsters.asset").WaitForCompletion();
-            DirectorCardCategorySelection dccsVillageNightMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/villagenight/dccsVillageNightMonsters.asset").WaitForCompletion();
-
-            DirectorCardCategorySelection dccsLakesnightInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lakesnight/dccsLakesnightInteractables.asset").WaitForCompletion();
-            DirectorCardCategorySelection dccsVillagenightInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/villagenight/dccsVillagenightInteractablesDLC2.asset").WaitForCompletion();
-
-
-            try
-            {
-                dccsLakesnightMonsters.categories[0].cards[1].minimumStageCompletions = 1; //Grandparent
-                dccsLakesnightMonsters.categories[0].cards[4].minimumStageCompletions = 1; //Imp Boss
-                dccsLakesnightMonsters.categories[1].cards[2].minimumStageCompletions = 1; //Elder Lemurian
-                dccsLakesnightMonsters.categories[1].cards[3].minimumStageCompletions = 1; //Void Reaver
-                //dccsLakesnightMonsters.categories[2].cards[2].minimumStageCompletions = 1; //Imp
-
-                dccsVillageNightMonsters.categories[1].cards[2].minimumStageCompletions = 1; //Elder Lemurian
-                //dccsVillageNightMonsters.categories[2].cards[1].minimumStageCompletions = 1; //Jellyfish
-
-
-                dccsVillagenightInteractablesDLC2.categories[2].cards[2].minimumStageCompletions = 1;
-                dccsVillagenightInteractablesDLC2.categories[5].cards[3].minimumStageCompletions = 1;
-
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogWarning("Some dude edited LakesVillageNight");
-                Debug.LogWarning(e);
-            }
-
-        }
+      
 
         public static void LoadStuff()
         {
@@ -180,8 +149,37 @@ namespace LoopVariants
             newScenedDef.nameToken = "stage1";
             newScenedDef.shouldIncludeInLogbook = false;
             R2API.ContentAddition.AddSceneDef(newScenedDef);
+
+
+            Addressables.LoadAssetAsync<PostProcessProfile>(key: "RoR2/Base/title/PostProcessing/ppSceneBlackbeach_Eclipse.asset").WaitForCompletion();
+            Addressables.LoadAssetAsync<PostProcessProfile>(key: "RoR2/Base/title/PostProcessing/ppSceneBlackbeach.asset").WaitForCompletion();
+            Addressables.LoadAssetAsync<PostProcessProfile>(key: "RoR2/Base/title/PostProcessing/ppSceneDampcave.asset").WaitForCompletion();
+            Addressables.LoadAssetAsync<PostProcessProfile>(key: "RoR2/Base/title/PostProcessing/ppSceneEclipseClose.asset").WaitForCompletion();
+            Addressables.LoadAssetAsync<PostProcessProfile>(key: "RoR2/Base/title/PostProcessing/ppSceneEclipseStandard.asset").WaitForCompletion();
+            Addressables.LoadAssetAsync<PostProcessProfile>(key: "RoR2/Base/title/PostProcessing/ppSceneGoldshores.asset").WaitForCompletion();
+            Addressables.LoadAssetAsync<PostProcessProfile>(key: "RoR2/Base/title/PostProcessing/ppSceneGolemplains.asset").WaitForCompletion();
+            Addressables.LoadAssetAsync<PostProcessProfile>(key: "RoR2/Base/title/PostProcessing/ppSceneMoonFoggy.asset").WaitForCompletion();
+            Addressables.LoadAssetAsync<PostProcessProfile>(key: "RoR2/Base/title/PostProcessing/ppSceneWispGraveyardSoot.asset").WaitForCompletion();
+            Addressables.LoadAssetAsync<PostProcessProfile>(key: "RoR2/Base/title/PostProcessing/ppSceneRootJungleClear.asset").WaitForCompletion();
+            Addressables.LoadAssetAsync<PostProcessProfile>(key: "RoR2/Base/title/PostProcessing/ppSceneRootJungleRain.asset").WaitForCompletion();
+
+
         }
 
+
+        public static int FindSpawnCard(DirectorCard[] insert, string LookingFor)
+        {
+            for (int i = 0; i < insert.Length; i++)
+            {
+                if (insert[i].spawnCard.name.EndsWith(LookingFor))
+                {
+                    //Debug.Log("Found " + LookingFor);
+                    return i;
+                }
+            }
+            Debug.LogWarning("Couldn't find " + LookingFor);
+            return -1;
+        }
 
 
 

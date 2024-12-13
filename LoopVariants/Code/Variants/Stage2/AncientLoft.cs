@@ -124,5 +124,41 @@ namespace LoopVariants
 
             Weather.transform.GetChild(3).GetComponent<ParticleSystemRenderer>().material = matAncientLoft_Cloud;
         }
+
+        public static void AddVariantMonsters(DirectorCardCategorySelection dccs)
+        {
+            if (dccs == null || !LoopVariantsMain.AddMonsters)
+            {
+                return;
+            }
+            DirectorCard LoopLunarExploder = new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarExploder"),
+                selectionWeight = 1,
+                preventOverhead = false,
+                minimumStageCompletions = 0,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard LoopLunarGolem = new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarGolem"),
+                selectionWeight = 1,
+                preventOverhead = false,
+                minimumStageCompletions = 4,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard LoopLunarWisp = new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarWisp"),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 4,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+
+            dccs.AddCard(2, LoopLunarExploder);
+            dccs.AddCard(0, LoopLunarGolem);
+            dccs.AddCard(0, LoopLunarWisp);
+        }
     }
 }

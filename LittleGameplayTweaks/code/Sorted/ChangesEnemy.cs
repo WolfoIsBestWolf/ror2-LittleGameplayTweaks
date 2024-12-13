@@ -91,9 +91,7 @@ namespace LittleGameplayTweaks
 
             //Scav
             On.RoR2.ScavengerItemGranter.Start += GiveScavMoreItems;
-            LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").forbiddenAsBoss = false;
- 
- 
+            LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").requiredFlags = RoR2.Navigation.NodeFlags.None;
 
             On.EntityStates.ScavMonster.FindItem.PickupIsNonBlacklistedItem += (orig, self, pickupIndex) =>
             {
@@ -110,10 +108,10 @@ namespace LittleGameplayTweaks
 
 
             //Lunar Scavs not picking up more items I think Idk If they even do that to begin with
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar1Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar2Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar3Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
-            RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar4Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar1Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar2Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar3Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
+            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar4Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
             //
             /*if (WConfig.cfgVoidlingNerf.Value)
             {
@@ -137,7 +135,7 @@ namespace LittleGameplayTweaks
 
 
 
-            RoR2.CharacterAI.AISkillDriver[] skilllist = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavMaster").GetComponents<RoR2.CharacterAI.AISkillDriver>();
+            RoR2.CharacterAI.AISkillDriver[] skilllist = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavMaster").GetComponents<RoR2.CharacterAI.AISkillDriver>();
             skilllist[1].maxUserHealthFraction = 1f;
             skilllist[1].minUserHealthFraction = 0.3f;
             skilllist[1].selectionRequiresOnGround = false;
@@ -146,7 +144,7 @@ namespace LittleGameplayTweaks
 
 
             //Walkers Sprinting more
-            skilllist = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/EngiWalkerTurretMaster").GetComponents<RoR2.CharacterAI.AISkillDriver>();
+            skilllist = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/EngiWalkerTurretMaster").GetComponents<RoR2.CharacterAI.AISkillDriver>();
             skilllist[0].shouldSprint = true;
             if (skilllist[0].minDistance == 110)
             {
@@ -154,7 +152,7 @@ namespace LittleGameplayTweaks
             }
 
             //Equipment Drone fire Equipment even if no enemies
-            skilllist = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/EquipmentDroneMaster").GetComponents<RoR2.CharacterAI.AISkillDriver>();
+            skilllist = LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/EquipmentDroneMaster").GetComponents<RoR2.CharacterAI.AISkillDriver>();
             skilllist[0].shouldFireEquipment = true;
             skilllist[2].shouldFireEquipment = true;
             skilllist[5].shouldFireEquipment = true;
@@ -202,7 +200,13 @@ namespace LittleGameplayTweaks
 
         public static void Characters()
         {
-
+            if(WConfig.BuffMegaDroneStats.Value)
+            {
+                GameObject MegaDroneBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Drones/MegaDroneBody.prefab").WaitForCompletion();
+                MegaDroneBody.GetComponent<CharacterBody>().baseArmor = 20;
+                MegaDroneBody.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ResistantToAOE;
+            }
+           
             //Hold down button to fire multiple
             Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/Commando/CommandoBodyFireFMJ.asset").WaitForCompletion().mustKeyPress = false;
             Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/Croco/CrocoSpit.asset").WaitForCompletion().mustKeyPress = false;
@@ -327,6 +331,12 @@ namespace LittleGameplayTweaks
 
         private static void GiveScavMoreItems(On.RoR2.ScavengerItemGranter.orig_Start orig, ScavengerItemGranter self)
         {
+            if (!self.GetComponent<CharacterMaster>())
+            {
+                orig(self);
+                return;
+            }
+
             if (WConfig.cfgScavMoreItemsElites.Value == true)
             {
                 if (NetworkServer.active)
@@ -343,6 +353,12 @@ namespace LittleGameplayTweaks
                         {
                             bool isElite = inventory.GetItemCount(RoR2Content.Items.BoostHp) >= inventory.currentEquipmentState.equipmentDef.passiveBuffDef.eliteDef.healthBoostCoefficient * 10 - 10;
                             bool isT2Elite = isElite && inventory.currentEquipmentState.equipmentDef.passiveBuffDef.eliteDef.healthBoostCoefficient > 10;
+
+                            if (RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.EliteOnly))
+                            {
+                                isElite = inventory.GetItemCount(RoR2Content.Items.BoostHp) > 80;
+                                isT2Elite = false;
+                            }
 
                             if (isT2Elite)
                             {
@@ -369,7 +385,7 @@ namespace LittleGameplayTweaks
                                 self.stackRollDataList[2].stacks = 2;
                                 self.stackRollDataList[2].numRolls = 2;
                             }
-                            else if (tempbod.isBoss)
+                            else if (tempbod && tempbod.isBoss)
                             {
                                 self.stackRollDataList[2].numRolls += 1; //+1 Red
                             }

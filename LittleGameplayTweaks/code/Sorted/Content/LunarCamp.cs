@@ -22,7 +22,7 @@ namespace LittleGameplayTweaks
 
             DirectorCard LoopLunarExploder = new DirectorCard
             {
-                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarExploder"),
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarExploder"),
                 selectionWeight = 1,
                 preventOverhead = false,
                 minimumStageCompletions = 1,
@@ -30,7 +30,7 @@ namespace LittleGameplayTweaks
             };
             DirectorCard LoopLunarGolem = new DirectorCard
             {
-                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarGolem"),
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarGolem"),
                 selectionWeight = 1,
                 preventOverhead = false,
                 minimumStageCompletions = 1,
@@ -38,7 +38,7 @@ namespace LittleGameplayTweaks
             };
             DirectorCard LoopLunarWisp = new DirectorCard
             {
-                spawnCard = RoR2.LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarWisp"),
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarWisp"),
                 selectionWeight = 1,
                 preventOverhead = true,
                 minimumStageCompletions = 1,

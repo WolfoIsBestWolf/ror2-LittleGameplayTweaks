@@ -13,8 +13,6 @@ namespace LoopVariants
     {
         public static void Setup()
         {
-            
-
         }
 
         public static void LoopWeather()
@@ -34,7 +32,14 @@ namespace LoopVariants
             rampFog.fogColorMid.value = new Color(0.48f, 0.29f, 0.29f, 0.51f);//0.215 0.37 0.44 0.51
             rampFog.fogColorStart.value = new Color(0.45f, 0.38f, 0.38f, 0f);//0.375 0.40 0.425 0
 
+        }
 
+        public static void AddVariantMonsters(DirectorCardCategorySelection dccs)
+        {
+            if (dccs == null || !LoopVariantsMain.AddMonsters)
+            {
+                return;
+            }
         }
     }
 }

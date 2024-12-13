@@ -6,8 +6,8 @@ You can turn off individual variants if you dislike them.\
 You can configure things in game via Risk of Options.
 
 
-The loop variants are meant to have enemy changes, this is currently part of [LittleGameplayTweaks](https://thunderstore.io/package/Wolfo/LittleGameplayTweaks/).\
-Viscious Falls and Disturbed Impact won't have Elder Lemurians or Void Reavers on stage 1.\
+The loop variants are meant to have enemy changes, this is disabled by default unless you have  [LittleGameplayTweaks](https://thunderstore.io/package/Wolfo/LittleGameplayTweaks/). installed but can be enabled mid run.
+
 Variants might still have some gamelplay differences. (Such as the slowing tar river on Aquaduct)
 
 No idea how this mod interacts with Stage Aesthetics or Cooler Stages.
@@ -32,7 +32,20 @@ No idea how this mod interacts with Stage Aesthetics or Cooler Stages.
 - Sundered Grove : Spring/Autumn theme with Fruits
 - Helminth Hatchery : Molten Gold
  
+ 
+ <details>
+  <summary>Enemy additions (if enabled)</summary>
+  
+- Siphoned Forest : Greater Wisp  
+- Abandoned Aqueduct : Lunar Exploders. Loop: Lunar Golems, Lunar Wisps
+- Scorched Acres : Childs
+- Abyssal Depths : Void Reaver, Void Floor Barnacle. Loop: Void Jailer, Void Devestator
+- Sundered Grove : Geep, Gip
+- Helminth Hatchery : Halcyonite
+</details>
+ 
 
+Viscious Falls & Disturbed Impact won't have Elder Lemurians or Void Reavers on stage 1.
 
 Basically all of these can fit the "Passage of Time" theme.\
 Even the more interesting changes such as Blue Lava Sulfur Pools, the background Volcano erupting as an idea for that.
@@ -45,5 +58,7 @@ Additionally this mod changes the Treeborn visible in Prime Meridian to Golden D
  
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\
 If you're reporting a bug that isn't something obvious include the log file.
+
+This mod does not add these variants as "new stages" or new spawn pools for them. Instead simply editing the weather/pools of existing ones.
 
 Not entirely happy with how some turned out but some are great.

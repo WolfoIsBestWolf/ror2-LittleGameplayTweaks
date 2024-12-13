@@ -309,6 +309,13 @@ namespace LoopVariants
             
         }
 
+        public static void AddVariantMonsters(DirectorCardCategorySelection dccs)
+        {
+            if (dccs == null || !LoopVariantsMain.AddMonsters)
+            {
+                return;
+            }
+        }
 
         public class DebuffZoneFixed : MonoBehaviour
         {

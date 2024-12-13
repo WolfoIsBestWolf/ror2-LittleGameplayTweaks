@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using MonoMod.Cil;
 using R2API.Utils;
 using RoR2;
 using RoR2.ExpansionManagement;
@@ -18,7 +19,7 @@ using UnityEngine.Networking;
 namespace LoopVariants
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Wolfo.LoopVariants", "WolfosLoopVariants", "1.4.0")]
+    [BepInPlugin("Wolfo.LoopVariants", "WolfosLoopVariants", "1.4.1")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
 
 
@@ -31,6 +32,7 @@ namespace LoopVariants
         //public static List<string> ExistingVariants = new List<string>() { "wispgraveyard", "golemplains", "goolake", "dampcavesimple", "snowyforest", "helminthroost", "foggyswamp", "rootjungle", "sulfurpools", "lemuriantemple", "ancientloft" };
         public static List<string> DisabledVariants = new List<string>();
 
+        public static bool AddMonsters = false;
 
         public void Awake()
         {
@@ -52,30 +54,164 @@ namespace LoopVariants
 
                 //Advances Roll and applies stuff
                 //On.RoR2.Stage.Start += ApplyLoopWeatherChanges;
-                RoR2.SceneDirector.onPrePopulateSceneServer += ApplyAndRollOnStage;
+                //SceneDirector.onPrePopulateSceneServer += ApplyAndRollOnStage;
                 On.RoR2.UI.AssignStageToken.Start += ApplyLoopNameChanges;
-                On.RoR2.ClassicStageInfo.RebuildCards += AddVariantExclusiveMonsters;
+                On.RoR2.ClassicStageInfo.Start += RollForWeather;
+                IL.RoR2.ClassicStageInfo.RebuildCards += ApplyWeatherWithDCCS;
 
                 On.RoR2.Run.PickNextStageScene += Official_Variants_MainPath;
                 On.RoR2.SceneExitController.IfLoopedUseValidLoopStage += Official_Variants_AltPath;
                 On.RoR2.BazaarController.IsUnlockedBeforeLooping += Official_Variants_Bazaar;
-                //
 
 
+             
             }
         }
 
-        private void AddVariantExclusiveMonsters(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self, DirectorCardCategorySelection forcedMonsterCategory, DirectorCardCategorySelection forcedInteractableCategory)
+        private void RollForWeather(On.RoR2.ClassicStageInfo.orig_Start orig, ClassicStageInfo self)
         {
-            orig(self, forcedMonsterCategory, forcedInteractableCategory);
+            try
+            {
+                ChooseIfNextStageLoop(true);
+            }
+            catch (Exception e) 
+            { 
+            Debug.LogException(e);
+            }
+            orig(self);
+            
         }
 
+        public void Start()
+        {
+            if (WConfig.Monster_Additions.Value == WConfig.EnumEnemyAdds.Always)
+            {
+                AddMonsters = true;
+            }
+            else if (WConfig.Monster_Additions.Value == WConfig.EnumEnemyAdds.LittleGameplayTweaks)
+            {
+                AddMonsters = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Wolfo.LittleGameplayTweaks");
+            }
+            else if (WConfig.Monster_Additions.Value == WConfig.EnumEnemyAdds.Never)
+            {
+                AddMonsters = false;
+            }
+            Debug.Log("Variant Monsters : " + AddMonsters);
+        }
+
+        public static bool RollForLoopWeather(SyncLoopWeather weather)
+        {
+            bool useLoopChance = false;
+            bool useLoop2Chance = false;
+
+            
+            
+            if (WConfig.Alternate_Chances.Value)
+            {
+                if (loopClearCountPlusOne % 2 == 1)
+                {
+                    useLoopChance = true;
+                }
+            }
+            else if(WConfig.Chance_Loop_2.Value > 0 && loopClearCountPlusOne > 1)
+            {
+                useLoop2Chance = true;
+            }
+            else 
+            {
+                useLoopChance = loopClearCountPlusOne > 0;
+            }
+            if (Run.instance.ruleBook.stageOrder == StageOrder.Random)
+            {
+                useLoopChance = Util.CheckRoll(50, null);
+                useLoop2Chance = false;
+            }
+            else if (weather)
+            {
+                if (Run.instance.loopClearCount > 1)
+                {
+                    if (WConfig.Chance_Loop_2.Value >= 100)
+                    {
+                        weather.CurrentStage_LoopVariant = true;
+                    }
+                    else if(WConfig.Chance_Loop_2.Value == 0)
+                    {
+                        weather.CurrentStage_LoopVariant = false;
+                    }                   
+                }
+                else if (Run.instance.loopClearCount == 1)
+                {
+                    if (WConfig.Chance_Loop.Value >= 100)
+                    {
+                        weather.CurrentStage_LoopVariant = true;
+                    }
+                    else if (WConfig.Chance_Loop.Value == 0)
+                    {
+                        weather.CurrentStage_LoopVariant = false;
+                    }
+                }
+                else
+                {
+                    if (WConfig.Chance_PreLoop.Value >= 100)
+                    {
+                        weather.CurrentStage_LoopVariant = true;
+                    }
+                    else if (WConfig.Chance_PreLoop.Value == 0)
+                    {
+                        weather.CurrentStage_LoopVariant = false;
+                    }
+                }
+            }
+
+            /*
+            Debug.Log(useLoopChance);
+            Debug.Log(useLoop2Chance);
+            Debug.Log(Run.instance.stageClearCount);
+            Debug.Log(loopClearCountPlusOne);
+            Debug.Log(weather.CurrentStage_LoopVariant);
+            */
+
+
+            if (useLoop2Chance)
+            {
+                return Util.CheckRoll(WConfig.Chance_Loop_2.Value, null);
+            }
+            else if (useLoopChance)
+            {
+                return Util.CheckRoll(WConfig.Chance_Loop.Value, null);
+            }
+            else
+            {
+                return Util.CheckRoll(WConfig.Chance_PreLoop.Value, null);
+            }
+        }
+
+
+        private void ApplyWeatherWithDCCS(MonoMod.Cil.ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.Before,
+            x => x.MatchStfld("RoR2.ClassicStageInfo", "modifiableMonsterCategories")))
+            {
+                Debug.Log(c);
+                c.EmitDelegate<Func<DirectorCardCategorySelection, DirectorCardCategorySelection>>((dccs) =>
+                {               
+                    ApplyLoopWeatherChanges(dccs);
+                    return dccs;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: AddVariantExclusiveMonsters");
+            }
+        }
+ 
         private void ApplyAndRollOnStage(SceneDirector obj)
         {
             if (NetworkServer.active)
             {
                 ChooseIfNextStageLoop(true);
-                ApplyLoopWeatherChanges();
+                ApplyLoopWeatherChanges(null);
             }
         }
 
@@ -111,30 +247,42 @@ namespace LoopVariants
             return orig(self, sceneDef);
         }
 
-        private static void ApplyLoopWeatherChanges()
+        private static void ApplyLoopWeatherChanges(DirectorCardCategorySelection dccs)
         {
+            if (!Run.instance)
+            {
+                return;
+            }
             SyncLoopWeather weather = Run.instance.GetComponent<SyncLoopWeather>();
-            Debug.Log("Stage Start : " + SceneCatalog.mostRecentSceneDef.baseSceneName);
+            if (!weather)
+            {
+                Debug.LogWarning("No Weather Data");
+                return;
+            }
+            if (weather.Applied_To_Stage)
+            {
+                Debug.Log("Already applied weather this stage");
+                return;
+            }
             Debug.Log("Loop weather for curr " + weather.CurrentStage_LoopVariant);
             Debug.Log("Loop weather for next " + weather.NextStage_LoopVariant);
 
-
-            if (NetworkServer.active)
+            //Kin works fine
+            //Force monsters work fines
+            //Disso would would fine, but might as well not do it for optimization
+            //Family does not work fine, have to filter.
+            if (RunArtifactManager.instance && RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.mixEnemyArtifactDef))
             {
-                if (Run.instance.loopClearCount > 0 && WConfig.Chance_Loop_2.Value == -1f && WConfig.Chance_Loop.Value == 100)
-                {
-                    weather.CurrentStage_LoopVariant = true;
-                }
-                else if (Run.instance.loopClearCount == 0 && WConfig.Chance_PreLoop.Value == 0)
-                {
-                    weather.CurrentStage_LoopVariant = false;
-                }
+                dccs = null;
             }
-
-
-            if (weather && weather.CurrentStage_LoopVariant)
+            if (dccs && dccs is FamilyDirectorCardCategorySelection)
             {
-                //Should just work lol?
+                dccs = null;
+            }
+            if (weather.CurrentStage_LoopVariant)
+            {
+                Debug.Log("Applying Weather for : " + SceneCatalog.mostRecentSceneDef.baseSceneName + " \n"+ dccs);
+                weather.Applied_To_Stage = true;
                 try
                 {
                     switch (SceneInfo.instance.sceneDef.baseSceneName)
@@ -155,6 +303,29 @@ namespace LoopVariants
                             if (WConfig.Stage_1_Snow.Value)
                             {
                                 Variants_1_SnowyForest.LoopWeather();
+                                if (WConfig.Enemy_1_Snow.Value)
+                                {
+                                    Variants_1_SnowyForest.AddVariantMonsters(dccs);
+                                }
+                            }
+                            break;
+                        case "lakesnight":
+                            if (WConfig.Stage_1_LakesVillageNight.Value)
+                            {
+                                LakesNightVillageNight.LakesNight_AddStage1FriendlyMonsters(dccs);
+                            }
+                            break;
+                        case "villagenight":
+                            if (WConfig.Stage_1_LakesVillageNight.Value)
+                            {
+                                LakesNightVillageNight.VillageNight_AddStage1FriendlyMonsters(dccs);
+                            }
+                            if (WConfig.Stage_1_VillageNight_Credits.Value)
+                            {
+                                if(loopClearCountPlusOne < 1)
+                                {
+                                    ClassicStageInfo.instance.sceneDirectorInteractibleCredits -= 30;
+                                }                              
                             }
                             break;
                         case "goolake":
@@ -173,6 +344,10 @@ namespace LoopVariants
                             if (WConfig.Stage_2_Ancient.Value)
                             {
                                 Variants_2_AncientLoft.LoopWeather();
+                                if (WConfig.Enemy_2_Ancient.Value)
+                                {
+                                    Variants_2_AncientLoft.AddVariantMonsters(dccs);
+                                }
                             }
                             break;
                         case "lemuriantemple":
@@ -191,6 +366,10 @@ namespace LoopVariants
                             if (WConfig.Stage_3_Wisp.Value)
                             {
                                 Variants_3_WispGraveyard.LoopWeather();
+                                if (WConfig.Enemy_3_Wisp.Value)
+                                {
+                                    Variants_3_WispGraveyard.AddVariantMonsters(dccs);
+                                }
                             }
                             break;
                         case "sulfurpools":
@@ -203,6 +382,10 @@ namespace LoopVariants
                             if (WConfig.Stage_4_Damp_Abyss.Value)
                             {
                                 Variants_4_DampCaveSimpleAbyss.LoopWeather();
+                                if (WConfig.Enemy_4_Damp_Abyss.Value)
+                                {
+                                    Variants_4_DampCaveSimpleAbyss.AddVariantMonsters(dccs);
+                                }
                             }
                             break;
                         case "shipgraveyard":
@@ -215,6 +398,10 @@ namespace LoopVariants
                             if (WConfig.Stage_4_Root_Jungle.Value)
                             {
                                 Variants_4_RootJungle.LoopWeather();
+                                if (WConfig.Enemy_4_Root_Jungle.Value)
+                                {
+                                    Variants_4_RootJungle.AddVariantMonsters(dccs);
+                                }
                             }
                             break;
                         case "skymeadow":
@@ -227,6 +414,10 @@ namespace LoopVariants
                             if (WConfig.Stage_5_Helminth.Value)
                             {
                                 Variants_5_HelminthRoost.LoopWeather();
+                                if (WConfig.Enemy_5_Helminth.Value)
+                                {
+                                    Variants_5_HelminthRoost.AddVariantMonsters(dccs);
+                                }
                             }
                             break;
                         case "moon2":
@@ -376,61 +567,14 @@ namespace LoopVariants
                     Debug.LogWarning("SyncLoopWeather wasn't added when the run started, How?");
                     weather = Run.instance.gameObject.AddComponent<SyncLoopWeather>();
                 }
-                if (Run.instance.loopClearCount > 0 && WConfig.Chance_Loop_2.Value == -1f && WConfig.Chance_Loop.Value == 100)
-                {
-                    weather.CurrentStage_LoopVariant = true;
-                }
-                else if (Run.instance.loopClearCount == 0 && WConfig.Chance_PreLoop.Value == 0)
-                {
-                    weather.CurrentStage_LoopVariant = false;
-                }
+      
+                weather.Applied_To_Stage = false;
 
-                bool Current_Use_Loop = false;
-                bool Next = false;
-                Current_Use_Loop = weather.NextStage_LoopVariant;
+                //bool Current_Use_Loop = false;
+                //Current_Use_Loop = weather.NextStage_LoopVariant;
                 weather.CurrentStage_LoopVariant = weather.NextStage_LoopVariant;
 
-
-                if (Run.instance.ruleBook.stageOrder == StageOrder.Random)
-                {
-                    if (RoR2.Util.CheckRoll(50, null))
-                    {
-                        if (WConfig.Chance_Loop.Value > 0)
-                        {
-                            Next = RoR2.Util.CheckRoll(WConfig.Chance_Loop.Value, null);
-                        }
-                    }
-                    else
-                    {
-                        if (WConfig.Chance_PreLoop.Value > 0)
-                        {
-                            Next = RoR2.Util.CheckRoll(WConfig.Chance_PreLoop.Value, null);
-                        }
-                    }
-                }
-                else
-                {
-                    //Stage clear count -1 because we decide one stage ahead.
-                    //Can't use loop count because of this
-                    if (WConfig.Chance_Loop_2.Value > 0 && Run.instance.stageClearCount >= 9)
-                    {
-                        Next = RoR2.Util.CheckRoll(WConfig.Chance_Loop_2.Value, null);
-                    }
-                    else if (Run.instance.stageClearCount >= 4)
-                    {
-                        if (WConfig.Chance_Loop.Value > 0)
-                        {
-                            Next = RoR2.Util.CheckRoll(WConfig.Chance_Loop.Value, null);
-                        }
-                    }
-                    else
-                    {
-                        if (WConfig.Chance_PreLoop.Value > 0)
-                        {
-                            Next = RoR2.Util.CheckRoll(WConfig.Chance_PreLoop.Value, null);
-                        }
-                    }
-                }
+                bool Next = RollForLoopWeather(weather);
 
 
                 //While this gets called before a run
@@ -441,7 +585,7 @@ namespace LoopVariants
                 {
                     RoR2.Chat.SendBroadcastChat(new SendSyncLoopWeather
                     {
-                        CURRENT = Current_Use_Loop,
+                        CURRENT = weather.CurrentStage_LoopVariant,
                         NEXT = Next
                     });
                 }
@@ -533,31 +677,25 @@ namespace LoopVariants
         private static void ApplyLoopNameChanges(On.RoR2.UI.AssignStageToken.orig_Start orig, RoR2.UI.AssignStageToken self)
         {
             orig(self);
-            if (Run.instance)
+            if (WConfig.Name_Changes.Value)
             {
-                SyncLoopWeather weather = Run.instance.GetComponent<SyncLoopWeather>();
-                if (weather)
+                if (Run.instance)
                 {
-                    if (Run.instance.loopClearCount > 0 && WConfig.Chance_Loop_2.Value == -1f && WConfig.Chance_Loop.Value == 100)
+                    SyncLoopWeather weather = Run.instance.GetComponent<SyncLoopWeather>();
+                    if (weather)
                     {
-                        weather.CurrentStage_LoopVariant = true;
-                    }
-                    else if (Run.instance.loopClearCount == 0 && WConfig.Chance_PreLoop.Value == 0)
-                    {
-                        weather.CurrentStage_LoopVariant = false;
-                    }
-
-                    if (weather.CurrentStage_LoopVariant)
-                    {
-                        SceneDef mostRecentSceneDef = SceneCatalog.mostRecentSceneDef;
-                        //If token exists
-                        Language language2 = Language.FindLanguageByName("en");
-                        if (language2.stringsByToken.ContainsKey(mostRecentSceneDef.nameToken + "_LOOP"))
+                        if (weather.CurrentStage_LoopVariant)
                         {
-                            if (!DisabledVariants.Contains(mostRecentSceneDef.baseSceneName))
+                            SceneDef mostRecentSceneDef = SceneCatalog.mostRecentSceneDef;
+                            //If token exists
+                            Language language2 = Language.FindLanguageByName("en");
+                            if (language2.stringsByToken.ContainsKey(mostRecentSceneDef.nameToken + "_LOOP"))
                             {
-                                self.titleText.SetText(Language.GetString(mostRecentSceneDef.nameToken + "_LOOP"), true);
-                                self.subtitleText.SetText(Language.GetString(mostRecentSceneDef.subtitleToken + "_LOOP"), true);
+                                if (!DisabledVariants.Contains(mostRecentSceneDef.baseSceneName))
+                                {
+                                    self.titleText.SetText(Language.GetString(mostRecentSceneDef.nameToken + "_LOOP"), true);
+                                    self.subtitleText.SetText(Language.GetString(mostRecentSceneDef.subtitleToken + "_LOOP"), true);
+                                }
                             }
                         }
                     }
@@ -565,7 +703,20 @@ namespace LoopVariants
             }
         }
 
-        public class SendSyncLoopWeather : RoR2.ChatMessageBase
+
+        public static int loopClearCountPlusOne
+        {
+            get
+            {
+                if (!Run.instance)
+                {
+                    return 0;
+                }
+                return (Run.instance.stageClearCount+1) / Run.stagesPerLoop;
+            }
+        }
+
+        public class SendSyncLoopWeather : ChatMessageBase
         {
             public override string ConstructChatString()
             {
@@ -576,7 +727,8 @@ namespace LoopVariants
                     weather.NextStage_LoopVariant = NEXT;
                     if (!NetworkServer.active)
                     {
-                        ApplyLoopWeatherChanges();
+                        weather.Applied_To_Stage = false;
+                        ApplyLoopWeatherChanges(null);
                     }
                 }
                 else
@@ -608,6 +760,7 @@ namespace LoopVariants
 
         public class SyncLoopWeather : MonoBehaviour
         {
+            public bool Applied_To_Stage;
             public bool CurrentStage_LoopVariant;
             public bool NextStage_LoopVariant;
         }
