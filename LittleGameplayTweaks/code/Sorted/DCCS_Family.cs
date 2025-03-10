@@ -39,7 +39,7 @@ namespace LittleGameplayTweaks
             //
             //
             FamilyDirectorCardCategorySelection dccsBeetleFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/dccsBeetleFamily.asset").WaitForCompletion();
-            FamilyDirectorCardCategorySelection dccsBeetleSulfurFamily = UnityEngine.Object.Instantiate(dccsBeetleFamily);
+            //FamilyDirectorCardCategorySelection dccsBeetleSulfurFamily = UnityEngine.Object.Instantiate(dccsBeetleFamily);
             FamilyDirectorCardCategorySelection dccsGolemFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/dccsGolemFamily.asset").WaitForCompletion();
             FamilyDirectorCardCategorySelection dccsGolemFamilyAbyssal = UnityEngine.Object.Instantiate(dccsGolemFamily);
             FamilyDirectorCardCategorySelection dccsGupFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/dccsGupFamily.asset").WaitForCompletion();
@@ -215,10 +215,7 @@ namespace LittleGameplayTweaks
 
             int familyMin = WConfig.FamiliesStage1.Value ? 0 : 1;
 
-            dccsBeetleSulfurFamily.categories[0].cards[0].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleQueenSulfur.asset").WaitForCompletion();
-            dccsBeetleSulfurFamily.categories[1].cards[0].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleGuardSulfur.asset").WaitForCompletion();
-            dccsBeetleSulfurFamily.categories[2].cards[0].spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleSulfur.asset").WaitForCompletion();
-            dccsBeetleSulfurFamily.name = "dccsBeetleFamilySulfur";
+
 
             dccsGolemFamilyAbyssal.categories[0].cards[0].spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/Titan/cscTitanDampCave");
             dccsGolemFamilyAbyssal.name = "dccsGolemFamilyAbyssal";
@@ -344,8 +341,7 @@ namespace LittleGameplayTweaks
 
             dpWispGraveyardMonsters.poolCategories[1].includedIfConditionsMet = dpWispGraveyardMonsters.poolCategories[1].includedIfConditionsMet.Add(FamilyExtraClay, FamilyExtraBeetle, FamilyExtraWorms);
 
-            dpSulfurPoolsMonsters.poolCategories[1].includedIfConditionsMet[1].dccs = dccsBeetleSulfurFamily;
-            dpSulfurPoolsMonsters.poolCategories[1].includedIfConditionsMet = dpSulfurPoolsMonsters.poolCategories[1].includedIfConditionsMet.Add(FamilyExtraParent, FamilyExtraLarva);
+           dpSulfurPoolsMonsters.poolCategories[1].includedIfConditionsMet = dpSulfurPoolsMonsters.poolCategories[1].includedIfConditionsMet.Add(FamilyExtraParent, FamilyExtraLarva);
             //
             //Wouldn't we need to replace the normal Golem Family here or is there just no Golem Family
             dpDampCaveMonsters.poolCategories[1].includedIfConditionsMet = dpDampCaveMonsters.poolCategories[1].includedIfConditionsMet.Add(FamilyExtraGolemAbyssal, FamilyExtraParent, FamilyExtraWorms);

@@ -25,7 +25,7 @@ namespace LittleGameplayTweaks
                 spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarExploder"),
                 selectionWeight = 1,
                 preventOverhead = false,
-                minimumStageCompletions = 1,
+                minimumStageCompletions = 10,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
             DirectorCard LoopLunarGolem = new DirectorCard
@@ -33,7 +33,7 @@ namespace LittleGameplayTweaks
                 spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarGolem"),
                 selectionWeight = 1,
                 preventOverhead = false,
-                minimumStageCompletions = 1,
+                minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
             DirectorCard LoopLunarWisp = new DirectorCard
@@ -41,7 +41,7 @@ namespace LittleGameplayTweaks
                 spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarWisp"),
                 selectionWeight = 1,
                 preventOverhead = true,
-                minimumStageCompletions = 1,
+                minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
 

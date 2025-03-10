@@ -445,6 +445,23 @@ namespace LoopVariants
         }
 
 
+        public bool ShouldAddLoopEnemies(DirectorCardCategorySelection dccs)
+        {
+            if (dccs == null || !LoopVariantsMain.AddMonsters)
+            {
+                return false;
+            }
+            if (RunArtifactManager.instance && RunArtifactManager.instance.IsArtifactEnabled(RoR2Content.Artifacts.mixEnemyArtifactDef))
+            {
+                return false;
+            }
+            if (dccs && dccs is FamilyDirectorCardCategorySelection)
+            {
+                return false;
+            }
+            return true;
+        }
+
         private void Official_Variants_MainPath(On.RoR2.Run.orig_PickNextStageScene orig, Run self, WeightedSelection<SceneDef> choices)
         {
             orig(self, choices);

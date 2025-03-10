@@ -14,7 +14,8 @@ namespace LittleGameplayTweaks
     public class ChangesCharacters
     {
         public static ItemDef MarriageLemurianIdentifier = ScriptableObject.CreateInstance<ItemDef>();
-        public static ExplicitPickupDropTable DropTableForBossScav = null;
+        public static BasicPickupDropTable DropTableForBossScav = ScriptableObject.CreateInstance<BasicPickupDropTable>();
+        public static PickupIndex ScavBossItem = PickupIndex.none;
 
         public static void Start()
         {
@@ -31,6 +32,25 @@ namespace LittleGameplayTweaks
                 On.RoR2.ScriptedCombatEncounter.BeginEncounter += VoidlingLevelLimit;
             }
 
+            DropTableForBossScav.name = "dtScavRandomBoss";
+            DropTableForBossScav.tier1Weight = 0;
+            DropTableForBossScav.tier2Weight = 0;
+            DropTableForBossScav.tier3Weight = 0;
+            DropTableForBossScav.bossWeight = 1;
+            DropTableForBossScav.bannedItemTags = new ItemTag[]
+            {
+                ItemTag.AIBlacklist,
+                ItemTag.SprintRelated,
+            };
+
+
+            On.RoR2.AffixBeadAttachment.OnEnable += AffixBeadAttachment_OnEnable;
+        }
+
+        private static void AffixBeadAttachment_OnEnable(On.RoR2.AffixBeadAttachment.orig_OnEnable orig, AffixBeadAttachment self)
+        {
+            orig(self);
+            self.cooldownAfterFiring = 2;
         }
 
         private static void VoidlingLevelLimit(On.RoR2.ScriptedCombatEncounter.orig_BeginEncounter orig, ScriptedCombatEncounter self)
@@ -407,11 +427,11 @@ namespace LittleGameplayTweaks
                     {
                         deathreward.bossDropTable = DropTableForBossScav;
                     }
-                    ItemDef tempdef = (ItemDef)DropTableForBossScav.pickupEntries[0].pickupDef;
-                    int ItemCount = 2;
+                    ItemDef tempdef = ItemCatalog.GetItemDef(ScavBossItem.pickupDef.itemIndex);
+                    int ItemCount = 1;
                     if (tempinv.currentEquipmentIndex != EquipmentIndex.None && tempinv.currentEquipmentState.equipmentDef.passiveBuffDef && tempinv.currentEquipmentState.equipmentDef.passiveBuffDef.isElite)
                     {
-                        ItemCount = 3;
+                        ItemCount = 2;
                     }
                     else
                     {
@@ -480,7 +500,6 @@ namespace LittleGameplayTweaks
         public static void MarriedLemurianBandActivator(ILContext il)
         {
             ILCursor c = new ILCursor(il);
-
             if (c.TryGotoNext(MoveType.After,
                     x => x.MatchLdsfld("EntityStates.LemurianBruiserMonster.FireMegaFireball", "damageCoefficient")))
             {

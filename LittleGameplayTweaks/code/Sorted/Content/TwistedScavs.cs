@@ -150,7 +150,7 @@ namespace LittleGameplayTweaks
             ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().equipmentString = "GummyClone";
             ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
                 new GivePickupsOnStart.ItemInfo { itemString = ("BoostEquipmentRecharge"), count = 10, },
-                //new GivePickupsOnStart.ItemInfo { itemString = ("EquipmentMagazine"), count = 1, },
+                new GivePickupsOnStart.ItemInfo { itemString = ("EquipmentMagazine"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("PermanentDebuffOnHit"), count = 2, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("RandomDamageZone"), count = 1, },
                 new GivePickupsOnStart.ItemInfo { itemString = ("Incubator"), count = 3, },

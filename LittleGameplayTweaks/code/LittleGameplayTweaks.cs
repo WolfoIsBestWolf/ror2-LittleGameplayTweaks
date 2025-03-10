@@ -18,7 +18,7 @@ namespace LittleGameplayTweaks
 {
     [BepInDependency("com.bepis.r2api")]
     [BepInDependency("Wolfo.LoopVariants", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInPlugin("com.Wolfo.LittleGameplayTweaks", "LittleGameplayTweaks", "3.3.0")]
+    [BepInPlugin("com.Wolfo.LittleGameplayTweaks", "LittleGameplayTweaks", "3.3.4")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
 
 
@@ -27,8 +27,7 @@ namespace LittleGameplayTweaks
         static readonly System.Random random = new System.Random();
         //public static ItemDef NoDamageFromVoidFog = ScriptableObject.CreateInstance<ItemDef>();
  
-        public static List<ExplicitPickupDropTable> AllScavCompatibleBossItems = new List<ExplicitPickupDropTable>();
-
+         
 
         public void Awake()
         {
@@ -104,27 +103,7 @@ namespace LittleGameplayTweaks
 
                 bool dlc1 = RoR2.EntitlementManagement.EntitlementManager.localUserEntitlementTracker.AnyUserHasEntitlement(Addressables.LoadAssetAsync<RoR2.EntitlementManagement.EntitlementDef>(key: "RoR2/DLC1/Common/entitlementDLC1.asset").WaitForCompletion());
                 bool dlc2 = RoR2.EntitlementManagement.EntitlementManager.localUserEntitlementTracker.AnyUserHasEntitlement(Addressables.LoadAssetAsync<RoR2.EntitlementManagement.EntitlementDef>(key: "RoR2/DLC1/Common/entitlementDLC2.asset").WaitForCompletion());
-
-                if (WConfig.onlyUpdateMostRecentSpawnPools.Value)
-                {
-                    if (dlc2)
-                    {
-                        DoDCCSChanges(2);
-                    }
-                    else if (dlc1)
-                    {
-                        DoDCCSChanges(1);
-                    }
-                    else
-                    {
-                        DoDCCSChanges(0);
-                    }
-                }
-                else
-                {
-                    DoDCCSChanges(-1);
-                }
-
+ 
                 Debug.Log(userProfile.name + " has DLC1 : " + dlc1);
                 Debug.Log(userProfile.name + " has DLC2 : " + dlc2);
                 if (dlc1 && WConfig.cfgScavNewTwisted.Value)
@@ -135,69 +114,7 @@ namespace LittleGameplayTweaks
             }
         }
 
-        public static void DoDCCSChanges(int changeNum)
-        {
-            Debug.Log("Doing Spawn Pools for DLC " + changeNum);
-            if (WConfig.DCCSEnemyChanges.Value)
-            {
-                switch (changeNum)
-                {
-                    case 0:
-                        DCCSEnemies.EnemiesPreLoop_NoDLC();
-                        break;
-                    case 1:
-                        DCCSEnemies.EnemiesPreLoop_DLC1();
-                        break;
-                    case 2:
-                        DCCSEnemies.EnemiesPreLoop_DLC2();
-                        break;
-                    default:
-                        DCCSEnemies.EnemiesPreLoop_NoDLC();
-                        DCCSEnemies.EnemiesPreLoop_DLC1();
-                        DCCSEnemies.EnemiesPreLoop_DLC2();
-                        break;
-                }
-            }
-            if (WConfig.DCCSEnemyChangesLooping.Value)
-            {
-                switch (changeNum)
-                {
-                    case 0:
-                        break;
-                    case 1:
-                        DCCSEnemies.EnemiesPostLoop_DLC1();
-                        break;
-                    case 2:
-                        DCCSEnemies.EnemiesPostLoop_DLC2();
-                        break;
-                    default:
-                        DCCSEnemies.EnemiesPostLoop_DLC1();
-                        DCCSEnemies.EnemiesPostLoop_DLC2();
-                        break;
-                }
-            }
-            if (WConfig.DCCSInteractableChanges.Value)
-            {
-                switch (changeNum)
-                {
-                    default:
-                        DCCSInteractables.DCCSThings_NoDLC();
-                        DCCSInteractables.DCCSThings_DLC1();
-                        DCCSInteractables.DCCSThings_DLC2();
-                        break;
-                    case 0:
-                        DCCSInteractables.DCCSThings_NoDLC();
-                        break;
-                    case 1:
-                        DCCSInteractables.DCCSThings_DLC1();
-                        break;
-                    case 2:
-                        DCCSInteractables.DCCSThings_DLC2();
-                        break;
-                }
-            }
-        }
-
+        
 
         private void CharacterBody_OnSkillActivated(On.RoR2.CharacterBody.orig_OnSkillActivated orig, CharacterBody self, GenericSkill skill)
         {
@@ -499,33 +416,7 @@ namespace LittleGameplayTweaks
 
 
             DLC1Content.Items.RegeneratingScrapConsumed.canRemove = false;
-
-            ExplicitPickupDropTable[] ExplicitPickupDropTableList = Resources.FindObjectsOfTypeAll(typeof(ExplicitPickupDropTable)) as ExplicitPickupDropTable[];
-            //Debug.LogWarning(ExplicitPickupDropTableList.Length);
-            for (int i = 0; i < ExplicitPickupDropTableList.Length; i++)
-            {
-                //Debug.LogWarning(ExplicitPickupDropTableList[i]);
-                ExplicitPickupDropTableList[i].canDropBeReplaced = false;
-
-                if (ExplicitPickupDropTableList[i].name.StartsWith("dtBoss"))
-                {
-                    foreach (RoR2.ExplicitPickupDropTable.PickupDefEntry entry in ExplicitPickupDropTableList[i].pickupEntries)
-                    {
-                        ItemDef tempitemdef = (entry.pickupDef as ItemDef);
-                        if (tempitemdef && tempitemdef.tier == ItemTier.Boss && tempitemdef.DoesNotContainTag(ItemTag.WorldUnique))
-                        {
-                            AllScavCompatibleBossItems.Add(ExplicitPickupDropTableList[i]);
-                            //Debug.LogWarning(ExplicitPickupDropTableList[i]);
-                        }
-                    }
-                }
-
-
-            }
-
-
-
-
+ 
             On.RoR2.UI.MainMenu.MainMenuController.Start -= OneTimeOnlyLateRunner;
         }
 
@@ -534,7 +425,7 @@ namespace LittleGameplayTweaks
             orig(self);
             if (WConfig.cfgScavBossItem.Value)
             {
-                ChangesCharacters.DropTableForBossScav = AllScavCompatibleBossItems[WRect.random.Next(AllScavCompatibleBossItems.Count)];
+                ChangesCharacters.ScavBossItem = ChangesCharacters.DropTableForBossScav.GenerateDrop(self.rng);
                 if (Run.instance && Run.instance.stageClearCount > 7)
                 {
                     int ran = random.Next(10);

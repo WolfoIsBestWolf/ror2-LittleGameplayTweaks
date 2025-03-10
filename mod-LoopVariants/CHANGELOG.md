@@ -1,5 +1,8 @@
 ## Changelog:
 ```
+v1.4.2
+Fixed for False Son patch.
+
 v1.4.1
 Added config to alternate loop variants, default false. (Loop 0 and 2, basic variants, Loop 1 / 3 alts)
 Made default loop2+ chance 50%.

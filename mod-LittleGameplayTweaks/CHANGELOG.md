@@ -1,5 +1,15 @@
 ## Changelog:
 ```
+v3.3.4
+Updated for False Son patch.
+
+v3.3.3
+Made "Eclipse allowed artifacts" a blacklist by default.
+Added a config to allow all artifacts in Eclipse mode to further avoid the issue.
+Fixed an issue with Scavs getting boss items.
+Fixed Eclipse Void and Moment Whole config being switched around.
+
+
 v3.3.2
 Removed Wloop as dependence.
 Removed various monster additions that are intended for loop weather, are now part of that mod technically.

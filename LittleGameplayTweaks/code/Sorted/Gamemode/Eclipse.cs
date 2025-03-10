@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 
 namespace LittleGameplayTweaks
 {
@@ -15,7 +17,28 @@ namespace LittleGameplayTweaks
             On.EntityStates.Interactables.MSObelisk.EndingGame.DoFinalAction += EndingGame_DoFinalAction;
 
             On.RoR2.EclipseRun.OverrideRuleChoices += EclipseRun_OverrideRuleChoices;
+            IL.RoR2.EclipseRun.OverrideRuleChoices += EclipseRun_DontRemoveArtifacts;
+        }
 
+        private static void EclipseRun_DontRemoveArtifacts(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.After,
+            x => x.MatchCall("RoR2.ArtifactCatalog", "get_artifactCount")))
+            {
+                c.EmitDelegate<Func<int, int>>((damageCoeff) =>
+                {
+                    if (WConfig.EclipseAllowChoiceArtifacts.Value >= WConfig.EclipseArtifact.Blacklist)
+                    {
+                        return 0;
+                    }
+                    return damageCoeff;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL FAILED : EclipseRun_DontRemoveArtifacts");
+            }
         }
 
         public static void ReverseForceChoice(ArtifactDef artifact, RuleChoiceMask mustInclude, RuleChoiceMask mustExclude)
@@ -23,7 +46,6 @@ namespace LittleGameplayTweaks
             if (artifact)
             {
                 RuleDef ruleDef = RuleCatalog.FindRuleDef("Artifacts." + artifact.cachedName);
-                Debug.Log(ruleDef);
                 if (ruleDef != null)
                 {
                     foreach (RuleChoiceDef ruleChoiceDef in ruleDef.choices)
@@ -34,42 +56,78 @@ namespace LittleGameplayTweaks
                 }
             }            
         }
-
+        public static void ForceChoiceOff(ArtifactDef artifact, RuleChoiceMask mustInclude, RuleChoiceMask mustExclude)
+        {
+            if (artifact)
+            {
+                RuleDef ruleDef = RuleCatalog.FindRuleDef("Artifacts." + artifact.cachedName);
+                RuleChoiceDef choiceDef = ruleDef.FindChoice("Off");
+                if (choiceDef != null)
+                {
+                    foreach (RuleChoiceDef ruleChoiceDef in choiceDef.ruleDef.choices)
+                    {
+                        mustInclude[ruleChoiceDef.globalIndex] = false;
+                        mustExclude[ruleChoiceDef.globalIndex] = true;
+                    }
+                    mustInclude[choiceDef.globalIndex] = true;
+                    mustExclude[choiceDef.globalIndex] = false;
+                }
+            }
+        }
 
 
         private static void EclipseRun_OverrideRuleChoices(On.RoR2.EclipseRun.orig_OverrideRuleChoices orig, EclipseRun self, RuleChoiceMask mustInclude, RuleChoiceMask mustExclude, ulong runSeed)
         {
             orig(self, mustInclude, mustExclude, runSeed);
 
-            if (WConfig.EclipseAllowChoiceArtifacts.Value)
+            if (WConfig.EclipseAllowChoiceArtifacts.Value != WConfig.EclipseArtifact.Off)
             {
-                //Does this check if it's unlocked??
-                ReverseForceChoice(RoR2Content.Artifacts.Bomb, mustInclude, mustExclude);
-                ReverseForceChoice(RoR2Content.Artifacts.EliteOnly, mustInclude, mustExclude);
-                ReverseForceChoice(RoR2Content.Artifacts.FriendlyFire, mustInclude, mustExclude);
-                ReverseForceChoice(RoR2Content.Artifacts.MixEnemy, mustInclude, mustExclude);
 
-                ReverseForceChoice(RoR2Content.Artifacts.MonsterTeamGainsItems, mustInclude, mustExclude);
-                ReverseForceChoice(RoR2Content.Artifacts.ShadowClone, mustInclude, mustExclude);
-                ReverseForceChoice(RoR2Content.Artifacts.TeamDeath, mustInclude, mustExclude);
-                ReverseForceChoice(RoR2Content.Artifacts.WispOnDeath, mustInclude, mustExclude);
+                
+                for (int j = 0; j < ArtifactCatalog.artifactCount; j++)
+                {
+                    Debug.Log(ArtifactCatalog.artifactDefs[j].cachedName);
+                }
 
-                ReverseForceChoice(ArtifactCatalog.FindArtifactDef("SingleEliteType"), mustInclude, mustExclude);
-                ReverseForceChoice(ArtifactCatalog.FindArtifactDef("RandomLoadoutOnRespawn"), mustInclude, mustExclude);
 
-                //Weirded options
-                /*
-                ReverseForceChoice(RoR2Content.Artifacts.Enigma, mustInclude, mustExclude);
-                ReverseForceChoice(CU8Content.Artifacts.Devotion, mustInclude, mustExclude);
-                ReverseForceChoice(RoR2Content.Artifacts.Swarms, mustInclude, mustExclude);
-                ReverseForceChoice(RoR2Content.Artifacts.Glass, mustInclude, mustExclude);
+                if (WConfig.EclipseAllowChoiceArtifacts.Value == WConfig.EclipseArtifact.Some)
+                {
+                    //Does this check if it's unlocked??
+                    ReverseForceChoice(RoR2Content.Artifacts.Bomb, mustInclude, mustExclude);
+                    ReverseForceChoice(RoR2Content.Artifacts.EliteOnly, mustInclude, mustExclude);
+                    ReverseForceChoice(RoR2Content.Artifacts.FriendlyFire, mustInclude, mustExclude);
+                    ReverseForceChoice(RoR2Content.Artifacts.MixEnemy, mustInclude, mustExclude);
 
-                ReverseForceChoice(ArtifactCatalog.FindArtifactDef("SingleInteractablePerCategory"), mustInclude, mustExclude);
-                ReverseForceChoice(ArtifactCatalog.FindArtifactDef("SingleItemPerTier"), mustInclude, mustExclude);
-                ReverseForceChoice(ArtifactCatalog.FindArtifactDef("StatsOnLowHealth"), mustInclude, mustExclude);
-                ReverseForceChoice(ArtifactCatalog.FindArtifactDef("MixInteractable"), mustInclude, mustExclude);
-                ReverseForceChoice(ArtifactCatalog.FindArtifactDef("RerollItemsAndEquipments"), mustInclude, mustExclude);
-                */
+                    ReverseForceChoice(RoR2Content.Artifacts.MonsterTeamGainsItems, mustInclude, mustExclude);
+                    ReverseForceChoice(RoR2Content.Artifacts.ShadowClone, mustInclude, mustExclude);
+                    ReverseForceChoice(RoR2Content.Artifacts.TeamDeath, mustInclude, mustExclude);
+                    ReverseForceChoice(RoR2Content.Artifacts.WispOnDeath, mustInclude, mustExclude);
+
+                    ArtifactDef moddedDef = ArtifactCatalog.FindArtifactDef("SingleEliteType");
+                    if (moddedDef != null)
+                    {
+                        ReverseForceChoice(moddedDef, mustInclude, mustExclude);
+                        ReverseForceChoice(ArtifactCatalog.FindArtifactDef("RandomLoadoutOnRespawn"), mustInclude, mustExclude);
+                        ReverseForceChoice(ArtifactCatalog.FindArtifactDef("SingleInteractablePerCategory"), mustInclude, mustExclude);
+                        ReverseForceChoice(ArtifactCatalog.FindArtifactDef("SingleItemPerTier"), mustInclude, mustExclude);
+                        ReverseForceChoice(ArtifactCatalog.FindArtifactDef("MixInteractable"), mustInclude, mustExclude);
+                        ReverseForceChoice(ArtifactCatalog.FindArtifactDef("RerollItemsAndEquipments"), mustInclude, mustExclude);
+                    }
+                }
+                else if (WConfig.EclipseAllowChoiceArtifacts.Value == WConfig.EclipseArtifact.Blacklist)
+                {
+
+                    ForceChoiceOff(RoR2Content.Artifacts.Command, mustInclude, mustExclude);
+                    ForceChoiceOff(RoR2Content.Artifacts.RandomSurvivorOnRespawn, mustInclude, mustExclude);
+                    ForceChoiceOff(RoR2Content.Artifacts.Glass, mustInclude, mustExclude);
+                    ForceChoiceOff(CU8Content.Artifacts.Delusion, mustInclude, mustExclude);
+                    ForceChoiceOff(DLC2Content.Artifacts.Rebirth, mustInclude, mustExclude);
+                    ForceChoiceOff(ArtifactCatalog.FindArtifactDef("CLASSICITEMSRETURNS_ARTIFACT_CLOVER"), mustInclude, mustExclude);
+                    ForceChoiceOff(ArtifactCatalog.FindArtifactDef("ARTIFACT_SPOILS"), mustInclude, mustExclude);
+                    ForceChoiceOff(ArtifactCatalog.FindArtifactDef("ARTIFACT_ZETDROPIFACT"), mustInclude, mustExclude);
+                    ForceChoiceOff(ArtifactCatalog.FindArtifactDef("ZZT_CommandTrueCommand"), mustInclude, mustExclude);
+                     
+                }
             }
 
 

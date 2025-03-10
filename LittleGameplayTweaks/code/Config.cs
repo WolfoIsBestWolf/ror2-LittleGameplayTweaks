@@ -16,8 +16,9 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> EclipseAllowTwisted;
         public static ConfigEntry<bool> EclipseAllowArtifactWorld;
 
-        public static ConfigEntry<bool> EclipseAllowChoiceArtifacts;
+        public static ConfigEntry<EclipseArtifact> EclipseAllowChoiceArtifacts;
         public static ConfigEntry<bool> EclipseAllowChoiceWeirdArtifacts;
+        public static ConfigEntry<bool> EclipseAllowChoiceAllowAllArtifacts;
 
         public static ConfigEntry<bool> PrismElites;
         //public static ConfigEntry<bool> PrismDefaultRemix;
@@ -44,7 +45,7 @@ namespace LittleGameplayTweaks
         
         //
         public static ConfigEntry<bool> DCCSInteractableChanges;
-        public static ConfigEntry<bool> DCCSCategoryChest;
+        //public static ConfigEntry<bool> DCCSCategoryChest;
         public static ConfigEntry<bool> DCCSInteractableCostChanges;
         public static ConfigEntry<bool> DccsAddCategoryToSots;
 
@@ -110,21 +111,27 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> EclipseDifficultyAlways;
         //
        
-
+        public enum EclipseArtifact
+        {
+            Off,
+            Some,
+            Blacklist,
+            All,
+        }
 
         public static void InitConfig()
         {
-            EclipseAllowVoid = ConfigFileUNSORTED.Bind(
+            EclipseAllowTwisted = ConfigFileUNSORTED.Bind(
                 "Gamemodes",
                 "Eclipse allow Moment Whole",
                 true,
                 "Allows Celestial Portal to spawn so you can use Twisted Scav as an alternate final boss in Eclipse. The obelisk will always take you to Moment Whole even if you do not have Beads."
             );
-            EclipseAllowTwisted = ConfigFileUNSORTED.Bind(
+            EclipseAllowVoid = ConfigFileUNSORTED.Bind(
                 "Gamemodes",
                 "Eclipse allow Void Locus",
                 true,
-                "Allows Void Portals to spawn so you can use Voidling as an alternate final boss in Eclipse."
+                "Allows Void Portals to spawn so you can use Voidling as an alternate final boss in Eclipse. Does not affect the Deep Void Portal after Mithrix of course."
             );
             EclipseAllowArtifactWorld = ConfigFileUNSORTED.Bind(
                 "Gamemodes",
@@ -135,9 +142,10 @@ namespace LittleGameplayTweaks
             EclipseAllowChoiceArtifacts = ConfigFileUNSORTED.Bind(
                 "Gamemodes",
                 "Eclipse choose some Artifacts",
-                true,
-                "Allows the choice of often considered challenge or variety artifacts.\n\nDeath, Chaos, Honor, Evolution, Spite, Soul, Vengence, Dissonance"
+                EclipseArtifact.Blacklist,
+                "Allows the choice of often considered challenge or variety artifacts.\n\nWhitelist : Specifically made Whitelist of challenge or variety Vanilla Artifacts.\nBlacklist : All except Artifacts that make the game easier. (Includes Modded ones) (Command, Rebirth)\nAll : All"
             );
+ 
             /*PrismDefaultRemix = ConfigFileUNSORTED.Bind(
                 "Gamemodes",
                 "Prismatic Remix",
@@ -238,12 +246,12 @@ namespace LittleGameplayTweaks
                 true,
                 "Seekers of the Storm changes do not have Large Category Chests in the pool by default"
             );
-            DCCSCategoryChest = ConfigFileUNSORTED.Bind(
+            /*DCCSCategoryChest = ConfigFileUNSORTED.Bind(
                 "Spawnpool - Interactables",
                 "Category Chest limitation",
                 false,
                 "Only one type of Category chest per stage. This feature was cut from the mod, but config for people who still want it."
-            );
+            );*/
             DCCSInteractableCostChanges = ConfigFileUNSORTED.Bind(
                 "Spawnpool - Interactables",
                 "Cheaper Interactable Credits",
@@ -574,7 +582,7 @@ namespace LittleGameplayTweaks
             ModSettingsManager.AddOption(new CheckBoxOption(EclipseAllowVoid, false));
             ModSettingsManager.AddOption(new CheckBoxOption(EclipseAllowTwisted, false));
             ModSettingsManager.AddOption(new CheckBoxOption(EclipseAllowArtifactWorld, false));
-            ModSettingsManager.AddOption(new CheckBoxOption(EclipseAllowChoiceArtifacts, false));
+            ModSettingsManager.AddOption(new ChoiceOption(EclipseAllowChoiceArtifacts, false));
             ModSettingsManager.AddOption(new CheckBoxOption(PrismAllowChoiceArtifacts, false));
             //ModSettingsManager.AddOption(new CheckBoxOption(PrismDefaultRemix, false));
 

@@ -43,11 +43,7 @@ namespace LittleGameplayTweaks
             GameObject DestinationPortal = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/PM DestinationPortal.prefab").WaitForCompletion();
             DestinationPortal.GetComponent<SceneExitController>().useRunNextStageScene = true;
 
-            SceneDef meridian = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC2/meridian/meridian.asset").WaitForCompletion();
-            meridian.destinationsGroup = Addressables.LoadAssetAsync<SceneCollection>(key: "RoR2/Base/SceneGroups/sgStage5.asset").WaitForCompletion();
-            meridian.loopedDestinationsGroup = Addressables.LoadAssetAsync<SceneCollection>(key: "RoR2/Base/SceneGroups/loopSgStage5.asset").WaitForCompletion();
-
- 
+          
             if (ConfigStages.Stage_F_Moon.Value)
             {
                 On.RoR2.EscapeSequenceController.OnEnable += EscapeSequenceController_OnEnable;
@@ -129,10 +125,6 @@ namespace LittleGameplayTweaks
                             }
                         }     
                         //UnityEngine.RenderSettings.defaultReflectionMode
-
-                        break;
-                    case "meridian":
-                        Run.instance.PickNextStageSceneFromCurrentSceneDestinations();
                         break;
                 }
             }
