@@ -1,0 +1,51 @@
+﻿using BepInEx;
+using R2API.Utils;
+using RoR2;
+using System.Security;
+using System.Security.Permissions;
+
+#pragma warning disable CS0618 // Type or member is obsolete
+[assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
+#pragma warning restore CS0618 // Type or member is obsolete
+[module: UnverifiableCode]
+
+namespace LittleGameplayFeatures
+{
+    [BepInDependency("com.bepis.r2api")]
+    [BepInPlugin("Wolfo.LittleGameplayTweaksFeatures", "LittleGameplayFeatures", "3.5.0")]
+    [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
+
+    public class LittleGameplayTweaks : BaseUnityPlugin
+    {
+        static readonly System.Random random = new System.Random();
+
+        public void Awake()
+        {
+            Assets.Init(Info);
+            WConfig.InitConfig();
+
+            TwistedScavs.Start();
+            TripleShopLegendary.Start();
+            NewFamilyEvents.Families();
+            Prism_Run.Start();
+
+            GameModeCatalog.availability.CallWhenAvailable(LateMethod);
+        }
+
+        public void Start()
+        {
+            WConfig.RiskConfig();
+        }
+
+        internal static void LateMethod()
+        {
+            TripleShopLegendary.AddPingIcon();
+            NewFamilyEvents.ModSupport();
+            Prism_Run.LateRunningMethod();
+        }
+
+
+    }
+
+
+}

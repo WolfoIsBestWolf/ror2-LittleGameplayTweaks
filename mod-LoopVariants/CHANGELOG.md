@@ -1,5 +1,13 @@
 ## Changelog:
 ```
+v1,4,5
+Now uses RequiredByAllCheck to see if it should
+-Should do gameplay changes (If Host) 
+-Wait for Host to decide Weather or roll (Client)
+
+v1.4.3
+Fixed Bazaar Seers breaking on loops.
+
 v1.4.2
 Fixed for False Son patch.
 

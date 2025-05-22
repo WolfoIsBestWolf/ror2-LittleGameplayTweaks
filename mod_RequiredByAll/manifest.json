@@ -1,0 +1,9 @@
+{
+    "name": "RequiredByAllCheck",
+    "version_number": "1.0.0",
+    "website_url": "",
+    "description": "[RequiredByAll] Optional extras that need to be synced. Disable this if you want to use LittleGameplayTweaks & VanillaArtifactsPlus with non mod owners",
+    "dependencies": [
+		"bbepis-BepInExPack-5.4.9"
+    ]
+}

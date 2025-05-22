@@ -1,135 +1,138 @@
-### Info
-This mod is required by all players.
+This mod should work entirely fine if only the Host has the mod.
 
-If you wish to use this mod with players who do not have it. You can disable any new content added by this mod.\
-This includes, the new Twisted Scavengers, Red Multishops and Aquaduct Elders using bands.
+Everything configurable ingame via RiskOfOptions.
 
 ## Spawn Pools
-A couple enemies have been moved or replaced to encourage enemy diversity.\
-Check Mod Wiki Tab on details.\
-Grovetender will replace Stone Titan in Sundered Grove and Bighorn Bison spawn in Snowy Forest as examples.
+A couple enemies have been moved or replaced to encourage enemy diversity.
+- Bison instead of Greater Wisp on Siphoned Forest
+- Grovetender instead of Stone Titan on Sundered Grove
+- Solus Control Unit instead of Clay Dunestrider on Rallypoint Delta
+- Ingame Config can tell you the details.
+- Every stage will have at least 1 enemy addition on loops.
 
-Every stage will have at least 1 enemy addition on loops.
+Gup family event now spawns Geep & Gip too\
+Parent family event now spawns Grandparent & Children too
 
-Adds Clay, Solus, Parent, Worms and Vermin Family Events and cleans up Family variety for more diversity.\
-The Gup family event now spawns Geep and Gip too.
-Family events are now a 1/45 instead of 1/50 chance.  
+Mili-Printers, Cleansing Pools and Equipment Drones are a bit more common\
+Shrine of Order & TC-280 (on loops) will spawn on some additional stages.
 
-Rare Printers, Cleansing Pools and Mountain Shrines are made more common.
+Reduces Credits cost of:
+- Shrine of Blood, Combat, Order, Healing, Shaping, Lunar Chest, Void Potential, TC-280.
+- Parents, Greater Wisps, Void Reavers
 
-Shrine of Order and TC280 (on loops) will spawn on some additional stages.
-
-Makes Shrine of Blood, Combat, Order, Healing, Lunar Chest, Void Potential, Tc280 cost less to spawn.
+Increases Credits cost of:
+- Blind Pest
 
 
 ![Image of Grovetender in Sundered Grove and Solus Control Unit in Rallypoint Delta](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks/main/modPageImages/ltgGrovetender.png)
 
 ## Stages
+Titanic Plains & Distant Roost get slightly more credits (due new Stage 1s having so many)\
+Abandoned Aquaduct scale their credits better in multiplayer\
+Siren's Call & Sundered Grove get slightly more credits (due to Abyssal having so many half the time)
 
-Plains/Roost and Sirens/Grove get a small amount more interactable credits to even them out against Siphoned/Verdant/Shattered, Abyssal.  
-
-Gilded Coast will have some interactables. (Combat Shrines, Cleansing Pools, a chest or two more)
-
-Primordial Teleporter will always have a Purple Orb to Void Locust.\
-Deep Void Signal now takes 45 seconds instead of 60.
-
-Void Fields, Void Locust and Planetarium now all have stopped time, but count as a stage when completed.
-
-Void Fields cells now charge faster (30s for the first 4, 45s for the next 4, 60 for the last).\
+Gilded Coast will have some extra shrines.
+ 
+Void Fields Cells now charge faster 
+- (30s for the first 4, 45s for the next 4, 60 for the last).
 Cells now have a regenerating aura before activating them.
 
+Deep Void Signal now takes 45 seconds instead of 60 & has a 30% larger Radius.
+
+Void Locust & Planetarium dont count as stages completed.
+
 The Bazaar has a third Lunar Seer.
+ 
+## Monsters, Survivors, Drones
 
-Every 5th stage will also have a Celestial Portal on loops.  
-(Feels weird going to Twisted in the middle of a loop)
+Mending Elites on-death effect now heals more per level.
 
-## Enemies
-Config for raising the enemy level cap to 999.\
--(Will make stage 10+ a lot harder).
+Twisted Elites have less cooldown on their ability\
+Twisted Elites projectile can no longer be killed\
+Twisted Elites projectile inflicts 5s of skills disabled.
 
-Tier 2 elites have been made cheaper. (30x instead of 36x)\
--(Both of these be turned off anytime ingame via Risk of Options)
+Aquaduct Elder Lemurians now activate their Bands & scale with difficulty.
+
+Elite XI's spawn elite Alphas. (no bonus stats)
+
+Mithrix Phase 4 skip fixed and invulnerable a bit longer.\
+Voidling has less special scaling.\
+Twisted Scav special scaling no longer counts 0 players.
 
 
-False Son gets Adaptive Armor on loops and is now freeze-able.
+Captain keeps his abilities in Hidden Realms.\ 
+Captain gets a third beacon with Lysate Cell.
 
-Elite Scavengers will be given more items.\
-Scavengers can be encountered as bosses and will be given 2 of a Boss Item.
+Huntress will use 2 Ballista Charges for 6 Shots with Lysate Cell.
 
-Adds 3 new Twisted Scavengers.
+More M2s can be used rapdily without pressing each time.
 
-The Aquaduct Elder Lemurians now activate their Bands and scale with difficulty.
-
-Healing Cores from Mending Elites now increase healing with level.
-
-Equipment Drones use their Equipment when targeting you so they can still use it when no enemies are around.
+Equipment Drones will fire their equipment as often as they can depending on the equipment. (ie Scanner, Jade Elephant)\
+TC-280 will have Adaptive Armor & resistance to AoE attacks.
 
 
 ## Interactables
-Faster Interactables : Printers, Scrappers and Shrines take less time between uses.
+Printers, Scrappers & Shrines are faster / have less delay.
 
-A new rare interactable, Mili-Multi Shop.
+- Halcyon Shrines
+	- Shrines drain gold faster
+	- Shrines no longer force SotS items.
+	- Shrines Stone Golems HP no longer multipled per player
+- Blood Shrines
+	- Cost 50/70/90 Blood to avoid breaking items on 2nd use.
+	- Scale reward with time
+- Shrine of Woods
+	- Price reduced to 10/13/18/25$ (from 25/37/55)
+	- Can be used a 4th time
+- Gunner Turret price reduced to 25$
+- TC-280 price reduced to 300$	 
+- R->W Cauldrons now grant 4 items instead of 3.
+ 
 
-Red to White Cauldrons now grant 4 White items instead of 3.\
-Shrine of Blood now costs 50/70/90% blood.\
-Shrine of Blood now gives 40/70/100 gold regardless of base health. (Scales with time)
-Shrine of Woods price reduced from 25/37/55 to 10/13/18/25.\
-Gunner Turret price reduced from 35 to 25.\
-TC280 price reduced from 350 to 300.
 
-![Image of Red Multishop](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks/main/modPageImages/ltgRedMulti.png)
+ 
+## Looping 
+Teleporters spawn 33% more bosses per loop.\
+Teleporter Bosses have 50% more health per loop.
+
+Every stage 5 will spawn a Void Portal & Celestial Portal
+
+Tier 2 elites are cheaper. (30x instead of 36x)
+
+Scavengers can be encountered as bosses & come with a yellow item.\
+Elite Scavengers will be given more items.
+
+\
+For people who don't like looping :
+- Config for Scavs on Stage 4 & 5
+- Config for Tier 2 Elites on Stage 5
+- Guaranteed Void Portal on Stage 5
+
 
 
 ## Other
-Elite Equipment have a 1/1500 chance of dropping.\
-Boss items are now a 20% chance to drop from a teleporter instead of 15%
+### Eclipse
+Allows normally disabled content :\
+	- Choice of most Artifacts. (excludes Command, Rebirth)\
+	- Moment Fractured and entering Moment Whole without Beads.\
+	- Void Locust access\
+	- Bulwarks Ambry access
+
+#
+### QoL
+Elite Equipment have a 1/1600 chance of dropping (instead of 1/4000).\
+Boss items are now a 20% chance to drop. (instead of 15%)
 
 Items teleport up if they fall off the map.
+ 
+ 
+#
+Making the stages interactables credits more equal and having less credits spent on bad interactables adds up to more items. Not too many but maybe a noticible difference.
 
-Fixes vanilla bug where Twisted Scavengers don't scale in multiplayer.
-
-
-## Character
-Captain keeps his abilities in Hidden Realms  
-
-Huntress will now use 2 Ballistas for 6 Shots per cast if you have two from Lysate Cell.
-
-Acrid is invulnerable during his spawn animation.  
-
-Commando is invulnerable during his default roll.  x
-
-## Gamemodes
-### Eclipse
-You can choose artifacts generally considered challenging or variety. (Death, Dissonance)
-
-Allows runs to access Moment Fractured, and enter Moment Whole without Beads.  
-Allows runs to access Void Locust to end the run via Voidling.  
-(Can add more variety during Eclipse climb if you loop, but Mithrix would still be the easiest)  
-
-### Prismatic Trials
-Prismatic Trial is now available with changes and fixes it for multiplayer use.
-
-Default settings are a remixed version of Prismatic Trials:  
--Choose your own Artifacts  
--Stages progress in Order  
--Doesn't end by default  
--Bosses get elite equipment starting stage 4  
--Forced Elites can be any elite instead of just Overloading/Blazing  
--Stage 4/5 require more crystals to be broken  
--Crystals cash reward scales with time.  
-
-You can still enable default Prismatic settings or random stage order if you want.
-
-
-##
-This mod makes the game easier.\
-Making the stages interactables credits more equal and having less credits spent on bad interactables adds up to more interactables. Not too many but probably a noticible difference.
 
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\
 If you're reporting a bug that isn't something obvious include the log file.
 
-### Every player needs this mod installed.
 
-Most things are configuerable.
 
-Also download my other mods
+ 

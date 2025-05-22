@@ -1,10 +1,9 @@
 {
-    "name": "LittleGameplayTweaks",
+    "name": "LittleGameplayFeatures",
     "version_number": "3.5.0",
     "website_url": "https://github.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks",
-    "description": "[Server-Side] Greater enemy variety in spawnpools, Gameplay QoL, Artifacts during Eclipse",
+    "description": "Prismatic Run gamemode. 4 new Family events, Red Multisop, 3 new Twisted Scavs",
     "dependencies": [
-		"Wolfo-DLCSpawnPoolFixer-1.0.0",
 		"Rune580-Risk_Of_Options-2.8.2",
 		"bbepis-BepInExPack-5.4.9",
 		"RiskofThunder-HookGenPatcher-1.2.1",

@@ -1,5 +1,47 @@
 ## Changelog:
 ```
+v3.5.0
+Made mod Server-Side and compatible with non mod owners. 
+If there's any weird desyncs still please tell me.
+Reset config, all config added to RiskOfOptions automatically.
+
+Moved Prismatic Trial during modded to WolfoQoL.
+Moved content into new mod: LittleGameplayFeatures
+-New Twisteds
+-Mili-Multishop
+-Prismatic Runs
+-New Family events
+Slowed down printers to not be weird on Clients.
+ 
+Made teleporters on loops spawn more mobs with more hp.
+Config to let Scavs spawn on Stage 4 & 5
+Config to let Tier2 Elite spawn on Stage 5
+
+Halcyon Shrines :
+- Removed forced SotS item
+- Gilded Halcyonite tagged as boss
+- Golems no longer have multiplied HP in multiplayer
+
+Twisted projectile can no longer be killed.
+Twisted elites disable skills for 5s instead of Lunar Ruin 420s
+Gave Mithrix Phase 4 slightly longer Invulnerability.
+Nerfed Voidling special scaling. (Instead of nerfing stats that could desync)
+Increased Cost of Blind Pests.
+Decreased Cost of Parent, Void Reaver, Emergency Drone.
+Elite XI now spawns Elite Alphas, like other minion bosses.
+
+Equipment Drones now use their equipment constantly depending on the equipment.
+Captain Beacon Limit set to 3 with Lysate Cell.
+
+Mod no longer increases Mountain Shrine spawn rate. 
+
+Fixed certain stages failing to spawn Monsters about 0.98% of the time. (Due to this mod)
+
+
+
+v3.3.5
+Third Seer won't be empty anymore if Bazaar replaces a Seer with Gilded/Void on Stage 5.
+
 v3.3.4
 Updated for False Son patch.
 
