@@ -153,7 +153,7 @@ namespace LittleGameplayTweaks
             earlyTier2 = ConfigFileLTG.Bind(
                 "Looping",
                 "Early Tier 2 Elites",
-                true,
+                false,
                 "Tier 2 Elites start spawning on Stage 5.\nInstead of Stage 6.\n\nFor Loop haters."
             );
             cheaperTier2.SettingChanged += Tier2_SettingChanged;
@@ -327,7 +327,7 @@ namespace LittleGameplayTweaks
             cfgHalcyon_NerfStats = ConfigFileLTG.Bind(
                 "Interactables",
                 "Halcyon Shrine | Stat Nerf",
-                true,
+                false,
                 "Gilded Halcyonite spawned by Halcyon Shrines have 20% less stats. (Up to 28% to rounding)"
             );
             cfgShrineBloodGold = ConfigFileLTG.Bind(

@@ -12,7 +12,7 @@ A alternative game mode based on Prismatic Trials, where it has the same rules b
  
  
 ## Miscellaneous
-A new rare interactable, Mili-Multi Shop.
+A new rare interactable: Mili-Multi Shop.
 
 Adds 3 new Twisted Scavengers that make use of DLC items.
 

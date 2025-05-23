@@ -190,10 +190,14 @@ namespace LittleGameplayTweaks
             for (int i = 0; i < EliteCatalog.eliteDefs.Length; i++)
             {
                 //Debug.LogWarning(EliteCatalog.eliteDefs[i].eliteEquipmentDef);
-                if (EliteCatalog.eliteDefs[i].eliteEquipmentDef.dropOnDeathChance != 0)
+                if (EliteCatalog.eliteDefs[i].eliteEquipmentDef)
                 {
-                    EliteCatalog.eliteDefs[i].eliteEquipmentDef.dropOnDeathChance = 1f / (float)WConfig.cfgAspectDropRate.Value;
+                    if (EliteCatalog.eliteDefs[i].eliteEquipmentDef.dropOnDeathChance != 0)
+                    {
+                        EliteCatalog.eliteDefs[i].eliteEquipmentDef.dropOnDeathChance = 1f / (float)WConfig.cfgAspectDropRate.Value;
+                    }
                 }
+                
             }
         }
 

@@ -1,5 +1,7 @@
 ## Changelog:
 ```
+v3.5.2 - Wrong config default value for some.
+v3.5.1 - Left a testing thing in
 v3.5.0
 Made mod Server-Side and compatible with non mod owners. 
 If there's any weird desyncs still please tell me.

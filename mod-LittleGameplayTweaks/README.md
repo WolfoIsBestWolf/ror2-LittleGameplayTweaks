@@ -33,8 +33,8 @@ Siren's Call & Sundered Grove get slightly more credits (due to Abyssal having s
 
 Gilded Coast will have some extra shrines.
  
-Void Fields Cells now charge faster 
-- (30s for the first 4, 45s for the next 4, 60 for the last).
+Void Fields Cells now charge faster\
+	- (30s for the first 4, 45s for the next 4, 60 for the last).\
 Cells now have a regenerating aura before activating them.
 
 Deep Void Signal now takes 45 seconds instead of 60 & has a 30% larger Radius.
@@ -60,7 +60,7 @@ Voidling has less special scaling.\
 Twisted Scav special scaling no longer counts 0 players.
 
 
-Captain keeps his abilities in Hidden Realms.\ 
+Captain keeps his abilities in Hidden Realms.\
 Captain gets a third beacon with Lysate Cell.
 
 Huntress will use 2 Ballista Charges for 6 Shots with Lysate Cell.

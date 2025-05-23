@@ -75,7 +75,7 @@ namespace LittleGameplayTweaks
             if (doIt)
             {
                 //Nvm game can't do it
-                /*
+                //If game overwrites seer with Gilded, doesn't use third seer properly
                 if (newSeer.targetSceneDefIndex == -1)
                 {
                     List<int> list = new List<int>();
@@ -101,7 +101,7 @@ namespace LittleGameplayTweaks
                         newSeer.GetComponent<PurchaseInteraction>().SetAvailable(true);
                     }
                 }
-                */
+                
 
             }
         }
