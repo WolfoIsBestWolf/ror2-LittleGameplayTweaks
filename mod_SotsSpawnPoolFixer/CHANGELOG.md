@@ -1,5 +1,13 @@
 ## Changelog:
 ```
+v1.3.3
+Removed Aphelian Sanctuary fix as it was fixed officially.
+Removed Helminth Log fix as it was fixed officially.
+Removed Disturbed Impact fix as it was fixed officially.
+
+v1.3.2
+Fixed Loop Seer config being applied invertedly.
+
 v1.3.1
 No longer removes NoCeiling flag, just fixes the wrong NodeGraphs.
 -It is a issue really only for Sanctuary.

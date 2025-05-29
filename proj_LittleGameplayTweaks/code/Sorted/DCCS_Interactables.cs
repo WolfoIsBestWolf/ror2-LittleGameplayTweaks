@@ -17,33 +17,34 @@ namespace LittleGameplayTweaks
 
                 Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/DuplicatorWild/iscDuplicatorWild.asset").WaitForCompletion().directorCreditCost = 15; //10 Default
 
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/VoidTriple/iscVoidTriple.asset").WaitForCompletion().directorCreditCost = 30; //40 default
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/VoidTriple/iscVoidTriple.asset").WaitForCompletion().directorCreditCost = 30; //iscVoidTriple
 
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/Chest1StealthedVariant/iscChest1Stealthed.asset").WaitForCompletion().directorCreditCost = 2; //10 default
-                //Addressables.LoadAssetAsync<InteractableSpawnCard>(key: "RoR2/Base/Chest1StealthedVariant/iscChest1Stealthed.asset").WaitForCompletion().maxSpawnsPerStage = 2;
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/Chest1StealthedVariant/iscChest1Stealthed.asset").WaitForCompletion().directorCreditCost = 4; //iscChest1Stealthed
 
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/VoidCoinBarrel/iscVoidCoinBarrel.asset").WaitForCompletion().directorCreditCost = 10; //15 default
-                LegacyResourcesAPI.Load<InteractableSpawnCard>("SpawnCards/InteractableSpawnCard/iscLunarChest").directorCreditCost = 15; //25 default
+                Addressables.LoadAssetAsync<SpawnCard>(key: "49eb4eedc03a0e746a643c3b6051bfc4").WaitForCompletion().directorCreditCost = 10; //iscVoidCoinBarrel
+ 
+                Addressables.LoadAssetAsync<SpawnCard>(key: "d21f2d3075f064e4081a41a368c505b1").WaitForCompletion().directorCreditCost = 15; //iscLunarChest
+ 
+                Addressables.LoadAssetAsync<SpawnCard>(key: "36f38da2d5e04e44abb4f5ed9788bad9").WaitForCompletion().directorCreditCost = 25; //iscBrokenEmergencyDrone
+                Addressables.LoadAssetAsync<SpawnCard>(key: "1439f6d216991ee469049c5ab7aff52e").WaitForCompletion().directorCreditCost = 35; //iscBrokenMegaDrone
+                Addressables.LoadAssetAsync<SpawnCard>(key: "caab08f30f159b54f92e7d42b4b1d717").WaitForCompletion().directorCreditCost = 4; //iscShrineHealing
 
-                LegacyResourcesAPI.Load<InteractableSpawnCard>("SpawnCards/InteractableSpawnCard/iscBrokenEmergencyDrone").directorCreditCost -= 5;
-                LegacyResourcesAPI.Load<InteractableSpawnCard>("SpawnCards/InteractableSpawnCard/iscBrokenMegaDrone").directorCreditCost = 35;
 
-                LegacyResourcesAPI.Load<InteractableSpawnCard>("SpawnCards/InteractableSpawnCard/iscShrineHealing").directorCreditCost = 5;
-
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestack.asset").WaitForCompletion().directorCreditCost = 5; //30 default (hopoo gaems)
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSandy.asset").WaitForCompletion().directorCreditCost = 5;
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSnowy.asset").WaitForCompletion().directorCreditCost = 5;
-
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBlood/iscShrineBlood.asset").WaitForCompletion().directorCreditCost = 15; //20 default
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBlood/iscShrineBloodSandy.asset").WaitForCompletion().directorCreditCost = 15;
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBlood/iscShrineBloodSnowy.asset").WaitForCompletion().directorCreditCost = 15;
-
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCombat/iscShrineCombat.asset").WaitForCompletion().directorCreditCost = 15; //20 default
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCombat/iscShrineCombatSandy.asset").WaitForCompletion().directorCreditCost = 15;
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCombat/iscShrineCombatSnowy.asset").WaitForCompletion().directorCreditCost = 15;
-
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC2/iscShrineColossusAccess.asset").WaitForCompletion().directorCreditCost = 40; //Rez Shrine
-                                                                                                                                                    //Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC2/iscShrineColossusAccess.asset").WaitForCompletion().requiredFlags = 0;
+                //Order
+                Addressables.LoadAssetAsync<SpawnCard>(key: "ba9d25d63bbcef34a9077c08a6d6df95").WaitForCompletion().directorCreditCost = 3; //iscShrineRestack
+                Addressables.LoadAssetAsync<SpawnCard>(key: "3547e84f7f2c8064ba91cc54e517f5b9").WaitForCompletion().directorCreditCost = 3; //iscShrineRestack
+                Addressables.LoadAssetAsync<SpawnCard>(key: "0e981358f6bf4de4e83e30286ad5df75").WaitForCompletion().directorCreditCost = 3; //iscShrineRestack
+                //Blood
+                Addressables.LoadAssetAsync<SpawnCard>(key: "a6d01afb758a15940bf09deb9db44067").WaitForCompletion().directorCreditCost = 15;//iscShrineBlood
+                Addressables.LoadAssetAsync<SpawnCard>(key: "94a96af94cc91294fab616f523ce58b5").WaitForCompletion().directorCreditCost = 15;//iscShrineBlood
+                Addressables.LoadAssetAsync<SpawnCard>(key: "3b3c5b543ce972e4d963cdfeafdc955f").WaitForCompletion().directorCreditCost = 15;//iscShrineBlood
+                //Combat
+                Addressables.LoadAssetAsync<SpawnCard>(key: "f48d76e496db90b44ac25782ce35528a").WaitForCompletion().directorCreditCost = 15;//iscShrineCombat
+                Addressables.LoadAssetAsync<SpawnCard>(key: "7a94cc7c833cfec4eab51b41cd999619").WaitForCompletion().directorCreditCost = 15;//iscShrineCombat
+                Addressables.LoadAssetAsync<SpawnCard>(key: "06bead17ed54dac49bfe3d01181c9466").WaitForCompletion().directorCreditCost = 15;//iscShrineCombat
+                //Shaping
+                Addressables.LoadAssetAsync<SpawnCard>(key: "9427ecf1e2e9c184ea39c9c30788aeab").WaitForCompletion().directorCreditCost = 40; //iscShrineColossusAccess
+           
 
             }
 
@@ -63,15 +64,35 @@ namespace LittleGameplayTweaks
             //Increase Storm weight wehen made?
             //rest? idk
             On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
-            On.RoR2.SceneDirector.GenerateInteractableCardSelection += DCCS_Interactables_ChangesMidRun;
-
-
+          
+            SceneDirector.onGenerateInteractableCardSelection += SceneDirector_onGenerateInteractableCardSelection;
+            On.RoR2.SceneDirector.GenerateInteractableCardSelection += SceneDirector_GenerateInteractableCardSelection;
         }
 
+        private static WeightedSelection<DirectorCard> SceneDirector_GenerateInteractableCardSelection(On.RoR2.SceneDirector.orig_GenerateInteractableCardSelection orig, SceneDirector self)
+        {   
+            if (self.interactableCredit == 0)
+            {
+                return orig(self);
+            }
+            if (WConfig.cfgShrineBossMult.Value != 1)
+            {
+                var selection = orig(self);
+                for (int i = 0; i < selection.Count; i++)
+                {
+                    if (selection.choices[i].value.spawnCard.prefab.GetComponent<ShrineBossBehavior>())
+                    {
+                        selection.choices[i].weight *= WConfig.cfgShrineBossMult.Value;
+                    }
+                }
+                return selection;
+            }
+            return orig(self);
+        }
 
         public static void InteractableDCCS_Changes(DirectorCardCategorySelection dccs)
         {
-            //Debug.Log("LTG_DCCS");
+            //Debug.Log("LGT_DCCS");
             if (dccs == null)
             {
                 return;
@@ -112,16 +133,20 @@ namespace LittleGameplayTweaks
             if (duplicatorIndex != -1)
             {
                 category = dccs.categories[duplicatorIndex];
-                category.cards[1].selectionWeight = 7; //Green Dupli Always at 1
-                category.cards[2].selectionWeight = 2; //Mili Dupli Always at 2
-                category.cards[2].minimumStageCompletions = 3; //Mili Dupli Always at 2
-                for (int card = 3; card < category.cards.Length; card++)
+                for (int card = 0; card < category.cards.Length; card++)
                 {
-                    //if (category.cards[card].spawnCard.name == "iscDuplicatorWild")
-                    if (category.cards[card].spawnCard.name.EndsWith("Wild"))
+                    if (category.cards[card].spawnCard.name.EndsWith("Large"))
+                    {
+                        category.cards[card].selectionWeight = 7;
+                    }
+                    else if(category.cards[card].spawnCard.name.EndsWith("Military"))
+                    {
+                        category.cards[card].selectionWeight = 2;
+                        category.cards[card].minimumStageCompletions = 3;
+                    }
+                    else if (category.cards[card].spawnCard.name.EndsWith("Wild"))
                     {
                         category.cards[card].minimumStageCompletions = 2;
-                        break;
                     }
                 }
             }
@@ -144,11 +169,50 @@ namespace LittleGameplayTweaks
             }
             if (stormIndex != -1)
             {
-                dccs.categories[stormIndex].cards[1].minimumStageCompletions = 2; //Shrine Revive always at 1
+                category = dccs.categories[stormIndex];
+                for (int card = 0; card < category.cards.Length; card++)
+                {
+                    if (category.cards[card].spawnCard.name.EndsWith("ess"))
+                    {
+                        category.cards[card].minimumStageCompletions = 2;
+                        break;
+                    }
+                }
             }
 
         }
 
+
+       
+
+        public static void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self, DirectorCardCategorySelection forcedMonsterCategory, DirectorCardCategorySelection forcedInteractableCategory)
+        {
+            orig(self, forcedMonsterCategory, forcedInteractableCategory);
+            if (NetworkServer.active && forcedInteractableCategory == null)
+            {
+                DoThing = true;
+            }
+        }
+        public static bool DoThing = false;
+        private static void SceneDirector_onGenerateInteractableCardSelection(SceneDirector scene, DirectorCardCategorySelection dccs)
+        {
+            if (DoThing)
+            {
+                DoThing = false;
+                if (scene.interactableCredit > 0)
+                {
+                    InteractableDCCS_Changes(dccs);
+                    /*for (int i = 0; i < dccs.categories.Length; i++)
+                    {
+                        for (int j = 0; j < dccs.categories[i].cards.Length; j++)
+                        {
+                            Debug.Log(dccs.categories[i].cards[j].spawnCard + " | " + dccs.categories[i].cards[j].selectionWeight);
+                        }
+                    }*/
+                }
+
+            }
+        }
 
         public static void Mountain()
         {
@@ -161,39 +225,6 @@ namespace LittleGameplayTweaks
 
 
         }
-
-
-        public static void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self, DirectorCardCategorySelection forcedMonsterCategory, DirectorCardCategorySelection forcedInteractableCategory)
-        {
-            orig(self, forcedMonsterCategory, forcedInteractableCategory);
-            if (forcedInteractableCategory == null)
-            {
-                DoThing = true;
-            }
-        }
-        public static bool DoThing = false;
-        public static WeightedSelection<DirectorCard> DCCS_Interactables_ChangesMidRun(On.RoR2.SceneDirector.orig_GenerateInteractableCardSelection orig, SceneDirector self)
-        {
-            if (NetworkServer.active && DoThing)
-            {
-                DoThing = false;
-                if (self.interactableCredit > 0)
-                {
-                    if (ClassicStageInfo.instance && ClassicStageInfo.instance.interactableCategories)
-                    {
-                        InteractableDCCS_Changes(ClassicStageInfo.instance.interactableCategories);
-                    }
-                }
-
-            }
-            /*var temp = orig(self);
-            for (int i = 0; i < temp.Count; i++)
-            {
-                Debug.Log(temp.choices[i].value.spawnCard + " | " + temp.choices[i].weight);
-            }*/
-            return orig(self);
-        }
-
 
 
         public static void Interactables_Other()
@@ -224,7 +255,11 @@ namespace LittleGameplayTweaks
                 spawnCard = LegacyResourcesAPI.Load<InteractableSpawnCard>("SpawnCards/InteractableSpawnCard/iscShrineHealing"),
                 selectionWeight = 5,
             };
-
+            DirectorCard ADBARREL = new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<InteractableSpawnCard>("SpawnCards/InteractableSpawnCard/iscBarrel1"),
+                selectionWeight = 1,
+            };
 
             DirectorCardCategorySelection.Category GoldShoreShrines = new DirectorCardCategorySelection.Category
             {
@@ -333,12 +368,12 @@ namespace LittleGameplayTweaks
                 DCCS.MultWholeCateory(dccsLakesInteractables, 0, 10);
                 int chests = dccsLakesInteractablesDLC1.AddCategory("Chests", 45);
                 dccsLakesInteractablesDLC1.AddCard(chests, iscCategoryChest2Healing);
-                dccsLakesInteractablesDLC1.AddCard(chests, iscCategoryChest2Utility);
+                //dccsLakesInteractablesDLC1.AddCard(chests, iscCategoryChest2Utility);
 
                 DCCS.MultWholeCateory(dccsLakesnightInteractables_DLC2, 0, 10);
                 chests = dccsLakesnightInteractables_DLC1.AddCategory("Chests", 45);
                 dccsLakesnightInteractables_DLC1.AddCard(chests, iscCategoryChest2Healing);
-                dccsLakesnightInteractables_DLC1.AddCard(chests, iscCategoryChest2Utility);
+                //dccsLakesnightInteractables_DLC1.AddCard(chests, iscCategoryChest2Utility);
             }
             if (ConfigStages.Stage_1_Village.Value)
             {
@@ -348,7 +383,7 @@ namespace LittleGameplayTweaks
 
                 DCCS.MultWholeCateory(dccsVillageInteractables_DLC2, 0, 10);
                 int chests = dccsVillageInteractablesDLC1.AddCategory("Chests", 45);
-                dccsVillageInteractablesDLC1.AddCard(chests, iscCategoryChest2Damage);
+                //dccsVillageInteractablesDLC1.AddCard(chests, iscCategoryChest2Damage);
                 dccsVillageInteractablesDLC1.AddCard(chests, iscCategoryChest2Utility);
             }
 
@@ -417,8 +452,8 @@ namespace LittleGameplayTweaks
                 DCCS.MultWholeCateory(dccsLemurianTempleInteractables_DLC2, 0, 10);
                 int chests = dccsLemurianTempleInteractables_DLC1.AddCategory("Chests", 45);
                 dccsLemurianTempleInteractables_DLC1.AddCard(chests, iscCategoryChest2Damage);
-                dccsLemurianTempleInteractables_DLC1.AddCard(chests, iscCategoryChest2Healing);
-                dccsLemurianTempleInteractables_DLC1.AddCard(chests, iscCategoryChest2Utility);
+                //dccsLemurianTempleInteractables_DLC1.AddCard(chests, iscCategoryChest2Healing);
+                //dccsLemurianTempleInteractables_DLC1.AddCard(chests, iscCategoryChest2Utility);
             }
 
         }
@@ -476,8 +511,8 @@ namespace LittleGameplayTweaks
             {
                 DCCS.MultWholeCateory(dccsHabitatInteractables_DLC2, 0, 10);
                 int chests = dccsHabitatInteractables_DLC1.AddCategory("Chests", 45);
-                dccsHabitatInteractables_DLC1.AddCard(chests, iscCategoryChest2Damage);
-                dccsHabitatInteractables_DLC1.AddCard(chests, iscCategoryChest2Healing);
+                //dccsHabitatInteractables_DLC1.AddCard(chests, iscCategoryChest2Damage);
+                //dccsHabitatInteractables_DLC1.AddCard(chests, iscCategoryChest2Healing);
             }
 
         }

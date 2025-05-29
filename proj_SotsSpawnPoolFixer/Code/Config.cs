@@ -42,7 +42,7 @@ namespace SpawnPoolFixer
                "Config",
                "Pre Loop Seer Destination during loops",
                false,
-               "You can get PreLoop variants of stages that have loop variants as Lunar Seer Destinations.\nThis was confirmed a funny quirk so it probably wont be removed.\nBut it looks like a bug so this removes it"
+               "You can get PreLoop variants of stages that have loop variants as Lunar Seer Destinations.\nVanilla : True\nThis was confirmed a funny quirk so it probably wont be removed.\nBut it looks like a bug so this removes it"
             );
 
         }

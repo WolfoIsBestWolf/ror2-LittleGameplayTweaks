@@ -1,3 +1,4 @@
+using HarmonyLib;
 using RoR2;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,12 +17,9 @@ namespace LittleGameplayTweaks
             On.RoR2.ClassicStageInfo.Start += RunsAlways_ClassicStageInfo_Start;
 
 
-            if (WConfig.cfgVoidStagesNoTime.Value)
-            {
-                SceneDef Arena = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/Base/arena/arena.asset").WaitForCompletion();
-                Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidstage/voidstage.asset").WaitForCompletion().sceneType = Arena.sceneType;
-                Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion().sceneType = Arena.sceneType;
-            }
+ 
+            //Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidstage/voidstage.asset").WaitForCompletion().sceneType = Arena.sceneType;
+            Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion().sceneType = SceneType.Intermission;
 
             On.RoR2.ArenaMissionController.OnStartServer += ArenaMissionController_OnEnable;
             On.EntityStates.Missions.Arena.NullWard.WardOnAndReady.OnEnter += WardOnAndReady_OnEnter;
@@ -230,16 +228,13 @@ namespace LittleGameplayTweaks
                             self.sceneDirectorInteractibleCredits += 20; //
                             break;
                         case "goolake":
-                            if (Run.instance.participatingPlayerCount == 1)
-                            {
-                                self.sceneDirectorInteractibleCredits += 20; //-40 for Secret in Solo, can't always get it
-                            }
-                            else
-                            {
-                                float num = 0.5f + (float)Run.instance.participatingPlayerCount * 0.5f;
-                                int newCredits = (int)((280 * num - 60) / num); //Scale as 280, like other stage 2s, then flat -60 for Bands
-                                self.sceneDirectorInteractibleCredits = newCredits;
-                            }
+                            self.sceneDirectorInteractibleCredits = 280;
+                            HG.ArrayUtils.ArrayAppend(ref self.bonusInteractibleCreditObjects,
+                               new ClassicStageInfo.BonusInteractibleCreditObject
+                               {
+                                   points = Run.instance.participatingPlayerCount == 1 ? -40 : -60,
+                                   objectThatGrantsPointsIfEnabled = RoR2.Run.instance.gameObject
+                               });
                             break;
                         case "sulfurpools":
                             if (ConfigStages.Stage_3_Sulfur.Value)
@@ -248,10 +243,20 @@ namespace LittleGameplayTweaks
                             }
                             break;
                         case "rootjungle":
-                            self.sceneDirectorInteractibleCredits += 30; //Much likelier to miss an interactable Depths sometimes has 560 so raising the other two by 40 seems fine                
+                            HG.ArrayUtils.ArrayAppend(ref self.bonusInteractibleCreditObjects,
+                            new ClassicStageInfo.BonusInteractibleCreditObject
+                            {
+                                points = 50,
+                                objectThatGrantsPointsIfEnabled = RoR2.Run.instance.gameObject
+                            });      
                             break;
                         case "shipgraveyard":
-                            self.sceneDirectorInteractibleCredits += 30; //Depths has 400 or 560}
+                            HG.ArrayUtils.ArrayAppend(ref self.bonusInteractibleCreditObjects,
+                            new ClassicStageInfo.BonusInteractibleCreditObject
+                            {
+                                points = 50,
+                                objectThatGrantsPointsIfEnabled = RoR2.Run.instance.gameObject
+                            });
                             break;
                         case "goldshores":
                             if (WConfig.cfgGoldShoresCredits.Value)

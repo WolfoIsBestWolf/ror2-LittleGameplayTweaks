@@ -26,8 +26,9 @@ namespace LittleGameplayTweaks
 
             BasicPickupDropTable dtLockbox = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/Base/TreasureCache/dtLockbox.asset").WaitForCompletion();
             dtLockbox.canDropBeReplaced = false;
+            BasicPickupDropTable dtChanceDoll = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/DLC2/Items/ExtraShrineItem/dtChanceDoll.asset").WaitForCompletion();
+            dtChanceDoll.canDropBeReplaced = false;
 
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Chest1StealthedVariant/Chest1StealthedVariant.prefab").WaitForCompletion().GetComponent<ChestBehavior>().dropTable = dtLockbox;
             Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/DLC1/TreasureCacheVoid/dtVoidLockbox.asset").WaitForCompletion().canDropBeReplaced = false;
             Addressables.LoadAssetAsync<FreeChestDropTable>(key: "RoR2/DLC1/FreeChest/dtFreeChest.asset").WaitForCompletion().canDropBeReplaced = false;
 
@@ -39,8 +40,13 @@ namespace LittleGameplayTweaks
                 DeepVoidPortalBattery.GetComponent<HoldoutZoneController>().baseRadius = 26;
 
             }
-
-
+            BasicPickupDropTable dtStealthedChest = ScriptableObject.CreateInstance<BasicPickupDropTable>();
+            dtStealthedChest.tier1Weight = 0.5f;
+            dtStealthedChest.tier2Weight = 0.5f;
+            dtStealthedChest.tier3Weight = 0.2f;
+            dtStealthedChest.bossWeight = 0.02f;
+            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Chest1StealthedVariant/Chest1StealthedVariant.prefab").WaitForCompletion().GetComponent<ChestBehavior>().dropTable = dtStealthedChest;
+ 
             if (WConfig.InteractablesCombatShrineHP.Value == false)
             {
                 GameObject ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombat.prefab").WaitForCompletion();
@@ -49,6 +55,7 @@ namespace LittleGameplayTweaks
                 ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
                 ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombatSnowy Variant.prefab").WaitForCompletion();
                 ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
+
             }
 
 
@@ -56,6 +63,7 @@ namespace LittleGameplayTweaks
             IL.RoR2.HalcyoniteShrineInteractable.DrainConditionMet += HalcyoniteShrine_NerfStats;
 
             IL.RoR2.ShrineBloodBehavior.AddShrineStack += ShrineBloodBehavior_GoldAmount;
+ 
         }
 
         private static void ShrineBloodBehavior_GoldAmount(ILContext il)

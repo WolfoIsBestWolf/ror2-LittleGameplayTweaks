@@ -90,7 +90,7 @@ namespace SpawnPoolFixer
 
         private bool NoPreLoopPostLoop(On.RoR2.BazaarController.orig_IsUnlockedBeforeLooping orig, BazaarController self, SceneDef sceneDef)
         {
-            if (WConfig.cfgLoopSeers.Value)
+            if (WConfig.cfgLoopSeers.Value == false)
             {
                 if (sceneDef.loopedSceneDef && Run.instance.stageClearCount >= 4)
                 {

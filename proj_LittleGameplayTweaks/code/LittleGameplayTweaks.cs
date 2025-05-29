@@ -95,14 +95,14 @@ namespace LittleGameplayTweaks
             HG.ArrayUtils.ArrayAppend(ref DLC1Content.Items.MinorConstructOnKill.tags, ItemTag.AIBlacklist);
             HG.ArrayUtils.ArrayAppend(ref RoR2Content.Items.CaptainDefenseMatrix.tags, ItemTag.CannotSteal);
 
-            Changes_Monsters.LemurianBruiser = BodyCatalog.FindBodyIndex("LemurianBruiserBody");
+   
             WConfig.EclipseDifficultyAlways_SettingChanged(null, null);
 
             if (WConfig.cfgMendingCoreBuff.Value)
             {
-                EntityStates.AffixEarthHealer.Heal.healCoefficient *= 4;
+                EntityStates.AffixEarthHealer.Heal.healCoefficient *= 2;
             }
-
+            Looping.storedRunAmbientLevelCap = Run.ambientLevelCap;
         }
 
 
@@ -147,19 +147,26 @@ namespace LittleGameplayTweaks
                     if (WConfig.cfgElderLemurianBands.Value == true)
                     {
                         GameObject RingEventController = GameObject.Find("/HOLDER: Secret Ring Area Content/ApproxCenter/RingEventController/");
-
-                        Inventory inv1 = RingEventController.transform.GetChild(1).GetComponent<Inventory>();
-                        Inventory inv2 = RingEventController.transform.GetChild(2).GetComponent<Inventory>();
-                        inv1.GiveItem(RoR2Content.Items.LevelBonus, Run.instance.ambientLevelFloor / 2);
-                        inv2.GiveItem(RoR2Content.Items.LevelBonus, Run.instance.ambientLevelFloor / 2);
-
-
-                        //Half Ambient Level (real)
+                        CharacterMaster master1 = RingEventController.transform.GetChild(1).GetComponent<CharacterMaster>();
+                        CharacterMaster master2 = RingEventController.transform.GetChild(2).GetComponent<CharacterMaster>();
+                        master1.inventory.GiveItem(RoR2Content.Items.UseAmbientLevel);
+                        master2.inventory.GiveItem(RoR2Content.Items.UseAmbientLevel);
+                        master1.inventory.GiveItem(RoR2Content.Items.CutHp,3);
+                        master2.inventory.GiveItem(RoR2Content.Items.CutHp,3);
+                        master1.onBodyStart += AquaductEldersStats;
+                        master2.onBodyStart += AquaductEldersStats;
                     }
                     break;
             };
         }
 
+        private static void AquaductEldersStats(CharacterBody body)
+        {
+            Debug.Log("Aquaduct Elder Lemurian Start");
+            body.baseDamage /= 3.2f;
+            body.levelDamage /= 3.2f;
+ 
+        }
 
         public static void ClassicStageInfoMethod(On.RoR2.ClassicStageInfo.orig_Awake orig, global::RoR2.ClassicStageInfo self)
         {

@@ -200,9 +200,7 @@ namespace LittleGameplayFeatures
                 };
             };
 
-
-
-            //cscScavLunar.masterPrefabs = cscScavLunar.masterPrefabs.Add(TwistedScavs.ScavLunarWGoomanMaster, TwistedScavs.ScavLunarWSpeedMaster, TwistedScavs.ScavLunarWTankMaster);
+           //cscScavLunar.masterPrefabs = cscScavLunar.masterPrefabs.Add(TwistedScavs.ScavLunarWGoomanMaster, TwistedScavs.ScavLunarWSpeedMaster, TwistedScavs.ScavLunarWTankMaster);
             On.RoR2.LocalUserManager.AddUser += LocalUserManager_AddUser;
         }
 
@@ -210,7 +208,10 @@ namespace LittleGameplayFeatures
         {
             orig(inputPlayer, userProfile);
             On.RoR2.LocalUserManager.AddUser -= LocalUserManager_AddUser;
-
+            if (!WConfig.cfgScavNewTwisted.Value)
+            {
+                return;
+            }
 
             if (RoR2.EntitlementManagement.EntitlementManager.localUserEntitlementTracker != null)
             {
@@ -220,10 +221,8 @@ namespace LittleGameplayFeatures
 
                 Debug.Log(userProfile.name + " has DLC1 : " + dlc1);
                 Debug.Log(userProfile.name + " has DLC2 : " + dlc2);
-
-
-
-                if (dlc1 && dlc2 && WConfig.cfgScavNewTwisted.Value)
+ 
+                if (dlc1 && dlc2)
                 {
                     GameObject[] newA = new GameObject[]
                     {

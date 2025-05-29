@@ -4,6 +4,7 @@ using RiskOfOptions;
 using RiskOfOptions.Options;
 using RoR2;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace LittleGameplayTweaks
 {
@@ -67,7 +68,7 @@ namespace LittleGameplayTweaks
                 "Stage 1",
                 "Shattered Abodes",
                 true,
-                "Adds Halcyonite\nAdds Loop Lunar Golem\n\nAdds Shrine of Order\nAdds Loop Cleansing Pool\nAdds Loop TC-280\nAdds Large Damage Chest\nAdds Large Utility chest"
+                "Adds Halcyonite\nAdds Loop Lunar Chimera\n\nAdds Shrine of Order\nAdds Loop Cleansing Pool\nAdds Loop TC-280\nAdds Large Damage Chest\nAdds Large Utility chest"
             );
             Stage_2_Goolake = ConfigFileSTAGES.Bind(
                 "Stage 2",
@@ -145,7 +146,7 @@ namespace LittleGameplayTweaks
                 "Stage 5",
                 "Helminth",
                 true,
-                "Adds Halcyonite\nRemoves Greater Wisp\nAdds Grandparent\nAdds Loop Lunar Chimera\n\nRemoves Gunner Turret\nAdds all 3 Large Category Chests"
+                "Adds Halcyonite\nRemoves Greater Wisp\nAdds Grandparent\nRemoves Gunner Turret\nAdds all 3 Large Category Chests"
             );
             Stage_F_Moon = ConfigFileSTAGES.Bind(
                  "Stage Other",
@@ -176,16 +177,15 @@ namespace LittleGameplayTweaks
         public static void RiskConfig()
         {
 
-            ModSettingsManager.SetModDescription("Stage specific config for DCCS / Spawnpool / Stage changes added by LittleGameplayTweaks", "LTG_SpawnPools", "Spawnpools");
-            Texture2D icon = LegacyResourcesAPI.Load<Texture2D>("Textures/BodyIcons/GravekeeperBody");
-
-            ModSettingsManager.SetModIcon(Sprite.Create(icon, new Rect(0, 0, 128, 128), new Vector2(-0.5f, -0.5f)), "LTG_SpawnPools", "Spawnpools");
+            ModSettingsManager.SetModDescription("Stage specific config for DCCS / Spawnpool / Stage changes added by LittleGameplayTweaks", "LGT_SpawnPools", "Spawnpools");
+            Texture2D icon = Addressables.LoadAssetAsync<Texture2D>(key: "RoR2/Base/ArtifactShell/texUnidentifiedKillerIcon.png").WaitForCompletion();
+            ModSettingsManager.SetModIcon(Sprite.Create(icon, new Rect(0, 0, 128, 128), new Vector2(-0.5f, -0.5f)), "LGT_SpawnPools", "Spawnpools");
 
 
             var entries = ConfigFileSTAGES.GetConfigEntries();
             foreach (ConfigEntryBase entry in entries)
             {
-                ModSettingsManager.AddOption(new CheckBoxOption((ConfigEntry<bool>)entry, true), "LTG_SpawnPools", "Spawnpools");
+                ModSettingsManager.AddOption(new CheckBoxOption((ConfigEntry<bool>)entry, true), "LGT_SpawnPools", "Spawnpools");
 
             }
         }

@@ -1,5 +1,20 @@
 ## Changelog:
 ```
+v3.5.6
+Destroyable Projectiles now scale with level.
+Removed Loop Lunar Chimera from Helminth.
+
+v3.5.5
+Ambient level Scaling per stage completed on loop. (+20 per stage)
+Removed other level config.
+ReAdded Mountain Shrine spawn rate multiplier config. (Default 1.33x)
+Overloading Worm projectiles now leave Overloading bombs.
+Fixed HealingCore nullref spam on Client which could lag Host too.
+
+v3.5.4 - Saftey check for removed Shrine of Shaping
+v3.5.3
+Saftey check for rare cases with ContentDisabler or weird modded DCCS
+
 v3.5.2 - Wrong config default value for some.
 v3.5.1 - Left a testing thing in
 v3.5.0

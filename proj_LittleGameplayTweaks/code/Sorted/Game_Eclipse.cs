@@ -77,6 +77,11 @@ namespace LittleGameplayTweaks
         {
             orig(self, mustInclude, mustExclude, runSeed);
 
+            if (WConfig.EclipseAllowTwisted.Value)
+            {
+                self.ForceChoice(mustInclude, mustExclude, "Items." + RoR2Content.Items.LunarTrinket.name + ".Off");
+            }
+
             if (WConfig.EclipseAllowChoiceArtifacts.Value != WConfig.EclipseArtifact.Off)
             {
                 /*for (int j = 0; j < ArtifactCatalog.artifactCount; j++)

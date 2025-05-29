@@ -20,11 +20,10 @@ namespace LittleGameplayTweaks
             if (WConfig.cfgElderLemurianBands.Value)
             {
                 IL.EntityStates.LemurianBruiserMonster.FireMegaFireball.FixedUpdate += MarriedLemurianBandActivator;
-                On.RoR2.Util.GetBestBodyName += MarriedLemurianNameHook; //Maybe a little excessive idk
-
+ 
             }
 
-
+ 
             DropTableForBossScav.name = "dtScavRandomBoss";
             DropTableForBossScav.tier1Weight = 0;
             DropTableForBossScav.tier2Weight = 0;
@@ -36,8 +35,7 @@ namespace LittleGameplayTweaks
                 ItemTag.SprintRelated,
                 ItemTag.CannotCopy,
             };
-
-
+ 
             GameObject BeadProjectileTrackingBomb = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Elites/EliteBead/BeadProjectileTrackingBomb.prefab").WaitForCompletion();
             if (WConfig.cfgTwistedBuff.Value)
             {
@@ -59,14 +57,7 @@ namespace LittleGameplayTweaks
             {
                 GameObject BrotherBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/BrotherBody.prefab").WaitForCompletion();
                 BrotherBody.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
-                GameObject BrotherHurtBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/BrotherHurtBody.prefab").WaitForCompletion();
-                HurtBoxGroup component = BrotherHurtBody.GetComponentInChildren<HurtBoxGroup>();
-                if (component)
-                {
-                    component.hurtBoxesDeactivatorCounter = 1;
-                }
-                //Seems to work entirely fine without any editing
-
+ 
                 On.EntityStates.BrotherMonster.SpellChannelEnterState.OnEnter += SpellChannelEnterState_OnEnter;
                 On.EntityStates.BrotherMonster.SpellChannelState.OnEnter += SpellChannelState_OnEnter;
                 On.EntityStates.BrotherMonster.SpellChannelExitState.OnExit += SpellChannelExitState_OnExit;
@@ -79,9 +70,34 @@ namespace LittleGameplayTweaks
             {
                 On.RoR2.NetworkedBodySpawnSlot.OnSpawnedServer += NetworkedBodySpawnSlot_OnSpawnedServer;
             }
-
-
             On.RoR2.CombatDirector.HalcyoniteShrineActivation += CombatDirector_HalcyoniteShrineActivation;
+            KillableProjectileScaling();
+        }
+
+        public static void KillableProjectileScaling()
+        {
+            //Armor instead of Health because that doesnt need to be synced to client ig.
+            CharacterBody body = null;
+            body = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Vagrant/VagrantTrackingBomb.prefab").WaitForCompletion().GetComponent<CharacterBody>();
+            body.bodyFlags |= CharacterBody.BodyFlags.UsesAmbientLevel;
+            body.levelMaxHealth = 0;
+            body.levelArmor = 30;
+            body = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/LunarWisp/LunarWispTrackingBomb.prefab").WaitForCompletion().GetComponent<CharacterBody>();
+            body.bodyFlags |= CharacterBody.BodyFlags.UsesAmbientLevel;
+            body.levelMaxHealth = 0;
+            body.levelArmor = 30;
+            body = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Gravekeeper/GravekeeperTrackingFireball.prefab").WaitForCompletion().GetComponent<CharacterBody>();
+            body.bodyFlags |= CharacterBody.BodyFlags.UsesAmbientLevel;
+            body.levelMaxHealth = 0;
+            body.levelArmor = 30;
+            body = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Beetle/BeetleWard.prefab").WaitForCompletion().GetComponent<CharacterBody>();
+            body.bodyFlags |= CharacterBody.BodyFlags.UsesAmbientLevel;
+            body.levelMaxHealth = 0;
+            body.levelArmor = 30;
+            body = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Scorchling/ScorchlingBombProjectile.prefab").WaitForCompletion().GetComponent<CharacterBody>();
+            body.bodyFlags |= CharacterBody.BodyFlags.UsesAmbientLevel;
+            body.levelMaxHealth = 0;
+            body.levelArmor = 30;
         }
 
         private static void CombatDirector_HalcyoniteShrineActivation(On.RoR2.CombatDirector.orig_HalcyoniteShrineActivation orig, CombatDirector self, float monsterCredit, DirectorCard chosenDirectorCard, int difficultyLevel, Transform shrineTransform)
@@ -229,7 +245,7 @@ namespace LittleGameplayTweaks
             {
                 GameObject AffixEarthHealer = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/EliteEarth/AffixEarthHealerBody.prefab").WaitForCompletion();
                 CharacterBody AffixEarthHealerBody = AffixEarthHealer.GetComponent<CharacterBody>();
-                AffixEarthHealerBody.baseArmor += 400;
+                AffixEarthHealerBody.baseArmor = 500;
                 AffixEarthHealerBody.baseDamage = 25;
                 AffixEarthHealerBody.levelDamage = 5;
 
@@ -293,6 +309,45 @@ namespace LittleGameplayTweaks
                 skilllist[6].enabled = false;
             }
 
+            var TeleportWhenOob = new GivePickupsOnStart.ItemInfo[]{
+                new GivePickupsOnStart.ItemInfo
+                { itemString = "TeleportWhenOob", count = 1 }
+            };
+
+
+            if (WConfig.cfgOverloadingWorm.Value)
+            {
+
+                //Electric Worm Tweaks
+                GameObject MagmaWormMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/MagmaWorm/MagmaWormMaster.prefab").WaitForCompletion();
+                MagmaWormMaster.AddComponent<GivePickupsOnStart>().itemInfos = TeleportWhenOob;
+                GameObject ElectricWormMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormMaster.prefab").WaitForCompletion();
+                ElectricWormMaster.AddComponent<GivePickupsOnStart>().itemInfos = TeleportWhenOob;
+                GameObject ElectricWormBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormBody.prefab").WaitForCompletion();
+                ElectricWormBody.GetComponent<CharacterBody>().baseMoveSpeed = 40;
+                WormBodyPositions2 elecWorm = ElectricWormBody.GetComponent<WormBodyPositions2>();
+                //elecWorm.meatballCount = 5;
+                elecWorm.blastAttackForce *= 2;
+                elecWorm.meatballForce *= 2;
+
+                GameObject ElectricOrbProjectile = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricOrbProjectile.prefab").WaitForCompletion();
+                ProjectileImpactExplosion elecOrb = ElectricOrbProjectile.GetComponent<ProjectileImpactExplosion>();
+                elecOrb.useChildRotation = false;
+                elecOrb.childrenCount = 2;
+                elecOrb.childrenDamageCoefficient = 0.5f;
+                elecOrb.minPitchDegrees = 90;
+                elecOrb.rangePitchDegrees = 90;
+                elecOrb.rangeYawDegrees = 360;
+                GameObject ElectricWormSeekerProjectile = elecOrb.childrenProjectilePrefab;
+                ElectricWormSeekerProjectile.GetComponent<ProjectileSimple>().desiredForwardSpeed = 30;
+                ProjectileImpactExplosion wormProj2 = ElectricWormSeekerProjectile.GetComponent<ProjectileImpactExplosion>();
+                wormProj2.childrenCount = 1;
+                wormProj2.childrenDamageCoefficient = 0.5f;
+                wormProj2.fireChildren = true;
+                wormProj2.childrenProjectilePrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/Projectiles/LightningStake");
+
+            }
+
 
 
         }
@@ -300,12 +355,16 @@ namespace LittleGameplayTweaks
         private static void AffixEarthHealthInvulThing(On.EntityStates.AffixEarthHealer.Chargeup.orig_OnEnter orig, EntityStates.AffixEarthHealer.Chargeup self)
         {
             orig(self);
-            if (self.characterBody)
+            if (NetworkServer.active)
             {
-                //This way, we can have levelMaxHealth, without Desyncing the client.
-                self.characterBody.inventory.GiveItem(RoR2Content.Items.BoostHp, 3 * Run.instance.ambientLevelFloor);
-                self.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 0.4f);
+                if (self.characterBody && self.characterBody.inventory)
+                {
+                    //This way, we can have levelMaxHealth, without Desyncing the client.
+                    self.characterBody.inventory.GiveItem(RoR2Content.Items.BoostHp, 3 * Run.instance.ambientLevelFloor);
+                    self.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 0.5f);
+                }
             }
+            
         }
 
         public static void GiveScavMoreItems(On.RoR2.ScavengerItemGranter.orig_Start orig, ScavengerItemGranter self)
@@ -402,6 +461,7 @@ namespace LittleGameplayTweaks
             if (c.TryGotoNext(MoveType.After,
                     x => x.MatchLdsfld("EntityStates.LemurianBruiserMonster.FireMegaFireball", "damageCoefficient")))
             {
+ 
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<float, EntityStates.LemurianBruiserMonster.FireMegaFireball, float>>((damageCoeff, entityState) =>
                 {
@@ -418,30 +478,6 @@ namespace LittleGameplayTweaks
             {
                 Debug.LogWarning("IL Failed: Buff Married Lemurians");
             }
-        }
-
-        public static BodyIndex LemurianBruiser = BodyIndex.None;
-        public static string MarriedLemurianNameHook(On.RoR2.Util.orig_GetBestBodyName orig, GameObject bodyObject)
-        {
-            if (bodyObject)
-            {
-                CharacterBody characterBody = bodyObject.GetComponent<CharacterBody>();
-                if (characterBody && characterBody.bodyIndex == LemurianBruiser)
-                {
-                    if (characterBody.inventory.GetItemCount(RoR2Content.Items.Clover) >= 20)
-                    {
-                        if (characterBody.inventory.GetItemCount(RoR2Content.Items.FireRing) > 0)
-                        {
-                            return "Kjaro";
-                        }
-                        else if (characterBody.inventory.GetItemCount(RoR2Content.Items.IceRing) > 0)
-                        {
-                            return "Runald";
-                        }
-                    }
-                }
-            }
-            return orig(bodyObject);
         }
 
 

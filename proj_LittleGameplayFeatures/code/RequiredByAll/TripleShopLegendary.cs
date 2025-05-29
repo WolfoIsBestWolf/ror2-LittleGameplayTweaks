@@ -21,42 +21,37 @@ namespace LittleGameplayFeatures
             {
                 return;
             }
-            DirectorCard ADTrippleRed = new DirectorCard
+    
+            SceneDirector.onGenerateInteractableCardSelection += SceneDirector_onGenerateInteractableCardSelection;
+        }
+
+        private static void SceneDirector_onGenerateInteractableCardSelection(SceneDirector arg1, DirectorCardCategorySelection dccs)
+        {
+            //Debug log does not work in here (???)
+            int rareIndex = dccs.FindCategoryIndexByName("Rare");
+            if (rareIndex != -1)
             {
-                spawnCard = RedMultiShopISC,
-                selectionWeight = 2,
-                minimumStageCompletions = 4
-            };
-            DirectorAPI.DirectorCardHolder red = new DirectorAPI.DirectorCardHolder
-            {
-                Card = ADTrippleRed,
-                InteractableCategory = DirectorAPI.InteractableCategory.Rare,
-            };
+                if (dccs.categories[rareIndex].cards.Length == 1)
+                {
+                    //Kith check ig
+                    return;
+                }
+                DirectorCard TrippleRed = new DirectorCard
+                {
+                    spawnCard = RedMultiShopISC,
+                    selectionWeight = 2,
+                    minimumStageCompletions = (Run.instance is InfiniteTowerRun) ? 2 : 4,
+                };
+                dccs.AddCard(rareIndex, TrippleRed);
 
-            //I'll just hope this works ig?
-            DirectorAPI.Helpers.AddNewInteractable(red);
-
-            DirectorCard ADTrippleRed_Simu = new DirectorCard
-            {
-                spawnCard = RedMultiShopISC,
-                selectionWeight = 2,
-                minimumStageCompletions = 2
-            };
-            DirectorAPI.DirectorCardHolder red_Simu = new DirectorAPI.DirectorCardHolder
-            {
-                Card = ADTrippleRed_Simu,
-                InteractableCategory = DirectorAPI.InteractableCategory.Rare,
-            };
-            DirectorAPI.Helpers.AddNewInteractableToStage(red_Simu, DirectorAPI.Stage.TitanicPlainsSimulacrum);
-            DirectorAPI.Helpers.AddNewInteractableToStage(red_Simu, DirectorAPI.Stage.AbandonedAqueductSimulacrum);
-            DirectorAPI.Helpers.AddNewInteractableToStage(red_Simu, DirectorAPI.Stage.AphelianSanctuarySimulacrum);
-            DirectorAPI.Helpers.AddNewInteractableToStage(red_Simu, DirectorAPI.Stage.RallypointDeltaSimulacrum);
-            DirectorAPI.Helpers.AddNewInteractableToStage(red_Simu, DirectorAPI.Stage.AbyssalDepthsSimulacrum);
-            DirectorAPI.Helpers.AddNewInteractableToStage(red_Simu, DirectorAPI.Stage.SkyMeadowSimulacrum);
-            DirectorAPI.Helpers.AddNewInteractableToStage(red_Simu, DirectorAPI.Stage.CommencementSimulacrum);
-
-
-
+               /* DirectorCard TrippleRed2 = new DirectorCard
+                {
+                    spawnCard = RedMultiShopISC,
+                    selectionWeight = 2222,
+                    minimumStageCompletions = (Run.instance is InfiniteTowerRun) ? 2 : 4,
+                }; dccs.AddCard(rareIndex, TrippleRed2);
+                dccs.categories[rareIndex].selectionWeight = 222222;*/
+            }
         }
 
         internal static void RedMultiShopMaker()

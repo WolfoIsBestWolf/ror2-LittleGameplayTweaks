@@ -18,8 +18,10 @@ namespace LittleGameplayTweaks
                 LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGipBody").directorCreditCost = 20; //40
                 LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscNullifier").directorCreditCost = 250; //300
 
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/FlyingVermin/cscFlyingVermin.asset").WaitForCompletion().directorCreditCost = 20;
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/FlyingVermin/cscFlyingVerminSnowy.asset").WaitForCompletion().directorCreditCost = 20;
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/FlyingVermin/cscFlyingVermin.asset").WaitForCompletion().directorCreditCost = 18;
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/FlyingVermin/cscFlyingVerminSnowy.asset").WaitForCompletion().directorCreditCost = 18;
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/VoidBarnacle/cscVoidBarnacle.asset").WaitForCompletion().directorCreditCost = 30; //The floor version only costs 30 credits?
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC2/Child/cscChild.asset").WaitForCompletion().directorCreditCost = 30; //35/
 
             }
 
@@ -149,12 +151,28 @@ namespace LittleGameplayTweaks
                 selectionWeight = 1,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
+            DirectorCard LoopLunarExploder = new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarExploder"),
+                selectionWeight = 1,
+                preventOverhead = false,
+                minimumStageCompletions = 4,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
             DirectorCard LoopLunarGolem = new DirectorCard
             {
                 spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarGolem"),
                 selectionWeight = 1,
                 preventOverhead = false,
-                minimumStageCompletions = 6,
+                minimumStageCompletions = 4,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+            };
+            DirectorCard LoopLunarWisp = new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarWisp"),
+                selectionWeight = 1,
+                preventOverhead = true,
+                minimumStageCompletions = 4,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
             DirectorCard LoopVulture = new DirectorCard
@@ -220,7 +238,9 @@ namespace LittleGameplayTweaks
             if (ConfigStages.Stage_1_Village.Value)
             {
                 dccsVillageMonsters.AddCard(0, cscHalcy);
+                dccsVillageNightMonsters_Additional.AddCard(1, LoopLunarExploder);
                 dccsVillageNightMonsters_Additional.AddCard(1, LoopLunarGolem);
+                dccsVillageNightMonsters_Additional.AddCard(1, LoopLunarWisp);
             }
 
             #endregion
@@ -717,9 +737,9 @@ namespace LittleGameplayTweaks
                 dccsHelminthRoostMonstersDLC2Only.categories[0].cards[0].selectionWeight++; //More Wurm
                 dccsHelminthRoostMonsters.AddCard(0, cscGrandparent); //Why they didn't put him here 
                 dccsHelminthRoostMonsters.categories[1].cards[0] = Halcy; //Replace Greater Wisp
-                dccsHelminthRoostMonsters.AddCard(2, LoopLunarWisp);
-                dccsHelminthRoostMonsters.AddCard(2, LoopLunarGolem);
-                dccsHelminthRoostMonsters.AddCard(2, LoopLunarExploder);
+                //dccsHelminthRoostMonsters.AddCard(2, LoopLunarWisp);
+                //dccsHelminthRoostMonsters.AddCard(2, LoopLunarGolem);
+                //dccsHelminthRoostMonsters.AddCard(2, LoopLunarExploder);
 
             }
 

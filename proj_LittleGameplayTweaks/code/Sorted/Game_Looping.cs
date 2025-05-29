@@ -18,22 +18,85 @@ namespace LittleGameplayTweaks
             TeleporterInteraction.onTeleporterBeginChargingGlobal += MoreDifficultLoopTeleporters;
 
             WConfig.Tier2_SettingChanged(null, null);
-            WConfig.LevelMaximum_SettingChanged(null, null);
-
-
-
+            
             On.RoR2.TeleporterInteraction.Start += MorePortals;
+
+            On.RoR2.Run.AdvanceStage += Run_AdvanceStage;
 
             On.RoR2.ScriptedCombatEncounter.BeginEncounter += FinalBossLevelLimit;
 
-            IL.RoR2.CharacterBody.RecalculateStats += ReplaceUseAmbienWithLevelBonus;
+            //AdvanceStage onyl runs on Server so clients would desync-ish
 
-            Run.onRunStartGlobal += Add;
-            Run.onRunDestroyGlobal += Remove;
+            Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
+            Run.onRunStartGlobal += Run_onRunStartGlobal;
+            
+            Stage.onStageStartGlobal += Stage_onStageStartGlobal;
 
-            On.RoR2.LevelUpEffectManager.OnCharacterLevelUp += Looping.DisableLevelSound_P;
-            On.RoR2.LevelUpEffectManager.OnRunAmbientLevelUp += Looping.DisableLevelSound_E;
         }
+        public static int stageClearCount = 0;
+        private static void Stage_onStageStartGlobal(Stage self)
+        {
+            if (!WConfig.cfgAddLevelCapPerStage.Value)
+            {
+                return;
+            }
+            if (Run.instance.loopClearCount == 0)
+            {
+                return;
+            }
+            //Doesn't increase on Moon2 this way
+            if (self.sceneDef.stageOrder < 6)
+            {
+                //Ensure level cap and Stage count match
+                for (int i = stageClearCount; stageClearCount <= Run.instance.stageClearCount; stageClearCount++)
+                {
+                    int loopCount = stageClearCount / 5;
+                    if (loopCount > 0)
+                    {
+                        Run.ambientLevelCap += 20;
+                    }
+                }
+            }
+        }
+
+        private static void Run_onRunStartGlobal(Run obj)
+        {
+            levelBonus = (int)RoR2Content.Items.LevelBonus.itemIndex;
+            if (!(obj is InfiniteTowerRun))
+            {
+                IL.RoR2.CharacterBody.RecalculateStats += ReplaceUseAmbienWithLevelBonus;
+            }
+        }
+        private static void Run_onRunDestroyGlobal(Run obj)
+        {
+            Run.ambientLevelCap = storedRunAmbientLevelCap;
+            if (!(obj is InfiniteTowerRun))
+            {
+                IL.RoR2.CharacterBody.RecalculateStats -= ReplaceUseAmbienWithLevelBonus;
+            }
+        }
+        public static int storedRunAmbientLevelCap = 99;
+       
+        private static void Run_AdvanceStage(On.RoR2.Run.orig_AdvanceStage orig, Run self, SceneDef nextScene)
+        {
+            orig(self, nextScene);
+            if (WConfig.cfgAddLevelCapPerStage.Value)
+            {
+                return;
+                if (self.loopClearCount > 0)
+                {
+                    SceneDef sceneDefForCurrentScene = SceneCatalog.GetSceneDefForCurrentScene();
+                    if ((sceneDefForCurrentScene.sceneType == SceneType.Stage || sceneDefForCurrentScene.sceneType == SceneType.UntimedStage) && !sceneDefForCurrentScene.preventStageAdvanceCounter)
+                    {
+                        Run.ambientLevelCap += 20 * self.loopClearCount;
+                    }
+                }
+                
+            }
+            
+        }
+
+        
 
         private static void MorePortals(On.RoR2.TeleporterInteraction.orig_Start orig, TeleporterInteraction self)
         {
@@ -118,17 +181,10 @@ namespace LittleGameplayTweaks
 
         public static void ReplaceUseAmbienWithLevelBonus(ILContext il)
         {
-            //We need to remove the useambientlevel itself;
-            //Because else it's still not synced;
-            //Because they'd have both useambient and the + levels
-            //Unless we only do it for levels above 99
-            //Which I guess would work?
-
-            //99 + LevelBonus would work for NonModOwners (They'd question why enemies get tankier probably but stats would not desync)
-            //99 + LevelBonus would work for HostHas 999 and Client has 99
-            //99 + LevelBonus would work if HostHas 99 and Client has 999 because only Host decides, they'd have wrong Hud but can't fix that
-
-
+            //If level > 99, still set level to 99 and do the rest with LevelBonus
+            //This way it's synced for people who do not have the mod.
+            //Jank, but what can you do I guess.
+ 
             //Host could probably just send out message of run ambient cap
             ILCursor c = new ILCursor(il);
             c.TryGotoNext(MoveType.Before,
@@ -140,11 +196,8 @@ namespace LittleGameplayTweaks
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<System.Func<float, CharacterBody, float>>((levels, body) =>
                 {
-                    //If level above 99,
-                    //Say 99, give rest as level bonus?
                     if (levels > 99)
                     {
-                        //Levels would only be above 99 if config is enabled so we dont need to check for it
                         if (NetworkServer.active)
                         {
                             SetLevelBonus(body.inventory, (int)levels - 99);
@@ -177,15 +230,14 @@ namespace LittleGameplayTweaks
             orig(self);
             if (self.grantUniqueBonusScaling)
             {
-                if (Run.instance.ambientLevelFloor > WConfig.LevelMaximumFinalBoss.Value)
+                if (WConfig.LevelMaximumFinalBoss.Value && Run.instance.ambientLevelFloor > 99)
                 {
                     for (int i = 0; i < self.combatSquad.membersList.Count; i++)
                     {
-                        //Set value to a flat, whatever it is
                         var t = self.combatSquad.membersList[i].inventory;
                         t.RemoveItem(RoR2Content.Items.UseAmbientLevel);
                         t.RemoveItem(RoR2Content.Items.LevelBonus, t.GetItemCount(RoR2Content.Items.LevelBonus));
-                        t.GiveItem(RoR2Content.Items.LevelBonus, WConfig.LevelMaximumFinalBoss.Value - 1);
+                        t.GiveItem(RoR2Content.Items.LevelBonus, 99);
                     }
                 }
             }

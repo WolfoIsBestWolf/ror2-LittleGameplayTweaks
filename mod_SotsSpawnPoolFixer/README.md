@@ -31,6 +31,8 @@ People have been asking the devs about it a lot, they are aware of it.
 Reduced weight of Titanic Plains and Distant Roost because they count as 2 stages.
 -Vanilla counts as 2 weight, now counts as 1.5 weight.
 
+Lunar Seers will no longer get Pre-Loop stage variants during loops.
+
 ReAdded SotV removing some enemies, because the new enemies were seemingly meant as replacements.
 If DLC1 is enabled :
 - Jellyfish removed from Loop Titanic Plains : Replaced with Alpha Construct 
@@ -42,6 +44,4 @@ If DLC1 is enabled :
 - Elder Lemurian removed from Sundered Grove : Replaced with Gup
 -- Magma worm removed from Sky Meadows       : Replaced with XI Construct : (Off by default)
 
-
-Lunar Seers will no longer get Pre-Loop stage variants during loops.
  ```
