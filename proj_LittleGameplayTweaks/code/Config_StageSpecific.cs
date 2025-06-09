@@ -44,7 +44,7 @@ namespace LittleGameplayTweaks
                 "Stage 1",
                 "Golem Plains",
                 true,
-                ""
+                "Loop TC280"
             );
             Stage_1_Roost = ConfigFileSTAGES.Bind(
                 "Stage 1",
@@ -128,7 +128,7 @@ namespace LittleGameplayTweaks
                 "Stage 4",
                 "Sirens Call",
                 true,
-                "Adds Overloading Worm\nAdds Loop Solus Probe\nAdds Loop Alpha Construct\nAdds Loop XI Construct\n\nRemoves Gunner Turret\nMore common Equipment Drone"
+                "Adds Overloading Worm\nAdds Loop Solus Probe\nAdds Loop Alpha Construct\nAdds Loop XI Construct\n\nAdds TC280\nRemoves Gunner Turret\nMore common Equipment Drone"
             );
             Stage_4_Root_Jungle = ConfigFileSTAGES.Bind(
                 "Stage 4",

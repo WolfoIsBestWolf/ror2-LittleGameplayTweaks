@@ -15,6 +15,7 @@ namespace LittleGameplayTweaks
    
         public static ConfigEntry<bool> cfgOverloadingWorm;
         public static ConfigEntry<bool> cfgEarlyScavs;
+        public static ConfigEntry<bool> cfgMatchCategory;
 
         public static ConfigEntry<bool> cfgBlightBuffWhatever;
         public static ConfigEntry<float> cfgShrineBossMult;
@@ -488,6 +489,12 @@ namespace LittleGameplayTweaks
                 "Interactables | Spawn Pools",
                 true,
                 "Mountain Shrine on Sulfur Pools\nNo Gunner Turret on Stage 4 & 5\nMili Printers, Large Printers & Cleansing Pools are a bit more common."
+            );
+            cfgMatchCategory = ConfigFileLGT.Bind(
+                "Spawnpools",
+                "Interactables | Match Categories",
+                true,
+                "Stages will only have 1 type of Category Chest, matching what Hopoo chose for the Large Category chest on that stage."
             );
             cfgCredits_Interactables = ConfigFileLGT.Bind(
                 "Spawnpools",

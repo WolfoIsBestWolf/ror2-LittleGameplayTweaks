@@ -1,6 +1,7 @@
 using BepInEx;
 using BepInEx.Configuration;
 using RiskOfOptions;
+using RiskOfOptions.OptionConfigs;
 using RiskOfOptions.Options;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,6 +36,7 @@ namespace LittleGameplayFeatures
                   true,
                   "Prismatic Trial but as a whole run."
             );
+            cfgPrismRun.SettingChanged += CfgPrismRun_SettingChanged;
             cfgScavNewTwisted = ConfigFileLTG.Bind(
                "Content",
                "New Twisted Scavengers",
@@ -58,7 +60,10 @@ namespace LittleGameplayFeatures
 
         }
 
-
+        private static void CfgPrismRun_SettingChanged(object sender, System.EventArgs e)
+        {
+            PrismaticRunMaker.runObject.GetComponent<PrismRun>().userPickable = cfgPrismRun.Value;
+        }
 
         public static void RiskConfig()
         {
@@ -71,26 +76,23 @@ namespace LittleGameplayFeatures
             ModSettingsManager.SetModIcon(Sprite.Create(texPrism, new Rect(0, 0, 128, 128), new Vector2(0.5f, 0.5f)));
 
 
-            List<ConfigEntry<bool>> resetB = new List<ConfigEntry<bool>>()
+
+            CheckBoxConfig overwriteName = new CheckBoxConfig
             {
-                 cfgPrismTimerAlwaysRun,
+                category = "Config",
+                restartRequired = false,
             };
-
-            var entries = ConfigFileLTG.GetConfigEntries();
-            foreach (ConfigEntryBase entry in entries)
+            CheckBoxConfig overwriteNameR = new CheckBoxConfig
             {
-                if (entry.SettingType == typeof(bool))
-                {
-                    var temp = (ConfigEntry<bool>)entry;
-                    ModSettingsManager.AddOption(new CheckBoxOption(temp, !resetB.Contains(temp)));
-                }
-                else
-                {
-                    Debug.LogWarning("Could not add config " + entry.Definition.Key + " of type : " + entry.SettingType);
-                }
-            }
-            return;
-
+                category = "Config",
+                restartRequired = true,
+            };
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgPrismTimerAlwaysRun, overwriteName));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgPrismRun, overwriteName));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgRedMultiShop, overwriteNameR));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgScavNewTwisted, overwriteNameR));
+            ModSettingsManager.AddOption(new CheckBoxOption(cfgNewFamilies, overwriteNameR));
+ 
         }
     }
 }

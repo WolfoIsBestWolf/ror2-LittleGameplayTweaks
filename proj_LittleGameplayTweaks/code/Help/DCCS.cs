@@ -27,6 +27,20 @@ namespace LittleGameplayTweaks
             ArrayUtils.ArrayRemoveAtAndResize(ref dccs.categories[cat].cards, card);
         }
 
+        public enum Category
+        {
+            Damage,
+            Healing,
+            Utility,
+        }
+        public static void MatchCategoryChests(DirectorCardCategorySelection.Category category, int start, Category cat)
+        {
+            var keep = category.cards[start + (int)cat];
+            category.cards[start] = keep;
+            category.cards[start+1] = keep;
+            category.cards[start+2] = keep;
+
+        }
 
         public static void MultWholeCateory(DirectorCardCategorySelection dccs, int category, int mult)
         {

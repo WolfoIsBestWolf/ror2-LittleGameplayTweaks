@@ -1,26 +1,16 @@
 
 The following bugs are fixed:
 ```
-- Distant Roost never spawning DLC1 interactables
-- Scorched Acres never spawning DLC1 interactables
-
-- Disturbed Impact  using Titanic Plains' interactables spawn pools
-
-- Disturbed Impact  Radar Scanner being blocked by Titanic Plains Log. (Due to wrong spawn pool)
-- Disturbed Impact  Radar Scanner being blocked by Shattered Abodes Log. (Correct spawn pool does not fix it)
 - Treeborn Canopy   Radar Scanner being blocked by Aphelian Sanctuary Log.
 - Golden Dieback    Radar Scanner being blocked by Aphelian Sanctuary Log.
-- Helminth Hatchery Radar Scanner being blocked by Sky Meadows Log.
 
-- Bulwarks Ambry 02  	Uses wrong Bulwarks Ambry monster spawn pool
+- Bulwarks Ambry 02  	Uses Bulwarks Ambry 01 DLC1 monster spawn pool instead of its own.
 - Shattered Abodes  	Has Stage 1 Overgrown Printers. Which Stage 1s are not meant to have.
 
-- Aphelian Sanctuary not being able to spawn Lunar Buds & Halcyon Shrines, which still took credits.
--- Same applies for Simu-Sanctuary, Simu-Commencement & Void Locust.
--- Also relevant for Vultures & Hermit Crabs via Dissonance.
+- Simu-Sanctuary & Simu-Commencement not being able to spawn Lunar Buds which would still take credits.
 ```
 
-The other changes are not necessarily bugs and can be turned off.
+The other changes are not necessarily bugs, some can be disabled.
 
 SotV removing/replacing enemies might come back, might stay gone.\
 People have been asking the devs about it a lot, they are aware of it.
@@ -30,6 +20,9 @@ People have been asking the devs about it a lot, they are aware of it.
 ```
 Reduced weight of Titanic Plains and Distant Roost because they count as 2 stages.
 -Vanilla counts as 2 weight, now counts as 1.5 weight.
+
+Limits Radar Scanners & Altar of Gold to 1 per stage.
+Makes Radar Scanner more likely to spawn.
 
 Lunar Seers will no longer get Pre-Loop stage variants during loops.
 

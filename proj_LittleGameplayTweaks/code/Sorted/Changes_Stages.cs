@@ -261,7 +261,7 @@ namespace LittleGameplayTweaks
                         case "goldshores":
                             if (WConfig.cfgGoldShoresCredits.Value)
                             {
-                                self.sceneDirectorInteractibleCredits += 65; //For Fun ig
+                                self.sceneDirectorInteractibleCredits += 75; //For Fun ig
                             }
                             break;
                     }

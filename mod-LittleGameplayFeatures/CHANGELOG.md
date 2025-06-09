@@ -1,5 +1,9 @@
 ## Changelog:
 ```
+v3.5.3
+Fixed language file being outdated.
+Fixed Prism run disable config not actually working.
+
 v3.5.2
 Changed way RedMultiShop is added to spawn pools so they no longer show up in Void Locust
 

@@ -1,9 +1,15 @@
 ## Changelog:
 ```
 v1.3.3
-Removed Aphelian Sanctuary fix as it was fixed officially.
-Removed Helminth Log fix as it was fixed officially.
-Removed Disturbed Impact fix as it was fixed officially.
+Limited Radar Scanner and Altar of Gold to 1 per stage.
+Radar Scanner is likelier to spawn.
+Following was fixed officially and removed from mod.
+-Aphelian Sanctuary not being able to spawn Lunar Chest and Halcyon Shrines.
+-Helminth Log being blocked by Skymeadows.
+-Disturbed Impact using wrong spawn pool and log being blocked wrong.
+-Distant Roost & Scorched Acres not spawning SotV interactables
+
+
 
 v1.3.2
 Fixed Loop Seer config being applied invertedly.

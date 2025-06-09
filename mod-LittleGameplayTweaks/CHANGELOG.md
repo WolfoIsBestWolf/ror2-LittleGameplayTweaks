@@ -1,8 +1,15 @@
 ## Changelog:
 ```
+v3.6.0
+Fixed for DLC2Patch4
+Items teleporting now does the teleport effect.
+Fixed NRE spam from leveling projectiles if ambient cap above 100.
+
+
 v3.5.6
 Destroyable Projectiles now scale with level.
 Removed Loop Lunar Chimera from Helminth.
+Removed duplicate Mithrix fix
 
 v3.5.5
 Ambient level Scaling per stage completed on loop. (+20 per stage)

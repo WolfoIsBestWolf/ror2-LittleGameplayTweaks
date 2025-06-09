@@ -27,7 +27,7 @@ namespace LittleGameplayFeatures
             TwistedScavs.Start();
             TripleShopLegendary.Start();
             NewFamilyEvents.Families();
-            Prism_Run.Start();
+            PrismaticRunMaker.Start();
 
             GameModeCatalog.availability.CallWhenAvailable(LateMethod);
         }
@@ -35,10 +35,11 @@ namespace LittleGameplayFeatures
   
         internal static void LateMethod()
         {
-            TripleShopLegendary.AddPingIcon();
-            NewFamilyEvents.ModSupport();
-            Prism_Run.LateRunningMethod();
             WConfig.RiskConfig();
+            NewFamilyEvents.ModSupport();
+            PrismaticRunMaker.LateRunningMethod();
+            TripleShopLegendary.AddPingIcon();
+            TwistedScavs.CallLate();
         }
 
 

@@ -14,6 +14,34 @@ namespace LittleGameplayTweaks
         public static BasicPickupDropTable DropTableForBossScav = ScriptableObject.CreateInstance<BasicPickupDropTable>();
         public static PickupIndex ScavBossItem = PickupIndex.none;
 
+        public static void CallLate()
+        {
+            GameObject UrchinTurretMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElitePoison/UrchinTurretMaster.prefab").WaitForCompletion();
+            UrchinTurretMaster.AddComponent<GivePickupsOnStart>().itemDefInfos = new GivePickupsOnStart.ItemDefInfo[]
+            {
+                new GivePickupsOnStart.ItemDefInfo
+                {
+                    itemDef = RoR2Content.Items.UseAmbientLevel,
+                    count = 1,
+                }
+            };
+            GivePickupsOnStart.ItemDefInfo[] teleportWhenOob = new GivePickupsOnStart.ItemDefInfo[]
+            {
+                new GivePickupsOnStart.ItemDefInfo
+                {
+                    itemDef = RoR2Content.Items.TeleportWhenOob,
+                    count = 1,
+                }
+            };
+            GameObject MagmaWormMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/MagmaWorm/MagmaWormMaster.prefab").WaitForCompletion();
+            MagmaWormMaster.AddComponent<GivePickupsOnStart>().itemDefInfos = teleportWhenOob;
+            GameObject ElectricWormMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormMaster.prefab").WaitForCompletion();
+            ElectricWormMaster.AddComponent<GivePickupsOnStart>().itemDefInfos = teleportWhenOob;
+          
+
+
+        }
+
         public static void Start()
         {
             Enemies();
@@ -70,7 +98,7 @@ namespace LittleGameplayTweaks
             {
                 On.RoR2.NetworkedBodySpawnSlot.OnSpawnedServer += NetworkedBodySpawnSlot_OnSpawnedServer;
             }
-            On.RoR2.CombatDirector.HalcyoniteShrineActivation += CombatDirector_HalcyoniteShrineActivation;
+          
             KillableProjectileScaling();
         }
 
@@ -90,7 +118,7 @@ namespace LittleGameplayTweaks
             body.bodyFlags |= CharacterBody.BodyFlags.UsesAmbientLevel;
             body.levelMaxHealth = 0;
             body.levelArmor = 30;
-            body = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Beetle/BeetleWard.prefab").WaitForCompletion().GetComponent<CharacterBody>();
+            body = Addressables.LoadAssetAsync<GameObject>(key: "de83659161b919844b1309bc9aaa3c71").WaitForCompletion().GetComponent<CharacterBody>();
             body.bodyFlags |= CharacterBody.BodyFlags.UsesAmbientLevel;
             body.levelMaxHealth = 0;
             body.levelArmor = 30;
@@ -98,13 +126,11 @@ namespace LittleGameplayTweaks
             body.bodyFlags |= CharacterBody.BodyFlags.UsesAmbientLevel;
             body.levelMaxHealth = 0;
             body.levelArmor = 30;
+
+      
         }
 
-        private static void CombatDirector_HalcyoniteShrineActivation(On.RoR2.CombatDirector.orig_HalcyoniteShrineActivation orig, CombatDirector self, float monsterCredit, DirectorCard chosenDirectorCard, int difficultyLevel, Transform shrineTransform)
-        {
-            orig(self, monsterCredit, chosenDirectorCard, difficultyLevel, shrineTransform);
-
-        }
+    
 
         private static void NetworkedBodySpawnSlot_OnSpawnedServer(On.RoR2.NetworkedBodySpawnSlot.orig_OnSpawnedServer orig, NetworkedBodySpawnSlot self, GameObject ownerBodyObject, SpawnCard.SpawnResult spawnResult, Action<MasterSpawnSlotController.ISlot, SpawnCard.SpawnResult> callback)
         {
@@ -289,10 +315,7 @@ namespace LittleGameplayTweaks
             skilllist[1].selectionRequiresOnGround = false;
             skilllist[1].maxDistance = 1000;
             skilllist[1].minDistance = 60;
-
-
-
-
+ 
             //
             //XI
             skilllist = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/MajorAndMinorConstruct/MegaConstructMaster.prefab").WaitForCompletion().GetComponents<RoR2.CharacterAI.AISkillDriver>();
@@ -309,20 +332,13 @@ namespace LittleGameplayTweaks
                 skilllist[6].enabled = false;
             }
 
-            var TeleportWhenOob = new GivePickupsOnStart.ItemInfo[]{
-                new GivePickupsOnStart.ItemInfo
-                { itemString = "TeleportWhenOob", count = 1 }
-            };
 
 
             if (WConfig.cfgOverloadingWorm.Value)
             {
 
                 //Electric Worm Tweaks
-                GameObject MagmaWormMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/MagmaWorm/MagmaWormMaster.prefab").WaitForCompletion();
-                MagmaWormMaster.AddComponent<GivePickupsOnStart>().itemInfos = TeleportWhenOob;
-                GameObject ElectricWormMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormMaster.prefab").WaitForCompletion();
-                ElectricWormMaster.AddComponent<GivePickupsOnStart>().itemInfos = TeleportWhenOob;
+
                 GameObject ElectricWormBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormBody.prefab").WaitForCompletion();
                 ElectricWormBody.GetComponent<CharacterBody>().baseMoveSpeed = 40;
                 WormBodyPositions2 elecWorm = ElectricWormBody.GetComponent<WormBodyPositions2>();

@@ -2,6 +2,7 @@
 using R2API.Utils;
 using RoR2;
 using System;
+ 
 using System.Security;
 using System.Security.Permissions;
 using UnityEngine;
@@ -16,7 +17,7 @@ using UnityEngine.Networking;
 namespace LittleGameplayTweaks
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Wolfo.LittleGameplayTweaks", "LittleGameplayTweaks", "3.5.0")]
+    [BepInPlugin("Wolfo.LittleGameplayTweaks", "LittleGameplayTweaks", "3.6.0")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
 
     public class LittleGameplayTweaks : BaseUnityPlugin
@@ -46,10 +47,7 @@ namespace LittleGameplayTweaks
             On.RoR2.ClassicStageInfo.Awake += ClassicStageInfoMethod;
 
 
-            GameObject PickupDroplet = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Common/PickupDroplet.prefab").WaitForCompletion();
-            PickupDroplet.AddComponent<ItemOrbPhysicsChanger>();
-            On.RoR2.MapZone.TryZoneStart += PickupTeleportHook;
-
+        
             //On.RoR2.CharacterBody.OnSkillActivated += CharacterBody_OnSkillActivated;
 
         }
@@ -57,45 +55,17 @@ namespace LittleGameplayTweaks
         public void Start()
         {
             WConfig.RiskConfig();
-
         }
-
-
-
-        public class ItemOrbPhysicsChanger : MonoBehaviour
-        {
-            public Rigidbody body;
-
-            public void Awake()
-            {
-                body = this.GetComponent<Rigidbody>();
-            }
-
-            public void FixedUpdate()
-            {
-                if (body && body.velocity.y < -30)
-                {
-                    this.gameObject.layer = 8;
-                    Destroy(this);
-                }
-            }
-        }
-
-
+   
         internal static void LateMethod()
         {
             ConfigStages.RiskConfig();
 
             Looping.CallLate();
+            Changes_Monsters.CallLate();
 
             EquipmentBonusRate(null, null);
-
-
-            HG.ArrayUtils.ArrayAppend(ref RoR2Content.Items.RoboBallBuddy.tags, ItemTag.AIBlacklist);
-            HG.ArrayUtils.ArrayAppend(ref DLC1Content.Items.MinorConstructOnKill.tags, ItemTag.AIBlacklist);
-            HG.ArrayUtils.ArrayAppend(ref RoR2Content.Items.CaptainDefenseMatrix.tags, ItemTag.CannotSteal);
-
-   
+ 
             WConfig.EclipseDifficultyAlways_SettingChanged(null, null);
 
             if (WConfig.cfgMendingCoreBuff.Value)
@@ -110,7 +80,7 @@ namespace LittleGameplayTweaks
         {
             if (WConfig.cfgLunarTeleporterAlways.Value)
             {
-                if (Run.instance.loopClearCount > 0)
+                if (Run.instance && Run.instance.loopClearCount > 0)
                 {
                     if (self.teleporterSpawnCard)
                     {
@@ -205,54 +175,6 @@ namespace LittleGameplayTweaks
                     }
                 }
                 
-            }
-        }
-
-        public static bool ColliderPickup(Collider collider)
-        {
-            if (collider.GetComponent<PickupDropletController>()) return true;
-            if (collider.GetComponent<GenericPickupController>()) return true;
-            if (collider.GetComponent<PickupPickerController>()) return true;
-            return false;
-        }
-
-        public static void PickupTeleportHook(On.RoR2.MapZone.orig_TryZoneStart orig, MapZone self, Collider collider)
-        {
-            orig(self, collider);
-            if (self.zoneType == MapZone.ZoneType.OutOfBounds)
-            {
-                if (ColliderPickup(collider))
-                {
-
-                    InfiniteTowerRun itRun = Run.instance.GetComponent<InfiniteTowerRun>();
-                    if (itRun && itRun.safeWardController)
-                    {
-                        Debug.Log("it tp item back");
-                        TeleportHelper.TeleportGameObject(collider.gameObject, itRun.safeWardController.transform.position);
-                    }
-                    else
-                    {
-                        SpawnCard spawnCard = ScriptableObject.CreateInstance<SpawnCard>();
-                        spawnCard.hullSize = HullClassification.Human;
-                        spawnCard.nodeGraphType = RoR2.Navigation.MapNodeGroup.GraphType.Ground;
-                        spawnCard.prefab = LegacyResourcesAPI.Load<GameObject>("SpawnCards/HelperPrefab");
-
-                        DirectorPlacementRule placementRule = new DirectorPlacementRule
-                        {
-                            placementMode = DirectorPlacementRule.PlacementMode.NearestNode,
-                            position = collider.transform.position
-                        };
-
-                        GameObject gameObject = DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(spawnCard, placementRule, RoR2Application.rng));
-                        if (gameObject)
-                        {
-                            Debug.Log("tp item back");
-                            TeleportHelper.TeleportGameObject(collider.gameObject, gameObject.transform.position);
-                            UnityEngine.Object.Destroy(gameObject);
-                        }
-                        UnityEngine.Object.Destroy(spawnCard);
-                    }
-                }
             }
         }
 

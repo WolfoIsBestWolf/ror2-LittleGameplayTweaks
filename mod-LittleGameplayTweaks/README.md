@@ -122,7 +122,7 @@ Allows normally disabled content :\
 	- Bulwarks Ambry access
 
 #
-### QoL
+### General
 Elite Equipment have a 1/1600 chance of dropping (instead of 1/4000).\
 Boss items are now a 20% chance to drop. (instead of 15%)
 

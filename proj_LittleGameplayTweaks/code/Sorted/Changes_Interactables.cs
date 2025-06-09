@@ -11,11 +11,7 @@ namespace LittleGameplayTweaks
 {
     public class Changes_Interactables
     {
-
-        //
-        //public static GameObject RedToWhiteSoup = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/LunarCauldron, RedToWhite Variant");
-        //public static bool RedSoupBought = false;
-        //
+ 
         public static void Start()
         {
 

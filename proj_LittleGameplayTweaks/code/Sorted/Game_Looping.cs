@@ -32,7 +32,58 @@ namespace LittleGameplayTweaks
             
             Stage.onStageStartGlobal += Stage_onStageStartGlobal;
 
+            ChatMessageBase.chatMessageTypeToIndex.Add(typeof(SyncLevelStuffWithHost), (byte)ChatMessageBase.chatMessageIndexToType.Count);
+            ChatMessageBase.chatMessageIndexToType.Add(typeof(SyncLevelStuffWithHost));
+
         }
+
+        public class SyncLevelStuffWithHost : Chat.SimpleChatMessage
+        {
+            public bool config;
+            public override string ConstructChatString()
+            {         
+                if (config == false)
+                {
+                    return null;
+                }
+                if (added == true)
+                {
+                    return null;
+                }
+                if (Run.instance is InfiniteTowerRun)
+                {
+                    //Doesnt use run ambient level
+                    return null;
+                }
+                if (Run.instance.participatingPlayerCount == 1)
+                {
+                    //Singleplayer who cares
+                    return null;
+                }
+                if (NetworkModCompatibilityHelper._networkModList.Length != 0)
+                {
+                    //Probably sharing modpack
+                    return null;
+                }
+                added = true;
+                Debug.Log("Adding fix for Clients without mod");
+                IL.RoR2.CharacterBody.RecalculateStats += ReplaceUseAmbienWithLevelBonus;
+                return null;
+            }
+            public override void Serialize(NetworkWriter writer)
+            {
+                base.Serialize(writer);
+                writer.Write(config);
+            }
+            public override void Deserialize(NetworkReader reader)
+            {
+                base.Deserialize(reader);
+                config = reader.ReadBoolean();
+            }
+
+
+        }
+
         public static int stageClearCount = 0;
         private static void Stage_onStageStartGlobal(Stage self)
         {
@@ -58,19 +109,25 @@ namespace LittleGameplayTweaks
                 }
             }
         }
+        private static bool added = false;
 
-        private static void Run_onRunStartGlobal(Run obj)
+
+
+        private static void Run_onRunStartGlobal(Run run)
         {
             levelBonus = (int)RoR2Content.Items.LevelBonus.itemIndex;
-            if (!(obj is InfiniteTowerRun))
+            if (NetworkServer.active)
             {
-                IL.RoR2.CharacterBody.RecalculateStats += ReplaceUseAmbienWithLevelBonus;
+                Chat.SendBroadcastChat(new SyncLevelStuffWithHost
+                {
+                    config = WConfig.cfgAddLevelCapPerStage.Value
+                });
             }
         }
         private static void Run_onRunDestroyGlobal(Run obj)
         {
             Run.ambientLevelCap = storedRunAmbientLevelCap;
-            if (!(obj is InfiniteTowerRun))
+            if (added)
             {
                 IL.RoR2.CharacterBody.RecalculateStats -= ReplaceUseAmbienWithLevelBonus;
             }
@@ -80,50 +137,45 @@ namespace LittleGameplayTweaks
         private static void Run_AdvanceStage(On.RoR2.Run.orig_AdvanceStage orig, Run self, SceneDef nextScene)
         {
             orig(self, nextScene);
-            if (WConfig.cfgAddLevelCapPerStage.Value)
+            if (WConfig.cfgAddLevelCapPerStage.Value == false)
             {
                 return;
-                if (self.loopClearCount > 0)
-                {
-                    SceneDef sceneDefForCurrentScene = SceneCatalog.GetSceneDefForCurrentScene();
-                    if ((sceneDefForCurrentScene.sceneType == SceneType.Stage || sceneDefForCurrentScene.sceneType == SceneType.UntimedStage) && !sceneDefForCurrentScene.preventStageAdvanceCounter)
-                    {
-                        Run.ambientLevelCap += 20 * self.loopClearCount;
-                    }
-                }
-                
             }
-            
+            if (self.loopClearCount > 0)
+            {
+                SceneDef sceneDefForCurrentScene = SceneCatalog.GetSceneDefForCurrentScene();
+                if ((sceneDefForCurrentScene.sceneType == SceneType.Stage || sceneDefForCurrentScene.sceneType == SceneType.UntimedStage) && !sceneDefForCurrentScene.preventStageAdvanceCounter)
+                {
+                    Run.ambientLevelCap += 20 * self.loopClearCount;
+                }
+            }
         }
 
         
 
         private static void MorePortals(On.RoR2.TeleporterInteraction.orig_Start orig, TeleporterInteraction self)
         {
-            if (!Run.instance)
+            if (Run.instance)
             {
-                return;
-            }
-            int stageClearCount = Run.instance.stageClearCount;
-            if (WConfig.VoidPortalStage5.Value)
-            {
-                PortalSpawner voidLocust = self.GetComponent<PortalSpawner>();
-                if (voidLocust)
+                int stageClearCount = Run.instance.stageClearCount;
+                if (WConfig.VoidPortalStage5.Value)
                 {
-                    voidLocust.minStagesCleared = 4;
-                    if (stageClearCount % Run.stagesPerLoop == 4)
+                    PortalSpawner voidLocust = self.GetComponent<PortalSpawner>();
+                    if (voidLocust)
                     {
-                        voidLocust.spawnChance = 1f;
-                    }
-                    else
-                    {
-                        voidLocust.spawnChance = 0.2f;
+                        voidLocust.minStagesCleared = 4;
+                        if (stageClearCount % Run.stagesPerLoop == 4)
+                        {
+                            voidLocust.spawnChance = 1f;
+                        }
+                        else
+                        {
+                            voidLocust.spawnChance = 0.2f;
+                        }
                     }
                 }
             }
-
             orig(self);
-            //Should run before anything else because Awake -> OnEnable -> Start?
             if (WConfig.CelestialStage10.Value)
             {
                 if (NetworkServer.active)
@@ -134,7 +186,6 @@ namespace LittleGameplayTweaks
                     }
                 }
             }
-
             if (self.bossGroup)
             {
                 self.bossGroup.bossDropChance = WConfig.cfgBossItemChance.Value / 100f;
@@ -218,7 +269,7 @@ namespace LittleGameplayTweaks
         {
             //Setting Run ambient level to 999 desyncs, whether it's host to client or client to host or people with mod or not
             //But inventory is networked, and LevelBonus is networked, so, I guess
-            if (inv.itemStacks[levelBonus] != count)
+            if (inv && inv.itemStacks[levelBonus] != count)
             {
                 inv.itemStacks[levelBonus] = count;
                 inv.SetDirtyBit(1U);
@@ -313,7 +364,7 @@ namespace LittleGameplayTweaks
             if (Run.instance.loopClearCount > 0)
             {
                 float mult = 1f + Run.instance.loopClearCount * 0.5f;
-                Debug.Log("Loop TP multiplying HP by " + mult);
+                //Debug.Log("Loop TP multiplying HP by " + mult);
                 int hp = 10 + inv.GetItemCount(RoR2Content.Items.BoostHp);
                 hp = (int)(hp * mult) - 10;
                 inv.GiveItem(RoR2Content.Items.BoostHp, hp);

@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 namespace LittleGameplayFeatures
 {
-    public class Prism_Run
+    public class PrismaticRunMaker
     {
         public static GameObject runObject;
 
@@ -33,7 +33,7 @@ namespace LittleGameplayFeatures
 
             PrismRun prismRun = runObject.GetComponent<PrismRun>();
             prismRun.nameToken = "GAMEMODE_PRISM_RUN_NAME";
-            prismRun.userPickable = true;
+            prismRun.userPickable = WConfig.cfgPrismRun.Value;
             prismRun.crystalSpawnCard = weeklyRun.crystalSpawnCard;
             prismRun.equipmentBarrelSpawnCard = weeklyRun.equipmentBarrelSpawnCard;
 
@@ -45,7 +45,7 @@ namespace LittleGameplayFeatures
 
 
 
-            ContentAddition.AddGameMode(Prism_Run.runObject);
+            ContentAddition.AddGameMode(PrismaticRunMaker.runObject);
 
             On.RoR2.RunReport.PlayerInfo.Generate += PrismMentionOnDeathScreen;
 

@@ -3,6 +3,7 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 namespace LittleGameplayTweaks
 {
@@ -80,6 +81,7 @@ namespace LittleGameplayTweaks
                 var selection = orig(self);
                 for (int i = 0; i < selection.Count; i++)
                 {
+                    //Debug.Log(selection.choices[i].value.spawnCard);
                     if (selection.choices[i].value.spawnCard.prefab.GetComponent<ShrineBossBehavior>())
                     {
                         selection.choices[i].weight *= WConfig.cfgShrineBossMult.Value;
@@ -108,89 +110,136 @@ namespace LittleGameplayTweaks
             int stormIndex = dccs.FindCategoryIndexByName("Storm Stuff");
 
             //CompareOrdinal??
-
-            DirectorCardCategorySelection.Category category;
-            if (chestIndex != -1)
+            try
             {
-                category = dccs.categories[chestIndex];
-                for (int card = 0; card < category.cards.Length; card++)
+                DirectorCardCategorySelection.Category category;
+                if (chestIndex != -1)
                 {
-                    if (category.cards[card].spawnCard.name.StartsWith("iscCategoryChest2"))
+                    category = dccs.categories[chestIndex];
+                    for (int card = 0; card < category.cards.Length; card++)
                     {
-                        category.cards[card].selectionWeight = 8;
-                        break;
+                        if (category.cards[card].spawnCard.name.StartsWith("iscCategoryChest2"))
+                        {
+                            if (SceneInfo.instance.sceneDef.baseSceneName != "helminthroost")
+                            {
+                                category.cards[card].selectionWeight = 9;
+                            }
+                            
+                        }
+                        else if (category.cards[card].spawnCard.name == "iscCategoryChestDamage")
+                        {
+                            MatchCategoryChestsToLarge(category, card);
+                            break;
+                        }
+                    }
+                }
+                /*if (shrineIndex != -1)
+                {
+                    category = dccs.categories[shrineIndex];
+                }
+                if (droneIndex != -1)
+                {
+                    category = dccs.categories[droneIndex];
+                }*/
+                if (duplicatorIndex != -1)
+                {
+                    category = dccs.categories[duplicatorIndex];
+                    for (int card = 0; card < category.cards.Length; card++)
+                    {
+                        if (category.cards[card].spawnCard.name.EndsWith("Large"))
+                        {
+                            category.cards[card].selectionWeight = 7;
+                        }
+                        else if (category.cards[card].spawnCard.name.EndsWith("Military"))
+                        {
+                            category.cards[card].selectionWeight = 2;
+                            category.cards[card].minimumStageCompletions = 3;
+                        }
+                        else if (category.cards[card].spawnCard.name.EndsWith("Wild"))
+                        {
+                            category.cards[card].minimumStageCompletions = 2;
+                        }
+                    }
+                }
+                if (rareIndex != -1)
+                {
+                    category = dccs.categories[rareIndex];
+                    dccs.categories[rareIndex].selectionWeight += 0.1f;
+                }
+                if (voidIndex != -1)
+                {
+                    dccs.categories[voidIndex].selectionWeight += 0.5f;
+                }
+                if (stormIndex != -1)
+                {
+                    category = dccs.categories[stormIndex];
+                    for (int card = 0; card < category.cards.Length; card++)
+                    {
+                        if (category.cards[card].spawnCard.name.EndsWith("ess"))
+                        {
+                            category.cards[card].minimumStageCompletions = 2;
+                            break;
+                        }
                     }
                 }
             }
-            /*if (shrineIndex != -1)
+            catch (System.Exception e)
             {
-                category = dccs.categories[shrineIndex];
+                Debug.LogWarning("REPORT THIS");
+                Debug.LogWarning(e);
             }
-            if (droneIndex != -1)
-            {
-                category = dccs.categories[droneIndex];
-            }*/
-            if (duplicatorIndex != -1)
-            {
-                category = dccs.categories[duplicatorIndex];
-                for (int card = 0; card < category.cards.Length; card++)
-                {
-                    if (category.cards[card].spawnCard.name.EndsWith("Large"))
-                    {
-                        category.cards[card].selectionWeight = 7;
-                    }
-                    else if(category.cards[card].spawnCard.name.EndsWith("Military"))
-                    {
-                        category.cards[card].selectionWeight = 2;
-                        category.cards[card].minimumStageCompletions = 3;
-                    }
-                    else if (category.cards[card].spawnCard.name.EndsWith("Wild"))
-                    {
-                        category.cards[card].minimumStageCompletions = 2;
-                    }
-                }
-            }
-            if (rareIndex != -1)
-            {
-                category = dccs.categories[rareIndex];
-                dccs.categories[rareIndex].selectionWeight += 0.1f;
-                for (int card = 0; card < category.cards.Length; card++)
-                {
-                    if (category.cards[card].spawnCard.name == "iscRadarTower")
-                    {
-                        category.cards[card].selectionWeight = 22;
-                        break;
-                    }
-                }
-            }
-            if (voidIndex != -1)
-            {
-                dccs.categories[voidIndex].selectionWeight += 0.5f;
-            }
-            if (stormIndex != -1)
-            {
-                category = dccs.categories[stormIndex];
-                for (int card = 0; card < category.cards.Length; card++)
-                {
-                    if (category.cards[card].spawnCard.name.EndsWith("ess"))
-                    {
-                        category.cards[card].minimumStageCompletions = 2;
-                        break;
-                    }
-                }
-            }
-
         }
 
+        public static void MatchCategoryChestsToLarge(DirectorCardCategorySelection.Category dccs, int card)
+        {
+            if (!WConfig.cfgMatchCategory.Value)
+            {
+                return;
+            }
+            string scene = SceneInfo.instance.sceneDef.baseSceneName;
+            switch (scene)
+            {
+                case "snowyforest": //1
+                case "goolake": //2
+                case "wispgraveyard": //3
+                case "habitat":
+                case "habitatfall":
+                case "dampcavesimple": //4
+                    DCCS.MatchCategoryChests(dccs, card, DCCS.Category.Damage);
+                    break;
+                case "golemplains":
+                case "village":
+                case "villagenight":
+                case "foggyswamp":
+                case "sulfurpools":
+                case "shipgraveyard":
+                    DCCS.MatchCategoryChests(dccs, card, DCCS.Category.Healing);
+                    break;
+                case "blackbeach":
+                case "lakes":
+                case "lakesnight":
+                case "ancientloft":
+                case "frozenwall":
+                case "rootjungle":
+                    DCCS.MatchCategoryChests(dccs, card, DCCS.Category.Utility);
+                    break;
+            }
 
+
+
+        }
        
 
         public static void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self, DirectorCardCategorySelection forcedMonsterCategory, DirectorCardCategorySelection forcedInteractableCategory)
         {
             orig(self, forcedMonsterCategory, forcedInteractableCategory);
-            if (NetworkServer.active && forcedInteractableCategory == null)
+            if (NetworkServer.active && forcedInteractableCategory == null && self.sceneDirectorInteractibleCredits > 0)
             {
                 DoThing = true;
+            }
+            else
+            {
+                DoThing = false;
             }
         }
         public static bool DoThing = false;
@@ -198,19 +247,7 @@ namespace LittleGameplayTweaks
         {
             if (DoThing)
             {
-                DoThing = false;
-                if (scene.interactableCredit > 0)
-                {
-                    InteractableDCCS_Changes(dccs);
-                    /*for (int i = 0; i < dccs.categories.Length; i++)
-                    {
-                        for (int j = 0; j < dccs.categories[i].cards.Length; j++)
-                        {
-                            Debug.Log(dccs.categories[i].cards[j].spawnCard + " | " + dccs.categories[i].cards[j].selectionWeight);
-                        }
-                    }*/
-                }
-
+                InteractableDCCS_Changes(dccs);
             }
         }
 
@@ -237,6 +274,7 @@ namespace LittleGameplayTweaks
             DirectorCardCategorySelection dccsGoldshoresInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/goldshores/dccsGoldshoresInteractables.asset").WaitForCompletion();
             DirectorCard ADShrineCleanse1 = new DirectorCard
             {
+                //spawnCardReference = new AssetReferenceT<SpawnCard>("RoR2/Base/ShrineCleanse/iscShrineCleanse.asset"),
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanse.asset").WaitForCompletion(),
                 selectionWeight = 5,
             };
@@ -265,7 +303,7 @@ namespace LittleGameplayTweaks
             {
                 name = "Shrines",
                 selectionWeight = 10,
-                cards = new DirectorCard[] { AdShrineCombat, ADShrineChance, ADShrineCleanse1, ADShrineHealing }
+                cards = new DirectorCard[] { AdShrineCombat, ADShrineChance, ADShrineCleanse1, ADShrineHealing , ADBARREL }
             };
             dccsGoldshoresInteractables.categories = new DirectorCardCategorySelection.Category[] { GoldShoreShrines };
 
@@ -283,7 +321,7 @@ namespace LittleGameplayTweaks
         public static void Interactables_Stage1()
         {
             #region DCCS
-            //DirectorCardCategorySelection dccsGolemplainsInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/golemplains/dccsGolemplainsInteractables.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsGolemplainsInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/golemplains/dccsGolemplainsInteractables.asset").WaitForCompletion();
             //DirectorCardCategorySelection dccsGolemplainsInteractablesDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/golemplains/dccsGolemplainsInteractablesDLC1.asset").WaitForCompletion();
             //DirectorCardCategorySelection dccsGolemplainsInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/dccsGolemplainsInteractablesDLC2.asset").WaitForCompletion();
 
@@ -303,14 +341,14 @@ namespace LittleGameplayTweaks
 
             DirectorCardCategorySelection dccsVillageInteractables_DLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/village/dccsVillageInteractables_DLC2.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsVillageInteractablesDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/village/dccsVillageInteractablesDLC1.asset").WaitForCompletion();
-            //DirectorCardCategorySelection dccsVillagenightInteractablesDLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/villagenight/dccsVillagenightInteractablesDLC2.asset").WaitForCompletion();
+            DirectorCardCategorySelection dccsVillageNightInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "2751f6d6bca27a44a9e45d87c5bbee1c").WaitForCompletion();
             #endregion
             #region Cards
-            DirectorCard iscCategoryChest2Damage = new DirectorCard
+            /*DirectorCard iscCategoryChest2Damage = new DirectorCard
             {
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/CategoryChest2/iscCategoryChest2Damage.asset").WaitForCompletion(),
                 selectionWeight = 3,
-            };
+            };*/
             DirectorCard iscCategoryChest2Healing = new DirectorCard
             {
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/CategoryChest2/iscCategoryChest2Healing.asset").WaitForCompletion(),
@@ -321,29 +359,13 @@ namespace LittleGameplayTweaks
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/CategoryChest2/iscCategoryChest2Utility.asset").WaitForCompletion(),
                 selectionWeight = 3,
             };
-            DirectorCard ADBrokenMegaDrone = new DirectorCard
+            DirectorCard loopTC280 = new DirectorCard
             {
                 spawnCard = LegacyResourcesAPI.Load<InteractableSpawnCard>("spawncards/interactablespawncard/iscBrokenMegaDrone"),
                 selectionWeight = 4,
                 minimumStageCompletions = 4,
             };
-            DirectorCard ShrineOrder_SNOW = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSnowy.asset").WaitForCompletion(),
-                selectionWeight = 4,
-            };
-            DirectorCard LoopShrineCleanse = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanse.asset").WaitForCompletion(),
-                selectionWeight = 1,
-                minimumStageCompletions = 2,
-            };
-            DirectorCard LoopShrineCleanse15 = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanse.asset").WaitForCompletion(),
-                selectionWeight = 15,
-                minimumStageCompletions = 2,
-            };
+ 
             DirectorCard ShrineOrder_DEFAULT10 = new DirectorCard
             {
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestack.asset").WaitForCompletion(),
@@ -351,40 +373,60 @@ namespace LittleGameplayTweaks
             };
             #endregion
             #region Adds
-
+            if (ConfigStages.Stage_1_Golem.Value)
+            {
+                dccsGolemplainsInteractables.AddCard(3, loopTC280);
+            }
+ 
             if (ConfigStages.Stage_1_Roost.Value)
             {
-                dccsBlackBeachInteractables.AddCard(2, LoopShrineCleanse);
+                dccsBlackBeachInteractables.AddCard(2, new DirectorCard //Cleanse10
+                {
+                    spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanse.asset").WaitForCompletion(),
+                    selectionWeight = 1,
+                    minimumStageCompletions = 2,
+                });
             }
             if (ConfigStages.Stage_1_Snow.Value)
             {
-                dccsSnowyForestInteractablesDLC1.AddCard(3, ADBrokenMegaDrone);
-                dccsSnowyForestInteractablesDLC1.AddCard(5, ShrineOrder_SNOW);
+                dccsSnowyForestInteractablesDLC1.AddCard(3, loopTC280);
+                dccsSnowyForestInteractablesDLC1.AddCard(5, new DirectorCard //Snow Order Rare
+                {
+                    spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSnowy.asset").WaitForCompletion(),
+                    selectionWeight = 4,
+                });
             }
             if (ConfigStages.Stage_1_Lake.Value)
             {
-                dccsLakesInteractables_DLC2.categories[0].cards[0].selectionWeight = 2; //Cleansing Shrine
+                dccsLakesInteractables_DLC2.categories[0].cards[0].selectionWeight = 1; //Cleansing Shrine
 
                 DCCS.MultWholeCateory(dccsLakesInteractables, 0, 10);
                 int chests = dccsLakesInteractablesDLC1.AddCategory("Chests", 45);
-                dccsLakesInteractablesDLC1.AddCard(chests, iscCategoryChest2Healing);
-                //dccsLakesInteractablesDLC1.AddCard(chests, iscCategoryChest2Utility);
+                dccsLakesInteractablesDLC1.AddCard(chests, iscCategoryChest2Utility);
 
+                dccsLakesnightInteractables_DLC2.AddCard(3, loopTC280);
                 DCCS.MultWholeCateory(dccsLakesnightInteractables_DLC2, 0, 10);
                 chests = dccsLakesnightInteractables_DLC1.AddCategory("Chests", 45);
-                dccsLakesnightInteractables_DLC1.AddCard(chests, iscCategoryChest2Healing);
-                //dccsLakesnightInteractables_DLC1.AddCard(chests, iscCategoryChest2Utility);
+                dccsLakesnightInteractables_DLC1.AddCard(chests, iscCategoryChest2Utility);
+          
             }
             if (ConfigStages.Stage_1_Village.Value)
             {
                 dccsVillageInteractables_DLC2.AddCard(2, ShrineOrder_DEFAULT10);
-                dccsVillageInteractables_DLC2.AddCard(2, LoopShrineCleanse15);
-                dccsVillageInteractables_DLC2.AddCard(3, ADBrokenMegaDrone);
-
+               
                 DCCS.MultWholeCateory(dccsVillageInteractables_DLC2, 0, 10);
                 int chests = dccsVillageInteractablesDLC1.AddCategory("Chests", 45);
-                //dccsVillageInteractablesDLC1.AddCard(chests, iscCategoryChest2Damage);
-                dccsVillageInteractablesDLC1.AddCard(chests, iscCategoryChest2Utility);
+               
+                dccsVillageInteractablesDLC1.AddCard(chests, iscCategoryChest2Healing);
+
+                dccsVillageNightInteractables.AddCard(2, ShrineOrder_DEFAULT10);
+                dccsVillageNightInteractables.AddCard(2, new DirectorCard //Loop Cleanse 15
+                {
+                    spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanse.asset").WaitForCompletion(),
+                    selectionWeight = 15,
+                    minimumStageCompletions = 2,
+                });
+                dccsVillageNightInteractables.AddCard(2, loopTC280);
             }
 
 
@@ -409,31 +451,7 @@ namespace LittleGameplayTweaks
             DirectorCardCategorySelection dccsLemurianTempleInteractables_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lemuriantemple/dccsLemurianTempleInteractables_DLC1.asset").WaitForCompletion();
             #endregion
             #region Cards
-            DirectorCard iscCategoryChest2Damage = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/CategoryChest2/iscCategoryChest2Damage.asset").WaitForCompletion(),
-                selectionWeight = 3,
-            };
-            DirectorCard iscCategoryChest2Healing = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/CategoryChest2/iscCategoryChest2Healing.asset").WaitForCompletion(),
-                selectionWeight = 3,
-            };
-            DirectorCard iscCategoryChest2Utility = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/CategoryChest2/iscCategoryChest2Utility.asset").WaitForCompletion(),
-                selectionWeight = 3,
-            };
-            DirectorCard ShrineOrder_SAND = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSandy.asset").WaitForCompletion(),
-                selectionWeight = 1,
-            };
-            DirectorCard ShrineOrder_SANDR = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSandy.asset").WaitForCompletion(),
-                selectionWeight = 4,
-            };
+ 
             #endregion
 
             if (ConfigStages.Stage_2_Swamp.Value)
@@ -443,17 +461,37 @@ namespace LittleGameplayTweaks
             if (ConfigStages.Stage_2_Ancient.Value)
             {
                 dccsAncientLoftInteractablesDLC1.categories[3].cards[1].selectionWeight = 4;
-                dccsAncientLoftInteractablesDLC1.AddCard(4, ShrineOrder_SANDR); //RARE
+                dccsAncientLoftInteractablesDLC1.AddCard(4, new DirectorCard //Order Sand Rare
+                {
+                    spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSandy.asset").WaitForCompletion(),
+                    selectionWeight = 1,
+                }); //RARE
             }
             if (ConfigStages.Stage_2_Temple.Value)
             {
-                dccsLemurianTempleInteractables_DLC2.AddCard(2, ShrineOrder_SAND);
+                dccsLemurianTempleInteractables_DLC2.AddCard(2, new DirectorCard
+                {
+                    spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSandy.asset").WaitForCompletion(),
+                    selectionWeight = 4,
+                });
 
                 DCCS.MultWholeCateory(dccsLemurianTempleInteractables_DLC2, 0, 10);
                 int chests = dccsLemurianTempleInteractables_DLC1.AddCategory("Chests", 45);
-                dccsLemurianTempleInteractables_DLC1.AddCard(chests, iscCategoryChest2Damage);
-                //dccsLemurianTempleInteractables_DLC1.AddCard(chests, iscCategoryChest2Healing);
-                //dccsLemurianTempleInteractables_DLC1.AddCard(chests, iscCategoryChest2Utility);
+                dccsLemurianTempleInteractables_DLC1.AddCard(chests, new DirectorCard
+                {
+                    spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/CategoryChest2/iscCategoryChest2Damage.asset").WaitForCompletion(),
+                    selectionWeight = 3,
+                });
+                dccsLemurianTempleInteractables_DLC1.AddCard(chests, new DirectorCard
+                {
+                    spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/CategoryChest2/iscCategoryChest2Healing.asset").WaitForCompletion(),
+                    selectionWeight = 3,
+                });
+                dccsLemurianTempleInteractables_DLC1.AddCard(chests, new DirectorCard
+                {
+                    spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/CategoryChest2/iscCategoryChest2Utility.asset").WaitForCompletion(),
+                    selectionWeight = 3,
+                });
             }
 
         }
@@ -481,21 +519,7 @@ namespace LittleGameplayTweaks
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/CategoryChest2/iscCategoryChest2Damage.asset").WaitForCompletion(),
                 selectionWeight = 3,
             };
-            DirectorCard iscCategoryChest2Healing = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/CategoryChest2/iscCategoryChest2Healing.asset").WaitForCompletion(),
-                selectionWeight = 3,
-            };
-            DirectorCard ADShrineBoss10 = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBoss/iscShrineBoss.asset").WaitForCompletion(),
-                selectionWeight = 15,
-            };
-            DirectorCard ADBrokenEmergencyDrone = new DirectorCard
-            {
-                spawnCard = LegacyResourcesAPI.Load<InteractableSpawnCard>("spawncards/interactablespawncard/iscBrokenEmergencyDrone"),
-                selectionWeight = 2,
-            };
+ 
             #endregion
 
             if (ConfigStages.Stage_3_Wisp.Value)
@@ -504,15 +528,23 @@ namespace LittleGameplayTweaks
             }
             if (ConfigStages.Stage_3_Sulfur.Value)
             {
-                dccsSulfurPoolsInteractablesDLC1.AddCard(2, ADShrineBoss10);
-                dccsSulfurPoolsInteractablesDLC1.AddCard(3, ADBrokenEmergencyDrone);
+                dccsSulfurPoolsInteractablesDLC1.AddCard(2, new DirectorCard
+                {
+                    spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBoss/iscShrineBoss.asset").WaitForCompletion(),
+                    selectionWeight = 15,
+                });
+                dccsSulfurPoolsInteractablesDLC1.AddCard(3, new DirectorCard
+                {
+                    spawnCard = LegacyResourcesAPI.Load<InteractableSpawnCard>("spawncards/interactablespawncard/iscBrokenEmergencyDrone"),
+                    selectionWeight = 2,
+                });
             }
             if (ConfigStages.Stage_3_Tree.Value)
             {
                 DCCS.MultWholeCateory(dccsHabitatInteractables_DLC2, 0, 10);
                 int chests = dccsHabitatInteractables_DLC1.AddCategory("Chests", 45);
-                //dccsHabitatInteractables_DLC1.AddCard(chests, iscCategoryChest2Damage);
-                //dccsHabitatInteractables_DLC1.AddCard(chests, iscCategoryChest2Healing);
+                dccsHabitatInteractables_DLC1.AddCard(chests, iscCategoryChest2Damage);
+           
             }
 
         }
@@ -540,6 +572,11 @@ namespace LittleGameplayTweaks
             }
             if (ConfigStages.Stage_4_Ship.Value)
             {
+                dccsShipgraveyardInteractables.AddCard(3, new DirectorCard
+                {
+                    spawnCard = LegacyResourcesAPI.Load<InteractableSpawnCard>("spawncards/interactablespawncard/iscBrokenMegaDrone"),
+                    selectionWeight = 1,
+                });
                 dccsShipgraveyardInteractables.categories[3].cards[2].selectionWeight = 5; //Eq drone
                 dccsShipgraveyardInteractables.categories[2].cards[3].selectionWeight = 12; //Cleanse more
                 DCCS.RemoveCard(dccsShipgraveyardInteractables, 4, 0);//Gunner Turret Removal
@@ -559,24 +596,7 @@ namespace LittleGameplayTweaks
             DirectorCardCategorySelection dccsHelminthRoostInteractables_DLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/helminthroost/dccsHelminthRoostInteractables_DLC2.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsHelminthRoostInteractables_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/helminthroost/dccsHelminthRoostInteractables_DLC1.asset").WaitForCompletion();
             #endregion
-            #region Cards
-            DirectorCard iscCategoryChest2Damage = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/CategoryChest2/iscCategoryChest2Damage.asset").WaitForCompletion(),
-                selectionWeight = 4,
-            };
-            DirectorCard iscCategoryChest2Healing = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/CategoryChest2/iscCategoryChest2Healing.asset").WaitForCompletion(),
-                selectionWeight = 4,
-            };
-            DirectorCard iscCategoryChest2Utility = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/CategoryChest2/iscCategoryChest2Utility.asset").WaitForCompletion(),
-                selectionWeight = 4,
-            };
-            #endregion
-
+ 
             if (ConfigStages.Stage_5_Sky.Value)
             {
                 DCCS.RemoveCard(dccsSkyMeadowInteractables, 4, 0); //Gunner Turret Removal
@@ -584,12 +604,6 @@ namespace LittleGameplayTweaks
             if (ConfigStages.Stage_5_Helminth.Value)
             {
                 DCCS.RemoveCard(dccsHelminthRoostInteractables_DLC2, 7, 0); //Gunner Turret Removal
-
-                DCCS.MultWholeCateory(dccsHelminthRoostInteractables_DLC2, 0, 10);
-                DCCS.MultWholeCateory(dccsHelminthRoostInteractables_DLC1, 0, 10);
-                dccsHelminthRoostInteractables_DLC1.AddCard(0, iscCategoryChest2Damage);
-                dccsHelminthRoostInteractables_DLC1.AddCard(0, iscCategoryChest2Healing);
-                dccsHelminthRoostInteractables_DLC1.AddCard(0, iscCategoryChest2Utility);
             }
         }
 

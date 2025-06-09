@@ -98,95 +98,22 @@ namespace LittleGameplayFeatures
             GoomanBody.levelDamage *= 0.75f;
 
 
-            ScavLunarWSpeedMaster.GetComponent<GivePickupsOnStart>().equipmentString = "FireBallDash";
-            ScavLunarWSpeedMaster.GetComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                new GivePickupsOnStart.ItemInfo { itemString = ("Hoof"), count = 10, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("Syringe"), count = 3, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("WarCryOnMultiKill"), count = 2, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("EnergizedOnEquipmentUse"), count = 4, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("AttackSpeedOnCrit"), count = 2, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("SprintOutOfCombat"), count = 4, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("MoveSpeedOnKill"), count = 5, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("Phasing"), count = 3, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("AlienHead"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("LunarBadLuck"), count = 1, },
-                //Decoration
-                new GivePickupsOnStart.ItemInfo { itemString = ("SprintBonus"), count = 5, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("AttackSpeedAndMoveSpeed"), count = 2, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("FallBoots"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
-            };
-
-            ScavLunarWTankMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[2].maxUserHealthFraction = 1f;
-            ScavLunarWTankMaster.GetComponent<GivePickupsOnStart>().equipmentString = "CrippleWard";
-            ScavLunarWTankMaster.GetComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                //new GivePickupsOnStart.ItemInfo { itemString = ("Bear"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("OutOfCombatArmor"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("ArmorPlate"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("SlowOnHit"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("IceRing"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("ImmuneToDebuff"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("HalfAttackSpeedHalfCooldowns"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("HalfSpeedDoubleHealth"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("SecondarySkillMagazine"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("LunarSecondaryReplacement"), count = 1, },
-                //Decorations     
-                 new GivePickupsOnStart.ItemInfo { itemString = ("BarrierOnKill"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("SprintArmor"), count = 1, },
-                //new GivePickupsOnStart.ItemInfo { itemString = ("BarrierOnOverHeal"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
-            };
 
 
-            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[0].maxUserHealthFraction = 1f;
-            //ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].shouldFireEquipment = true;
-            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[2].shouldFireEquipment = true;
-            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[2].maxUserHealthFraction = 1f;
-            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[3].shouldFireEquipment = true;
-            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[4].shouldFireEquipment = true;
-            ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().equipmentString = "GummyClone";
-            ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                new GivePickupsOnStart.ItemInfo { itemString = ("BoostEquipmentRecharge"), count = 10, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("EquipmentMagazine"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("PermanentDebuffOnHit"), count = 2, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("RandomDamageZone"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("Incubator"), count = 3, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("WardOnLevel"), count = 2, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("LevelBonus"), count = 1, },
-                //Decorations
-                //new GivePickupsOnStart.ItemInfo { itemString = ("RegeneratingScrap"), count = 5, },
-                //new GivePickupsOnStart.ItemInfo { itemString = ("GhostOnKill"), count = 1, }, //Causes issues with FlatItemBuffs rework. Seemingly would be fine if ghosts dont get items
-                new GivePickupsOnStart.ItemInfo { itemString = ("SprintWisp"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
-            };
-
-
-
-            //KipKip
             cscScavLunar.masterPrefabs[0].AddComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("FlatHealth"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("TPHealingNova"), count = 1, },
+                new GivePickupsOnStart.ItemInfo { itemString = "LunarTrinket", count = 1, },
+                new GivePickupsOnStart.ItemInfo { itemString = "FlatHealth", count = 1, },
             };
-
-            //WipWip
             cscScavLunar.masterPrefabs[1].AddComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("DeathMark"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("Bandolier"), count = 1, },
+                new GivePickupsOnStart.ItemInfo { itemString = "LunarTrinket", count = 1, },
             };
-
-            //Twiptwip
             cscScavLunar.masterPrefabs[2].AddComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("HeadHunter"), count = 1, },
+                new GivePickupsOnStart.ItemInfo { itemString = "LunarTrinket", count = 1, },
+            };
+            cscScavLunar.masterPrefabs[3].AddComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
+                new GivePickupsOnStart.ItemInfo { itemString = "LunarTrinket", count = 1, },
             };
 
-            //Guragura
-            cscScavLunar.masterPrefabs[3].AddComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                new GivePickupsOnStart.ItemInfo { itemString = ("LunarTrinket"), count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = ("BonusGoldPackOnKill"), count = 10, },
-            };
 
             On.RoR2.GivePickupsOnStart.Start += (orig, self) =>
             {
@@ -200,30 +127,95 @@ namespace LittleGameplayFeatures
                 };
             };
 
-           //cscScavLunar.masterPrefabs = cscScavLunar.masterPrefabs.Add(TwistedScavs.ScavLunarWGoomanMaster, TwistedScavs.ScavLunarWSpeedMaster, TwistedScavs.ScavLunarWTankMaster);
+         
             On.RoR2.LocalUserManager.AddUser += LocalUserManager_AddUser;
         }
+        
+        public static void CallLate()
+        {
 
+            ScavLunarWSpeedMaster.GetComponent<GivePickupsOnStart>().equipmentDef = RoR2Content.Equipment.FireBallDash;
+            ScavLunarWSpeedMaster.GetComponent<GivePickupsOnStart>().itemDefInfos = new GivePickupsOnStart.ItemDefInfo[] {
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.Hoof, count = 10, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.Syringe, count = 3, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.WarCryOnMultiKill, count = 2, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.EnergizedOnEquipmentUse, count = 4, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.AttackSpeedOnCrit, count = 2, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.SprintOutOfCombat, count = 4, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.MoveSpeedOnKill, count = 5, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.Phasing, count = 3, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.AlienHead, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.LunarBadLuck, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.SprintBonus, count = 5, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.AttackSpeedAndMoveSpeed, count = 2, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.FallBoots, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.LunarTrinket, count = 1, },
+            };
+
+            ScavLunarWTankMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[2].maxUserHealthFraction = 1f;
+            ScavLunarWTankMaster.GetComponent<GivePickupsOnStart>().equipmentDef = RoR2Content.Equipment.CrippleWard;
+            ScavLunarWTankMaster.GetComponent<GivePickupsOnStart>().itemDefInfos = new GivePickupsOnStart.ItemDefInfo[] {
+                //new GivePickupsOnStart.ItemInfo { itemDef = RoR2Content.Items.Bear, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.OutOfCombatArmor, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.ArmorPlate, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.SlowOnHit, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.IceRing, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.ImmuneToDebuff, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.HalfAttackSpeedHalfCooldowns, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.HalfSpeedDoubleHealth, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.SecondarySkillMagazine, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.LunarSecondaryReplacement, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.SprintArmor, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.LunarTrinket, count = 1, },
+            };
+
+
+            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[0].maxUserHealthFraction = 1f;
+            //ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].shouldFireEquipment = true;
+            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[2].shouldFireEquipment = true;
+            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[2].maxUserHealthFraction = 1f;
+            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[3].shouldFireEquipment = true;
+            ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[4].shouldFireEquipment = true;
+            ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().equipmentDef = DLC1Content.Equipment.GummyClone;
+            ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().itemDefInfos = new GivePickupsOnStart.ItemDefInfo[] {
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.BoostEquipmentRecharge, count = 10, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.EquipmentMagazine, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.PermanentDebuffOnHit, count = 2, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.RandomDamageZone, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = JunkContent.Items.Incubator, count = 3, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.WardOnLevel, count = 2, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.LevelBonus, count = 1, },
+                //new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.GhostOnKill, count = 1, }, //Causes issues with FlatItemBuffs rework. Seemingly would be fine if ghosts dont get items
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.SprintWisp, count = 1, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.LunarTrinket, count = 1, },
+            };
+
+        }
+
+        public static bool addedNewLunarScavs = false;
         public static void LocalUserManager_AddUser(On.RoR2.LocalUserManager.orig_AddUser orig, Rewired.Player inputPlayer, UserProfile userProfile)
         {
             orig(inputPlayer, userProfile);
-            On.RoR2.LocalUserManager.AddUser -= LocalUserManager_AddUser;
+             
             if (!WConfig.cfgScavNewTwisted.Value)
             {
                 return;
             }
-
+            if (addedNewLunarScavs)
+            {
+                return;
+            }
             if (RoR2.EntitlementManagement.EntitlementManager.localUserEntitlementTracker != null)
             {
-
                 bool dlc1 = RoR2.EntitlementManagement.EntitlementManager.localUserEntitlementTracker.AnyUserHasEntitlement(Addressables.LoadAssetAsync<RoR2.EntitlementManagement.EntitlementDef>(key: "RoR2/DLC1/Common/entitlementDLC1.asset").WaitForCompletion());
                 bool dlc2 = RoR2.EntitlementManagement.EntitlementManager.localUserEntitlementTracker.AnyUserHasEntitlement(Addressables.LoadAssetAsync<RoR2.EntitlementManagement.EntitlementDef>(key: "RoR2/DLC1/Common/entitlementDLC2.asset").WaitForCompletion());
 
-                Debug.Log(userProfile.name + " has DLC1 : " + dlc1);
-                Debug.Log(userProfile.name + " has DLC2 : " + dlc2);
+                //Debug.Log(userProfile.name + " has DLC1 : " + dlc1);
+                //Debug.Log(userProfile.name + " has DLC2 : " + dlc2);
  
                 if (dlc1 && dlc2)
                 {
+                    addedNewLunarScavs = true;
                     GameObject[] newA = new GameObject[]
                     {
                         ScavLunarWSpeedMaster,

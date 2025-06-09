@@ -20,11 +20,12 @@ using UnityEngine.AddressableAssets;
 namespace SpawnPoolFixer
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Wolfo.DLCSpawnPoolFixer", "DLCSpawnPoolFixer", "1.3.0")]
+    [BepInPlugin("Wolfo.DLCSpawnPoolFixer", "DLCSpawnPoolFixer", "1.3.4")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     public class SotsSpawnPoolFix : BaseUnityPlugin
     {
         public static ExpansionDef DLC1 = Addressables.LoadAssetAsync<ExpansionDef>(key: "RoR2/DLC1/Common/DLC1.asset").WaitForCompletion();
+        
         public void Awake()
         {
             WConfig.InitConfig();
@@ -42,32 +43,20 @@ namespace SpawnPoolFixer
             loopSgStage1._sceneEntries[2].weight = WConfig.cfgStage1Weight.Value;
             loopSgStage1._sceneEntries[3].weight = WConfig.cfgStage1Weight.Value;
 
-            On.RoR2.ClassicStageInfo.Start += FixWrongDccsPool;
+            //On.RoR2.ClassicStageInfo.Start += FixWrongDccsPool;
             SceneDirector.onGenerateInteractableCardSelection += FixWrongRadarTowers;
-
-
-
+ 
             IL.RoR2.ClassicStageInfo.RebuildCards += SotV_EnemyRemovals;
 
             On.RoR2.BazaarController.IsUnlockedBeforeLooping += NoPreLoopPostLoop;
-            On.RoR2.DCCSBlender.GetBlendedDCCS += DCCSBlender_GetBlendedDCCS;
 
-
-            //Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/LunarChest/iscLunarChest.asset").WaitForCompletion().requiredFlags = NodeFlags.None;
-            //Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC2/iscShrineHalcyonite.asset").WaitForCompletion().requiredFlags = NodeFlags.TeleporterOK;
-            //Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC2/iscShrineHalcyoniteTier1.asset").WaitForCompletion().requiredFlags = NodeFlags.TeleporterOK;
-
+            Addressables.LoadAssetAsync<InteractableSpawnCard>(key: "32c40c2b1da4a4244871ef499447ac1a").WaitForCompletion().maxSpawnsPerStage = 1;
+            Addressables.LoadAssetAsync<InteractableSpawnCard>(key: "c6c8f501bfa87e54294f9b0bb9db3da4").WaitForCompletion().maxSpawnsPerStage = 1;
+           
             //All NodeGraphs with 0 NoCeiling Ground spots
-            NodeGraph ancientloft_GroundNodeGraph = Addressables.LoadAssetAsync<NodeGraph>(key: "RoR2/ancientloft_GroundNodeGraph.asset").WaitForCompletion();
-            //NodeGraph AncientLoft = Addressables.LoadAssetAsync<NodeGraph>(key: "RoR2/DLC1/ancientloft/ancientloft_GroundNodeGraph.asset").WaitForCompletion(); //Good one, Hopoo Games
             NodeGraph itancientloft_GroundNodeGraph = Addressables.LoadAssetAsync<NodeGraph>(key: "RoR2/DLC1/itancientloft/itancientloft_GroundNodeGraph.asset").WaitForCompletion();
             NodeGraph itmoon_GroundNodeGraph = Addressables.LoadAssetAsync<NodeGraph>(key: "RoR2/DLC1/itmoon/itmoon_GroundNodeGraph.asset").WaitForCompletion();
             NodeGraph voidraid_GroundNodeGraph = Addressables.LoadAssetAsync<NodeGraph>(key: "RoR2/DLC1/voidraid/voidraid_GroundNodeGraph.asset").WaitForCompletion();
-
-            for (int i = 0; i < ancientloft_GroundNodeGraph.nodes.Length; i++)
-            {
-                ancientloft_GroundNodeGraph.nodes[i].flags |= NodeFlags.NoCeiling;
-            }
             for (int i = 0; i < itancientloft_GroundNodeGraph.nodes.Length; i++)
             {
                 itancientloft_GroundNodeGraph.nodes[i].flags |= NodeFlags.NoCeiling;
@@ -80,26 +69,22 @@ namespace SpawnPoolFixer
             {
                 voidraid_GroundNodeGraph.nodes[i].flags |= NodeFlags.NoCeiling;
             }
+ 
         }
 
-        private static DirectorCardCategorySelection DCCSBlender_GetBlendedDCCS(On.RoR2.DCCSBlender.orig_GetBlendedDCCS orig, DccsPool.Category dccsPoolCategory, ref Xoroshiro128Plus rng, ClassicStageInfo stageInfo, int contentSourceMixLimit, List<RoR2.ExpansionManagement.ExpansionDef> acceptableExpansionList)
-        {
-            return orig(dccsPoolCategory, ref rng, stageInfo, contentSourceMixLimit, null);
-        }
-
+   
 
         private bool NoPreLoopPostLoop(On.RoR2.BazaarController.orig_IsUnlockedBeforeLooping orig, BazaarController self, SceneDef sceneDef)
         {
-            if (WConfig.cfgLoopSeers.Value == false)
+            if (WConfig.cfgLoopSeers.Value == true)
             {
-                if (sceneDef.loopedSceneDef && Run.instance.stageClearCount >= 4)
+                if (sceneDef.loopedSceneDef && Run.instance.stageClearCount >= 5)
                 {
                     return false;
                 }
             }
             return orig(self, sceneDef);
         }
-
 
         private void SotV_EnemyRemovals(ILContext il)
         {
@@ -120,7 +105,6 @@ namespace SpawnPoolFixer
             }
         }
 
-
         public static void RemoveMonsterBasedOnSotVReplacement(DirectorCardCategorySelection dccs)
         {
             if (!WConfig.cfgSotV_EnemyRemovals.Value)
@@ -129,11 +113,10 @@ namespace SpawnPoolFixer
             }
             if (Run.instance && Run.instance.IsExpansionEnabled(DLC1))
             {
-                string scene = SceneInfo.instance.sceneDef.cachedName;
+                string scene = SceneInfo.instance.sceneDef.baseSceneName;
                 switch (scene)
                 {
                     case "golemplains":
-                    case "golemplains2":
                         //They remove my guy jellyfish? wtf
                         RemoveCard(dccs, 2, "fish"); //-> Alpha
                         break;
@@ -163,7 +146,6 @@ namespace SpawnPoolFixer
                 }
             }
         }
-
 
         public static void RemoveCard(DirectorCardCategorySelection dccs, int cat, string card)
         {
@@ -196,7 +178,6 @@ namespace SpawnPoolFixer
             ArrayUtils.ArrayRemoveAtAndResize(ref dccs.categories[cat].cards, c);
         }
 
-
         public static int FindSpawnCard(DirectorCard[] insert, string LookingFor)
         {
             for (int i = 0; i < insert.Length; i++)
@@ -211,56 +192,36 @@ namespace SpawnPoolFixer
             return -1;
         }
 
-        private static void FixWrongDccsPool(On.RoR2.ClassicStageInfo.orig_Start orig, ClassicStageInfo self)
-        {
-            if (Run.instance && SceneInfo.instance)
-            {
-                if (SceneInfo.instance.sceneDef.cachedName.Equals("villagenight"))
-                {
-                    self.interactableDccsPool = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/village/dpVillageInteractables.asset").WaitForCompletion();
-                }
-            }
-            orig(self);
-        }
-
-
-
         private void FixWrongRadarTowers(SceneDirector scene, DirectorCardCategorySelection dccs)
         {
-            string name = SceneInfo.instance.sceneDef.cachedName;
-            if (name.StartsWith("villag") || name.StartsWith("habitat") || name.StartsWith("helm"))
+            int rare = dccs.FindCategoryIndexByName("Rare");
+            if (rare != -1)
             {
-                UnlockableDef unlockableDef = UnlockableCatalog.GetUnlockableDef("Logs.Stages." + name);
-                Debug.Log("Automatic Radar Scanner fix for " + unlockableDef);
-                if (!unlockableDef)
+                var a = dccs.categories[rare];
+                for (int i = 0; i < a.cards.Length; i++)
                 {
-                    Debug.Log("No unlockableDef");
-                    return;
-                }
-                int rare = dccs.FindCategoryIndexByName("Rare");
-                if (rare > 0)
-                {
-                    for (int i = 0; i < dccs.categories[rare].cards.Length; i++)
+                    if (a.cards[i].forbiddenUnlockableDef)
                     {
-                        if (dccs.categories[rare].cards[i].forbiddenUnlockableDef)
+                        string name = SceneInfo.instance.sceneDef.cachedName;
+                        if (name.StartsWith("habitat"))
                         {
-                            dccs.categories[rare].cards[i].forbiddenUnlockableDef = unlockableDef;
+                            UnlockableDef unlockableDef = UnlockableCatalog.GetUnlockableDef("Logs.Stages." + name);
+                            Debug.Log("Automatic Radar Scanner fix for " + unlockableDef);
+                            a.cards[i].forbiddenUnlockableDef = unlockableDef;
                         }
+                        a.cards[i].selectionWeight = 10000;
                     }
                 }
             }
+ 
         }
 
-
-
-
+ 
         public static void FixSotsSpawnpools()
         {
             DccsPool dpArtifactWorld02Monsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/DLC2/artifactworld02/dpArtifactWorld02Monsters.asset").WaitForCompletion();
-            DirectorCardCategorySelection dccsArtifactWorld02Monsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/artifactworld02/dccsArtifactWorld02Monsters_DLC1.asset").WaitForCompletion();
+            dpArtifactWorld02Monsters.poolCategories[0].includedIfConditionsMet[0].dccs = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/artifactworld02/dccsArtifactWorld02Monsters_DLC1.asset").WaitForCompletion(); ;
 
-            dpArtifactWorld02Monsters.poolCategories[0].includedIfConditionsMet[0].dccs = dccsArtifactWorld02Monsters_DLC1;
-            //
             DirectorCardCategorySelection dccsVillageInteractables_DLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/village/dccsVillageInteractables_DLC2.asset").WaitForCompletion();
             dccsVillageInteractables_DLC2.categories[5].cards[3].minimumStageCompletions = 1;
         }

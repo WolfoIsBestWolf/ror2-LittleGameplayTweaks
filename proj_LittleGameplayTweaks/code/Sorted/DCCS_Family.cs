@@ -63,12 +63,12 @@ namespace LittleGameplayTweaks
             FamilyDirectorCardCategorySelection dccsAcidLarvaFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/DLC1/Common/dccsAcidLarvaFamily.asset").WaitForCompletion();
 
 
-            FamilyDirectorCardCategorySelection dccsVoidLateFamily = ScriptableObject.CreateInstance<FamilyDirectorCardCategorySelection>();
-            dccsVoidLateFamily.name = "dccsVoidLateFamily";
-            dccsVoidLateFamily.minimumStageCompletion = 10;
-            dccsVoidLateFamily.maximumStageCompletion = 100000;
-            dccsVoidLateFamily.selectionChatString = dccsVoidFamily.selectionChatString;
-            dccsVoidLateFamily.categories = dccsVoidFamily.categories;
+            FamilyDirectorCardCategorySelection dccsVoidFamilyLate = ScriptableObject.CreateInstance<FamilyDirectorCardCategorySelection>();
+            dccsVoidFamilyLate.name = "dccsVoidFamilyLate";
+            dccsVoidFamilyLate.minimumStageCompletion = 10;
+            dccsVoidFamilyLate.maximumStageCompletion = 100000;
+            dccsVoidFamilyLate.selectionChatString = dccsVoidFamily.selectionChatString;
+            dccsVoidFamilyLate.categories = dccsVoidFamily.categories;
 
             DirectorCard DC_Grandparent = new DirectorCard
             {
@@ -152,7 +152,7 @@ namespace LittleGameplayTweaks
             DccsPool.ConditionalPoolEntry FamilyConstruct = new DccsPool.ConditionalPoolEntry { weight = 1, dccs = dccsConstructFamily, requiredExpansions = ExpansionDLC1 };
             DccsPool.ConditionalPoolEntry FamilyGup = new DccsPool.ConditionalPoolEntry { weight = 1, dccs = dccsGupFamily, requiredExpansions = ExpansionDLC1 };
 
-            DccsPool.ConditionalPoolEntry FamilyVoidLate = new DccsPool.ConditionalPoolEntry { weight = 1, dccs = dccsVoidLateFamily, requiredExpansions = ExpansionDLC1 };
+            DccsPool.ConditionalPoolEntry FamilyVoidLate = new DccsPool.ConditionalPoolEntry { weight = 1, dccs = dccsVoidFamilyLate, requiredExpansions = ExpansionDLC1 };
 
             DccsPool.ConditionalPoolEntry FamilyLarva = new DccsPool.ConditionalPoolEntry { weight = 1, dccs = dccsAcidLarvaFamily, requiredExpansions = ExpansionDLC1 };
             DccsPool.ConditionalPoolEntry FamilyMushroom = new DccsPool.ConditionalPoolEntry { weight = 1, dccs = dccsMushroomFamily };
