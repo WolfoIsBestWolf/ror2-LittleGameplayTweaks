@@ -150,17 +150,6 @@ namespace LittleGameplayFeatures
 
 
 
-        public static void AddPingIcon()
-        {
-            GameObject tempGoldChest = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/GoldChest/GoldChest.prefab").WaitForCompletion();
-            if (tempGoldChest.GetComponent<PingInfoProvider>() != null)
-            {
-                MiliMutliShopTerminal.AddComponent<PingInfoProvider>().pingIconOverride = tempGoldChest.GetComponent<PingInfoProvider>().pingIconOverride;
-                MiliMutliShopTerminal = null;
-            }
-        }
-
-
 
     }
 }

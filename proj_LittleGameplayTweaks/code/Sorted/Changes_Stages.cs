@@ -11,21 +11,18 @@ namespace LittleGameplayTweaks
     {
         public static void Start()
         {
-
-
             On.RoR2.ClassicStageInfo.Start += MoreSceneCredits;
             On.RoR2.ClassicStageInfo.Start += RunsAlways_ClassicStageInfo_Start;
 
-
- 
             //Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidstage/voidstage.asset").WaitForCompletion().sceneType = Arena.sceneType;
-            Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion().sceneType = SceneType.Intermission;
+            SceneDef voidRaid = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion();
+            voidRaid.sceneType = SceneType.Intermission;
+            voidRaid.allowItemsToSpawnObjects = true;
+
 
             On.RoR2.ArenaMissionController.OnStartServer += ArenaMissionController_OnEnable;
             On.EntityStates.Missions.Arena.NullWard.WardOnAndReady.OnEnter += WardOnAndReady_OnEnter;
             On.EntityStates.Missions.Arena.NullWard.Active.OnEnter += Active_OnEnter;
-
-
 
             if (ConfigStages.Stage_F_Moon.Value)
             {
@@ -34,6 +31,20 @@ namespace LittleGameplayTweaks
 
             On.RoR2.BazaarController.SetUpSeerStations += ThirdSeerNew;
             On.RoR2.SeerStationController.SetRunNextStageToTarget += BazaarDisableAllSeers;
+
+            On.RoR2.HoldoutZoneController.Start += OnlyRequireOnePlayer;
+        }
+
+        private static void OnlyRequireOnePlayer(On.RoR2.HoldoutZoneController.orig_Start orig, HoldoutZoneController self)
+        {
+            orig(self);
+            //Drop Ship
+            //Arena cells
+            string rootName = self.transform.root.name;
+            if (rootName.StartsWith("Moon") || rootName.StartsWith("Aren"))
+            {
+                self.playerCountScaling = 0;
+            }
         }
 
         private static void BazaarDisableAllSeers(On.RoR2.SeerStationController.orig_SetRunNextStageToTarget orig, SeerStationController self)
@@ -107,10 +118,7 @@ namespace LittleGameplayTweaks
         public static void EscapeSequenceController_OnEnable(On.RoR2.EscapeSequenceController.orig_OnEnable orig, EscapeSequenceController self)
         {
             orig(self);
-            if (Run.instance.stageClearCount > 7)
-            {
-                self.gameObject.transform.GetChild(0).GetChild(1).GetComponent<CombatDirector>().monsterCards = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC1/Common/dccsVoidFamily.asset").WaitForCompletion();
-            }
+            self.gameObject.transform.GetChild(0).GetChild(1).GetComponent<CombatDirector>().monsterCards = DCCS_Family.dccsMoonVoids;
         }
 
 
@@ -184,11 +192,11 @@ namespace LittleGameplayTweaks
                 {
                     if (i < 4)
                     {
-                        self.nullWards[i].GetComponent<HoldoutZoneController>().baseChargeDuration = 30;
+                        self.nullWards[i].GetComponent<HoldoutZoneController>().baseChargeDuration = 40;
                     }
                     else if (i < 8)
                     {
-                        self.nullWards[i].GetComponent<HoldoutZoneController>().baseChargeDuration = 45;
+                        self.nullWards[i].GetComponent<HoldoutZoneController>().baseChargeDuration = 50;
                     }
                     else
                     {

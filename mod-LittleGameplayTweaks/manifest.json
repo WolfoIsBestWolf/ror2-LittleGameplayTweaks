@@ -1,8 +1,8 @@
 {
     "name": "LittleGameplayTweaks",
-    "version_number": "3.6.0",
+    "version_number": "3.6.1",
     "website_url": "https://github.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks",
-    "description": "[Server-Side] Greater enemy variety in spawnpools, Gameplay QoL, Artifacts during Eclipse",
+    "description": "[Server-Side] Greater enemy variety in spawnpools, Improvements to some interactables, Gameplay QoL, Artifacts during Eclipse. Vanilla friendly & compatible",
     "dependencies": [
 		"Wolfo-WolfFixes-1.0.0",
 		"Rune580-Risk_Of_Options-2.8.2",

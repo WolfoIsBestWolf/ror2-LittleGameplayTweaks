@@ -44,12 +44,28 @@ namespace LittleGameplayTweaks
             GameModeCatalog.availability.CallWhenAvailable(LateMethod);
 
             On.RoR2.SceneDirector.Start += GameplayQoL_SceneDirector_Start;
-            On.RoR2.ClassicStageInfo.Awake += ClassicStageInfoMethod;
+            On.RoR2.SceneDirector.PlaceTeleporter += SceneDirector_PlaceTeleporter;
+            On.RoR2.ClassicStageInfo.Awake += RollForScavBoss;
 
 
         
             //On.RoR2.CharacterBody.OnSkillActivated += CharacterBody_OnSkillActivated;
 
+        }
+
+        private void SceneDirector_PlaceTeleporter(On.RoR2.SceneDirector.orig_PlaceTeleporter orig, SceneDirector self)
+        {
+            if (WConfig.cfgLunarTeleporterAlways.Value)
+            {
+                if (Run.instance && Run.instance.loopClearCount > 0)
+                {
+                    if (self.teleporterSpawnCard)
+                    {
+                        self.teleporterSpawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/Teleporters/iscLunarTeleporter.asset").WaitForCompletion();
+                    }
+                }
+            }
+            orig(self);
         }
 
         public void Start()
@@ -78,16 +94,7 @@ namespace LittleGameplayTweaks
 
         public static void GameplayQoL_SceneDirector_Start(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
         {
-            if (WConfig.cfgLunarTeleporterAlways.Value)
-            {
-                if (Run.instance && Run.instance.loopClearCount > 0)
-                {
-                    if (self.teleporterSpawnCard)
-                    {
-                        self.teleporterSpawnCard = Addressables.LoadAssetAsync<InteractableSpawnCard>(key: "RoR2/Base/Teleporters/iscLunarTeleporter.asset").WaitForCompletion();
-                    }
-                }
-            }
+           
             orig(self);
             switch (SceneInfo.instance.sceneDef.baseSceneName)
             {
@@ -138,7 +145,7 @@ namespace LittleGameplayTweaks
  
         }
 
-        public static void ClassicStageInfoMethod(On.RoR2.ClassicStageInfo.orig_Awake orig, global::RoR2.ClassicStageInfo self)
+        public static void RollForScavBoss(On.RoR2.ClassicStageInfo.orig_Awake orig, global::RoR2.ClassicStageInfo self)
         {
             orig(self);
             if (!NetworkServer.active)
@@ -148,16 +155,14 @@ namespace LittleGameplayTweaks
             if (WConfig.cfgScavBoss.Value)
             {
                 Changes_Monsters.ScavBossItem = Changes_Monsters.DropTableForBossScav.GenerateDrop(self.rng);
-                if (Run.instance && Run.instance.stageClearCount > 5)
+                //2 in 5 chance
+                if (self.rng != null && self.rng.nextNormalizedFloat > 0.6f)
                 {
-                    if (self.rng != null && self.rng.nextBool)
-                    {
-                        LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").forbiddenAsBoss = false;
-                    }
-                    else
-                    {
-                        LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").forbiddenAsBoss = true;
-                    }
+                    LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").forbiddenAsBoss = false;
+                }
+                else
+                {
+                    LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScav").forbiddenAsBoss = true;
                 }
             }
         }

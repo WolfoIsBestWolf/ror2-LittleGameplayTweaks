@@ -84,7 +84,8 @@ namespace LittleGameplayTweaks
                     //Debug.Log(selection.choices[i].value.spawnCard);
                     if (selection.choices[i].value.spawnCard.prefab.GetComponent<ShrineBossBehavior>())
                     {
-                        selection.choices[i].weight *= WConfig.cfgShrineBossMult.Value;
+                        float mult = 1+((WConfig.cfgShrineBossMult.Value - 1) / Run.instance.participatingPlayerCount);
+                        selection.choices[i].weight *= mult;
                     }
                 }
                 return selection;
@@ -148,6 +149,7 @@ namespace LittleGameplayTweaks
                     {
                         if (category.cards[card].spawnCard.name.EndsWith("Large"))
                         {
+                            //Intended for Solo idk bout changing it specifically in solo ig
                             category.cards[card].selectionWeight = 7;
                         }
                         else if (category.cards[card].spawnCard.name.EndsWith("Military"))
@@ -155,10 +157,10 @@ namespace LittleGameplayTweaks
                             category.cards[card].selectionWeight = 2;
                             category.cards[card].minimumStageCompletions = 3;
                         }
-                        else if (category.cards[card].spawnCard.name.EndsWith("Wild"))
+                        /*else if (category.cards[card].spawnCard.name.EndsWith("Wild"))
                         {
                             category.cards[card].minimumStageCompletions = 2;
-                        }
+                        }*/
                     }
                 }
                 if (rareIndex != -1)
@@ -365,12 +367,7 @@ namespace LittleGameplayTweaks
                 selectionWeight = 4,
                 minimumStageCompletions = 4,
             };
- 
-            DirectorCard ShrineOrder_DEFAULT10 = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestack.asset").WaitForCompletion(),
-                selectionWeight = 10,
-            };
+  
             #endregion
             #region Adds
             if (ConfigStages.Stage_1_Golem.Value)
@@ -412,18 +409,26 @@ namespace LittleGameplayTweaks
             }
             if (ConfigStages.Stage_1_Village.Value)
             {
-                dccsVillageInteractables_DLC2.AddCard(2, ShrineOrder_DEFAULT10);
+                dccsVillageInteractables_DLC2.AddCard(2, new DirectorCard //Default uses x10 weights
+                {
+                    spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestack.asset").WaitForCompletion(),
+                    selectionWeight = 10,
+                });
                
                 DCCS.MultWholeCateory(dccsVillageInteractables_DLC2, 0, 10);
                 int chests = dccsVillageInteractablesDLC1.AddCategory("Chests", 45);
                
                 dccsVillageInteractablesDLC1.AddCard(chests, iscCategoryChest2Healing);
 
-                dccsVillageNightInteractables.AddCard(2, ShrineOrder_DEFAULT10);
-                dccsVillageNightInteractables.AddCard(2, new DirectorCard //Loop Cleanse 15
+                dccsVillageNightInteractables.AddCard(2, new DirectorCard
+                {
+                    spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestack.asset").WaitForCompletion(),
+                    selectionWeight = 1,
+                });
+                dccsVillageNightInteractables.AddCard(2, new DirectorCard
                 {
                     spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanse.asset").WaitForCompletion(),
-                    selectionWeight = 15,
+                    selectionWeight = 2,
                     minimumStageCompletions = 2,
                 });
                 dccsVillageNightInteractables.AddCard(2, loopTC280);
@@ -460,7 +465,7 @@ namespace LittleGameplayTweaks
             }
             if (ConfigStages.Stage_2_Ancient.Value)
             {
-                dccsAncientLoftInteractablesDLC1.categories[3].cards[1].selectionWeight = 4;
+                //dccsAncientLoftInteractablesDLC1.categories[3].cards[1].selectionWeight = 4;
                 dccsAncientLoftInteractablesDLC1.AddCard(4, new DirectorCard //Order Sand Rare
                 {
                     spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSandy.asset").WaitForCompletion(),
@@ -472,7 +477,7 @@ namespace LittleGameplayTweaks
                 dccsLemurianTempleInteractables_DLC2.AddCard(2, new DirectorCard
                 {
                     spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestackSandy.asset").WaitForCompletion(),
-                    selectionWeight = 4,
+                    selectionWeight = 1,
                 });
 
                 DCCS.MultWholeCateory(dccsLemurianTempleInteractables_DLC2, 0, 10);
@@ -567,7 +572,7 @@ namespace LittleGameplayTweaks
             //Remove Gunner Turret from Stage 4/5
             if (ConfigStages.Stage_4_Damp_Abyss.Value)
             {
-                //dccsDampCaveInteractables.categories[3].cards[2].selectionWeight = 4; //Eq drone
+                dccsDampCaveInteractables.categories[3].cards[3].selectionWeight = 7; //Flame Drone
                 DCCS.RemoveCard(dccsDampCaveInteractables, 4, 0);//Gunner Turret Removal
             }
             if (ConfigStages.Stage_4_Ship.Value)
@@ -577,8 +582,14 @@ namespace LittleGameplayTweaks
                     spawnCard = LegacyResourcesAPI.Load<InteractableSpawnCard>("spawncards/interactablespawncard/iscBrokenMegaDrone"),
                     selectionWeight = 1,
                 });
-                dccsShipgraveyardInteractables.categories[3].cards[2].selectionWeight = 5; //Eq drone
+                /*dccsShipgraveyardInteractables.AddCard(1, new DirectorCard
+                {
+                    spawnCardReference = new AssetReferenceT<SpawnCard>("5e1909bcf4fbea34992ef53b26515678"),
+                    selectionWeight = 10,
+                });*/
+ 
                 dccsShipgraveyardInteractables.categories[2].cards[3].selectionWeight = 12; //Cleanse more
+                DCCS.RemoveCard(dccsShipgraveyardInteractables, 3, 0);//Remove Missile Drone?
                 DCCS.RemoveCard(dccsShipgraveyardInteractables, 4, 0);//Gunner Turret Removal
             }
             if (ConfigStages.Stage_4_Root_Jungle.Value)

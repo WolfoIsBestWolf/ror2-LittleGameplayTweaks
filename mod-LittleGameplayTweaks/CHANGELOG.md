@@ -1,5 +1,28 @@
 ## Changelog:
 ```
+v3.6.1
+Void Seeds spawn more enemies.
+Void Seeds spawn more enemies on loops.
+Void Seeds likelier to contain a Void Devestator.
+Void Cradles infestors now 70% chance to spawn.
+Void Potential Chests being able to contain any item now shared with SimuAdds.
+Child and Grandparent lowered cost to comparable costs.
+Added Grandparent to Verdant & Shattered to match loop counterparts.
+-Very stage 1 friendly boss and Planula early into run gives it time to do something.
+'Mountain Shrine Mult` now gets divided by player count because its meant for solo.
+Adjusted Twisted buff.
+-Now counts himself to count up the orb.
+-Further lowered cooldown.
+Lowered Voidling damage nerf.
+Moon Drop Ship now charges at 100% speed with just 1 player.
+Changed Loop Boss HP Scaling from 50% per loop to 20% per stage after looping.
+Fixed mod removing lockbox on voidling stage.
+Fixed some weights being too high.
+Fixed a rare teleporter error.
+Removed some duplicate stuff.
+
+
+
 v3.6.0
 Fixed for DLC2Patch4
 Items teleporting now does the teleport effect.

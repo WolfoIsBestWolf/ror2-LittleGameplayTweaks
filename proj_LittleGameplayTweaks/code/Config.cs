@@ -12,10 +12,20 @@ namespace LittleGameplayTweaks
     {
         public static ConfigFile ConfigFileLGT = new ConfigFile(Paths.ConfigPath + "\\Wolfo.Little_Gameplay_Tweaks.cfg", true);
 
-   
+        public enum MatchCategory
+        {
+            MatchSmallToBig,
+            NoChange,
+            AddMissingBig
+        }
+        public static ConfigEntry<bool> cfgVoidTripleAllTier;
+
         public static ConfigEntry<bool> cfgOverloadingWorm;
         public static ConfigEntry<bool> cfgEarlyScavs;
         public static ConfigEntry<bool> cfgMatchCategory;
+        public static ConfigEntry<bool> VoidSeedsScale;
+        public static ConfigEntry<bool> VoidSeedsMore;
+        public static ConfigEntry<bool> VoidCradlesMore;
 
         public static ConfigEntry<bool> cfgBlightBuffWhatever;
         public static ConfigEntry<float> cfgShrineBossMult;
@@ -56,7 +66,7 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> cfgGoldShoresCredits;
         //
         //Changes - Interactables
-        public static ConfigEntry<Client> FasterPrinter;
+        public static ConfigEntry<bool> FasterPrinter;
         public static ConfigEntry<bool> FasterScrapper;
         public static ConfigEntry<bool> FasterShrines;
         public static ConfigEntry<bool> cfgVoidStagePillar;
@@ -122,6 +132,7 @@ namespace LittleGameplayTweaks
 
         public static ConfigEntry<bool> cfgXIEliteFix;
         public static ConfigEntry<bool> cfgAddLevelCapPerStage;
+        public static ConfigEntry<bool> cfgVoidCampScaling;
 
         public enum EclipseArtifact
         {
@@ -135,12 +146,7 @@ namespace LittleGameplayTweaks
             E8,
             All,
         }
-        public enum Client
-        {
-            Off,
-            ClientSafe,
-            Match,
-        }
+     
   
 
         public static void InitConfig()
@@ -185,7 +191,7 @@ namespace LittleGameplayTweaks
                 "Looping",
                 "Scavs as Bosses",
                 true,
-                "Scavs can spawn as a TP Boss under normal conditions."
+                "Scavs can spawn as a TP Boss under normal conditions but rarer than other teleporter bosses."
             );
             cfgScavMoreItemsElites = ConfigFileLGT.Bind(
                 "Looping",
@@ -231,7 +237,7 @@ namespace LittleGameplayTweaks
                "Monsters",
                "Twisted Elite | Buff",
                true,
-               "Twisted Elites ability has a cooldown of 2s instead of 10s.\nTwisted Projectile can no longer be easily killed (It only has 350 HP)."
+               "Twisted Elites no longer need to recharge\nTwisted Projectile can no longer killed."
            );
             cfgTwistedBuffEpic = ConfigFileLGT.Bind(
                 "Monsters",
@@ -256,7 +262,7 @@ namespace LittleGameplayTweaks
                "Monsters",
                "Voidling | Scaling Nerf",
                true,
-               "Nerf his special scaling especially in Multiplayer.\nOnly 75% health and 60% damage special scaling."
+               "Nerf his special scaling by 20%"
             );
             cfgScavTwistedScaling = ConfigFileLGT.Bind(
              "Monsters",
@@ -289,8 +295,8 @@ namespace LittleGameplayTweaks
             FasterPrinter = ConfigFileLGT.Bind(
                "Interactables",
                "Faster Printers",
-               Client.ClientSafe,
-               "ClientSafe: Removes endlag, but keeps full lenght animation. Time 4s -> 2.83s.\nMatch: Changes animations to be faster, looks weird to clients without mod or vice versa."
+              true,
+               "Removes endlag, but keeps full lenght animation. Time 4s -> 2.83s."
            );
             FasterScrapper = ConfigFileLGT.Bind(
                 "Interactables",
@@ -304,12 +310,17 @@ namespace LittleGameplayTweaks
                 true,
                 "Shrines have 1 second of delay instead of 2 seconds."
             );
-
+            cfgVoidTripleAllTier = ConfigFileLGT.Bind(
+                "Interactables",
+                "Potential Chests contain any tier",
+                true,
+                "Void Potential Chests can contain any item from any tier"
+            );
             cfgHalcyon_ForcedSots = ConfigFileLGT.Bind(
                "Interactables",
-               "Halcyon Shrine | No forced Sots item",
+               "Halcyon Shrine | Forced Sots item",
                true,
-               "Remove the 1-2 guaranteed Sots items in Halcyonite Shrines"
+               "Config in case you dont want the 1-2 guaranteed Sots items in Halcyonite Shrines"
             );
             cfgHalcyon_FastDrain = ConfigFileLGT.Bind(
                 "Interactables",
@@ -373,6 +384,24 @@ namespace LittleGameplayTweaks
                 true,
                 "Give TC-280 Adaptive Armor and AoE attack resistence"
             );
+            VoidSeedsScale = ConfigFileLGT.Bind(
+                "Interactables",
+                "Void Seed | Loop Scale",
+                true,
+                "Void Seeds spawn more monsters during loops."
+            );
+            VoidSeedsMore = ConfigFileLGT.Bind(
+                "Interactables",
+                "Void Seed | More Monster",
+                true,
+                "Void Seeds spawn more monsters. This does still take away from the stages starting spawns."
+            );
+             VoidCradlesMore = ConfigFileLGT.Bind(
+                "Interactables",
+                "Void Cradles | Infestors",
+                true,
+                "Each Void Infestor has a 70% chance to spawn instead of 50%\n\nRare to see them actually have a chance to infest anything."
+            );
 
             TurretDroneCost = ConfigFileLGT.Bind(
                 "Interactables",
@@ -416,7 +445,7 @@ namespace LittleGameplayTweaks
                "Stages",
                "Void Fields | Faster Cells",
                true,
-               "30s for the first 4, 45s for the next 4, 60s for the last. "
+               "40s for the first 4, 50s for the next 4, 60s for the last.\n\nShave of 2 minutes of standing."
            );
             cfgVoidStagePillar = ConfigFileLGT.Bind(
                 "Stages",
@@ -478,7 +507,7 @@ namespace LittleGameplayTweaks
                 "Spawnpools",
                 "Monsters | Credits Adjustment",
                 true,
-                "Make some monsters who got nerfed over time cheaper and make Blind Pests rarer\n\nBlind Pest | now 15 -> 18\nGreater Wisp | 200 -> 180\nGip | 40  -> 20 (Geep costs 40 already)\nParent | 100 -> 80\nVoid Reaver | 300 -> 250 (Worst aim)"
+                "Make some monsters who got nerfed over time cheaper and make Blind Pests rarer\n\nGreater Wisp | 200 -> 180\nGip | 40  -> 20 (Geep costs 40 already)\nParent | 100 -> 80\nVoid Reaver | 300 -> 250 (Worst aim)"
             );
 
 
@@ -572,23 +601,18 @@ namespace LittleGameplayTweaks
 
             #endregion
 
-            /*InteractablesMountainMultiplier = ConfigFileLGT.Bind(
-                "Spawnpool - Interactables",
-                "Mountain Shrine multiplier",
-                1.5f,
-                "Multiply Mountain Shrine weight compared to other shrines"
-            );*/
             /*CharactersVoidFiendEquip = ConfigFileLGT.Bind(
               "Monsters & Survivors",
               "Void Fiend 2 Equipment",
               false,
               "Void Fiend gets two equipment slots switching between them as he switches modes\nMade this as a joke idk how this would be helpful"
             );*/
+    
             cfgShrineBossMult = ConfigFileLGT.Bind(
               "Chances",
-              "Mountain Shrine Spawn Multiplier",
-              1.33f,
-              "Increase the weight of Mountain Shrines compared to all other interactables by this multiplier."
+              "More Mountain Shrine",
+              1.2f,
+              "Increase the weight of Mountain Shrines. Extra chance is divided by player count as this is mostly meant for solo."
             );
             cfgFamilyChance = ConfigFileLGT.Bind(
                  "Chances",
@@ -669,6 +693,8 @@ namespace LittleGameplayTweaks
                  cfgBrotherHurtFix,
                  cfgXIEliteFix,
                  cfgVoidStagePillar,
+                VoidSeedsMore,
+                 VoidCradlesMore,
             };
             List<ConfigEntry<int>> resetI = new List<ConfigEntry<int>>()
             {
@@ -703,9 +729,9 @@ namespace LittleGameplayTweaks
                 {
                     ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<EclipseDifficulty>)entry, false));
                 }
-                else if (entry.SettingType == typeof(Client))
+                else if (entry.SettingType == typeof(MatchCategory))
                 {
-                    ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<Client>)entry, true));
+                    ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<MatchCategory>)entry, true));
                 }
                 else
                 {

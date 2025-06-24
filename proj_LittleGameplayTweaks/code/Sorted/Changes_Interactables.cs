@@ -28,6 +28,10 @@ namespace LittleGameplayTweaks
             Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/DLC1/TreasureCacheVoid/dtVoidLockbox.asset").WaitForCompletion().canDropBeReplaced = false;
             Addressables.LoadAssetAsync<FreeChestDropTable>(key: "RoR2/DLC1/FreeChest/dtFreeChest.asset").WaitForCompletion().canDropBeReplaced = false;
 
+            if (WConfig.cfgVoidTripleAllTier.Value == true)
+            {
+                Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidTriple/VoidTriple.prefab").WaitForCompletion().GetComponent<RoR2.OptionChestBehavior>().dropTable = WolfoFixes.Shared.dtAllTier;
+            }
 
             if (WConfig.cfgVoidStagePillar.Value)
             {
@@ -54,12 +58,60 @@ namespace LittleGameplayTweaks
 
             }
 
+            Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "e291748f54c927a47ad44789d295c39f").WaitForCompletion().bannedItemTags = new ItemTag[] { ItemTag.HalcyoniteShrine };
 
             On.RoR2.HalcyoniteShrineInteractable.Awake += HalcyoniteShrine_ApplyNumbers;
             IL.RoR2.HalcyoniteShrineInteractable.DrainConditionMet += HalcyoniteShrine_NerfStats;
 
             IL.RoR2.ShrineBloodBehavior.AddShrineStack += ShrineBloodBehavior_GoldAmount;
+
+            if (WConfig.VoidSeedsMore.Value)
+            {
+                GameObject VoidCamp = Addressables.LoadAssetAsync<GameObject>(key: "e515327d3d5e0144488357748ce1e899").WaitForCompletion();
+                VoidCamp.transform.GetChild(0).GetComponent<CampDirector>().baseMonsterCredit = 75;
+                VoidCamp.transform.GetChild(0).GetComponent<CombatDirector>().eliteBias = 2;
+                VoidCamp.transform.GetChild(1).GetComponent<CampDirector>().baseMonsterCredit = 75;
+                VoidCamp.transform.GetChild(1).GetComponent<CombatDirector>().eliteBias = 4;
+            }
+            On.RoR2.CampDirector.CalculateCredits += CampDirector_CalculateCredits;
+            if (WConfig.VoidCradlesMore.Value)
+            {
+                GameObject VoidChest = Addressables.LoadAssetAsync<GameObject>(key: "e82b1a3fea19dfd439109683ce4a14b7").WaitForCompletion();
+                ScriptedCombatEncounter infestors = VoidChest.GetComponent<ScriptedCombatEncounter>();
+                infestors.spawns[0].cullChance = 30;
+                infestors.spawns[1].cullChance = 30;
+                infestors.spawns[2].cullChance = 30;
+                infestors.spawns[3].cullChance = 30;
+                 
+                GivePickupsOnStart voidInfestorMaster = Addressables.LoadAssetAsync<GameObject>(key: "741e2f9222e19bd4185f43aff65ea213").WaitForCompletion().GetComponent<GivePickupsOnStart>();
+                if (voidInfestorMaster.itemInfos.Length > 0)
+                {
+                    voidInfestorMaster.itemInfos[0].count = 60;
+                }
+            }
+        }
+
+       
+        private static void CampDirector_CalculateCredits(On.RoR2.CampDirector.orig_CalculateCredits orig, CampDirector self)
+        {
+            //1,1,1.1,1.2,1.7
+            if (WConfig.VoidSeedsScale.Value && self.combatDirector && self.combatDirector.teamIndex == TeamIndex.Void)
+            {
+                //0
+                //1
+                //2 0.9
+                //3 1
+                //4 1.1 
+                //5 1.6
+                float mult = 0.7f + Run.instance.stageClearCount * 0.1f + Run.instance.loopClearCount * 0.4f;
+                if (mult > 1)
+                {
+                    self.baseMonsterCredit = (int)((float)self.baseMonsterCredit * mult);
+                    self.monsterCreditPenaltyCoefficient /= mult;
+                }
+            }
  
+            orig(self);
         }
 
         private static void ShrineBloodBehavior_GoldAmount(ILContext il)
@@ -75,7 +127,10 @@ namespace LittleGameplayTweaks
                     if (WConfig.cfgShrineBloodGold.Value)
                     {
                         float moneyMult = body.healthComponent.fullCombinedHealth / 100f / (0.7f + body.level * 0.3f);
-
+                        if (moneyMult < 1)
+                        {
+                            moneyMult = 1;
+                        }
                         //25, 40, 60;
                         int baseMoney = 25;
                         if (self.purchaseCount == 1)
@@ -162,7 +217,7 @@ namespace LittleGameplayTweaks
 
         public static void Faster()
         {
-            if (WConfig.FasterPrinter.Value > WConfig.Client.Off)
+            if (WConfig.FasterPrinter.Value == true)
             {
 
 
@@ -181,7 +236,7 @@ namespace LittleGameplayTweaks
                 };
 
                 //Just 1 entity state so probably can't really work with it
-                if (WConfig.FasterPrinter.Value > WConfig.Client.Match)
+                /*if (WConfig.FasterPrinter.Value > WConfig.Client.Match)
                 {
                     IL.RoR2.PurchaseInteraction.CreateItemTakenOrb += (ILContext il) =>
                     {
@@ -201,12 +256,7 @@ namespace LittleGameplayTweaks
                     Duplicating.serializedFieldsCollection.serializedFields[0].fieldValue.stringValue = "0.6"; //1.5
                     Duplicating.serializedFieldsCollection.serializedFields[1].fieldValue.stringValue = "1.25"; //1.33
                 }
-                else
-                {
-                    /* EntityStateConfiguration Duplicating = LegacyResourcesAPI.Load<EntityStateConfiguration>("EntityStateConfigurations/EntityStates.Duplicator.Duplicating");
-                     Duplicating.serializedFieldsCollection.serializedFields[0].fieldValue.stringValue = "1.4";
-                     Duplicating.serializedFieldsCollection.serializedFields[1].fieldValue.stringValue = "1.23";*/
-                }
+                */
 
             }
 

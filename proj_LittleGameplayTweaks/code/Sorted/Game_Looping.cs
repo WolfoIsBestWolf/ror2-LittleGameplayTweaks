@@ -35,7 +35,13 @@ namespace LittleGameplayTweaks
             ChatMessageBase.chatMessageTypeToIndex.Add(typeof(SyncLevelStuffWithHost), (byte)ChatMessageBase.chatMessageIndexToType.Count);
             ChatMessageBase.chatMessageIndexToType.Add(typeof(SyncLevelStuffWithHost));
 
+
+
+
+          
         }
+
+     
 
         public class SyncLevelStuffWithHost : Chat.SimpleChatMessage
         {
@@ -363,7 +369,7 @@ namespace LittleGameplayTweaks
             }
             if (Run.instance.loopClearCount > 0)
             {
-                float mult = 1f + Run.instance.loopClearCount * 0.5f;
+                float mult = 1f + (Run.instance.stageClearCount-4) * 0.20f;
                 //Debug.Log("Loop TP multiplying HP by " + mult);
                 int hp = 10 + inv.GetItemCount(RoR2Content.Items.BoostHp);
                 hp = (int)(hp * mult) - 10;

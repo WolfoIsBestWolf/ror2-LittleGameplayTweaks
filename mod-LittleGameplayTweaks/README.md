@@ -11,65 +11,56 @@ A couple enemies have been moved or replaced to encourage enemy diversity.
 - Every stage will have at least 1 enemy addition on loops.
 
 Gup family event now spawns Geep & Gip too\
-Parent family event now spawns Grandparent & Children too
+Parent family event now spawns Grandparent & Children too\
+Family Event distribution is more varied.
 
 Mili-Printers, Cleansing Pools and Equipment Drones are a bit more common\
-Shrine of Order & TC-280 (on loops) will spawn on some additional stages.
+Shrine of Order & TC-280 will spawn on some additional stages.
 
 Reduces Credits cost of:
 - Shrine of Blood, Combat, Order, Healing, Shaping, Lunar Chest, Void Potential, TC-280.
-- Parents, Greater Wisps, Void Reavers
-
-Increases Credits cost of:
-- Blind Pest
-
-
+- Child, Parents, Grandparents, Greater Wisps, Void Reavers
+ 
 ![Image of Grovetender in Sundered Grove and Solus Control Unit in Rallypoint Delta](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks/main/modPageImages/ltgGrovetender.png)
 
 ## Stages
 Titanic Plains & Distant Roost get slightly more credits (due new Stage 1s having so many)\
 Abandoned Aquaduct scale their credits better in multiplayer\
-Siren's Call & Sundered Grove get slightly more credits (due to Abyssal having so many half the time)
+Siren's Call & Sundered Grove get a small flat credit boost (due to Abyssal having a large flat credits boost sometimes)
+
+Stage 5 has a guaranteed Void Portal so Void Locust & Voidling can be used as a proper Mithrix alternative.
+
+The Bazaar has a third Lunar Seer.
 
 Gilded Coast will have some extra shrines.
  
 Void Fields Cells now charge faster\
-	- (30s for the first 4, 45s for the next 4, 60 for the last).\
+	- (40s for the first 4, 50s for the next 4, 60 for the last).\
 Cells now have a regenerating aura before activating them.
 
 Deep Void Signal now takes 45 seconds instead of 60 & has a 30% larger Radius.
 
-Void Locust & Planetarium dont count as stages completed.
+Moon Drop Ship and Void Fields Cell charge at full speed at just 1 player.
 
-The Bazaar has a third Lunar Seer.
- 
-## Monsters, Survivors, Drones
-Mending Elites on-death effect now heals more per level.
+## Monsters, Elites
+Mending Healing Core now increases stats with level is generally a bit tougher.
 
-Twisted Elites have less cooldown on their ability\
-Twisted Elites projectile can no longer be killed\
-Twisted Elites projectile inflicts 5s of skills disabled.
+Twisted Elites : 
+- No longer have a 10s cooldown on their main ability,
+- Them getting hit now also charges the ability
+- Projectile can no longer be killed
+- Projectile inflicts 5s of Skills Disabled instead of 420s of Lunar Ruin.
+- - Should make them actually threatening like Malachite
 
 Overloading Worms projectiles leave behind Overloading Bombs
 
 Aquaduct Elder Lemurians now activate their Bands & scale with difficulty.
 
-Elite XI's spawn elite Alphas. (no bonus stats, matches other minion bosses)
+Elite XI's spawn elite Alphas. (no bonus stats, matching other minion bosses)
 
-Mithrix Phase 4 skip fixed and invulnerable a bit longer.\
-Voidling has less special scaling.\
+Twisted Scav & Voidling have slightly less damage scaling.\
 Twisted Scav special scaling no longer counts 0 players.
 
-
-Captain keeps his abilities in Hidden Realms.\
-Captain gets a third beacon with Lysate Cell.
-
-Huntress will use 2 Ballista Charges for 6 Shots with Lysate Cell.
-
-More M2s can be used rapdily without pressing each time.
-
-Equipment Drones will fire their equipment as often as they can depending on the equipment. (ie Scanner, Jade Elephant)\
-TC-280 will have Adaptive Armor & resistance to AoE attacks.
 
 
 ## Interactables
@@ -77,24 +68,30 @@ Printers, Scrappers & Shrines are faster / have less delay.
 
 - Halcyon Shrines
 	- Shrines drain gold faster
-	- Shrines no longer force SotS items.
-	- Shrines Stone Golems HP no longer multipled per player
+	- Shrines Stone Golems HP no longer multiplied per player
+	- May spawn Halcyonites or Stone Titans instead of just Golems
 - Shrines of Blood
 	- Cost 50/70/90 Blood to avoid breaking items on 2nd use.
 	- Scale reward with time
 - Shrine of Woods
 	- Price reduced to 10/13/18/25$ (from 25/37/55)
 	- Can be used a 4th time
-- Shrine of Combat no longer multiplies enemy health in multiplayer
-- Shrine of the Mountain are a bit more common.
+- Shrine of the Mountain are a bit more common in solo.
 - Gunner Turret price reduced to 25$
 - TC-280 price reduced to 300$	 
 - R->W Cauldrons now grant 4 items instead of 3.
- 
+- Void Seeds
+- - Spawn slightly more enemies in general 
+- - Spawn more enemies on loop
+- - Likelier to spawn Void Devastator
+- - Less credits wasted on barrels
+- Void Potential Chests
+- - Can contain any item 
+
  
 ## Looping 
 Teleporters spawn 33% more bosses per loop.\
-Teleporter Bosses have 50% more health per loop.
+Teleporter Bosses have 20% more health per stage completed after looping.
 
 Every stage completed raises the enemy level cap by 20. (Final Bosses unaffected)
 
@@ -109,8 +106,18 @@ Elite Scavengers will be given more items.
 For people who don't like looping :
 - Config for Scavs on Stage 4 & 5
 - Config for Tier 2 Elites on Stage 5
-- Guaranteed Void Portal on Stage 5
 
+## Survivors & Drones
+
+Captain keeps his abilities in Hidden Realms.\
+Captain gets a third beacon with Lysate Cell.
+
+Huntress will use 2 Ballista Charges for 6 Shots with Lysate Cell.
+
+Commando & Acrid M2s shoot out rapdily without needing to press each time.
+
+Equipment Drones will fire their equipment as often as they can depending on the equipment. (ie Scanner, Jade Elephant)\
+TC-280 will have Adaptive Armor & resistance to AoE attacks.
 
 
 ## Other
@@ -126,11 +133,15 @@ Allows normally disabled content :\
 Elite Equipment have a 1/1600 chance of dropping (instead of 1/4000).\
 Boss items are now a 20% chance to drop. (instead of 15%)
 
-Items teleport up if they fall off the map.
- 
- 
+
+
 #
 Making the stages interactables credits more equal and having less credits spent on bad interactables adds up to more items. Not too many but maybe a noticible difference.
+
+But mod also makes game a bit harder in cerain areas so evens out.
+
+
+More Void Locust spotlight, More varied Eclipse, and some other stuff it's nice.
 
 
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\

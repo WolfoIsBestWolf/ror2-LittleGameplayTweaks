@@ -38,22 +38,22 @@ namespace LittleGameplayTweaks
             Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/Croco/CrocoSpit.asset").WaitForCompletion().mustKeyPress = false;
             Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/LunarSkillReplacements/LunarSecondaryReplacement.asset").WaitForCompletion().mustKeyPress = true;
 
-            Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/Mage/MageBodyNovaBomb.asset").WaitForCompletion().mustKeyPress = false;
-            Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/Mage/MageBodyIceBomb.asset").WaitForCompletion().mustKeyPress = false;
+            //Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/Mage/MageBodyNovaBomb.asset").WaitForCompletion().mustKeyPress = false;
+            //Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/Mage/MageBodyIceBomb.asset").WaitForCompletion().mustKeyPress = false;
             //Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/DLC2/Seeker/SeekerBodySoulSpiral.asset").WaitForCompletion().mustKeyPress = false;
             //Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/DLC2/Chef/ChefIceBox.asset").WaitForCompletion().mustKeyPress = false;
             //Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/DLC2/FalseSon/FalseSonLunarStake.asset").WaitForCompletion().mustKeyPress = false;
 
 
             //This should like Barley Change anything but still make it configs
-            On.EntityStates.Merc.Weapon.GroundLight2.OnEnter += (orig, self) =>
+            /*On.EntityStates.Merc.Weapon.GroundLight2.OnEnter += (orig, self) =>
             {
                 if (self.isComboFinisher == true)
                 {
                     self.ignoreAttackSpeed = true;
                 }
                 orig(self);
-            };
+            };*/
             On.EntityStates.Merc.Uppercut.OnEnter += (orig, self) =>
             {
                 orig(self);
@@ -121,17 +121,10 @@ namespace LittleGameplayTweaks
             //Equipment Drone fire Equipment even if no enemies
             LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/EquipmentDroneMaster").AddComponent<FireEquipmentAlways>();
 
-            On.EntityStates.Mage.FlyUpState.OnEnter += FlyUpState_OnEnter;
+          
         }
 
-        private static void FlyUpState_OnEnter(On.EntityStates.Mage.FlyUpState.orig_OnEnter orig, EntityStates.Mage.FlyUpState self)
-        {
-            orig(self);
-            if (self.characterMotor)
-            {
-                self.characterMotor.disableAirControlUntilCollision = false;
-            }
-        }
+     
 
         private static void Lysate_DoubleBallista(On.EntityStates.Huntress.AimArrowSnipe.orig_OnEnter orig, EntityStates.Huntress.AimArrowSnipe self)
         {
@@ -244,31 +237,30 @@ namespace LittleGameplayTweaks
         public bool ShouldFireAlways(EquipmentIndex index)
         {
             EquipmentDef def = EquipmentCatalog.GetEquipmentDef(index);
-
-            List<EquipmentDef> fireAlways = new List<EquipmentDef>()
-                {
-                    RoR2Content.Equipment.Tonic,
-                    RoR2Content.Equipment.CommandMissile,
-                    RoR2Content.Equipment.Fruit,
-                    RoR2Content.Equipment.DroneBackup,
-                    RoR2Content.Equipment.Jetpack,
-                    RoR2Content.Equipment.PassiveHealing,
-                    RoR2Content.Equipment.Scanner,
-                    RoR2Content.Equipment.Gateway,
-                    RoR2Content.Equipment.Cleanse,
-                    RoR2Content.Equipment.GainArmor,
-                    RoR2Content.Equipment.Recycle,
-
-                    RoR2Content.Equipment.TeamWarCry,
-
-                    DLC1Content.Equipment.GummyClone,
-                    DLC1Content.Equipment.VendingMachine,
-                    DLC1Content.Equipment.BossHunterConsumed,
-                    DLC2Content.Equipment.EliteAurelioniteEquipment,
-                    DLC2Content.Equipment.HealAndRevive,
-                    DLC2Content.Equipment.HealAndReviveConsumed,
-                };
-            return fireAlways.Contains(def);
+            if (def == RoR2Content.Equipment.Tonic ||
+                def == RoR2Content.Equipment.CommandMissile ||
+                def == RoR2Content.Equipment.Fruit ||
+                def == RoR2Content.Equipment.DroneBackup ||
+                def == RoR2Content.Equipment.Jetpack ||
+                def == RoR2Content.Equipment.PassiveHealing ||
+                def == RoR2Content.Equipment.Scanner ||
+                def == RoR2Content.Equipment.Gateway ||
+                def == RoR2Content.Equipment.Cleanse ||
+                def == RoR2Content.Equipment.GainArmor ||
+                def == RoR2Content.Equipment.Recycle ||
+                def == RoR2Content.Equipment.TeamWarCry ||
+                def == DLC1Content.Equipment.GummyClone ||
+                def == DLC1Content.Equipment.VendingMachine ||
+                def == DLC1Content.Equipment.BossHunterConsumed ||
+                def == DLC2Content.Equipment.EliteAurelioniteEquipment ||
+                def == DLC2Content.Equipment.HealAndRevive ||
+                def == DLC2Content.Equipment.HealAndReviveConsumed ||
+                def == RoR2Content.Equipment.Gateway
+                )
+            {
+                return true;
+            };
+            return false;
         }
         public void Start()
         {
@@ -281,9 +273,14 @@ namespace LittleGameplayTweaks
             {
                 Debug.Log("Equipment Drone fire always");
                 AISkillDriver[] skilllist = this.GetComponents<AISkillDriver>();
+    
                 for (int i = 0; i < skilllist.Length; i++)
                 {
-                    skilllist[i].shouldFireEquipment = true;
+                    if (skilllist[i].maxDistance < 100)
+                    {
+                        skilllist[i].shouldFireEquipment = true;
+                    }
+                 
                 }
             }
 

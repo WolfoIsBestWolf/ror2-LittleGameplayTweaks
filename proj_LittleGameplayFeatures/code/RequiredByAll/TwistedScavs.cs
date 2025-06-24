@@ -38,12 +38,7 @@ namespace LittleGameplayFeatures
             TwipTwip.levelMaxHealth *= 0.8f;
 
             MultiCharacterSpawnCard cscScavLunar = LegacyResourcesAPI.Load<MultiCharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScavLunar");
-
-            cscScavLunar.masterPrefabs[0].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath;
-            cscScavLunar.masterPrefabs[1].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath;
-            cscScavLunar.masterPrefabs[2].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath;
-            cscScavLunar.masterPrefabs[3].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath;
-
+ 
             ContentAddition.AddBody(ScavLunarWSpeedBody);
             ContentAddition.AddMaster(ScavLunarWSpeedMaster);
 
@@ -69,8 +64,8 @@ namespace LittleGameplayFeatures
 
             SpeedBody.baseNameToken = "SCAVLUNAR_FAST_BODY_NAME";
             SpeedBody.baseMoveSpeed *= 1.75f;
-            SpeedBody.baseDamage *= 0.75f;
-            SpeedBody.levelDamage *= 0.75f;
+            SpeedBody.baseDamage *= 0.6f;
+            SpeedBody.levelDamage *= 0.6f;
             SpeedBody.baseJumpPower *= 3f;
             TankBody.baseNameToken = "SCAVLUNAR_SLOW_BODY_NAME";
             TankBody.baseMaxHealth *= 0.5f;
@@ -80,40 +75,7 @@ namespace LittleGameplayFeatures
             GoomanBody.baseNameToken = "SCAVLUNAR_GOOBO_BODY_NAME";
             GoomanBody.baseDamage *= 0.75f;
             GoomanBody.levelDamage *= 0.75f;
-
-
-            cscScavLunar.masterPrefabs[0].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().baseDamage *= 0.75f;
-            cscScavLunar.masterPrefabs[1].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().baseDamage *= 0.75f;
-            cscScavLunar.masterPrefabs[2].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().baseDamage *= 0.75f;
-            cscScavLunar.masterPrefabs[3].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().baseDamage *= 0.75f;
-            cscScavLunar.masterPrefabs[0].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().levelDamage *= 0.75f;
-            cscScavLunar.masterPrefabs[1].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().levelDamage *= 0.75f;
-            cscScavLunar.masterPrefabs[2].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().levelDamage *= 0.75f;
-            cscScavLunar.masterPrefabs[3].GetComponent<CharacterMaster>().bodyPrefab.GetComponent<CharacterBody>().levelDamage *= 0.75f;
-            SpeedBody.baseDamage *= 0.75f;
-            SpeedBody.levelDamage *= 0.75f;
-            TankBody.baseDamage *= 0.75f;
-            TankBody.levelDamage *= 0.75f;
-            GoomanBody.baseDamage *= 0.75f;
-            GoomanBody.levelDamage *= 0.75f;
-
-
-
-
-            cscScavLunar.masterPrefabs[0].AddComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                new GivePickupsOnStart.ItemInfo { itemString = "LunarTrinket", count = 1, },
-                new GivePickupsOnStart.ItemInfo { itemString = "FlatHealth", count = 1, },
-            };
-            cscScavLunar.masterPrefabs[1].AddComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                new GivePickupsOnStart.ItemInfo { itemString = "LunarTrinket", count = 1, },
-            };
-            cscScavLunar.masterPrefabs[2].AddComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                new GivePickupsOnStart.ItemInfo { itemString = "LunarTrinket", count = 1, },
-            };
-            cscScavLunar.masterPrefabs[3].AddComponent<GivePickupsOnStart>().itemInfos = new GivePickupsOnStart.ItemInfo[] {
-                new GivePickupsOnStart.ItemInfo { itemString = "LunarTrinket", count = 1, },
-            };
-
+ 
 
             On.RoR2.GivePickupsOnStart.Start += (orig, self) =>
             {

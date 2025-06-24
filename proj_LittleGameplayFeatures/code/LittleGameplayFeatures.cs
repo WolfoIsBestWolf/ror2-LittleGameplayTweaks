@@ -38,8 +38,7 @@ namespace LittleGameplayFeatures
             WConfig.RiskConfig();
             NewFamilyEvents.ModSupport();
             PrismaticRunMaker.LateRunningMethod();
-            TripleShopLegendary.AddPingIcon();
-            TwistedScavs.CallLate();
+             TwistedScavs.CallLate();
         }
 
 

@@ -1,5 +1,6 @@
 using RoR2;
 using RoR2.ExpansionManagement;
+using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -7,7 +8,7 @@ namespace LittleGameplayTweaks
 {
     public class DCCS_Family
     {
-
+        public static DirectorCardCategorySelection dccsMoonVoids;
         public static void Start()
         {
             On.RoR2.DccsPool.GenerateWeightedCategorySelection += DccsPool_GenerateWeightedCategorySelection;
@@ -62,13 +63,16 @@ namespace LittleGameplayTweaks
             FamilyDirectorCardCategorySelection dccsMushroomFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/dccsMushroomFamily.asset").WaitForCompletion();
             FamilyDirectorCardCategorySelection dccsAcidLarvaFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/DLC1/Common/dccsAcidLarvaFamily.asset").WaitForCompletion();
 
-
-            FamilyDirectorCardCategorySelection dccsVoidFamilyLate = ScriptableObject.CreateInstance<FamilyDirectorCardCategorySelection>();
+            dccsMoonVoids = ScriptableObject.CreateInstance<DirectorCardCategorySelection>();
+            dccsMoonVoids.categories = HG.ArrayUtils.Clone(dccsVoidFamily.categories);
+            dccsMoonVoids.categories[0].cards[0].minimumStageCompletions = 7;
+            dccsMoonVoids.categories[1].cards[0].minimumStageCompletions = 7;
+            dccsMoonVoids.name = "dccsMoonVoidMonstersEscape";
+            
+            FamilyDirectorCardCategorySelection dccsVoidFamilyLate = GameObject.Instantiate(dccsVoidFamily);
             dccsVoidFamilyLate.name = "dccsVoidFamilyLate";
             dccsVoidFamilyLate.minimumStageCompletion = 10;
-            dccsVoidFamilyLate.maximumStageCompletion = 100000;
-            dccsVoidFamilyLate.selectionChatString = dccsVoidFamily.selectionChatString;
-            dccsVoidFamilyLate.categories = dccsVoidFamily.categories;
+
 
             DirectorCard DC_Grandparent = new DirectorCard
             {
