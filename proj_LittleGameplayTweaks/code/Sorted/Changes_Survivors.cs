@@ -19,18 +19,12 @@ namespace LittleGameplayTweaks
 
             if (WConfig.BuffMegaDroneStats.Value)
             {
-                GameObject MegaDroneMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Drones/MegaDroneMaster.prefab").WaitForCompletion();
-                GivePickupsOnStart item = MegaDroneMaster.AddComponent<GivePickupsOnStart>();
-                item.itemInfos = new GivePickupsOnStart.ItemInfo[]
-                {
-                    new GivePickupsOnStart.ItemInfo
-                    {
-                        count = 1,
-                        itemString= "AdaptiveArmor"
-                    }
-                };
+             
                 GameObject MegaDroneBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Drones/MegaDroneBody.prefab").WaitForCompletion();
-                MegaDroneBody.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ResistantToAOE;
+                CharacterBody body = MegaDroneBody.GetComponent<CharacterBody>();
+                body.bodyFlags |= CharacterBody.BodyFlags.ResistantToAOE;
+                body.regen = 15;
+                body.levelRegen = 3;
             }
 
             //Hold down button to fire multiple
@@ -205,31 +199,7 @@ namespace LittleGameplayTweaks
             }
         }
 
-        public static BodyIndex LemurianBruiser = BodyIndex.None;
-        public static string MarriedLemurianNameHook(On.RoR2.Util.orig_GetBestBodyName orig, GameObject bodyObject)
-        {
-            if (bodyObject)
-            {
-                CharacterBody characterBody = bodyObject.GetComponent<CharacterBody>();
-                if (characterBody && characterBody.bodyIndex == LemurianBruiser)
-                {
-                    if (characterBody.inventory.GetItemCount(RoR2Content.Items.Clover) >= 20)
-                    {
-                        if (characterBody.inventory.GetItemCount(RoR2Content.Items.FireRing) > 0)
-                        {
-                            return "Kjaro";
-                        }
-                        else if (characterBody.inventory.GetItemCount(RoR2Content.Items.IceRing) > 0)
-                        {
-                            return "Runald";
-                        }
-                    }
-                }
-            }
-            return orig(bodyObject);
-        }
-
-
+       
     }
 
     public class FireEquipmentAlways : MonoBehaviour

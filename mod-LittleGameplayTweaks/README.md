@@ -23,24 +23,6 @@ Reduces Credits cost of:
  
 ![Image of Grovetender in Sundered Grove and Solus Control Unit in Rallypoint Delta](https://raw.githubusercontent.com/WolfoIsBestWolf/ror2-LittleGameplayTweaks/main/modPageImages/ltgGrovetender.png)
 
-## Stages
-Titanic Plains & Distant Roost get slightly more credits (due new Stage 1s having so many)\
-Abandoned Aquaduct scale their credits better in multiplayer\
-Siren's Call & Sundered Grove get a small flat credit boost (due to Abyssal having a large flat credits boost sometimes)
-
-Stage 5 has a guaranteed Void Portal so Void Locust & Voidling can be used as a proper Mithrix alternative.
-
-The Bazaar has a third Lunar Seer.
-
-Gilded Coast will have some extra shrines.
- 
-Void Fields Cells now charge faster\
-	- (40s for the first 4, 50s for the next 4, 60 for the last).\
-Cells now have a regenerating aura before activating them.
-
-Deep Void Signal now takes 45 seconds instead of 60 & has a 30% larger Radius.
-
-Moon Drop Ship and Void Fields Cell charge at full speed at just 1 player.
 
 ## Monsters, Elites
 Mending Healing Core now increases stats with level is generally a bit tougher.
@@ -56,23 +38,51 @@ Overloading Worms projectiles leave behind Overloading Bombs
 
 Aquaduct Elder Lemurians now activate their Bands & scale with difficulty.
 
+Void Devastator now immune to Freeze and Void Implosions.
+
 Elite XI's spawn elite Alphas. (no bonus stats, matching other minion bosses)
 
 Twisted Scav & Voidling have slightly less damage scaling.\
 Twisted Scav special scaling no longer counts 0 players.
 
+## Stages
+
+Interactable Credits :
+- Titanic Plains & Distant Roost : Slight bump to balance against new Stages 1s having many credits.
+- Abandoned Aquaduct : Scales more logically in multiplayer.
+- Siren's Call & Sundered Grove : Small flat credits boost to balance against Depths flat credits boost.
+ 
+Stages 1,2,3 will spawn with slightly more monsters on them so there's more to do.
+
+Stage 5 has a guaranteed Void Portal so Void Locust & Voidling can be used as a proper Mithrix alternative.
+
+The Bazaar has a third Lunar Seer. Because we keep getting more stages.
+
+Gilded Coast will have some extra shrines.
+ 
+Void Fields Cells now charge faster\
+	- (40s for the first 4, 50s for the next 4, 60 for the last).\
+Cells now have a regenerating aura before activating them.
+
+Deep Void Signal now takes 48 seconds instead of 60 & has a 30% larger Radius.
+
+Pillar of Mass now charges 20% faster but can spawn 20% more monsters.
+
+Moon Drop Ship and Void Fields Cell charge at full speed at just 1 player.
 
 
 ## Interactables
 Printers, Scrappers & Shrines are faster / have less delay.
 
+
+- Blood Purchases
+	- No longer break Elixir, Transmitter & Watches.
+- Shrines of Blood
+	- Scale reward with time
 - Halcyon Shrines
 	- Shrines drain gold faster
 	- Shrines Stone Golems HP no longer multiplied per player
-	- May spawn Halcyonites or Stone Titans instead of just Golems
-- Shrines of Blood
-	- Cost 50/70/90 Blood to avoid breaking items on 2nd use.
-	- Scale reward with time
+	- May spawn Halcyonites instead of just Golems
 - Shrine of Woods
 	- Price reduced to 10/13/18/25$ (from 25/37/55)
 	- Can be used a 4th time
@@ -88,19 +98,27 @@ Printers, Scrappers & Shrines are faster / have less delay.
 - Void Potential Chests
 - - Can contain any item 
 
- 
+
 ## Looping 
-Teleporters spawn 33% more bosses per loop.\
-Teleporter Bosses have 20% more health per stage completed after looping.
+Generally I wish to make Looping a bit more chaotic because it's rather boring.
 
-Every stage completed raises the enemy level cap by 20. (Final Bosses unaffected)
+Stages start with more monsters on loops.
 
-Every stage 5 will spawn a Void Portal & Celestial Portal
+Teleporters spawn more bosses per loop.\
+Teleporter Boss HP scales with Loop and Stage clear count, so that it remains something exciting.
 
+Every loop-stage completed raises the enemy level by 10, beyond the cap.
+
+Every Stage 5 will spawn a Void Locust Portal.\
+Stage 10 will spawn a Celestial Portal.
+ 
 Tier 2 elites are cheaper. (30x instead of 36x)
 
-Scavengers can be encountered as bosses & come with a yellow item.\
+Scavengers can be encountered as bosses and will have a random Boss item.\
 Elite Scavengers will be given more items.
+
+After Mithrix you can continue looping via a Portal at spawn.\
+After Twisted Scavengers you also get a portal.
 
 \
 For people who don't like looping :
@@ -122,7 +140,12 @@ TC-280 will have Adaptive Armor & resistance to AoE attacks.
 
 ## Other
 ### Eclipse
-Allows normally disabled content :\
+Spawns Squid Turrets and Ghosts at full health
+- The half health makes these items last half as long which isnt fun because they're already bad.
+Unlocks next Eclipse level if you leave Commencement
+- So dying to Voidling still counts.
+- So that using the Loop Portal still counts.
+Allows normally disabled content :
 	- Choice of most Artifacts. (excludes Command, Rebirth)\
 	- Moment Fractured and entering Moment Whole without Beads.\
 	- Void Locust access\

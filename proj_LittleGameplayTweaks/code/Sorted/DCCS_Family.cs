@@ -65,8 +65,19 @@ namespace LittleGameplayTweaks
 
             dccsMoonVoids = ScriptableObject.CreateInstance<DirectorCardCategorySelection>();
             dccsMoonVoids.categories = HG.ArrayUtils.Clone(dccsVoidFamily.categories);
-            dccsMoonVoids.categories[0].cards[0].minimumStageCompletions = 7;
-            dccsMoonVoids.categories[1].cards[0].minimumStageCompletions = 7;
+            dccsMoonVoids.categories[0].cards[0] = new DirectorCard
+            {
+                spawnCardReference = dccsVoidFamily.categories[0].cards[0].spawnCardReference,
+                selectionWeight = 1,
+                minimumStageCompletions = 7,
+            };
+            dccsMoonVoids.categories[1].cards[0] = new DirectorCard
+            {
+                spawnCardReference = dccsVoidFamily.categories[1].cards[0].spawnCardReference,
+                selectionWeight = 1,
+                minimumStageCompletions = 7,
+            };
+            dccsMoonVoids.categories[2].cards[1].spawnDistance = DirectorCore.MonsterSpawnDistance.Close;
             dccsMoonVoids.name = "dccsMoonVoidMonstersEscape";
             
             FamilyDirectorCardCategorySelection dccsVoidFamilyLate = GameObject.Instantiate(dccsVoidFamily);

@@ -15,14 +15,19 @@ namespace LittleGameplayTweaks
         public enum MatchCategory
         {
             MatchSmallToBig,
+            RandomOneSmall,
             NoChange,
-            AddMissingBig
         }
+        public static ConfigEntry<bool> cfgMoreLoop;
         public static ConfigEntry<bool> cfgVoidTripleAllTier;
+        public static ConfigEntry<bool> cfgMasstweak;
+
+        public static ConfigEntry<bool> cfgE1Unnerf;
+
 
         public static ConfigEntry<bool> cfgOverloadingWorm;
         public static ConfigEntry<bool> cfgEarlyScavs;
-        public static ConfigEntry<bool> cfgMatchCategory;
+        public static ConfigEntry<MatchCategory> cfgMatchCategory;
         public static ConfigEntry<bool> VoidSeedsScale;
         public static ConfigEntry<bool> VoidSeedsMore;
         public static ConfigEntry<bool> VoidCradlesMore;
@@ -45,7 +50,6 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> EclipseAllowChoiceAllowAllArtifacts;
 
  
-        public static ConfigEntry<bool> LevelMaximumFinalBoss;
         public static ConfigEntry<bool> cheaperTier2;
         public static ConfigEntry<bool> earlyTier2;
 
@@ -61,7 +65,9 @@ namespace LittleGameplayTweaks
 
     
         //Stages
-        public static ConfigEntry<bool> cfgCredits_Stages;
+        public static ConfigEntry<bool> cfgStageCredits_Interactables;
+        public static ConfigEntry<bool> cfgStageCredits_Monsters;
+        public static ConfigEntry<bool> cfgMonsterCreditLoopScale;
         //public static ConfigEntry<bool> cfgVoidStagesNoTime;
         public static ConfigEntry<bool> cfgGoldShoresCredits;
         //
@@ -75,17 +81,16 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> RegenArenaCells;
 
         public static ConfigEntry<bool> InteractableNoLunarCost;
-        public static ConfigEntry<bool> InteractableHealingShrine;
-        public static ConfigEntry<bool> cfgShrineBloodGold;
-        public static ConfigEntry<bool> InteractableBloodShrineLessCost;
-        public static ConfigEntry<bool> InteractablesCombatShrineHP;
+        public static ConfigEntry<bool> Shrine_Healing;
+        public static ConfigEntry<bool> Shrine_Blood_Gold;
+        public static ConfigEntry<bool> Shrine_Blood_NoBreak;
+        public static ConfigEntry<bool> Shrine_Combat;
 
         public static ConfigEntry<bool> cfgHalcyon_FastDrain;
-        public static ConfigEntry<bool> cfgHalcyon_LessMonsterCredits;
         public static ConfigEntry<bool> cfgHalcyon_ScaleHPMult;
         public static ConfigEntry<bool> cfgHalcyon_Spawnpool;
         public static ConfigEntry<bool> cfgHalcyon_NerfStats;
-        public static ConfigEntry<bool> cfgHalcyon_ForcedSots;
+        public static ConfigEntry<bool> cfgHalcyon_NoForcedSots;
 
         public static ConfigEntry<int> InteractableRedSoupAmount;
         public static ConfigEntry<int> MegaDroneCost;
@@ -153,58 +158,59 @@ namespace LittleGameplayTweaks
         {
 
             #region Looping
+            cfgMoreLoop = ConfigFileLGT.Bind(
+             "Looping",
+             "Loop Portal after Mithrix & Twisted Scav",
+             true,
+             "A portal spawns at spawn on Commencement, to allow you to loop back.\nYou cannot fight Mithrix twice in one run.\n\nA Loop Portal spawns near the center after beating Twisted Scavengers.\nYou can fight them multiple times."
+            );            
+            cfgLoopDifficultTeleporters = ConfigFileLGT.Bind(
+             "Looping",
+             "Scale | Teleporter Bosses",
+             true,
+             "During Loops, Teleporters spawn more bosses and bosses get additiona health.\nThis can result in Teleporters still being a more impactful event rather than a slaughter and waiting."
+            );
+            VoidSeedsScale = ConfigFileLGT.Bind(
+                  "Looping",
+                  "Scale | Void Seeds Monsters",
+                  true,
+                  "Void Seeds spawn more monsters during loops."
+              );
+
+            cfgMonsterCreditLoopScale = ConfigFileLGT.Bind(
+                "Looping",
+                "Scale | Stage starting Monsters",
+                true,
+                "Stages start with more monsters on them during loops, to encourage more chaos and earlier big T2 elites."
+            );
             cfgAddLevelCapPerStage = ConfigFileLGT.Bind(
                 "Looping",
-                "Scale Monster Level Cap",
+                "Scale | Monster Level Cap",
                 true,
                 "Each stage completed during a loop increases the ambient level cap by 20.\nDoes not count Commencement\nJust a little boost so that enemies can continue scaling.\n\nShould be compatible with any other mods that change Level Cap."
             );
             cheaperTier2 = ConfigFileLGT.Bind(
-                "Looping",
-                "Cheaper Tier 2 Elites",
-                true,
-                "Makes Tier 2 Elites cost 30x instead of 36x.\n\nWill update mid-run if changed"
-            );
+              "Looping",
+              "Cheaper Tier 2 Elites",
+              true,
+              "Makes Tier 2 Elites cost 30x instead of 36x.\nAdds more chaos to looping.\nWill update mid-run if changed"
+          );
             earlyTier2 = ConfigFileLGT.Bind(
                 "Looping",
-                "Early Tier 2 Elites",
+                "Pre-Loop | Tier 2 Elites",
                 false,
                 "Tier 2 Elites start spawning on Stage 5.\nInstead of Stage 6.\n\nFor Loop haters."
             );
-            cheaperTier2.SettingChanged += Tier2_SettingChanged;
-            earlyTier2.SettingChanged += Tier2_SettingChanged;
-
-
-            cfgLoopDifficultTeleporters = ConfigFileLGT.Bind(
-              "Looping",
-              "Stronger TP Bosses",
-              true,
-              "For every loop, teleporters spawn 33% more bosses and bosses have 50% more health."
-           );
             cfgEarlyScavs = ConfigFileLGT.Bind(
               "Looping",
-              "Early Scavengers",
+              "Pre-Loop | Scavengers",
               false,
-              "Allow Scavengers to spawn as early as Stage 4 instead of Stage 6\n\nFor Loop haters."
+              "Allow Scavengers to spawn as early as Stage 4 instead of Stage 6\n\nFor Loop haters.\n\nDoes not affect Sundered Grove either way."
             );
-            cfgScavBoss = ConfigFileLGT.Bind(
-                "Looping",
-                "Scavs as Bosses",
-                true,
-                "Scavs can spawn as a TP Boss under normal conditions but rarer than other teleporter bosses."
-            );
-            cfgScavMoreItemsElites = ConfigFileLGT.Bind(
-                "Looping",
-                "Boss & Elite Scavs get more items",
-                true,
-                "Boss Scavs get 1 Yellow or 2 if Elite.\nElite Scavs get 4x4 Whites, 2x3 Greens, 2x2 Reds\nTier2 Scavs get 5x6 Whites 3x4 Greens, 2x3 Reds.\n\nThis is so that Scavengers continue to scale as a threat, with ever increasing amount of items"
-            );
-
-
 
             VoidPortalStage5 = ConfigFileLGT.Bind(
                 "Looping",
-                "Void Locust Portal Stage 5",
+                "Void Portal Stage 5",
                 true,
                 "Guaranteed a portal to Void Locust every Stage 5, so it could be used as a proper alternative to Mithrix if desired.\nAlso doubles random spawn chance to 20%.\nVanilla is 10% on any stage after stage 7."
             );
@@ -212,7 +218,7 @@ namespace LittleGameplayTweaks
                 "Looping",
                 "Celestial Portal Stage 10",
                 true,
-                "Celestial Portals also spawn on every Stage 5, starting Stage 10."
+                "Celestial Portals also spawn on every Stage 5, starting Stage 10.\n\nFor just more control or using Twisteds as a alt ending if wanted"
             );
             cfgLunarTeleporterAlways = ConfigFileLGT.Bind(
                 "Looping",
@@ -220,18 +226,12 @@ namespace LittleGameplayTweaks
                 false,
                 "After looping, Replace the teleporter on every stage with a Primordial Teleporter.\nThis is how it was in Risk of Rain Returns"
             );
+ 
+            cheaperTier2.SettingChanged += Tier2_SettingChanged;
+            earlyTier2.SettingChanged += Tier2_SettingChanged;
 
- 
-            LevelMaximumFinalBoss = ConfigFileLGT.Bind(
-               "Looping",
-               "Limit Final Boss Level",
-               true,
-               "Final bosses get bonus stats because of the 99 level limit.\nSo allowing them to also increase in level would make them too tanky, especially in multiplayer"
-            );
- 
-   
             #endregion
- 
+
             #region Monster Changes
             cfgTwistedBuff = ConfigFileLGT.Bind(
                "Monsters",
@@ -245,6 +245,19 @@ namespace LittleGameplayTweaks
                 true,
                 "Twisted Projectile disables skills for 5 seconds instead of Lunar Ruin for 420 seconds."
             );
+            cfgScavBoss = ConfigFileLGT.Bind(
+                 "Monsters",
+                 "Scavs as Bosses",
+                 true,
+                 "Scavs can spawn as a TP Boss under normal conditions but rarer than other teleporter bosses."
+             );
+            cfgScavMoreItemsElites = ConfigFileLGT.Bind(
+                "Monsters",
+                "Boss & Elite Scavs get more items",
+                true,
+                "Boss Scavs get 1 Yellow or 2 if Elite.\nElite Scavs get 4x4 Whites, 2x3 Greens, 2x2 Reds\nTier2 Scavs get 5x6 Whites 3x4 Greens, 2x3 Reds.\n\nThis is so that Scavengers continue to scale as a threat, with ever increasing amount of items.\nAlso because funny"
+            );
+
             cfgMendingCoreBuff = ConfigFileLGT.Bind(
                "Monsters",
                "Mending Elite | On Death Buff",
@@ -274,7 +287,7 @@ namespace LittleGameplayTweaks
              "Monsters",
              "Elite XI | Elite Minions",
              true,
-             "In Vanilla, Unlike Beetle Queen and Solus, the minions spawned by XI dont copy the equipment.\nLike those cases, they do not gain elite stats."
+             "Fix what is likely an overseight, that unlike Beetle Queen and Solus, Elite XI does not spawn Elite minions.\n\nLike those cases, they do not gain elite stats."
             );
             cfgOverloadingWorm = ConfigFileLGT.Bind(
              "Monsters",
@@ -310,30 +323,20 @@ namespace LittleGameplayTweaks
                 true,
                 "Shrines have 1 second of delay instead of 2 seconds."
             );
-            cfgVoidTripleAllTier = ConfigFileLGT.Bind(
+
+            cfgHalcyon_NoForcedSots = ConfigFileLGT.Bind(
                 "Interactables",
-                "Potential Chests contain any tier",
+                "Halcyon Shrine | No Forced Sots",
                 true,
-                "Void Potential Chests can contain any item from any tier"
+                "No longer force 2 SotS items, instead have 5 random items."
             );
-            cfgHalcyon_ForcedSots = ConfigFileLGT.Bind(
-               "Interactables",
-               "Halcyon Shrine | Forced Sots item",
-               true,
-               "Config in case you dont want the 1-2 guaranteed Sots items in Halcyonite Shrines"
-            );
-            cfgHalcyon_FastDrain = ConfigFileLGT.Bind(
+           cfgHalcyon_FastDrain = ConfigFileLGT.Bind(
                 "Interactables",
                 "Halcyon Shrine | Faster Drain",
                 true,
                 "Suck gold at rate of 2 instead of 1. Mostly useful in Singleplayer."
             );
-            cfgHalcyon_LessMonsterCredits = ConfigFileLGT.Bind(
-                "Interactables",
-                "Halcyon Shrine | Less Credits",
-                false,
-                "Halcyon Shrines spawn 20% less monsters. Vanilla is 300 credits."
-            );
+             
             cfgHalcyon_ScaleHPMult = ConfigFileLGT.Bind(
                 "Interactables",
                 "Halcyon Shrine | Multiply HP",
@@ -347,25 +350,44 @@ namespace LittleGameplayTweaks
                 false,
                 "Gilded Halcyonite spawned by Halcyon Shrines have 20% less stats. (Up to 28% to rounding)"
             );
-            cfgShrineBloodGold = ConfigFileLGT.Bind(
+ 
+            VoidSeedsMore = ConfigFileLGT.Bind(
+                "Interactables",
+                "Void Seed | More Monster",
+                true,
+                "Void Seeds spawn more monsters. This does still take away from the stages starting spawns."
+            );
+            VoidCradlesMore = ConfigFileLGT.Bind(
+               "Interactables",
+               "Void Cradles | Infestors",
+               true,
+               "Each Void Infestor has a 70% chance to spawn instead of 50%\n\nRare to see them actually have a chance to infest anything."
+           );
+            cfgVoidTripleAllTier = ConfigFileLGT.Bind(
+               "Interactables",
+               "Void Potential Chests contain any tier",
+               true,
+               "Void Potential Chests can contain any item from any tier"
+           );
+            Shrine_Blood_Gold = ConfigFileLGT.Bind(
                 "Interactables",
                 "Blood Shrine | Scale Rward",
                 true,
                 "Blood Shrines reward 25/40/60 Gold scaled with time with a small mult based on HP.\n\nThis results in more money even on Stage 1 and better scaling into late game\n\nNormally, Blood Shrines Reward is only based on HP, quickly making them a bad source of money"
             );
-            InteractableBloodShrineLessCost = ConfigFileLGT.Bind(
+            Shrine_Blood_NoBreak = ConfigFileLGT.Bind(
                 "Interactables",
-                "Blood Shrine | 50 70 90",
+                "Blood Purchases dont break items.",
                 true,
-                "Will cost 70 on 2nd use and 90 on 3rd use.\nTo avoid breaking your items on the 2nd use."
+                "Blood Purchases such as Shrine of Blood no longer break Elixir, Watch or Unstable Transmitter. Will activate any other low health item."
             );
-            InteractablesCombatShrineHP = ConfigFileLGT.Bind(
+            Shrine_Combat = ConfigFileLGT.Bind(
                 "Interactables",
                 "Combat Shrine | HP Scaling",
                 false,
                 "Multiply HP of enemies spawned (per player)\nVanilla : True"
             );
-            InteractableHealingShrine = ConfigFileLGT.Bind(
+            Shrine_Healing = ConfigFileLGT.Bind(
               "Interactables",
               "Woods Shrine | Cheaper",
               true,
@@ -382,32 +404,20 @@ namespace LittleGameplayTweaks
                 "Interactables",
                 "TC-280 | Stat Buff",
                 true,
-                "Give TC-280 Adaptive Armor and AoE attack resistence"
+                "Give TC-280 better Regen and Resistence."
             );
-            VoidSeedsScale = ConfigFileLGT.Bind(
-                "Interactables",
-                "Void Seed | Loop Scale",
-                true,
-                "Void Seeds spawn more monsters during loops."
-            );
-            VoidSeedsMore = ConfigFileLGT.Bind(
-                "Interactables",
-                "Void Seed | More Monster",
-                true,
-                "Void Seeds spawn more monsters. This does still take away from the stages starting spawns."
-            );
-             VoidCradlesMore = ConfigFileLGT.Bind(
-                "Interactables",
-                "Void Cradles | Infestors",
-                true,
-                "Each Void Infestor has a 70% chance to spawn instead of 50%\n\nRare to see them actually have a chance to infest anything."
-            );
-
+          
             TurretDroneCost = ConfigFileLGT.Bind(
                 "Interactables",
                 "Gunner Turret | Cost",
                 25,
                 "Vanilla is 35"
+            );
+            cfgMasstweak = ConfigFileLGT.Bind(
+                "Interactables",
+                "Pillar of Mass | Tweak",
+                true,
+                "Charge 20% faster but spawn 20% more monsters."
             );
             InteractableRedSoupAmount = ConfigFileLGT.Bind(
                 "Interactables",
@@ -423,11 +433,17 @@ namespace LittleGameplayTweaks
             );
             #endregion
             #region Stages Changes
-            cfgCredits_Stages = ConfigFileLGT.Bind(
+            cfgStageCredits_Interactables = ConfigFileLGT.Bind(
               "Stages",
               "Stage Credits adjustments",
               true,
-              "Titanic Plains & Distant Roost get 240\nTo balance against new Stage 1s have 280 credits or more.\n\nAbandoned Aquaduct gets 240 in Solo\nIn Multiplayer, Scales as 280 credits and then flat -60 for the Band secret. (Better for 3P,4P)\nInstead of scale as 220 which would be -150 credits during 4P for the secret in Vanilla\n\nSirens Call & Sundered Grove get flat +50\nTo balance against Abyssal Depths having +160 flat credits and people generally disliking these stages more."
+              "Stage 1,2,3 get slightly more monster spawns on start. Titanic Plains & Distant Roost get 240\nTo balance against new Stage 1s have 280 credits or more.\n\nAbandoned Aquaduct gets 240 in Solo\nIn Multiplayer, Scales as 280 credits and then flat -60 for the Band secret. (Better for 3P,4P)\nInstead of scale as 220 which would be -150 credits during 4P for the secret in Vanilla\n\nSirens Call & Sundered Grove get flat +50\nTo balance against Abyssal Depths having +160 flat credits and people generally disliking these stages more."
+          );
+            cfgStageCredits_Monsters = ConfigFileLGT.Bind(
+              "Stages",
+              "Stage Starting Monster adjustments",
+              true,
+              "Most Stage 1,2,3s start with 40% more monster credits, so there's something more to do in the early game."
           );
             ThirdLunarSeer = ConfigFileLGT.Bind(
                 "Stages",
@@ -451,7 +467,7 @@ namespace LittleGameplayTweaks
                 "Stages",
                 "Void Locust | Easier Signals",
                 true,
-                "Charge in 45 seconds instead of 60s\n30% larger radius"
+                "Charge in 48 seconds instead of 60s (25% faster)\n+30% larger radius"
             );
             /*cfgVoidStagesNoTime = ConfigFileLGT.Bind(
                 "Stages",
@@ -522,8 +538,8 @@ namespace LittleGameplayTweaks
             cfgMatchCategory = ConfigFileLGT.Bind(
                 "Spawnpools",
                 "Interactables | Match Categories",
-                true,
-                "Stages will only have 1 type of Category Chest, matching what Hopoo chose for the Large Category chest on that stage."
+                MatchCategory.RandomOneSmall,
+                "Stages will only have 1 type of Category Chest. Which one will be determined at random."
             );
             cfgCredits_Interactables = ConfigFileLGT.Bind(
                 "Spawnpools",
@@ -566,19 +582,25 @@ namespace LittleGameplayTweaks
 
             #endregion
             #region Gamemodes
-
+            cfgE1Unnerf = ConfigFileLGT.Bind(
+                         "Eclipse",
+                         "Eclipse 1 unnerf Squid/Mask",
+                         true,
+                         "Squid Polyp and Happiest Mask last the intended 30 seconds, instead of 15 seconds in Eclipse.\n\nThis happens because they use Health as a death timer, and starting at half health makes them last half as long."
+                     );
+            EclipseAllowVoid = ConfigFileLGT.Bind(
+               "Eclipse",
+               "Eclipse allow Void Locus",
+               true,
+               "Allows Void Portals to spawn so you can use Voidling as an alternate final boss in Eclipse. Does not affect the Deep Void Portal after Mithrix of course."
+           );
             EclipseAllowTwisted = ConfigFileLGT.Bind(
                 "Eclipse",
                 "Eclipse allow Moment Whole",
                 true,
                 "Allows Celestial Portal to spawn so you can use Twisted Scav as an alternate final boss in Eclipse. The obelisk will always take you to Moment Whole even if you do not have Beads."
             );
-            EclipseAllowVoid = ConfigFileLGT.Bind(
-                "Eclipse",
-                "Eclipse allow Void Locus",
-                true,
-                "Allows Void Portals to spawn so you can use Voidling as an alternate final boss in Eclipse. Does not affect the Deep Void Portal after Mithrix of course."
-            );
+           
             EclipseAllowArtifactWorld = ConfigFileLGT.Bind(
                 "Eclipse",
                 "Eclipse allow Bulwarks Ambry",
@@ -680,8 +702,8 @@ namespace LittleGameplayTweaks
                  FasterScrapper,
                  FasterShrines,
                  InteractableNoLunarCost,
-                 InteractableHealingShrine, //Could be removed
-                 InteractablesCombatShrineHP,
+                 Shrine_Healing, //Could be removed
+                 Shrine_Combat,
                  cfgHalcyon_Spawnpool,
                  CharactersCaptainKeepInHiddemRealm,
                  CharactersCommandoInvul, //Change?
@@ -695,6 +717,8 @@ namespace LittleGameplayTweaks
                  cfgVoidStagePillar,
                 VoidSeedsMore,
                  VoidCradlesMore,
+                 cfgE1Unnerf,
+                 cfgVoidTripleAllTier,
             };
             List<ConfigEntry<int>> resetI = new List<ConfigEntry<int>>()
             {

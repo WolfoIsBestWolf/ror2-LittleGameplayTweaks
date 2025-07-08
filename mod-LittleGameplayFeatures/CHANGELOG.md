@@ -1,5 +1,10 @@
 ## Changelog:
 ```
+v3.5.4
+Needed to remove some duplicate stuff.
+Fixed Dobs brain not functioning properly
+Fixed a previous patch making all Custom Twisted Scavs buffed KipKips on accident.
+
 v3.5.3
 Fixed language file being outdated.
 Fixed Prism run disable config not actually working.

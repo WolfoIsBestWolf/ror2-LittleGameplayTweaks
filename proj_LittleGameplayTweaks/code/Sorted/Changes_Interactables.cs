@@ -14,17 +14,14 @@ namespace LittleGameplayTweaks
  
         public static void Start()
         {
-
+            Changes_Shrines.Start();
             StupidPriceChanger();
             Faster();
 
             On.RoR2.TimedChestController.PreStartClient += TimedChestController_PreStartClient;
 
-            BasicPickupDropTable dtLockbox = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/Base/TreasureCache/dtLockbox.asset").WaitForCompletion();
-            dtLockbox.canDropBeReplaced = false;
-            BasicPickupDropTable dtChanceDoll = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/DLC2/Items/ExtraShrineItem/dtChanceDoll.asset").WaitForCompletion();
-            dtChanceDoll.canDropBeReplaced = false;
-
+            Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/Base/TreasureCache/dtLockbox.asset").WaitForCompletion().canDropBeReplaced = false;
+            Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/DLC2/Items/ExtraShrineItem/dtChanceDoll.asset").WaitForCompletion().canDropBeReplaced = false;
             Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/DLC1/TreasureCacheVoid/dtVoidLockbox.asset").WaitForCompletion().canDropBeReplaced = false;
             Addressables.LoadAssetAsync<FreeChestDropTable>(key: "RoR2/DLC1/FreeChest/dtFreeChest.asset").WaitForCompletion().canDropBeReplaced = false;
 
@@ -36,44 +33,26 @@ namespace LittleGameplayTweaks
             if (WConfig.cfgVoidStagePillar.Value)
             {
                 GameObject DeepVoidPortalBattery = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortalBattery/DeepVoidPortalBattery.prefab").WaitForCompletion();
-                DeepVoidPortalBattery.GetComponent<HoldoutZoneController>().baseChargeDuration = 45;
+                DeepVoidPortalBattery.GetComponent<HoldoutZoneController>().baseChargeDuration = 48;
                 DeepVoidPortalBattery.GetComponent<HoldoutZoneController>().baseRadius = 26;
 
             }
             BasicPickupDropTable dtStealthedChest = ScriptableObject.CreateInstance<BasicPickupDropTable>();
-            dtStealthedChest.tier1Weight = 0.5f;
-            dtStealthedChest.tier2Weight = 0.5f;
-            dtStealthedChest.tier3Weight = 0.2f;
+            dtStealthedChest.tier1Weight = 0.8f;
+            dtStealthedChest.tier2Weight = 0.3f;
+            dtStealthedChest.tier3Weight = 0.1f;
             dtStealthedChest.bossWeight = 0.02f;
             Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Chest1StealthedVariant/Chest1StealthedVariant.prefab").WaitForCompletion().GetComponent<ChestBehavior>().dropTable = dtStealthedChest;
- 
-            if (WConfig.InteractablesCombatShrineHP.Value == false)
-            {
-                GameObject ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombat.prefab").WaitForCompletion();
-                ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
-                ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombatSandy Variant.prefab").WaitForCompletion();
-                ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
-                ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombatSnowy Variant.prefab").WaitForCompletion();
-                ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
-
-            }
-
-            Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "e291748f54c927a47ad44789d295c39f").WaitForCompletion().bannedItemTags = new ItemTag[] { ItemTag.HalcyoniteShrine };
-
-            On.RoR2.HalcyoniteShrineInteractable.Awake += HalcyoniteShrine_ApplyNumbers;
-            IL.RoR2.HalcyoniteShrineInteractable.DrainConditionMet += HalcyoniteShrine_NerfStats;
-
-            IL.RoR2.ShrineBloodBehavior.AddShrineStack += ShrineBloodBehavior_GoldAmount;
-
+  
             if (WConfig.VoidSeedsMore.Value)
             {
                 GameObject VoidCamp = Addressables.LoadAssetAsync<GameObject>(key: "e515327d3d5e0144488357748ce1e899").WaitForCompletion();
                 VoidCamp.transform.GetChild(0).GetComponent<CampDirector>().baseMonsterCredit = 75;
-                VoidCamp.transform.GetChild(0).GetComponent<CombatDirector>().eliteBias = 2;
+                //VoidCamp.transform.GetChild(0).GetComponent<CombatDirector>().eliteBias = 2;
                 VoidCamp.transform.GetChild(1).GetComponent<CampDirector>().baseMonsterCredit = 75;
-                VoidCamp.transform.GetChild(1).GetComponent<CombatDirector>().eliteBias = 4;
+                //VoidCamp.transform.GetChild(1).GetComponent<CombatDirector>().eliteBias = 2;
             }
-            On.RoR2.CampDirector.CalculateCredits += CampDirector_CalculateCredits;
+            On.RoR2.CampDirector.CalculateCredits += VoidSeedLoopCredits;
             if (WConfig.VoidCradlesMore.Value)
             {
                 GameObject VoidChest = Addressables.LoadAssetAsync<GameObject>(key: "e82b1a3fea19dfd439109683ce4a14b7").WaitForCompletion();
@@ -86,13 +65,13 @@ namespace LittleGameplayTweaks
                 GivePickupsOnStart voidInfestorMaster = Addressables.LoadAssetAsync<GameObject>(key: "741e2f9222e19bd4185f43aff65ea213").WaitForCompletion().GetComponent<GivePickupsOnStart>();
                 if (voidInfestorMaster.itemInfos.Length > 0)
                 {
-                    voidInfestorMaster.itemInfos[0].count = 60;
+                    voidInfestorMaster.itemInfos[0].count = 100;
                 }
             }
+            Addressables.LoadAssetAsync<GameObject>(key: "34d770816ffbf0d468728c48853fd5f6").WaitForCompletion().GetComponent<ConvertPlayerMoneyToExperience>().enabled = false;
         }
-
-       
-        private static void CampDirector_CalculateCredits(On.RoR2.CampDirector.orig_CalculateCredits orig, CampDirector self)
+ 
+        private static void VoidSeedLoopCredits(On.RoR2.CampDirector.orig_CalculateCredits orig, CampDirector self)
         {
             //1,1,1.1,1.2,1.7
             if (WConfig.VoidSeedsScale.Value && self.combatDirector && self.combatDirector.teamIndex == TeamIndex.Void)
@@ -102,8 +81,8 @@ namespace LittleGameplayTweaks
                 //2 0.9
                 //3 1
                 //4 1.1 
-                //5 1.6
-                float mult = 0.7f + Run.instance.stageClearCount * 0.1f + Run.instance.loopClearCount * 0.4f;
+                //5 1.5
+                float mult = 0.7f + Run.instance.stageClearCount * 0.1f + Run.instance.loopClearCount * 0.3f;
                 if (mult > 1)
                 {
                     self.baseMonsterCredit = (int)((float)self.baseMonsterCredit * mult);
@@ -114,95 +93,7 @@ namespace LittleGameplayTweaks
             orig(self);
         }
 
-        private static void ShrineBloodBehavior_GoldAmount(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            if (c.TryGotoNext(MoveType.Before,
-                x => x.MatchStloc(1)))
-            {
-                c.Emit(OpCodes.Ldloc_0);
-                c.Emit(OpCodes.Ldarg_0);
-                c.EmitDelegate<System.Func<uint, CharacterBody, ShrineBloodBehavior, uint>>((money, body, self) =>
-                {
-                    if (WConfig.cfgShrineBloodGold.Value)
-                    {
-                        float moneyMult = body.healthComponent.fullCombinedHealth / 100f / (0.7f + body.level * 0.3f);
-                        if (moneyMult < 1)
-                        {
-                            moneyMult = 1;
-                        }
-                        //25, 40, 60;
-                        int baseMoney = 25;
-                        if (self.purchaseCount == 1)
-                        {
-                            baseMoney = 40;
-                        }
-                        else if (self.purchaseCount == 2)
-                        {
-                            baseMoney = 60;
-                        }
-                        baseMoney = Run.instance.GetDifficultyScaledCost(baseMoney, Stage.instance.entryDifficultyCoefficient);
-                        return (uint)(baseMoney * moneyMult);
-                    }
-                    return money;
-                });
-            }
-            else
-            {
-                Debug.LogWarning("IL Failed: PurchaseInteraction.ShrineBloodBehavior_GoldAmount");
-            }
-        }
-
-        private static void HalcyoniteShrine_NerfStats(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            if (c.TryGotoNext(MoveType.After,
-            x => x.MatchLdcR4(100f)))
-            {
-                c.EmitDelegate<System.Func<float, float>>((damageCoeff) =>
-                {
-                    if (WConfig.cfgHalcyon_NerfStats.Value)
-                    {
-                        return 120f;
-                    }
-                    return damageCoeff;
-                });
-            }
-            else
-            {
-                Debug.LogWarning("IL Failed: Buff Married Lemurians");
-            }
-        }
-
-        private static void HalcyoniteShrine_ApplyNumbers(On.RoR2.HalcyoniteShrineInteractable.orig_Awake orig, HalcyoniteShrineInteractable self)
-        {
-            if (NetworkServer.active)
-            {
-                if (WConfig.cfgHalcyon_FastDrain.Value)
-                {
-                    self.goldDrainValue = 2;
-                }
-                if (WConfig.cfgHalcyon_LessMonsterCredits.Value)
-                {
-                    self.monsterCredit = 80;
-                }
-                if (WConfig.cfgHalcyon_ForcedSots.Value)
-                {
-                    self.halcyoniteDropTableTier2 = self.halcyoniteDropTableTier3;
-                }
-                self.purchaseInteraction.Networkcost = self.goldDrainValue;
-            }
-            orig(self);
-
-            self.combatDirector.combatSquad.onMemberAddedServer += MakeHalcyoniteBoss;
-            self.activationDirector.combatSquad.grantBonusHealthInMultiplayer = WConfig.cfgHalcyon_ScaleHPMult.Value;
-        }
-
-        private static void MakeHalcyoniteBoss(CharacterMaster obj)
-        {
-            obj.isBoss = true;
-        }
-
+      
         public static void TimedChestController_PreStartClient(On.RoR2.TimedChestController.orig_PreStartClient orig, TimedChestController self)
         {
             orig(self);
@@ -219,8 +110,6 @@ namespace LittleGameplayTweaks
         {
             if (WConfig.FasterPrinter.Value == true)
             {
-
-
                 LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Duplicator").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
                 LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
                 LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorMilitary").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
@@ -339,12 +228,7 @@ namespace LittleGameplayTweaks
 
         public static void StupidPriceChanger()
         {
-            if (WConfig.InteractableHealingShrine.Value)
-            {
-                LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.PurchaseInteraction>().cost = 10;
-                LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.ShrineHealingBehavior>().costMultiplierPerPurchase = 1.4f;
-                LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.ShrineHealingBehavior>().maxPurchaseCount += 1;
-            }
+ 
             LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/BrokenDrones/MegaDroneBroken").GetComponent<RoR2.PurchaseInteraction>().cost = WConfig.MegaDroneCost.Value;
             LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/BrokenDrones/Turret1Broken").GetComponent<RoR2.PurchaseInteraction>().cost = WConfig.TurretDroneCost.Value;
 
@@ -362,9 +246,7 @@ namespace LittleGameplayTweaks
                     }
                 };
             }
-
-
-            On.RoR2.ShrineBloodBehavior.AddShrineStack += ShrineBloodChanges;
+ 
             On.RoR2.ShopTerminalBehavior.DropPickup += RedToWhiteSoupMore;
 
         }
@@ -386,40 +268,7 @@ namespace LittleGameplayTweaks
             }
             orig(self);
         }
-
-        public static void ShrineBloodChanges(On.RoR2.ShrineBloodBehavior.orig_AddShrineStack orig, ShrineBloodBehavior self, Interactor interactor)
-        {
-            /*if (WConfig.cfgShrineBloodGold.Value == true)
-            {
-                CharacterBody component = interactor.GetComponent<CharacterBody>();
-                if (Stage.instance && component)
-                {
-                    //int newGold = 50 + self.purchaseCount * 25;
-                    int newGold = 35 + self.purchaseCount * 35;
-                    float difficultyScaledCost = Run.instance.GetDifficultyScaledCost(newGold, Stage.instance.entryDifficultyCoefficient);
-                    //_entryDifficultyCoefficient
-
-                    float HealthForDiv = component.baseMaxHealth + component.levelMaxHealth * (component.level - 1);
-
-                    self.goldToPaidHpRatio = difficultyScaledCost / HealthForDiv / self.purchaseInteraction.cost * 100;
-                }
-            }*/
-            orig(self, interactor);
-            if (WConfig.InteractableBloodShrineLessCost.Value == true)
-            {
-                if (self.purchaseCount == 1)
-                {
-                    //self.purchaseInteraction.cost = 70;
-                    self.costMultiplierPerPurchase = 1.75f;
-                }
-                else if (self.purchaseCount == 2)
-                {
-                    //self.purchaseInteraction.cost = 90;
-                    self.costMultiplierPerPurchase = 1.93f;
-                }
-            }
-        }
-
+ 
 
     }
 }

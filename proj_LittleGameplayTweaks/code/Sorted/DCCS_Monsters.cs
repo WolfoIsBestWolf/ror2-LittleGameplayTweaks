@@ -16,13 +16,16 @@ namespace LittleGameplayTweaks
                 Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/Grandparent/cscGrandparent.asset").WaitForCompletion().directorCreditCost = 1000; //1035 would match 600|2100 800|2800 credit|hp ratio. No reason why he should cost extra extra
                 LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscParent").directorCreditCost = 80; //100, Overpriced because was nerfed but not adjusted
                 Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC2/Child/cscChild.asset").WaitForCompletion().directorCreditCost = 25; //Go forth my children (bro they cannot hit people)
- 
-               
-                LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscNullifier").directorCreditCost = 250; //300, he just sucks dude.
-                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/VoidBarnacle/cscVoidBarnacle.asset").WaitForCompletion().directorCreditCost = 30; //The floor version only costs 30 credits?
+
+                Addressables.LoadAssetAsync<SpawnCard>(key: "a19470701f77bd945bef064b8890c14b").WaitForCompletion().directorCreditCost = 115; //cscClayGrenadier  //Match Elder Lem
+                Addressables.LoadAssetAsync<SpawnCard>(key: "04a333710013a3e449cbbb494f96145f").WaitForCompletion().directorCreditCost = 115; //cscClayBruiser //Match Elder Lem
+
                 LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGipBody").directorCreditCost = 20; //40, Geep is 40
                 Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/GreaterWisp/cscGreaterWisp.asset").WaitForCompletion().directorCreditCost = 180; //200, Overpriced because was nerfed but not adjusted
 
+                LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscNullifier").directorCreditCost = 250; //300, he just sucks dude.
+                Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/VoidBarnacle/cscVoidBarnacle.asset").WaitForCompletion().directorCreditCost = 30; //The floor version only costs 30 credits?
+ 
             }
 
             if (WConfig.cfgDccsMonster.Value)
@@ -150,19 +153,19 @@ namespace LittleGameplayTweaks
             DirectorCard LoopLunarExploder = new DirectorCard
             {
                 spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarExploder"),
-                selectionWeight = 1,
+                selectionWeight = 3,
                 minimumStageCompletions = 4,
             };
             DirectorCard LoopLunarGolem = new DirectorCard
             {
                 spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarGolem"),
-                selectionWeight = 1,
+                selectionWeight = 3,
                 minimumStageCompletions = 4,
             };
             DirectorCard LoopLunarWisp = new DirectorCard
             {
                 spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscLunarWisp"),
-                selectionWeight = 1,
+                selectionWeight = 3,
                 preventOverhead = true,
                 minimumStageCompletions = 4,
             };
@@ -174,13 +177,19 @@ namespace LittleGameplayTweaks
             };
             #endregion
             #region Additions
-            int num = -1;
+            DirectorCard num;
             if (ConfigStages.Stage_1_Golem.Value)
             {
-                num = DCCS.FindSpawnCard(dccsGolemplainsMonstersDLC1.categories[0].cards, "cscMegaConstruct");
-                if (num > -1)
+                num = DCCS.FindSpawnCard(dccsGolemplainsMonstersDLC1.categories[0].cards, "MegaConstruct");
+                if (num != null)
                 {
-                    dccsGolemplainsMonstersDLC1.categories[0].cards[num].selectionWeight++;
+                    num.selectionWeight += 3;
+                }
+                num = DCCS.FindSpawnCard(dccsGolemplainsMonstersDLC1.categories[1].cards, "MinorConstruct");
+                if (num != null)
+                {
+                    num.spawnDistance = DirectorCore.MonsterSpawnDistance.Close;
+                    num.selectionWeight += 2;
                 }
             }
             if (ConfigStages.Stage_1_Roost.Value)
@@ -191,22 +200,21 @@ namespace LittleGameplayTweaks
             if (ConfigStages.Stage_1_Snow.Value)
             {
                 num = DCCS.FindSpawnCard(dccsSnowyForestMonstersDLC1.categories[1].cards, "cscGreaterWisp");
-                if (num > -1)
+                if (num != null)
                 {
-                    dccsSnowyForestMonstersDLC1.categories[1].cards[num] = cscBison;
+                    num.spawnCardReference = new AssetReferenceT<SpawnCard>("562d24ad0559cf84ab3e9a3c95cf53b1");
                 }
 
                 DCCS.MultWholeCateory(dccsSnowyForestMonstersDLC1, 2, 2); //Make Vermin and Pest rarer
 
                 num = DCCS.FindSpawnCard(dccsSnowyForestMonstersDLC1.categories[2].cards, "cscVerminSnowy");
-                if (num > -1)
+                if (num != null)
                 {
                     dccsSnowyForestMonstersDLC1.categories[2].cards[2].selectionWeight--;
-                    dccsSnowyForestMonstersDLC1.categories[2].cards[num].selectionWeight--;
-                    dccsSnowyForestMonstersDLC1.categories[2].cards[num].minimumStageCompletions = 0;//Pre Loop Vermin
+                    num.selectionWeight--;
+                    num.minimumStageCompletions = 0;//Pre Loop Vermin
                 }
-
-
+ 
                 dccsSnowyForestMonstersDLC1.AddCard(1, cscBison);
 
                 dccsSnowyForestMonstersDLC1.AddCard(0, LoopImpBoss); //Loop Imps
@@ -221,7 +229,7 @@ namespace LittleGameplayTweaks
                 dccsLakesMonsters.AddCard(0, new DirectorCard
                 {
                     spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/Grandparent/cscGrandparent.asset").WaitForCompletion(),
-                    selectionWeight = 1,
+                    selectionWeight = 2,
                 });
 
                 dccsLakesMonsters.AddCard(2, cscJellyfish);
@@ -233,16 +241,18 @@ namespace LittleGameplayTweaks
             if (ConfigStages.Stage_1_Village.Value)
             {
                 dccsVillageMonsters.AddCard(0, cscHalcy);
+                dccsVillageMonsters.AddCard(2, LoopVulture);
                 dccsVillageMonsters.AddCard(0, new DirectorCard
                 {
                     spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/Grandparent/cscGrandparent.asset").WaitForCompletion(),
-                    selectionWeight = 1,
+                    selectionWeight = 2,
                 });
                 dccsVillageMonsters.categories[2].cards[3].spawnDistance = 0; //Why Child spawn far away
 
-                dccsVillageNightMonsters_Additional.AddCard(1, LoopLunarExploder);
+                dccsVillageNightMonsters_Additional.AddCard(2, LoopLunarExploder);
                 dccsVillageNightMonsters_Additional.AddCard(1, LoopLunarGolem);
-                dccsVillageNightMonsters_Additional.AddCard(1, LoopLunarWisp);
+                dccsVillageNightMonsters_Additional.AddCard(0, LoopLunarWisp);
+                dccsVillageNightMonsters_Additional.categories[0].cards[0].selectionWeight = 3; //Grandparent
             }
 
             #endregion
@@ -399,12 +409,7 @@ namespace LittleGameplayTweaks
             #endregion
             #region Cards
      
-            DirectorCard cscHermitCrab = new DirectorCard
-            {
-                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscHermitCrab"),
-                selectionWeight = 1,
-                spawnDistance = DirectorCore.MonsterSpawnDistance.Close
-            };
+            
 
             DirectorCard cscAcidLarva = new DirectorCard
             {
@@ -476,7 +481,12 @@ namespace LittleGameplayTweaks
 
 
                 dccsSulfurPoolsMonstersDLC1.categories[2].selectionWeight++;
-                dccsSulfurPoolsMonstersDLC1.AddCard(2, cscHermitCrab); //Seems fitting for another trash mob
+                dccsSulfurPoolsMonstersDLC1.AddCard(2, new DirectorCard
+                {
+                    spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscHermitCrab"),
+                    selectionWeight = 1,
+                    spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+                }); //Fitting Mountain area
                 dccsSulfurPoolsMonstersDLC1.AddCard(2, cscAcidLarva); //Seems fitting for another trash mob
 
                 dccsSulfurPoolsMonstersDLC1.categories[2].cards[0].selectionWeight = 2;
@@ -691,7 +701,6 @@ namespace LittleGameplayTweaks
                 preventOverhead = false,
                 selectionWeight = 1,
                 minimumStageCompletions = 0,
-                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
             DirectorCard LoopVoidDevestator = new DirectorCard
             {
@@ -699,15 +708,11 @@ namespace LittleGameplayTweaks
                 selectionWeight = 1,
                 preventOverhead = true,
                 minimumStageCompletions = 7,
-                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
             DirectorCard Halcy = new DirectorCard
             {
                 spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC2/Halcyonite/cscHalcyonite.asset").WaitForCompletion(),
-                preventOverhead = false,
-                selectionWeight = 2,
-                minimumStageCompletions = 0,
-                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+                selectionWeight = 1,
             };
             #endregion
             #region Additions
@@ -722,13 +727,19 @@ namespace LittleGameplayTweaks
 
             if (ConfigStages.Stage_5_Helminth.Value)
             {
+
+
                 dccsHelminthRoostMonstersDLC2Only.categories[0].cards[0].selectionWeight++; //More Wurm
                 dccsHelminthRoostMonsters.AddCard(0, cscGrandparent); //Why they didn't put him here 
                 dccsHelminthRoostMonsters.categories[1].cards[0] = Halcy; //Replace Greater Wisp
-                //dccsHelminthRoostMonsters.AddCard(2, LoopLunarWisp);
-                //dccsHelminthRoostMonsters.AddCard(2, LoopLunarGolem);
-                //dccsHelminthRoostMonsters.AddCard(2, LoopLunarExploder);
 
+                dccsHelminthRoostMonsters.AddCard(2, new DirectorCard
+                {
+                    spawnCardReference = new AssetReferenceT<SpawnCard>("844c7cf8f1b6c8b4aa77e082386174b9"),
+                    selectionWeight = 2,
+                    spawnDistance = DirectorCore.MonsterSpawnDistance.Far,
+                }); //Fitting Mountain area
+ 
             }
 
             #endregion
@@ -818,7 +829,17 @@ namespace LittleGameplayTweaks
                 dccsGoldshoresMonsters.AddCard(0, cscGravekeeper);
                 dccsGoldshoresMonsters.AddCard(1, cscBell);
                 dccsGoldshoresMonsters.AddCard(1, cscParent);
-
+                dccsGoldshoresMonsters.AddCard(0, new DirectorCard
+                {
+                    spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "cf55a1f0cb720ec4eb136a5976013bd0").WaitForCompletion(),
+                    preventOverhead = true,
+                    selectionWeight = 1,
+                }); //cscMegaConstruct
+                dccsGoldshoresMonsters.AddCard(2, new DirectorCard
+                {
+                    spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "0ca64dc7fa66f4e4a88352d08bf15e66").WaitForCompletion(),
+                    selectionWeight = 1,
+                }); //cscMegaConstruct
             }
 
             if (ConfigStages.Stage_F_Meridian.Value)
@@ -826,6 +847,17 @@ namespace LittleGameplayTweaks
                 dccsMeridianMonsters.AddCard(1, LoopLunarWisp);
                 dccsMeridianMonsters.AddCard(1, LoopLunarGolem);
                 dccsMeridianMonsters.AddCard(2, LoopLunarExploder);
+
+                dccsMeridianMonsters.AddCard(0, new DirectorCard
+                {
+                    spawnCardReference = new AssetReferenceT<SpawnCard>("cf55a1f0cb720ec4eb136a5976013bd0"),
+                    selectionWeight = 2,
+                });
+                /*dccsMeridianMonsters.AddCard(0, new DirectorCard
+                {
+                    spawnCardReference = new AssetReferenceT<SpawnCard>("1d23f78593a91a04f818ca9895f4e7d7"),
+                    selectionWeight = 1,
+                });*/
             }
             if (ConfigStages.Stage_X_Arena_Void.Value)
             {
@@ -866,56 +898,22 @@ namespace LittleGameplayTweaks
                     spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC2/Halcyonite/cscHalcyonite.asset").WaitForCompletion(),
                     selectionWeight = 2,
                     minimumStageCompletions = 3,
+                    spawnDistance = DirectorCore.MonsterSpawnDistance.Close,
                 }); //Halcy instead of Stone Golem sometimes
                 dccsShrineHalcyoniteActivationMonsterWave.AddCard(0, new DirectorCard
                 {
                     spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC2/Halcyonite/cscHalcyonite.asset").WaitForCompletion(),
                     selectionWeight = 4,
                     minimumStageCompletions = 7,
+                    spawnDistance = DirectorCore.MonsterSpawnDistance.Close,
                 }); //More common on loops
-
-                dccsShrineHalcyoniteActivationMonsterWave.AddCard(0, new DirectorCard
-                {
-                    spawnCardReference = new AssetReferenceT<SpawnCard>("5d95c9377c88031459b0e9d3c41c69c8"),
-                    selectionWeight = 1,
-                    minimumStageCompletions = 3,
-                }); //Rare Stone Titan
+ 
             }
             #endregion
         }
 
 
-
-
-
-
-
-
-
-
-
-        public static void FixSulfurPoolsBeetleQueen(On.EntityStates.BeetleQueenMonster.SummonEggs.orig_OnEnter orig, EntityStates.BeetleQueenMonster.SummonEggs self)
-        {
-            orig(self);
-            if (self.characterBody.skinIndex > 0)
-            {
-                EntityStates.BeetleQueenMonster.SummonEggs.spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/Base/Beetle/cscBeetleGuardSulfur.asset").WaitForCompletion();
-            }
-            else
-            {
-                EntityStates.BeetleQueenMonster.SummonEggs.spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscBeetleGuard");
-            }
-
-        }
-
+ 
     }
 
-    public class ForcedVoidTeamCSC : CharacterSpawnCard
-    {
-        public override void Spawn(Vector3 position, Quaternion rotation, DirectorSpawnRequest directorSpawnRequest, ref SpawnCard.SpawnResult result)
-        {
-            directorSpawnRequest.teamIndexOverride = TeamIndex.Void;
-            base.Spawn(position, rotation, directorSpawnRequest, ref result);
-        }
-    }
 }

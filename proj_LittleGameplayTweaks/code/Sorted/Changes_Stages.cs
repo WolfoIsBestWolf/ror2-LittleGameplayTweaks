@@ -1,5 +1,5 @@
-using HarmonyLib;
 using RoR2;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -16,7 +16,7 @@ namespace LittleGameplayTweaks
 
             //Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidstage/voidstage.asset").WaitForCompletion().sceneType = Arena.sceneType;
             SceneDef voidRaid = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion();
-            voidRaid.sceneType = SceneType.Intermission;
+            //voidRaid.sceneType = SceneType.UntimedStage; //Whatever
             voidRaid.allowItemsToSpawnObjects = true;
 
 
@@ -30,7 +30,6 @@ namespace LittleGameplayTweaks
             }
 
             On.RoR2.BazaarController.SetUpSeerStations += ThirdSeerNew;
-            On.RoR2.SeerStationController.SetRunNextStageToTarget += BazaarDisableAllSeers;
 
             On.RoR2.HoldoutZoneController.Start += OnlyRequireOnePlayer;
         }
@@ -45,32 +44,28 @@ namespace LittleGameplayTweaks
             {
                 self.playerCountScaling = 0;
             }
-        }
-
-        private static void BazaarDisableAllSeers(On.RoR2.SeerStationController.orig_SetRunNextStageToTarget orig, SeerStationController self)
-        {
-            orig(self);
-            if (self.transform.parent != null)
+            else if (self.name.EndsWith("Mass"))
             {
-                SeerStationController[] seers = self.transform.parent.GetComponentsInChildren<SeerStationController>(false);
-                for (int i = 0; i < seers.Length; i++)
+                if (WConfig.cfgMasstweak.Value)
                 {
-                    seers[i].GetComponent<PurchaseInteraction>().SetAvailable(false);
+                    self.GetComponent<CombatDirector>().monsterCredit += 140; //20% less charge 20% more credits
+                    self.baseChargeDuration = Mathf.Min(self.baseChargeDuration, 48);
+                    self.baseRadius += 2;
                 }
             }
-
-          
         }
+
+     
 
         public static void ThirdSeerNew(On.RoR2.BazaarController.orig_SetUpSeerStations orig, BazaarController self)
         {
             GameObject newSeerObject = null;
             SeerStationController newSeer = null;
-            bool doIt = WConfig.ThirdLunarSeer.Value && NetworkServer.active;
+            bool doIt = WConfig.ThirdLunarSeer.Value && NetworkServer.active && self.seerStations.Length == 2;
             if (doIt)
             {
                 SeerStationController oldSeer = self.seerStations[0].GetComponent<SeerStationController>();
- 
+
                 newSeerObject = GameObject.Instantiate(Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/bazaar/SeerStation.prefab").WaitForCompletion(), self.seerStations[0].gameObject.transform.parent);
                 newSeerObject.transform.localPosition = new Vector3(-45.9807f, -15.22f, 9.5654f);
                 newSeerObject.transform.localRotation = new Quaternion(0f, 0.7772f, 0f, 0.6293f);
@@ -81,38 +76,6 @@ namespace LittleGameplayTweaks
 
             }
             orig(self);
-            if (doIt)
-            {
-                //Nvm game can't do it
-                //If game overwrites seer with Gilded, doesn't use third seer properly
-                if (newSeer.targetSceneDefIndex == -1)
-                {
-                    List<int> list = new List<int>();
-                    if (Run.instance.nextStageScene != null)
-                    {
-                        int stageOrder = Run.instance.nextStageScene.stageOrder;
-                        foreach (SceneDef sceneDef in SceneCatalog.allSceneDefs)
-                        {
-                            if (sceneDef.stageOrder == stageOrder && (sceneDef.requiredExpansion == null || Run.instance.IsExpansionEnabled(sceneDef.requiredExpansion)) && self.IsUnlockedBeforeLooping(sceneDef))
-                            {
-                                list.Add((int)sceneDef.sceneDefIndex);
-                            }
-                        }
-                    }
-                    foreach (SeerStationController seerStation in self.seerStations)
-                    {
-                        list.Remove(seerStation.targetSceneDefIndex);
-                    }
-                    if (list.Count > 0)
-                    {
-                        Util.ShuffleList(list, self.rng);
-                        newSeer.SetTargetSceneDefIndex(list[0]);
-                        newSeer.GetComponent<PurchaseInteraction>().SetAvailable(true);
-                    }
-                }
-                
-
-            }
         }
 
         public static void EscapeSequenceController_OnEnable(On.RoR2.EscapeSequenceController.orig_OnEnable orig, EscapeSequenceController self)
@@ -222,17 +185,20 @@ namespace LittleGameplayTweaks
         public static void MoreSceneCredits(On.RoR2.ClassicStageInfo.orig_Start orig, ClassicStageInfo self)
         {
             //Idk why we do this prior to Start but whatever
-            if (WConfig.cfgCredits_Stages.Value)
+            if (SceneInfo.instance)
             {
-                if (Run.instance && SceneInfo.instance)
+                SceneDef def = SceneInfo.instance.sceneDef;
+                if (WConfig.cfgStageCredits_Interactables.Value)
                 {
-                    switch (SceneInfo.instance.sceneDef.baseSceneName)
+                    switch (def.baseSceneName)
                     {
+                        case "lakesnight":
+                            //self.sceneDirectorInteractibleCredits += 10;
+                            break;
                         case "golemplains":
                             self.sceneDirectorInteractibleCredits += 20; //Rather buff these two a bit than nerf Snowy Ig we'll see
                             break;
                         case "blackbeach":
-
                             self.sceneDirectorInteractibleCredits += 20; //
                             break;
                         case "goolake":
@@ -251,29 +217,44 @@ namespace LittleGameplayTweaks
                             }
                             break;
                         case "rootjungle":
-                            HG.ArrayUtils.ArrayAppend(ref self.bonusInteractibleCreditObjects,
-                            new ClassicStageInfo.BonusInteractibleCreditObject
-                            {
-                                points = 50,
-                                objectThatGrantsPointsIfEnabled = RoR2.Run.instance.gameObject
-                            });      
-                            break;
                         case "shipgraveyard":
                             HG.ArrayUtils.ArrayAppend(ref self.bonusInteractibleCreditObjects,
                             new ClassicStageInfo.BonusInteractibleCreditObject
                             {
-                                points = 50,
+                                points = 40,
                                 objectThatGrantsPointsIfEnabled = RoR2.Run.instance.gameObject
                             });
                             break;
                         case "goldshores":
                             if (WConfig.cfgGoldShoresCredits.Value)
                             {
-                                self.sceneDirectorInteractibleCredits += 75; //For Fun ig
+                                self.sceneDirectorInteractibleCredits += 80; //For Fun ig
                             }
                             break;
                     }
                 }
+                if (self.sceneDirectorMonsterCredits > 0)
+                {
+                    Debug.Log("SceneDirector Monster Credits Pre : " + self.sceneDirectorMonsterCredits);
+                    if (WConfig.cfgStageCredits_Monsters.Value)
+                    {
+                        switch (def.stageOrder)
+                        {
+                            case 1:
+                            case 2:
+                            case 3:
+                                self.sceneDirectorMonsterCredits = 140;
+                                break;
+                        }
+                    }
+                    if (WConfig.cfgMonsterCreditLoopScale.Value && def.stageOrder < 6)
+                    {
+                        self.sceneDirectorMonsterCredits += Run.instance.loopClearCount * 100;
+                    }
+                    Debug.Log("SceneDirector Monster Credits Post: " + self.sceneDirectorMonsterCredits);
+
+                }
+
             }
             orig(self);
         }

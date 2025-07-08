@@ -1,4 +1,5 @@
 ﻿using R2API;
+using Rewired.ControllerExtensions;
 using RoR2;
 using RoR2.ExpansionManagement;
 //using System;
@@ -21,22 +22,23 @@ namespace LittleGameplayFeatures
 
         public static void Start()
         {
-            ScavLunarWSpeedBody = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body"), "ScavLunarWSpeedBody", true);
-            ScavLunarWSpeedMaster = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavLunar1Master"), "ScavLunarWSpeedMaster", true);
+            GameObject ScavLunar1Master = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavLunar1Master");
+            GameObject ScavLunar1Body = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body");
 
-            ScavLunarWTankBody = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body"), "ScavLunarWTankBody", true);
-            ScavLunarWTankMaster = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavLunar1Master"), "ScavLunarWTankMaster", true);
+            var KipKip = ScavLunar1Master.GetComponent<GivePickupsOnStart>();
+            KipKip.enabled = false;
+            ScavLunarWSpeedBody = PrefabAPI.InstantiateClone(ScavLunar1Body, "ScavLunarWSpeedBody", true);
+            ScavLunarWSpeedMaster =  PrefabAPI.InstantiateClone(ScavLunar1Master, "ScavLunarWSpeedMaster", true);
 
-            ScavLunarWGoomanBody = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar1Body"), "ScavLunarWGoomanBody", true);
-            ScavLunarWGoomanMaster = R2API.PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavLunar1Master"), "ScavLunarWGoomanMaster", true);
+            ScavLunarWTankBody = R2API.PrefabAPI.InstantiateClone(ScavLunar1Body, "ScavLunarWTankBody", true);
+            ScavLunarWTankMaster = R2API.PrefabAPI.InstantiateClone(ScavLunar1Master, "ScavLunarWTankMaster", true);
+
+            ScavLunarWGoomanBody = R2API.PrefabAPI.InstantiateClone(ScavLunar1Body, "ScavLunarWGoomanBody", true);
+            ScavLunarWGoomanMaster = R2API.PrefabAPI.InstantiateClone(ScavLunar1Master, "ScavLunarWGoomanMaster", true);
+            KipKip.enabled = true;
 
             ExpansionDef DLC1 = Addressables.LoadAssetAsync<ExpansionDef>(key: "RoR2/DLC1/Common/DLC1.asset").WaitForCompletion();
-
-
-            CharacterBody TwipTwip = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/ScavLunar3Body").GetComponent<CharacterBody>();
-            TwipTwip.baseMaxHealth *= 0.8f;
-            TwipTwip.levelMaxHealth *= 0.8f;
-
+ 
             MultiCharacterSpawnCard cscScavLunar = LegacyResourcesAPI.Load<MultiCharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScavLunar");
  
             ContentAddition.AddBody(ScavLunarWSpeedBody);
@@ -75,49 +77,56 @@ namespace LittleGameplayFeatures
             GoomanBody.baseNameToken = "SCAVLUNAR_GOOBO_BODY_NAME";
             GoomanBody.baseDamage *= 0.75f;
             GoomanBody.levelDamage *= 0.75f;
- 
 
-            On.RoR2.GivePickupsOnStart.Start += (orig, self) =>
-            {
-                orig(self);
-                if (self.inventory)
-                {
-                    if (self.inventory.GetItemCount(DLC1Content.Items.GummyCloneIdentifier) > 0 || self.inventory.GetItemCount(RoR2Content.Items.Ghost) > 0)
-                    {
-                        self.inventory.SetEquipmentIndex(EquipmentIndex.None);
-                    }
-                };
-            };
 
-         
+            On.RoR2.GivePickupsOnStart.Start += DontDuplicateOnGooboGhosts;
+             
+         //Really need a better way to add it than this
             On.RoR2.LocalUserManager.AddUser += LocalUserManager_AddUser;
         }
-        
+
+        private static void DontDuplicateOnGooboGhosts(On.RoR2.GivePickupsOnStart.orig_Start orig, GivePickupsOnStart self)
+        {     
+            self.inventory = self.GetComponent<Inventory>();
+            if (self.inventory)
+            {
+                if (self.inventory.GetItemCount(DLC1Content.Items.GummyCloneIdentifier) > 0 || self.inventory.GetItemCount(RoR2Content.Items.Ghost) > 0)
+                {
+                    return;
+                }
+            };
+            orig(self);
+        }
+
         public static void CallLate()
         {
 
-            ScavLunarWSpeedMaster.GetComponent<GivePickupsOnStart>().equipmentDef = RoR2Content.Equipment.FireBallDash;
-            ScavLunarWSpeedMaster.GetComponent<GivePickupsOnStart>().itemDefInfos = new GivePickupsOnStart.ItemDefInfo[] {
-                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.Hoof, count = 10, },
-                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.Syringe, count = 3, },
+            var pickups = ScavLunarWSpeedMaster.AddComponent<GivePickupsOnStart>();
+            pickups.equipmentDef = RoR2Content.Equipment.FireBallDash;
+            pickups.itemDefInfos = new GivePickupsOnStart.ItemDefInfo[] {
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.Hoof, count = 2, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.Syringe, count = 2, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.AttackSpeedAndMoveSpeed, count = 4, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.WarCryOnMultiKill, count = 2, },
-                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.EnergizedOnEquipmentUse, count = 4, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.EnergizedOnEquipmentUse, count = 2, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.AttackSpeedOnCrit, count = 2, },
-                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.SprintOutOfCombat, count = 4, },
-                new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.MoveSpeedOnKill, count = 5, },
-                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.Phasing, count = 3, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.SprintOutOfCombat, count = 2, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.MoveSpeedOnKill, count = 2, },
+                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.Phasing, count = 2, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.AlienHead, count = 1, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.LunarBadLuck, count = 1, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.SprintBonus, count = 5, },
-                new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.AttackSpeedAndMoveSpeed, count = 2, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.FallBoots, count = 1, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.LunarTrinket, count = 1, },
             };
 
-            ScavLunarWTankMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[2].maxUserHealthFraction = 1f;
-            ScavLunarWTankMaster.GetComponent<GivePickupsOnStart>().equipmentDef = RoR2Content.Equipment.CrippleWard;
-            ScavLunarWTankMaster.GetComponent<GivePickupsOnStart>().itemDefInfos = new GivePickupsOnStart.ItemDefInfo[] {
-                //new GivePickupsOnStart.ItemInfo { itemDef = RoR2Content.Items.Bear, count = 1, },
+            var sack = ScavLunarWTankMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[2];
+            sack.maxUserHealthFraction = float.PositiveInfinity;
+            sack.buttonPressType = RoR2.CharacterAI.AISkillDriver.ButtonPressType.Hold;
+            sack.noRepeat = true; //Somehow Hooks breaks his brain
+            pickups = ScavLunarWTankMaster.AddComponent<GivePickupsOnStart>();
+            pickups.equipmentDef = RoR2Content.Equipment.CrippleWard;
+            pickups.itemDefInfos = new GivePickupsOnStart.ItemDefInfo[] {
                 new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.OutOfCombatArmor, count = 1, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.ArmorPlate, count = 1, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.SlowOnHit, count = 1, },
@@ -125,7 +134,6 @@ namespace LittleGameplayFeatures
                 new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.ImmuneToDebuff, count = 1, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.HalfAttackSpeedHalfCooldowns, count = 1, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.HalfSpeedDoubleHealth, count = 1, },
-                new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.SecondarySkillMagazine, count = 1, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.LunarSecondaryReplacement, count = 1, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.SprintArmor, count = 1, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.LunarTrinket, count = 1, },
@@ -138,8 +146,9 @@ namespace LittleGameplayFeatures
             ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[2].maxUserHealthFraction = 1f;
             ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[3].shouldFireEquipment = true;
             ScavLunarWGoomanMaster.GetComponents<RoR2.CharacterAI.AISkillDriver>()[4].shouldFireEquipment = true;
-            ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().equipmentDef = DLC1Content.Equipment.GummyClone;
-            ScavLunarWGoomanMaster.GetComponent<GivePickupsOnStart>().itemDefInfos = new GivePickupsOnStart.ItemDefInfo[] {
+            pickups = ScavLunarWGoomanMaster.AddComponent<GivePickupsOnStart>();
+            pickups.equipmentDef = DLC1Content.Equipment.GummyClone;
+            pickups.itemDefInfos = new GivePickupsOnStart.ItemDefInfo[] {
                 new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.BoostEquipmentRecharge, count = 10, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = RoR2Content.Items.EquipmentMagazine, count = 1, },
                 new GivePickupsOnStart.ItemDefInfo { itemDef = DLC1Content.Items.PermanentDebuffOnHit, count = 2, },

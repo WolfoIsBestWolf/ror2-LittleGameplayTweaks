@@ -1,6 +1,11 @@
-﻿using MonoMod.Cil;
+﻿using HG;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using RoR2;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -15,8 +20,75 @@ namespace LittleGameplayTweaks
 
             On.RoR2.EclipseRun.OverrideRuleChoices += EclipseRun_OverrideRuleChoices;
             IL.RoR2.EclipseRun.OverrideRuleChoices += EclipseRun_DontRemoveArtifacts;
+
+         
+             
+            IL.RoR2.EclipseRun.OnClientGameOver += LevelUpIfDyingToVoidling;
+            if (WConfig.cfgE1Unnerf.Value)
+            {
+                IL.RoR2.CharacterMaster.OnBodyStart += E1UnnerfHappiestMask;
+            }
+           
         }
 
+        private static void E1UnnerfHappiestMask(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(MoveType.Before,
+            x => x.MatchCallvirt("RoR2.Run", "get_selectedDifficulty"),
+             x => x.MatchLdcI4(3));
+            c.Index--;
+            if (c.TryGotoNext(MoveType.After,
+            x => x.MatchCallvirt("RoR2.Run", "get_selectedDifficulty")
+            ))
+            {
+                c.Emit(OpCodes.Ldarg_0);
+                c.EmitDelegate<Func<int, CharacterMaster, int>>((value, self) =>
+                {
+                    if (self.inventory)
+                    {
+                        if (self.inventory.GetItemCount(RoR2Content.Items.HealthDecay) > 0)
+                        {
+                            return 1;
+                        }
+                    }
+                    return value;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL FAILED : E1UnnerfHappiestMask");
+            }
+        }
+
+        private static void LevelUpIfDyingToVoidling(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.After,
+            x => x.MatchLdfld("RoR2.GameEndingDef", "isWin")))
+            {
+                c.EmitDelegate<Func<bool, bool>>((value) =>
+                {
+                    if (value == false && Run.instance)
+                    {
+                        //If you die on Commencement dont count
+                        if (Run.instance.eventFlags.Contains("KilledBrother") && SceneCatalog.mostRecentSceneDef.cachedName != "moon2")
+                        {
+                            Debug.Log("Counting death as Win because killed Mithrix this run");
+                            return true;
+                        }
+                    }
+                    return value;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL FAILED : EclipseRun_OnClientGameOver");
+            }
+        }
+
+ 
+  
         public static void EclipseRun_DontRemoveArtifacts(ILContext il)
         {
             ILCursor c = new ILCursor(il);

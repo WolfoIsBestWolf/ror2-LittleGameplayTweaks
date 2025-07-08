@@ -7,18 +7,18 @@ namespace LittleGameplayTweaks
     public class DCCS
     {
         //RiskyMod broke my spawn pool changes maybe other mods do too so I guess we'll just do this
-        public static int FindSpawnCard(DirectorCard[] insert, string LookingFor)
+        public static DirectorCard FindSpawnCard(DirectorCard[] insert, string LookingFor)
         {
             for (int i = 0; i < insert.Length; i++)
             {
                 if (insert[i].spawnCard.name.EndsWith(LookingFor))
                 {
                     //Debug.Log("Found " + LookingFor);
-                    return i;
+                    return insert[i];
                 }
             }
             Debug.LogWarning("Couldn't find " + LookingFor);
-            return -1;
+            return null;
         }
 
 
@@ -33,7 +33,7 @@ namespace LittleGameplayTweaks
             Healing,
             Utility,
         }
-        public static void MatchCategoryChests(DirectorCardCategorySelection.Category category, int start, Category cat)
+        public static void MatchCategoryChests(DirectorCardCategorySelection.Category category, int start, int cat)
         {
             var keep = category.cards[start + (int)cat];
             category.cards[start] = keep;

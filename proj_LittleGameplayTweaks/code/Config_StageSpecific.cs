@@ -68,7 +68,7 @@ namespace LittleGameplayTweaks
                 "Stage 1",
                 "Shattered Abodes",
                 true,
-                "Adds Halcyonite\nAdds Loop Lunar Chimera\n\nAdds Shrine of Order\nAdds Loop Cleansing Pool\nAdds Loop TC-280\nAdds Large Damage Chest\nAdds Large Utility chest"
+                "Adds Halcyonite\nAdds Loop Lunar Chimera\nAdds Loop Alloy Vulture\n\nAdds Shrine of Order\nAdds Loop Cleansing Pool\nAdds Loop TC-280\nAdds Large Damage Chest\nAdds Large Utility chest"
             );
             Stage_2_Goolake = ConfigFileSTAGES.Bind(
                 "Stage 2",
@@ -146,7 +146,7 @@ namespace LittleGameplayTweaks
                 "Stage 5",
                 "Helminth",
                 true,
-                "Adds Halcyonite\nRemoves Greater Wisp\nAdds Grandparent\nRemoves Gunner Turret\nAdds all 3 Large Category Chests"
+                "Adds Halcyonite\nRemoves Greater Wisp\nAdds Grandparent\nAdds Hermit Crabs\nRemoves Gunner Turret\nAdds all 3 Large Category Chests"
             );
             Stage_F_Moon = ConfigFileSTAGES.Bind(
                  "Stage Other",

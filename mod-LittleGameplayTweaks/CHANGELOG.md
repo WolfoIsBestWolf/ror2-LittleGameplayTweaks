@@ -1,11 +1,46 @@
 ## Changelog:
 ```
+v3.6.3
+Blood Purchases no longer break items.
+-Put Blood Shrine cost back to normal.
+
+Eclipse 1 spawns Happiest Mask Ghosts and Squid Polyps at full health.
+
+Eclipse now levels up after leaving Commencement, instead of getting to a Win Screen.
+-So that you can freely die to Voidling.
+-So that you can freely Loop.
+
+Added Loop Portals
+-After Mithrix at spawn & after Twisted Scavs
+
+Increased Monster start amount on Stage 1,2,3 by up to 40% so that there's more to do while exploring.
+Starting Monster amount now scales with loops. 
+
+Readded NoForcedSots Halcyon Shrine reward. 
+Replaced Stage 5 Healing Drones with Emergency Drones.
+ 
+Removed ambient level increase per loop thing.
+Fixed issue where Celestial Portals could spawn in wrong places.
+Fixed issue regarding loop scaling monster level cap not working properly over multiple runs.
+Fixed Stage 5 & 6 Void Families being unable to spawn Jailers & Devastatos
+Fixed Loop TP Elite Bosses Scaling
+
+
+
+
+v3.6.2
+Reduced cost of Clay Apothecary.
+Pillar of Mass charges 20% faster but spawns 20% more monsters so it has a gimmick.
+Removed Halcyon Shrine NoForcedSots items because it caused issues
+Fixed Sirens call spawning a lot of TC280 on accident.
+
 v3.6.1
 Void Seeds spawn more enemies.
 Void Seeds spawn more enemies on loops.
-Void Seeds likelier to contain a Void Devestator.
+Void Seeds likelier to contain a Void Devastator.
 Void Cradles infestors now 70% chance to spawn.
 Void Potential Chests being able to contain any item now shared with SimuAdds.
+Void Devastator now immune to Void Implosions so he doesnt just die.
 Child and Grandparent lowered cost to comparable costs.
 Added Grandparent to Verdant & Shattered to match loop counterparts.
 -Very stage 1 friendly boss and Planula early into run gives it time to do something.
@@ -214,7 +249,7 @@ Cells now emmit regeneration before activation.
 ~More minibosses on Reformed Altar
 
 !Less Grandparent on Helminth
-+Likelier Void Devestators from Void Seeds. (Especially on Loops)
++Likelier Void Devastators from Void Seeds. (Especially on Loops)
 ~Adjusted rates of various loop exclusive enemies.
 
 Added TC280 to Disturbed Impact

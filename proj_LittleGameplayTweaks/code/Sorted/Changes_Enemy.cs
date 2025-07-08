@@ -3,17 +3,17 @@ using MonoMod.Cil;
 using RoR2;
 using RoR2.Projectile;
 using System;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-
+ 
 namespace LittleGameplayTweaks
 {
     public class Changes_Monsters
     {
         public static BasicPickupDropTable DropTableForBossScav = ScriptableObject.CreateInstance<BasicPickupDropTable>();
-        public static PickupIndex ScavBossItem = PickupIndex.none;
-
+        
         public static void CallLate()
         {
             GameObject UrchinTurretMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElitePoison/UrchinTurretMaster.prefab").WaitForCompletion();
@@ -25,7 +25,7 @@ namespace LittleGameplayTweaks
                     count = 1,
                 }
             };
-            /*GivePickupsOnStart.ItemDefInfo[] teleportWhenOob = new GivePickupsOnStart.ItemDefInfo[]
+           /* GivePickupsOnStart.ItemDefInfo[] teleportWhenOob = new GivePickupsOnStart.ItemDefInfo[]
             {
                 new GivePickupsOnStart.ItemDefInfo
                 {
@@ -36,7 +36,7 @@ namespace LittleGameplayTweaks
             GameObject MagmaWormMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/MagmaWorm/MagmaWormMaster.prefab").WaitForCompletion();
             MagmaWormMaster.AddComponent<GivePickupsOnStart>().itemDefInfos = teleportWhenOob;
             GameObject ElectricWormMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormMaster.prefab").WaitForCompletion();
-            ElectricWormMaster.AddComponent<GivePickupsOnStart>().itemDefInfos = teleportWhenOob;*/
+            ElectricWormMaster.AddComponent<GivePickupsOnStart>().itemDefInfos = teleportWhenOob;   */
 
 
 
@@ -50,7 +50,6 @@ namespace LittleGameplayTweaks
                 IL.EntityStates.LemurianBruiserMonster.FireMegaFireball.FixedUpdate += MarriedLemurianBandActivator;
  
             }
-
  
             DropTableForBossScav.name = "dtScavRandomBoss";
             DropTableForBossScav.tier1Weight = 0;
@@ -61,7 +60,6 @@ namespace LittleGameplayTweaks
             {
                 ItemTag.AIBlacklist,
                 ItemTag.SprintRelated,
-                ItemTag.CannotCopy,
             };
  
             GameObject BeadProjectileTrackingBomb = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Elites/EliteBead/BeadProjectileTrackingBomb.prefab").WaitForCompletion();
@@ -282,10 +280,10 @@ namespace LittleGameplayTweaks
         {
             orig(self);
             self.trackedBodies.Add(self.networkedBodyAttachment.attachedBody.gameObject);
-            self.damageCooldown = 0.1f; //Due to the more rapid fire nature
+            self.damageCooldown = 0.05f;
             self.cooldownAfterFiring = 0.1f; //0 cooldown
-            self.fireDelayTimer = 2f; //But longer windup
-            self.damageHitCountTotal = 6; //Just shoot them out a lot but easy to dodge?
+            self.fireDelayTimer = 1f; //Shorter windup
+            //self.damageHitCountTotal = 10;
         }
 
 
@@ -345,7 +343,7 @@ namespace LittleGameplayTweaks
 
                        //
              //XI
-            var skilllist = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/MajorAndMinorConstruct/MegaConstructMaster.prefab").WaitForCompletion().GetComponents<RoR2.CharacterAI.AISkillDriver>();
+            //var skilllist = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/MajorAndMinorConstruct/MegaConstructMaster.prefab").WaitForCompletion().GetComponents<RoR2.CharacterAI.AISkillDriver>();
             //0 SpawnMinorConstructs
             //1 Shield
             //2 FollowFast
@@ -354,10 +352,10 @@ namespace LittleGameplayTweaks
             //5 StrafeStep
             //6 FleeStep
             //7 StopStep
-            if (skilllist.Length > 6)
+            /*if (skilllist.Length > 6)
             {
                 skilllist[6].enabled = false;
-            }
+            }*/
  
             if (WConfig.cfgOverloadingWorm.Value)
             {
@@ -365,7 +363,7 @@ namespace LittleGameplayTweaks
                 //Electric Worm Tweaks
 
                 GameObject ElectricWormBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormBody.prefab").WaitForCompletion();
-                ElectricWormBody.GetComponent<CharacterBody>().baseMoveSpeed = 40;
+                //ElectricWormBody.GetComponent<CharacterBody>().baseMoveSpeed = 40;
                 WormBodyPositions2 elecWorm = ElectricWormBody.GetComponent<WormBodyPositions2>();
                 //elecWorm.meatballCount = 5;
                 elecWorm.blastAttackForce *= 2;
@@ -397,7 +395,8 @@ namespace LittleGameplayTweaks
             //Addressables.LoadAssetAsync<CharacterBody>(key: "18809d9c5863c864c8d8ca0d2309556d").WaitForCompletion().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath; //ScavLunar
             Addressables.LoadAssetAsync<GameObject>(key: "097b0e271757ce24581d4a8983d2c941").WaitForCompletion().GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath; //VoidMegaCrab
             Addressables.LoadAssetAsync<GameObject>(key: "285347cf04a9df04b9dada8fed09832f").WaitForCompletion().GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath; //VoidMegaCrab
- 
+
+            Addressables.LoadAssetAsync<GameObject>(key: "097b0e271757ce24581d4a8983d2c941").WaitForCompletion().GetComponent<SetStateOnHurt>().canBeFrozen = false; //VoidMegaCrab
 
         }
 
@@ -480,22 +479,13 @@ namespace LittleGameplayTweaks
                         }
                         if (isBoss)
                         {
-                            DeathRewards deathreward = tempbod.GetComponent<DeathRewards>();
+                            /*DeathRewards deathreward = tempbod.GetComponent<DeathRewards>();
                             if (deathreward)
                             {
                                 deathreward.bossDropTable = DropTableForBossScav;
-                            }
-                            ItemDef tempdef = ItemCatalog.GetItemDef(ScavBossItem.pickupDef.itemIndex);
-                            if (tempdef.DoesNotContainTag(ItemTag.AIBlacklist) && tempdef.DoesNotContainTag(ItemTag.SprintRelated))
-                            {
-                                Debug.Log("Giving Boss Scav " + tempdef);
-                                inventory.GiveItem(tempdef, bossItemCount);
-                            }
-                            else
-                            {
-                                Debug.Log(tempdef + " is Blacklisted for Scavs, resorting to ShinyPearl");
-                                inventory.GiveItem(RoR2Content.Items.ShinyPearl, bossItemCount);
-                            }
+                            }*/
+                            PickupDef pickupDef = PickupCatalog.GetPickupDef(DropTableForBossScav.GenerateDrop(ScavengerItemGranter.rng));
+                            inventory.GiveItem(pickupDef.itemIndex, bossItemCount);
                         }
                     }
                 }

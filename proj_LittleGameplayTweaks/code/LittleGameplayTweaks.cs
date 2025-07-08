@@ -17,12 +17,12 @@ using UnityEngine.Networking;
 namespace LittleGameplayTweaks
 {
     [BepInDependency("com.bepis.r2api")]
-    [BepInPlugin("Wolfo.LittleGameplayTweaks", "LittleGameplayTweaks", "3.6.0")]
+    [BepInPlugin("Wolfo.LittleGameplayTweaks", "LittleGameplayTweaks", "3.6.2")]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
 
     public class LittleGameplayTweaks : BaseUnityPlugin
     {
-        static readonly System.Random random = new System.Random();
+        public static readonly System.Random random = new System.Random();
 
         public void Awake()
         {
@@ -88,7 +88,7 @@ namespace LittleGameplayTweaks
             {
                 EntityStates.AffixEarthHealer.Heal.healCoefficient *= 2;
             }
-            Looping.storedRunAmbientLevelCap = Run.ambientLevelCap;
+ 
         }
 
 
@@ -128,8 +128,8 @@ namespace LittleGameplayTweaks
                         CharacterMaster master2 = RingEventController.transform.GetChild(2).GetComponent<CharacterMaster>();
                         master1.inventory.GiveItem(RoR2Content.Items.UseAmbientLevel);
                         master2.inventory.GiveItem(RoR2Content.Items.UseAmbientLevel);
-                        master1.inventory.GiveItem(RoR2Content.Items.CutHp,3);
-                        master2.inventory.GiveItem(RoR2Content.Items.CutHp,3);
+                        master1.inventory.GiveItem(RoR2Content.Items.CutHp,1);
+                        master2.inventory.GiveItem(RoR2Content.Items.CutHp,1);
                         master1.onBodyStart += AquaductEldersStats;
                         master2.onBodyStart += AquaductEldersStats;
                     }
@@ -140,9 +140,12 @@ namespace LittleGameplayTweaks
         private static void AquaductEldersStats(CharacterBody body)
         {
             Debug.Log("Aquaduct Elder Lemurian Start");
-            body.baseDamage /= 3.2f;
-            body.levelDamage /= 3.2f;
- 
+            //*0.8 because we increase the damage to proc bands
+            //Lower damage in general because holy fuck elder lemurian with bands
+            body.baseDamage *= 0.45f; 
+            body.levelDamage *= 0.45f;
+
+
         }
 
         public static void RollForScavBoss(On.RoR2.ClassicStageInfo.orig_Awake orig, global::RoR2.ClassicStageInfo self)
@@ -154,7 +157,6 @@ namespace LittleGameplayTweaks
             }
             if (WConfig.cfgScavBoss.Value)
             {
-                Changes_Monsters.ScavBossItem = Changes_Monsters.DropTableForBossScav.GenerateDrop(self.rng);
                 //2 in 5 chance
                 if (self.rng != null && self.rng.nextNormalizedFloat > 0.6f)
                 {
