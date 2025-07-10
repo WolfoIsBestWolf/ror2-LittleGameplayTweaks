@@ -89,7 +89,6 @@ Printers, Scrappers & Shrines are faster / have less delay.
 - Shrine of the Mountain are a bit more common in solo.
 - Gunner Turret price reduced to 25$
 - TC-280 price reduced to 300$	 
-- R->W Cauldrons now grant 4 items instead of 3.
 - Void Seeds
 - - Spawn slightly more enemies in general 
 - - Spawn more enemies on loop

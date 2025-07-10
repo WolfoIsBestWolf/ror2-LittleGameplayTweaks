@@ -1,5 +1,10 @@
 ## Changelog:
 ```
+v3.6.4
+Needed to fix mod breaking void family event.
+Reallowed Turrets for Stage 4,5
+Removed extra item from RedToWhite Soup
+
 v3.6.3
 Blood Purchases no longer break items.
 -Put Blood Shrine cost back to normal.

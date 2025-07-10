@@ -601,7 +601,7 @@ namespace LittleGameplayTweaks
             if (ConfigStages.Stage_4_Damp_Abyss.Value)
             {
                 dccsDampCaveInteractables.categories[3].cards[3].selectionWeight = 7; //Flame Drone
-                DCCS.RemoveCard(dccsDampCaveInteractables, 4, 0);//Gunner Turret Removal
+                //DCCS.RemoveCard(dccsDampCaveInteractables, 4, 0);//Gunner Turret Removal
             }
             if (ConfigStages.Stage_4_Ship.Value)
             {
@@ -615,7 +615,7 @@ namespace LittleGameplayTweaks
                     spawnCardReference = new AssetReferenceT<SpawnCard>("5e1909bcf4fbea34992ef53b26515678"),
                     selectionWeight = 10,
                 });*/
-                DCCS.RemoveCard(dccsShipgraveyardInteractables, 4, 0);//Gunner Turret Removal
+                //DCCS.RemoveCard(dccsShipgraveyardInteractables, 4, 0);//Gunner Turret Removal
                 dccsShipgraveyardInteractables.categories[2].cards[3].selectionWeight = 12; //Cleanse more
                 dccsShipgraveyardInteractables.categories[3].cards[0].selectionWeight = 4; //Missile
                 dccsShipgraveyardInteractables.categories[3].cards[1].selectionWeight = 4; //Heal
@@ -624,7 +624,7 @@ namespace LittleGameplayTweaks
             }
             if (ConfigStages.Stage_4_Root_Jungle.Value)
             {
-                DCCS.RemoveCard(dccsRootJungleInteractables, 4, 0);//Gunner Turret Removal
+                //DCCS.RemoveCard(dccsRootJungleInteractables, 4, 0);//Gunner Turret Removal
             }
         }
         public static void Interactables_Stage5()
@@ -643,13 +643,13 @@ namespace LittleGameplayTweaks
                 //Emergency stage 5
                 dccsSkyMeadowInteractables.categories[3].cards[1].spawnCardReference = new AssetReferenceT<SpawnCard>("36f38da2d5e04e44abb4f5ed9788bad9");
 
-                DCCS.RemoveCard(dccsSkyMeadowInteractables, 4, 0); //Gunner Turret Removal
+                //DCCS.RemoveCard(dccsSkyMeadowInteractables, 4, 0); //Gunner Turret Removal
             }
              if (ConfigStages.Stage_5_Helminth.Value)
             {
                 dccsHelminthRoostInteractables_DLC2.categories[3].cards[1].spawnCardReference = new AssetReferenceT<SpawnCard>("36f38da2d5e04e44abb4f5ed9788bad9");
 
-                DCCS.RemoveCard(dccsHelminthRoostInteractables_DLC2, 7, 0); //Gunner Turret Removal
+                //DCCS.RemoveCard(dccsHelminthRoostInteractables_DLC2, 7, 0); //Gunner Turret Removal
             }
         }
 

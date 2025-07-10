@@ -64,20 +64,36 @@ namespace LittleGameplayTweaks
             FamilyDirectorCardCategorySelection dccsAcidLarvaFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/DLC1/Common/dccsAcidLarvaFamily.asset").WaitForCompletion();
 
             dccsMoonVoids = ScriptableObject.CreateInstance<DirectorCardCategorySelection>();
-            dccsMoonVoids.categories = HG.ArrayUtils.Clone(dccsVoidFamily.categories);
-            dccsMoonVoids.categories[0].cards[0] = new DirectorCard
+            dccsMoonVoids.AddCategory("Champions", 2);
+            dccsMoonVoids.AddCategory("Minibosses", 2);
+            dccsMoonVoids.AddCategory("Basic Monsters", 4);
+            dccsMoonVoids.AddCard(0, new DirectorCard
             {
                 spawnCardReference = dccsVoidFamily.categories[0].cards[0].spawnCardReference,
+                spawnCard = dccsVoidFamily.categories[0].cards[0].spawnCard,
                 selectionWeight = 1,
                 minimumStageCompletions = 7,
-            };
-            dccsMoonVoids.categories[1].cards[0] = new DirectorCard
+            });
+            dccsMoonVoids.AddCard(1, new DirectorCard
             {
                 spawnCardReference = dccsVoidFamily.categories[1].cards[0].spawnCardReference,
+                spawnCard = dccsVoidFamily.categories[1].cards[0].spawnCard,
                 selectionWeight = 1,
                 minimumStageCompletions = 7,
-            };
-            dccsMoonVoids.categories[2].cards[1].spawnDistance = DirectorCore.MonsterSpawnDistance.Close;
+            });
+            dccsMoonVoids.AddCard(2, new DirectorCard
+            {
+                spawnCardReference = dccsVoidFamily.categories[2].cards[0].spawnCardReference,
+                spawnCard = dccsVoidFamily.categories[2].cards[0].spawnCard,
+                selectionWeight = 2,
+            });
+            dccsMoonVoids.AddCard(2, new DirectorCard
+            {
+                spawnCardReference = dccsVoidFamily.categories[2].cards[1].spawnCardReference,
+                spawnCard = dccsVoidFamily.categories[2].cards[1].spawnCard,
+                selectionWeight = 1,
+                spawnDistance = DirectorCore.MonsterSpawnDistance.Close,
+            });
             dccsMoonVoids.name = "dccsMoonVoidMonstersEscape";
             
             FamilyDirectorCardCategorySelection dccsVoidFamilyLate = GameObject.Instantiate(dccsVoidFamily);

@@ -122,31 +122,31 @@ namespace LittleGameplayTweaks
                 "Stage 4",
                 "Abyssal Depths",
                 true,
-                "Adds Loop Parent\nAdds Loop Grandparent\nAdds Loop Void Jailer\n\nRemoves Gunner Turret"
+                "Adds Loop Parent\nAdds Loop Grandparent\nAdds Loop Void Jailer\n"
             );
             Stage_4_Ship = ConfigFileSTAGES.Bind(
                 "Stage 4",
                 "Sirens Call",
                 true,
-                "Adds Overloading Worm\nAdds Loop Solus Probe\nAdds Loop Alpha Construct\nAdds Loop XI Construct\n\nAdds TC280\nRemoves Gunner Turret\nMore common Equipment Drone"
+                "Adds Overloading Worm\nAdds Loop Solus Probe\nAdds Loop Alpha Construct\nAdds Loop XI Construct\n\nAdds TC280\nMore common Equipment Drone"
             );
             Stage_4_Root_Jungle = ConfigFileSTAGES.Bind(
                 "Stage 4",
                 "Sundered Grove",
                 true,
-                "Adds Grovetender\nRemoves Stone Titan\nRemoves Loop Halcyonite\nAdds Loop Blind Pest\nAdds Loop Void Jailer\n\nRemoves Gunner Turret"
+                "Adds Grovetender\nRemoves Stone Titan\nRemoves Loop Halcyonite\nAdds Loop Blind Pest\nAdds Loop Void Jailer\n"
             );
             Stage_5_Sky = ConfigFileSTAGES.Bind(
                 "Stage 5",
                 "Sky Meadow",
                 true,
-                "Adds Loop Lunar Chimera\nAdds Loop Void Devestator\n\nRemoves Gunner Turret"
+                "Adds Loop Lunar Chimera\nAdds Loop Void Devestator\n"
             );
             Stage_5_Helminth = ConfigFileSTAGES.Bind(
                 "Stage 5",
                 "Helminth",
                 true,
-                "Adds Halcyonite\nRemoves Greater Wisp\nAdds Grandparent\nAdds Hermit Crabs\nRemoves Gunner Turret\nAdds all 3 Large Category Chests"
+                "Adds Halcyonite\nRemoves Greater Wisp\nAdds Grandparent\nAdds Hermit Crabs\nAdds all 3 Large Category Chests"
             );
             Stage_F_Moon = ConfigFileSTAGES.Bind(
                  "Stage Other",
