@@ -8,6 +8,7 @@ using System.Security.Permissions;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
+using WolfoLibrary;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
@@ -29,6 +30,7 @@ namespace LittleGameplayTweaks
             //Assets.Init(Info);
             WConfig.InitConfig();
             ConfigStages.InitConfig();
+            ClassicStageInfo.contentSourceMixLimitDefault = 99;
 
             //ChangesItems.Start();
             Changes_Monsters.Start();
@@ -39,33 +41,16 @@ namespace LittleGameplayTweaks
             DCCS_Monsters.Start();
             DCCS_Interactables.Start();
             DCCS_Family.Start();
+            DCCS_Credits.Start();
 
             Eclipse.Start();
             GameModeCatalog.availability.CallWhenAvailable(LateMethod);
 
             On.RoR2.SceneDirector.Start += GameplayQoL_SceneDirector_Start;
-            On.RoR2.SceneDirector.PlaceTeleporter += SceneDirector_PlaceTeleporter;
+
             On.RoR2.ClassicStageInfo.Awake += RollForScavBoss;
+            ExtraActions.onMonsterDCCS += DCCS_ApplyAsNeeded.RemoveMonsterBasedOnSotVReplacement;
 
-
-        
-            //On.RoR2.CharacterBody.OnSkillActivated += CharacterBody_OnSkillActivated;
-
-        }
-
-        private void SceneDirector_PlaceTeleporter(On.RoR2.SceneDirector.orig_PlaceTeleporter orig, SceneDirector self)
-        {
-            if (WConfig.cfgLunarTeleporterAlways.Value)
-            {
-                if (Run.instance && Run.instance.loopClearCount > 0)
-                {
-                    if (self.teleporterSpawnCard)
-                    {
-                        self.teleporterSpawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/Teleporters/iscLunarTeleporter.asset").WaitForCompletion();
-                    }
-                }
-            }
-            orig(self);
         }
 
         public void Start()
@@ -81,9 +66,7 @@ namespace LittleGameplayTweaks
             Changes_Monsters.CallLate();
 
             EquipmentBonusRate(null, null);
- 
-            WConfig.EclipseDifficultyAlways_SettingChanged(null, null);
-
+  
             if (WConfig.cfgMendingCoreBuff.Value)
             {
                 EntityStates.AffixEarthHealer.Heal.healCoefficient *= 2;
@@ -98,7 +81,7 @@ namespace LittleGameplayTweaks
             orig(self);
             switch (SceneInfo.instance.sceneDef.baseSceneName)
             {
-                case "blackbeach":
+                /*case "blackbeach":
                     //Guaranteeing one Newt
                     GameObject tempobj = GameObject.Find("/HOLDER: Preplaced Objects");
                     if (tempobj != null)
@@ -119,7 +102,7 @@ namespace LittleGameplayTweaks
                         portalstatuelist = null;
                         GC.Collect();
                     }
-                    break;
+                    break;*/
                 case "goolake":
                     if (WConfig.cfgElderLemurianBands.Value == true)
                     {

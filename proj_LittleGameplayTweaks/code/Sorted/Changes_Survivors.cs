@@ -16,16 +16,7 @@ namespace LittleGameplayTweaks
         public static void Start()
         {
             On.RoR2.CharacterMaster.GetDeployableSameSlotLimit += Captain3Beacon;
-
-            if (WConfig.BuffMegaDroneStats.Value)
-            {
-             
-                GameObject MegaDroneBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Drones/MegaDroneBody.prefab").WaitForCompletion();
-                CharacterBody body = MegaDroneBody.GetComponent<CharacterBody>();
-                body.bodyFlags |= CharacterBody.BodyFlags.ResistantToAOE;
-                body.regen = 15;
-                body.levelRegen = 3;
-            }
+ 
 
             //Hold down button to fire multiple
             Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/Commando/CommandoBodyFireFMJ.asset").WaitForCompletion().mustKeyPress = false;
@@ -66,44 +57,7 @@ namespace LittleGameplayTweaks
             {
                 SceneCatalog.availability.CallWhenAvailable(NoOrbitalStrikeBlocking);
             }
-            if (WConfig.CharactersCommandoInvul.Value)
-            {
-                On.EntityStates.Commando.DodgeState.OnEnter += (orig, self) =>
-                {
-                    orig(self);
-                    if (NetworkServer.active)
-                    {
-                        self.characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
-                    }
-                };
-                On.EntityStates.Commando.DodgeState.OnExit += (orig, self) =>
-                {
-                    orig(self);
-                    if (NetworkServer.active)
-                    {
-                        self.characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
-                    }
-                };
-                LanguageAPI.Add("COMMANDO_UTILITY_DESCRIPTION", "<style=cIsUtility>Roll</style> a short distance. You <style=cIsUtility>cannot be hit</style> while rolling.");
-
-            }
-
-            /*if (WConfig.CharactersVoidFiendEquip.Value)
-            {
-                On.EntityStates.VoidSurvivor.CorruptMode.CorruptModeBase.OnEnter += (orig, self) =>
-                {
-                    orig(self);
-                    if (self is EntityStates.VoidSurvivor.CorruptMode.CorruptMode)
-                    {
-                        self.characterBody.inventory.SetActiveEquipmentSlot(1);
-                    }
-                    else
-                    {
-                        self.characterBody.inventory.SetActiveEquipmentSlot(0);
-                    }
-                };
-            }*/
-
+  
             //Walkers Sprinting more
             AISkillDriver[] skilllist = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/EngiWalkerTurretMaster").GetComponents<AISkillDriver>();
             skilllist[0].shouldSprint = true;
@@ -204,13 +158,13 @@ namespace LittleGameplayTweaks
 
     public class FireEquipmentAlways : MonoBehaviour
     {
-        public bool ShouldFireAlways(EquipmentIndex index)
+        public bool ShouldFireNearPlayer(EquipmentIndex index)
         {
             EquipmentDef def = EquipmentCatalog.GetEquipmentDef(index);
             if (def == RoR2Content.Equipment.Tonic ||
-                def == RoR2Content.Equipment.CommandMissile ||
+                //def == RoR2Content.Equipment.CommandMissile ||
                 def == RoR2Content.Equipment.Fruit ||
-                def == RoR2Content.Equipment.DroneBackup ||
+                //def == RoR2Content.Equipment.DroneBackup ||
                 def == RoR2Content.Equipment.Jetpack ||
                 def == RoR2Content.Equipment.PassiveHealing ||
                 def == RoR2Content.Equipment.Scanner ||
@@ -218,14 +172,40 @@ namespace LittleGameplayTweaks
                 def == RoR2Content.Equipment.Cleanse ||
                 def == RoR2Content.Equipment.GainArmor ||
                 def == RoR2Content.Equipment.Recycle ||
-                def == RoR2Content.Equipment.TeamWarCry ||
                 def == DLC1Content.Equipment.GummyClone ||
                 def == DLC1Content.Equipment.VendingMachine ||
                 def == DLC1Content.Equipment.BossHunterConsumed ||
-                def == DLC2Content.Equipment.EliteAurelioniteEquipment ||
-                def == DLC2Content.Equipment.HealAndRevive ||
                 def == DLC2Content.Equipment.HealAndReviveConsumed ||
                 def == RoR2Content.Equipment.Gateway
+                )
+            {
+                return true;
+            }
+            ;
+            return false;
+        }
+        public bool ShouldFireAlways(EquipmentIndex index)
+        {
+            EquipmentDef def = EquipmentCatalog.GetEquipmentDef(index);
+            if (def == RoR2Content.Equipment.Tonic ||
+                def == RoR2Content.Equipment.CommandMissile ||
+                def == RoR2Content.Equipment.Fruit ||
+                //def == RoR2Content.Equipment.DroneBackup ||
+                //def == RoR2Content.Equipment.Jetpack ||
+                def == RoR2Content.Equipment.PassiveHealing ||
+                def == RoR2Content.Equipment.Scanner ||
+                def == RoR2Content.Equipment.Gateway ||
+                def == RoR2Content.Equipment.Cleanse ||
+                def == RoR2Content.Equipment.GainArmor ||
+                //def == RoR2Content.Equipment.Recycle ||
+                def == RoR2Content.Equipment.TeamWarCry ||
+                //def == DLC1Content.Equipment.GummyClone ||
+                def == DLC1Content.Equipment.VendingMachine ||
+                //def == DLC1Content.Equipment.BossHunterConsumed ||
+                //def == DLC2Content.Equipment.EliteAurelioniteEquipment ||
+                // def == DLC2Content.Equipment.HealAndRevive ||
+                def == DLC2Content.Equipment.HealAndReviveConsumed// ||
+                //def == RoR2Content.Equipment.Gateway
                 )
             {
                 return true;
@@ -241,17 +221,31 @@ namespace LittleGameplayTweaks
             EquipmentIndex eq = GetComponent<Inventory>().currentEquipmentIndex;
             if (ShouldFireAlways(eq))
             {
+
+                //0 HardLeashToLeader
+                //1 SoftLeashAttack
+                //2 SoftLeashToLeader
+                //3 StrafeNearbyEnemies
+                //4 ChaseFarEnemies
+                //5 FleeLeader
+                //6 IdleNearLeaderWhenNoEnemies
+                //7 ReturnToLeaderWhenNoEnemies
+                //8 ChaseDownRandomEnemiesIfLeaderIsDead
+
                 Debug.Log("Equipment Drone fire always");
                 AISkillDriver[] skilllist = this.GetComponents<AISkillDriver>();
-    
-                for (int i = 0; i < skilllist.Length; i++)
+
+
+                skilllist[6].shouldFireEquipment = true;
+
+                /*for (int i = 0; i < skilllist.Length; i++)
                 {
-                    if (skilllist[i].maxDistance < 100)
+                    if (skilllist[i].maxDistance < 40)
                     {
                         skilllist[i].shouldFireEquipment = true;
                     }
                  
-                }
+                }*/
             }
 
         }

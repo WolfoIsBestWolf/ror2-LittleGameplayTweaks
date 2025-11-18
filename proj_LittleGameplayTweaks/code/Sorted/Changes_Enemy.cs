@@ -1,9 +1,12 @@
+using HarmonyLib;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
+using RoR2.CharacterAI;
 using RoR2.Projectile;
 using System;
 using System.ComponentModel;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -25,7 +28,7 @@ namespace LittleGameplayTweaks
                     count = 1,
                 }
             };
-           /* GivePickupsOnStart.ItemDefInfo[] teleportWhenOob = new GivePickupsOnStart.ItemDefInfo[]
+            GivePickupsOnStart.ItemDefInfo[] teleportWhenOob = new GivePickupsOnStart.ItemDefInfo[]
             {
                 new GivePickupsOnStart.ItemDefInfo
                 {
@@ -36,10 +39,8 @@ namespace LittleGameplayTweaks
             GameObject MagmaWormMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/MagmaWorm/MagmaWormMaster.prefab").WaitForCompletion();
             MagmaWormMaster.AddComponent<GivePickupsOnStart>().itemDefInfos = teleportWhenOob;
             GameObject ElectricWormMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormMaster.prefab").WaitForCompletion();
-            ElectricWormMaster.AddComponent<GivePickupsOnStart>().itemDefInfos = teleportWhenOob;   */
-
-
-
+            ElectricWormMaster.AddComponent<GivePickupsOnStart>().itemDefInfos = teleportWhenOob;
+ 
         }
 
         public static void Start()
@@ -60,6 +61,7 @@ namespace LittleGameplayTweaks
             {
                 ItemTag.AIBlacklist,
                 ItemTag.SprintRelated,
+                //ItemTag.EquipmentRelated,
             };
  
             GameObject BeadProjectileTrackingBomb = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Elites/EliteBead/BeadProjectileTrackingBomb.prefab").WaitForCompletion();
@@ -73,48 +75,63 @@ namespace LittleGameplayTweaks
                 //BeadProjectileTrackingBomb.GetComponent<ProjectileImpactExplosion>().blastRadius++;
                 //BeadProjectileTrackingBomb.GetComponent<SphereCollider>().radius = 1.5f;
             }
-            if (WConfig.cfgTwistedBuffEpic.Value)
+            /*if (WConfig.cfgTwistedBuffEpic.Value)
             {
                 ProjectileDamage d = BeadProjectileTrackingBomb.GetComponent<ProjectileDamage>();
                 // d.damageType.damageTypeExtended |= DamageTypeExtended.ApplyBuffPermanently;
                 d.damageType.damageTypeExtended |= DamageTypeExtended.DisableAllSkills;
                 d.damageType.damageType &= ~DamageType.LunarRuin;
                 d.damageType.damageTypeExtended &= ~DamageTypeExtended.ApplyBuffPermanently;
-
-            }
-            if (WConfig.cfgBrotherHurtFix.Value)
-            {
-                GameObject BrotherBody = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Brother/BrotherBody.prefab").WaitForCompletion();
-                BrotherBody.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
+            }*/
  
-                On.EntityStates.BrotherMonster.SpellChannelState.OnEnter += SpellChannelState_OnEnter;
-                On.EntityStates.BrotherMonster.SpellChannelExitState.OnExit += SpellChannelExitState_OnExit;
-            }
-
-            On.RoR2.VoidRaidGauntletController.Start += VoidRaidGauntletController_Start;
+ 
             On.RoR2.ScriptedCombatEncounter.BeginEncounter += ScalingChanges;
-
-            if (WConfig.cfgXIEliteFix.Value)
-            {
-                On.RoR2.NetworkedBodySpawnSlot.OnSpawnedServer += NetworkedBodySpawnSlot_OnSpawnedServer;
-            }
-          
+ 
             KillableProjectileScaling();
 
 
-            //Barnacle Nullify on hit
-            //Addressables.LoadAssetAsync<GameObject>(key: "3432ca070cbe99347896361003887b2d").WaitForCompletion().GetComponent<ProjectileDamage>().damageType.damageType |= DamageType.Nullify;
-
+            IL.RoR2.ChildMonsterController.RegisterTeleport += ChildAndScorchling_ArmorNotInvul;
+            IL.ScorchlingController.Breach += ChildAndScorchling_ArmorNotInvul;
+            IL.ScorchlingController.Burrow += ChildAndScorchling_ArmorNotInvul;
         }
+
+        private static void ChildAndScorchling_ArmorNotInvul(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (c.TryGotoNext(MoveType.After,
+            x => x.MatchLdsfld("RoR2.RoR2Content/Buffs", "HiddenInvincibility")))
+            {
+                //Wish I knew how to do this proper but whatevs
+                c.EmitDelegate<Func<BuffDef, BuffDef>>((_) =>
+                {
+                    return RoR2Content.Buffs.ArmorBoost;
+                });
+            }
+            else
+            {
+                Debug.LogWarning("IL Failed: Scorchling_ArmorNotInvul");
+            }
+            if (c.TryGotoNext(MoveType.After,
+          x => x.MatchLdsfld("RoR2.RoR2Content/Buffs", "HiddenInvincibility")))
+            {
+                //Wish I knew how to do this proper but whatevs
+                c.EmitDelegate<Func<BuffDef, BuffDef>>((_) =>
+                {
+                    return RoR2Content.Buffs.ArmorBoost;
+                });
+            }
+        }
+
+ 
 
         private static void AffixBeadAttachment_Initialize(On.RoR2.AffixBeadAttachment.orig_Initialize orig, AffixBeadAttachment self)
         {
             orig(self);
             self.trackedBodies.Add(self.networkedBodyAttachment.attachedBody.gameObject);
-            self.damageCooldown = 0.1f; //Due to the more rapid fire nature
-            self.cooldownAfterFiring = 0.1f; //0 cooldown
-            self.fireDelayTimer = 2f; //But longer windup
-            self.damageHitCountTotal = 10; //Just shoot them out a lot but easy to dodge?
+            //self.damageCooldown = 0.1f; //Due to the more rapid fire nature
+            self.cooldownAfterFiring = 1f; //0 cooldown
+            //self.fireDelayTimer = 2f; //But longer windup
+            //self.damageHitCountTotal = 10; //Just shoot them out a lot but easy to dodge?
         }
  
 
@@ -148,20 +165,7 @@ namespace LittleGameplayTweaks
 
     
 
-        private static void NetworkedBodySpawnSlot_OnSpawnedServer(On.RoR2.NetworkedBodySpawnSlot.orig_OnSpawnedServer orig, NetworkedBodySpawnSlot self, GameObject ownerBodyObject, SpawnCard.SpawnResult spawnResult, Action<MasterSpawnSlotController.ISlot, SpawnCard.SpawnResult> callback)
-        {
-            orig(self, ownerBodyObject, spawnResult, callback);
-
-            if (spawnResult.success)
-            {
-                CharacterBody ownerBody = ownerBodyObject.GetComponent<CharacterBody>();
-                Inventory spawnsInventory = spawnResult.spawnedInstance.GetComponent<Inventory>();
-                if (ownerBody && spawnsInventory != null)
-                {
-                    spawnsInventory.SetEquipmentIndex(ownerBody.inventory.currentEquipmentIndex);
-                }
-            }
-        }
+       
 
         private static void VoidRaidGauntletController_Start(On.RoR2.VoidRaidGauntletController.orig_Start orig, VoidRaidGauntletController self)
         {
@@ -172,61 +176,16 @@ namespace LittleGameplayTweaks
             }
             if (self.phaseEncounters.Length == 3)
             {
-                if (WConfig.cfgVoidlingNerf.Value)
+                /*if (WConfig.cfgVoidlingNerf.Value)
                 {
                     self.phaseEncounters[0].onBeginEncounter += VoidlingPhase1Nerf;
                     self.phaseEncounters[1].onBeginEncounter += VoidlingPhase2Nerf;
                     self.phaseEncounters[2].onBeginEncounter += VoidlingPhase3Nerf;
-                }
+                }*/
             }
         }
 
-        private static void VoidlingPhase1Nerf(ScriptedCombatEncounter obj)
-        {
-            VoidlingScalingNerf(obj, 1);
-        }
-        private static void VoidlingPhase2Nerf(ScriptedCombatEncounter obj)
-        {
-            VoidlingScalingNerf(obj, 2);
-        }
-        private static void VoidlingPhase3Nerf(ScriptedCombatEncounter obj)
-        {
-            VoidlingScalingNerf(obj, 3);
-        }
-        public static void VoidlingScalingNerf(ScriptedCombatEncounter encounter, int phase)
-        {
-            if (!WConfig.cfgVoidlingNerf.Value)
-            {
-                return;
-            }
-            float multHp = 0;
-            float multDmg = 0;
-            //Reduction not overall
-            switch (phase)
-            {
-                case 1:
-                    multHp = 0.4f;
-                    multDmg = 0.2f;
-                    break;
-                case 2:
-                    multHp = 0.2f;
-                    multDmg = 0.2f;
-                    break;
-                case 3:
-                    multHp = 0f;
-                    multDmg = 0.2f;
-                    break;
-            }
-            Debug.Log("Voidling Nerf Phase " + phase);
-            for (int i = 0; i < encounter.combatSquad.membersList.Count; i++)
-            {
-                Inventory inv = encounter.combatSquad.membersList[i].inventory;
-                Debug.Log("Pre  Health: " + inv.GetItemCount(RoR2Content.Items.BoostHp) + " Damage: " + inv.GetItemCount(RoR2Content.Items.BoostDamage));
-                inv.RemoveItem(RoR2Content.Items.BoostHp, (int)(multHp * (float)inv.GetItemCount(RoR2Content.Items.BoostHp)));
-                inv.RemoveItem(RoR2Content.Items.BoostDamage, (int)(multDmg * (float)inv.GetItemCount(RoR2Content.Items.BoostDamage)));
-                Debug.Log("Post Health: " + inv.GetItemCount(RoR2Content.Items.BoostHp) + " Damage: " + inv.GetItemCount(RoR2Content.Items.BoostDamage));
-            }
-        }
+  
 
         public static void ScalingChanges(On.RoR2.ScriptedCombatEncounter.orig_BeginEncounter orig, ScriptedCombatEncounter self)
         {
@@ -246,32 +205,12 @@ namespace LittleGameplayTweaks
                             for (int i = 0; i < self.combatSquad.membersList.Count; i++)
                             {
                                 Inventory inv = self.combatSquad.membersList[i].inventory;
-                                inv.RemoveItem(RoR2Content.Items.BoostHp, inv.GetItemCount(RoR2Content.Items.BoostHp));
-                                inv.GiveItem(RoR2Content.Items.BoostHp, Mathf.RoundToInt((extraHealth - 1f) * 10f));
+                                inv.RemoveItemPermanent(RoR2Content.Items.BoostHp, inv.GetItemCountPermanent(RoR2Content.Items.BoostHp));
+                                inv.GiveItemPermanent(RoR2Content.Items.BoostHp, Mathf.RoundToInt((extraHealth - 1f) * 10f));
                             }
-                        }
-                        for (int i = 0; i < self.combatSquad.membersList.Count; i++)
-                        {
-                            Inventory inv = self.combatSquad.membersList[i].inventory;
-                            inv.RemoveItem(RoR2Content.Items.BoostDamage, (int)(0.2f*inv.GetItemCount(RoR2Content.Items.BoostDamage)));
                         }
                     }
                 }
-        }
-
-
-        private static void SpellChannelState_OnEnter(On.EntityStates.BrotherMonster.SpellChannelState.orig_OnEnter orig, EntityStates.BrotherMonster.SpellChannelState self)
-        {
-            orig(self);
-            self.characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
-            self.characterBody.AddBuff(RoR2Content.Buffs.Immune);
-        }
-
-        private static void SpellChannelExitState_OnExit(On.EntityStates.BrotherMonster.SpellChannelExitState.orig_OnExit orig, EntityStates.BrotherMonster.SpellChannelExitState self)
-        {
-            orig(self);
-            self.characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
-            self.characterBody.RemoveBuff(RoR2Content.Buffs.Immune);
         }
 
  
@@ -295,7 +234,9 @@ namespace LittleGameplayTweaks
             {
                 GameObject AffixEarthHealer = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/EliteEarth/AffixEarthHealerBody.prefab").WaitForCompletion();
                 CharacterBody AffixEarthHealerBody = AffixEarthHealer.GetComponent<CharacterBody>();
-                AffixEarthHealerBody.baseArmor = 500;
+                AffixEarthHealerBody.baseArmor = 100;
+                AffixEarthHealerBody.levelArmor = 60; //Imitates Health Per Level well enough
+                //But Health Per Level wouldnt be client side.
                 AffixEarthHealerBody.baseDamage = 25;
                 AffixEarthHealerBody.levelDamage = 5;
 
@@ -326,20 +267,15 @@ namespace LittleGameplayTweaks
 
 
 
-            //Lunar Scavs not picking up more items I think Idk If they even do that to begin with
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar1Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar2Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar3Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/ScavLunar4Master").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1].maxTargetHealthFraction = -1;
-
+ 
             //Scav search item more reliably, stop searching when about to die
             var searchItem = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavMaster").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1];
-            searchItem.maxUserHealthFraction = 1f;
+            searchItem.maxUserHealthFraction = 0.999f;
             searchItem.minUserHealthFraction = 0.4f;
-            searchItem.selectionRequiresOnGround = false;
-            searchItem.maxDistance = 300;
-            searchItem.minDistance = 60;
             searchItem.minTargetHealthFraction = 0.4f;
+            searchItem.selectionRequiresOnGround = false;
+            /*searchItem.maxDistance = 300;
+            searchItem.minDistance = 60;*/
 
                        //
              //XI
@@ -386,18 +322,21 @@ namespace LittleGameplayTweaks
                 wormProj2.childrenProjectilePrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/Projectiles/LightningStake");
 
             }
-
-
-            Addressables.LoadAssetAsync<GameObject>(key: "746b53f076ca9af4d89f67c981d2bbf9").WaitForCompletion().GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath; //ScavLunar
-            Addressables.LoadAssetAsync<GameObject>(key: "a0a8fa4272069874b9e538c59bbda5ed").WaitForCompletion().GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath; //ScavLunar
-            Addressables.LoadAssetAsync<GameObject>(key: "7dfb4548829852a49a4b2840046787ed").WaitForCompletion().GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath; //ScavLunar
-            Addressables.LoadAssetAsync<GameObject>(key: "769510dc6be546b40aa3aca3cf93945c").WaitForCompletion().GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath; //ScavLunar
-            //Addressables.LoadAssetAsync<CharacterBody>(key: "18809d9c5863c864c8d8ca0d2309556d").WaitForCompletion().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath; //ScavLunar
-            Addressables.LoadAssetAsync<GameObject>(key: "097b0e271757ce24581d4a8983d2c941").WaitForCompletion().GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath; //VoidMegaCrab
-            Addressables.LoadAssetAsync<GameObject>(key: "285347cf04a9df04b9dada8fed09832f").WaitForCompletion().GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath; //VoidMegaCrab
-
+ 
+            //Devestator immune to freeze consistency
             Addressables.LoadAssetAsync<GameObject>(key: "097b0e271757ce24581d4a8983d2c941").WaitForCompletion().GetComponent<SetStateOnHurt>().canBeFrozen = false; //VoidMegaCrab
 
+
+            //ExtractorStuff
+            //On.RoR2.ItemStealController.ExtractorUnitItemStealFilter += ItemStealController_ExtractorUnitItemStealFilter;
+            Addressables.LoadAssetAsync<GameObject>(key: "645c6efa053511c488c3993881e2884a").WaitForCompletion().GetComponent<BaseAI>().ignoreFliers = true;
+
+
+        }
+
+        private static bool ItemStealController_ExtractorUnitItemStealFilter(On.RoR2.ItemStealController.orig_ExtractorUnitItemStealFilter orig, ItemIndex itemIndex)
+        {
+            return orig(itemIndex) && !ItemStealController.ExtractorUnitItemShareFilter(itemIndex);
         }
 
         private static void AffixEarthHealthInvulThing(On.EntityStates.AffixEarthHealer.Chargeup.orig_OnEnter orig, EntityStates.AffixEarthHealer.Chargeup self)
@@ -405,12 +344,8 @@ namespace LittleGameplayTweaks
             orig(self);
             if (NetworkServer.active)
             {
-                if (self.characterBody && self.characterBody.inventory)
-                {
-                    //This way, we can have levelMaxHealth, without Desyncing the client.
-                    self.characterBody.inventory.GiveItem(RoR2Content.Items.BoostHp, 3 * Run.instance.ambientLevelFloor);
-                    self.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 0.5f);
-                }
+                //Brief Invul to not just get fucked by Willo Wisp
+                self.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 0.4f);
             }
             
         }
@@ -509,18 +444,15 @@ namespace LittleGameplayTweaks
             if (c.TryGotoNext(MoveType.After,
                     x => x.MatchLdsfld("EntityStates.LemurianBruiserMonster.FireMegaFireball", "damageCoefficient")))
             {
- 
                 c.Emit(OpCodes.Ldarg_0);
                 c.EmitDelegate<Func<float, EntityStates.LemurianBruiserMonster.FireMegaFireball, float>>((damageCoeff, entityState) =>
                 {
                     if (entityState.characterBody.inventory.GetItemCount(RoR2Content.Items.Clover) >= 20)
                     {
-                        //entityState.characterBody.ClearTimedBuffs(RoR2Content.Buffs.ElementalRingsCooldown);
                         return 4f;
                     }
                     return damageCoeff;
                 });
-                //Debug.Log("IL Found: Buff Married Lemurians");
             }
             else
             {

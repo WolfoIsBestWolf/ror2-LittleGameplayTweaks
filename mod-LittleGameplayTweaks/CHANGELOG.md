@@ -1,5 +1,69 @@
 ## Changelog:
 ```
+V3.7.0
+ 
+ 
+Made Drone Scrappers and Combiners more common.
+Added Drone Combiner to Rallypoint & Iron Alluvium
+Added Drone Scrappers to Stage 5s.
+Moved SotV enemy removals here.
+
+
+Removed contentSourceLimit of "Only 2 DLCs of content per stage"
+-*This feature is stupid.
+-*Void & SotS interactables still made rarer the more dlcs added
+ 
+ 
+Solus Extractors will no longer target Drones.
+Child will gain 200 Armor instead of turning Invulnerable
+Scorch Wurm will gain 200 armor instead of turning Invulnerable
+
+
+
++LoopSolus Control Unit in Loop Pretenders Precipe
++Solus Amalgamator in Pretenders Precipe
+ 
+Overloading Worm now loop exclusive on Sulfur Pools
+
+
+
+Downsized mod quite heavily.
+*I tried a lot of random junk that just kinda came to mind.*
+*But I largely want the game to still be the same.*
+-Removed 4th use for Shrine of Woods
+-Increased cost of Shrine of Woods but still quite a lot less than vanilla
+-Removed extra Red->White Cauldron payout.
+-Reduced amount of random credits changes.
+-Removed TC280 tweaks 
+-Removed Gunner Turret tweaks
+-Removed Blood Shrine not breaking Elixirs.
+-Drastically simplified Blood Shrine reward scaling
+-Removed more Mountain shrine config. (Just use Prestige)
+-Removed Void Field Cell tweaks.
+-Removed Void Locust Cell tweaks.
+-Removed Voidling stat Nerf.
+-Removed Void Devestator immune to Void Implions
+-Removed Pillar of Mass tweaks.
+-Removed Twisted Disable All Skills
+-Removed Early Tier 2 Elite config. (Use other mods for that)
+-Removed weird Level per Loop idea. (Just use a level cap raiser mods, even if not server-side)
+-Removed various weird config. (Use other mods for stuff)
+-Removed slightly faster. (Use other mods for that)
+-Moved Eclipse Artifact choice to GameplayQoL mod
+
+ 
+ 
+
+ 
+ 
+dont mess with uh drop tables
+
+
+
+v3.6.5
+Fixed mod not loading with ItemBlacklist due to IL conflict.
+Removed Grandparent from Gilded Coast. (too open)
+
 v3.6.4
 Needed to fix mod breaking void family event.
 Reallowed Turrets for Stage 4,5

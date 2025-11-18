@@ -21,13 +21,17 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> Stage_2_Swamp;
         public static ConfigEntry<bool> Stage_2_Ancient;
         public static ConfigEntry<bool> Stage_2_Temple;
+        public static ConfigEntry<bool> Stage_2_Nest;
         public static ConfigEntry<bool> Stage_3_Frozen;
         public static ConfigEntry<bool> Stage_3_Wisp;
         public static ConfigEntry<bool> Stage_3_Sulfur;
         public static ConfigEntry<bool> Stage_3_Tree;
+        public static ConfigEntry<bool> Stage_3_Iron;
         public static ConfigEntry<bool> Stage_4_Damp_Abyss;
         public static ConfigEntry<bool> Stage_4_Ship;
         public static ConfigEntry<bool> Stage_4_Root_Jungle;
+        public static ConfigEntry<bool> Stage_4_RC;
+        public static ConfigEntry<bool> Stage_4_Conduit;
         public static ConfigEntry<bool> Stage_5_Sky;
         public static ConfigEntry<bool> Stage_5_Helminth;
         public static ConfigEntry<bool> Stage_F_Moon;
@@ -44,13 +48,13 @@ namespace LittleGameplayTweaks
                 "Stage 1",
                 "Golem Plains",
                 true,
-                "Loop TC280"
+                ""
             );
             Stage_1_Roost = ConfigFileSTAGES.Bind(
                 "Stage 1",
                 "Distant Roost",
                 true,
-                "Adds Loop Vultures\n\nAdds Loop Cleansing Pool"
+                "+Loop Vultures"
             );
             Stage_1_Snow = ConfigFileSTAGES.Bind(
                 "Stage 1",
@@ -94,11 +98,17 @@ namespace LittleGameplayTweaks
                 true,
                 "Adds Grovetender\nAdds Loop Bison\nAdds Loop Brass Contrapion\nRemoves Blind Pest\n\nAdds Shrine of Order\nAdds all 3 Large Category Chests"
             );
+            Stage_2_Nest = ConfigFileSTAGES.Bind(
+                "Stage 2",
+                "Pretenders Precipe",
+                true,
+                "+Loop Solus Control Unit\n+Loop Solus Amalgamator"
+            );
             Stage_3_Frozen = ConfigFileSTAGES.Bind(
                 "Stage 3",
                 "Rally Point",
                 true,
-                "Adds Solus Control Unit\nRemoves Clay Dunestrider\nAdds Loop Solus Probe\nAdds Loop Vulture"
+                "Adds Solus Control Unit\n-Removes Clay Dunestrider\nAdds Loop Solus Probe\nAdds Loop Vulture\nAdds Drone Combiner"
             );
             Stage_3_Wisp = ConfigFileSTAGES.Bind(
                 "Stage 3",
@@ -110,13 +120,19 @@ namespace LittleGameplayTweaks
                 "Stage 3",
                 "Sulfur Pool",
                 true,
-                "Adds Magma Worm\nAdds Overloading Worm\nAdds Hermit Crab\nAdds Acid Larva\nAdds Loop Grandparent\nAdds Loop Parent\n\nAdds Mountain Shrine\nAdds Emergency Drone\n\nStage has +20 credits"
+                "Adds Hermit Crab\nAdds Acid Larva\nAdds Loop Grandparent\nAdds Loop Parent\n\nAdds Mountain Shrine\nAdds Emergency Drone"
             );
             Stage_3_Tree = ConfigFileSTAGES.Bind(
                 "Stage 3",
                 "Treeborn",
                 true,
-                "Adds Blind Pest\nAdds Loop Mushroom\n\nAdds Large Damage Chest\nAdds Large Healing Chest"
+                "Adds Loop Mushroom\n\nAdds Large Damage Chest\nAdds Large Healing Chest"
+            );
+            Stage_3_Iron = ConfigFileSTAGES.Bind(
+                "Stage 3",
+                "Iron Alluvium",
+                true,
+                "Adds Drone Combiner"
             );
             Stage_4_Damp_Abyss = ConfigFileSTAGES.Bind(
                 "Stage 4",
@@ -128,13 +144,19 @@ namespace LittleGameplayTweaks
                 "Stage 4",
                 "Sirens Call",
                 true,
-                "Adds Overloading Worm\nAdds Loop Solus Probe\nAdds Loop Alpha Construct\nAdds Loop XI Construct\n\nAdds TC280\nMore common Equipment Drone"
+                "Adds Overloading Worm\nAdds Loop Solus Probe\nAdds Loop Alpha Construct\nAdds Loop XI Construct\n\nAdds Loop TC280"
             );
             Stage_4_Root_Jungle = ConfigFileSTAGES.Bind(
                 "Stage 4",
                 "Sundered Grove",
                 true,
                 "Adds Grovetender\nRemoves Stone Titan\nRemoves Loop Halcyonite\nAdds Loop Blind Pest\nAdds Loop Void Jailer\n"
+            );
+            Stage_4_RC = ConfigFileSTAGES.Bind(
+                "Stage 4",
+                "Repurposed Crater",
+                true,
+                ""
             );
             Stage_5_Sky = ConfigFileSTAGES.Bind(
                 "Stage 5",

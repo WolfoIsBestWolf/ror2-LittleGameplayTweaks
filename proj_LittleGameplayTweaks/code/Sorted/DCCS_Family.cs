@@ -44,23 +44,21 @@ namespace LittleGameplayTweaks
 
             DccsPool dpMoonMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/moon/dpMoonMonsters.asset").WaitForCompletion();
             DccsPool dpGoldshoresMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/goldshores/dpGoldshoresMonsters.asset").WaitForCompletion();
-            DccsPool dpArtifactWorldMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/artifactworld/dpArtifactWorldMonsters.asset").WaitForCompletion();
-
+           
             //
-            FamilyDirectorCardCategorySelection dccsBeetleFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/dccsBeetleFamily.asset").WaitForCompletion();
-            //FamilyDirectorCardCategorySelection dccsBeetleSulfurFamily = UnityEngine.Object.Instantiate(dccsBeetleFamily);
-            FamilyDirectorCardCategorySelection dccsGolemFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/dccsGolemFamily.asset").WaitForCompletion();
+            FamilyDirectorCardCategorySelection dccsBeetleFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/DirectorCardCategorySelections/dccsBeetleFamily.asset").WaitForCompletion();
+            FamilyDirectorCardCategorySelection dccsGolemFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "721b63a126c0b5c4ba12f49735d704ae").WaitForCompletion();
             FamilyDirectorCardCategorySelection dccsGolemFamilyAbyssal = UnityEngine.Object.Instantiate(dccsGolemFamily);
-            FamilyDirectorCardCategorySelection dccsGupFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/dccsGupFamily.asset").WaitForCompletion();
-            FamilyDirectorCardCategorySelection dccsImpFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/dccsImpFamily.asset").WaitForCompletion();
-            FamilyDirectorCardCategorySelection dccsJellyfishFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/dccsJellyfishFamily.asset").WaitForCompletion();
-            FamilyDirectorCardCategorySelection dccsLemurianFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/dccsLemurianFamily.asset").WaitForCompletion();
-            FamilyDirectorCardCategorySelection dccsLunarFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/dccsLunarFamily.asset").WaitForCompletion();
-            FamilyDirectorCardCategorySelection dccsParentFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/dccsParentFamily.asset").WaitForCompletion();
+            FamilyDirectorCardCategorySelection dccsGupFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/DirectorCardCategorySelections/dccsGupFamily.asset").WaitForCompletion();
+            FamilyDirectorCardCategorySelection dccsImpFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/DirectorCardCategorySelections/dccsImpFamily.asset").WaitForCompletion();
+            FamilyDirectorCardCategorySelection dccsJellyfishFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/DirectorCardCategorySelections/dccsJellyfishFamily.asset").WaitForCompletion();
+            FamilyDirectorCardCategorySelection dccsLemurianFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/DirectorCardCategorySelections/dccsLemurianFamily.asset").WaitForCompletion();
+            FamilyDirectorCardCategorySelection dccsLunarFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/DirectorCardCategorySelections/dccsLunarFamily.asset").WaitForCompletion();
+            FamilyDirectorCardCategorySelection dccsParentFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/DirectorCardCategorySelections/dccsParentFamily.asset").WaitForCompletion();
             FamilyDirectorCardCategorySelection dccsConstructFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/DLC1/Common/dccsConstructFamily.asset").WaitForCompletion();
-            FamilyDirectorCardCategorySelection dccsWispFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/dccsWispFamily.asset").WaitForCompletion();
+            FamilyDirectorCardCategorySelection dccsWispFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/DirectorCardCategorySelections/dccsWispFamily.asset").WaitForCompletion();
             FamilyDirectorCardCategorySelection dccsVoidFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/DLC1/Common/dccsVoidFamily.asset").WaitForCompletion();
-            FamilyDirectorCardCategorySelection dccsMushroomFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/dccsMushroomFamily.asset").WaitForCompletion();
+            FamilyDirectorCardCategorySelection dccsMushroomFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/DirectorCardCategorySelections/dccsMushroomFamily.asset").WaitForCompletion();
             FamilyDirectorCardCategorySelection dccsAcidLarvaFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/DLC1/Common/dccsAcidLarvaFamily.asset").WaitForCompletion();
 
             dccsMoonVoids = ScriptableObject.CreateInstance<DirectorCardCategorySelection>();
@@ -100,68 +98,41 @@ namespace LittleGameplayTweaks
             dccsVoidFamilyLate.name = "dccsVoidFamilyLate";
             dccsVoidFamilyLate.minimumStageCompletion = 10;
 
-
-            DirectorCard DC_Grandparent = new DirectorCard
-            {
-                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/titan/cscGrandparent"),
-                selectionWeight = 1,
-                preventOverhead = false,
-                minimumStageCompletions = 0,
-                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
-            };
-            DirectorCard DC_Child = new DirectorCard
-            {
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC2/Child/cscChild.asset").WaitForCompletion(),
-                preventOverhead = false,
-                selectionWeight = 1,
-                minimumStageCompletions = 0,
-                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
-            };
-            DirectorCard DC_Geep = new DirectorCard
-            {
-                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGeepBody"),
-                preventOverhead = false,
-                selectionWeight = 1,
-                minimumStageCompletions = 0,
-                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
-            };
-
-            DirectorCard DC_Gip = new DirectorCard
-            {
-                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGipBody"),
-                preventOverhead = false,
-                selectionWeight = 1,
-                minimumStageCompletions = 0,
-                spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
-            };
+ 
 
 
-
-            int familyMin = WConfig.FamiliesStage1.Value ? 0 : 1;
+            //int familyMin = WConfig.FamiliesStage1.Value ? 0 : 1;
 
             dccsGolemFamilyAbyssal.categories[0].cards[0].spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/Titan/cscTitanDampCave");
             dccsGolemFamilyAbyssal.name = "dccsGolemFamilyAbyssal";
 
-            dccsBeetleFamily.minimumStageCompletion = familyMin;
+            /*dccsBeetleFamily.minimumStageCompletion = familyMin;
             dccsLemurianFamily.minimumStageCompletion = familyMin;
             dccsJellyfishFamily.minimumStageCompletion = familyMin;
             dccsGupFamily.minimumStageCompletion = familyMin;
             dccsImpFamily.minimumStageCompletion = familyMin;
-            dccsWispFamily.minimumStageCompletion = familyMin;
+            dccsWispFamily.minimumStageCompletion = familyMin;*/
 
             dccsLemurianFamily.maximumStageCompletion = 14;
             dccsLunarFamily.minimumStageCompletion = 4;
             dccsLunarFamily.maximumStageCompletion = 1000000;
             dccsVoidFamily.minimumStageCompletion = 4;
+ 
 
-            dccsParentFamily.AddCategory("Champions", 4);
-            dccsParentFamily.AddCard(1, DC_Grandparent);
-            dccsParentFamily.AddCategory("Basic", 6);
-            dccsParentFamily.AddCard(2, DC_Child);
-
+            //Add Gip and Geep
             dccsGupFamily.categories[0].cards[0].selectionWeight = 3;
-            dccsGupFamily.AddCard(0, DC_Geep);
-            dccsGupFamily.AddCard(0, DC_Gip);
+            dccsGupFamily.AddCard(0, new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGeepBody"),
+                selectionWeight = 1,
+            } );
+            dccsGupFamily.AddCard(0, new DirectorCard
+            {
+                spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGipBody"),
+                selectionWeight = 1,
+            });
+
+
 
             //Family Event Changes
             //0 is Normal
@@ -250,10 +221,7 @@ namespace LittleGameplayTweaks
 
             AddFamily(dpSkyMeadowMonsters, FamilyParent);
             AddFamily(dpHelminthRoostMonsters, FamilyConstruct);
-
-            //dpArtifactWorldMonsters.poolCategories = dpArtifactWorldMonsters.poolCategories.Add(CategoryFamilyArtifactWorld);
-            //dpArtifactWorldMonsters.poolCategories[1].includedIfConditionsMet = dpArtifactWorldMonsters.poolCategories[1].includedIfConditionsMet.Add(FamilyExtraLunar, FamilyExtraImp);
-
+ 
             HG.ArrayUtils.ArrayAppend(ref dpMoonMonsters.poolCategories, CategoryFamilyMoon2);
             HG.ArrayUtils.ArrayAppend(ref dpGoldshoresMonsters.poolCategories, CategoryFamilyGoldshores);
 
@@ -261,6 +229,7 @@ namespace LittleGameplayTweaks
             AddInvasion(dpAncientLoftMonsters, FamilyLunar);
             AddInvasion(dpLemurianTempleMonsters, FamilyLunar);
             AddInvasion(dpWispGraveyardMonsters, FamilyLunar);
+            AddInvasion(dpRootJungleMonsters, FamilyLunar);
             AddInvasion(dpHabitatfallMonsters, FamilyLunar);
             AddInvasion(dpSkyMeadowMonsters, FamilyLunar);
             AddInvasion(dpHelminthRoostMonsters, FamilyLunar);

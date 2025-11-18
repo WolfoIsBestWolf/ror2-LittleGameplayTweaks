@@ -17,11 +17,11 @@ namespace LittleGameplayTweaks
             //On.RoR2.ShrineBloodBehavior.AddShrineStack += ShrineBloodChanges;
             if (WConfig.Shrine_Healing.Value)
             {
-                LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.PurchaseInteraction>().cost = 10;
-                LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.ShrineHealingBehavior>().costMultiplierPerPurchase = 1.4f;
-                LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.ShrineHealingBehavior>().maxPurchaseCount += 1;
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.PurchaseInteraction>().cost = 20;
+                LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.ShrineHealingBehavior>().costMultiplierPerPurchase = 1f;
+                //LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.ShrineHealingBehavior>().maxPurchaseCount += 1;
             }
-            if (WConfig.Shrine_Combat.Value == false)
+           /* if (WConfig.Shrine_Combat.Value == false)
             {
                 GameObject ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombat.prefab").WaitForCompletion();
                 ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
@@ -30,23 +30,23 @@ namespace LittleGameplayTweaks
                 ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombatSnowy Variant.prefab").WaitForCompletion();
                 ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
 
-            }
+            }*/
 
             //Fix this being gone? //Is this a fix??
-            var dtShrineHalcyon1 = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "bb3b51f04206e3242af6981db3c402a7").WaitForCompletion();
-            dtShrineHalcyon1.requiredItemTags = System.Array.Empty<ItemTag>();
-            Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "e291748f54c927a47ad44789d295c39f").WaitForCompletion().bannedItemTags = new ItemTag[] { ItemTag.HalcyoniteShrine };
+            //var dtShrineHalcyon1 = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "bb3b51f04206e3242af6981db3c402a7").WaitForCompletion();
+            //dtShrineHalcyon1.requiredItemTags = System.Array.Empty<ItemTag>();
+            //Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "e291748f54c927a47ad44789d295c39f").WaitForCompletion().bannedItemTags = new ItemTag[] { ItemTag.HalcyoniteShrine };
 
             On.RoR2.HalcyoniteShrineInteractable.Awake += HalcyoniteShrine_ApplyNumbers;
-            IL.RoR2.HalcyoniteShrineInteractable.DrainConditionMet += Halcyon_OptionalNerfStats;
-            IL.RoR2.HalcyoniteShrineInteractable.DropRewards += Halcyon_RemoveForcedSots;
+            //IL.RoR2.HalcyoniteShrineInteractable.DrainConditionMet += Halcyon_OptionalNerfStats;
+            //IL.RoR2.HalcyoniteShrineInteractable.DropRewards += Halcyon_RemoveForcedSots;
 
             IL.RoR2.ShrineBloodBehavior.AddShrineStack += BloodBehavior_GoldAmount;
-            if (WConfig.Shrine_Blood_NoBreak.Value)
+            /*if (WConfig.Shrine_Blood_NoBreak.Value)
             {
                 IL.RoR2.HealthComponent.UpdateLastHitTime += BloodShrine_DontBreakElixir;
                 IL.RoR2.HealthComponent.TakeDamageProcess += BloodShrine_DontBreakTransmitter;
-            }
+            }*/
            
  
         }
@@ -73,10 +73,14 @@ namespace LittleGameplayTweaks
             }
         }
 
-        private static void Halcyon_RemoveForcedSots(ILContext il)
+        /*private static void Halcyon_RemoveForcedSots(ILContext il)
         {
             ILCursor c = new ILCursor(il);
-            if (c.TryGotoNext(MoveType.Before,
+            bool a = c.TryGotoNext(MoveType.Before,
+            x => x.MatchLdfld("RoR2.HalcyoniteShrineInteractable", "rng"),
+            x => x.MatchCall("RoR2.PickupPickerController", "GenerateOptionsFromDropTablePlusForcedStorm"),
+            x => x.MatchStfld("RoR2.GenericPickupController/CreatePickupInfo", "pickerOptions"));
+            if (a && c.TryGotoNext(MoveType.Before,
             x => x.MatchStfld("RoR2.GenericPickupController/CreatePickupInfo", "pickerOptions")))
             {
 
@@ -92,9 +96,9 @@ namespace LittleGameplayTweaks
             }
             else
             {
-                Debug.LogWarning("IL Failed: BloodShrineDontBreakElixir");
+                Debug.LogWarning("IL Failed: Halcyon_RemoveForcedSots");
             }
-        }
+        }*/
 
         private static void BloodShrine_DontBreakElixir(ILContext il)
         {
@@ -163,13 +167,12 @@ namespace LittleGameplayTweaks
             if (c.TryGotoNext(MoveType.Before,
                 x => x.MatchStloc(1)))
             {
-                c.Emit(OpCodes.Ldloc_0);
-                c.Emit(OpCodes.Ldarg_0);
-                c.EmitDelegate<System.Func<uint, CharacterBody, ShrineBloodBehavior, uint>>((money, body, self) =>
+                c.EmitDelegate<System.Func<uint, uint>>((money) =>
                 {
                     if (WConfig.Shrine_Blood_Gold.Value)
                     {
-                        float moneyMult = body.healthComponent.fullCombinedHealth / 100f / (0.7f + body.level * 0.3f);
+                        return (uint)(money * Mathf.Pow(Run.instance.difficultyCoefficient, 1.05f));
+                        /*float moneyMult = body.healthComponent.fullCombinedHealth / 100f / (0.7f + body.level * 0.3f);
                         if (moneyMult < 1)
                         {
                             moneyMult = 1;
@@ -185,7 +188,7 @@ namespace LittleGameplayTweaks
                             baseMoney = 60;
                         }
                         baseMoney = Run.instance.GetDifficultyScaledCost(baseMoney, Stage.instance.entryDifficultyCoefficient);
-                        return (uint)(baseMoney * moneyMult);
+                        return (uint)(baseMoney * moneyMult);*/
                     }
                     return money;
                 });
@@ -196,7 +199,7 @@ namespace LittleGameplayTweaks
             }
         }
 
-        private static void Halcyon_OptionalNerfStats(ILContext il)
+        /*private static void Halcyon_OptionalNerfStats(ILContext il)
         {
             ILCursor c = new ILCursor(il);
             if (c.TryGotoNext(MoveType.After,
@@ -215,7 +218,7 @@ namespace LittleGameplayTweaks
             {
                 Debug.LogWarning("IL Failed: Buff Married Lemurians");
             }
-        }
+        }*/
 
         private static void HalcyoniteShrine_ApplyNumbers(On.RoR2.HalcyoniteShrineInteractable.orig_Awake orig, HalcyoniteShrineInteractable self)
         {
@@ -229,7 +232,7 @@ namespace LittleGameplayTweaks
             }
             orig(self);
 
-            self.combatDirector.combatSquad.onMemberAddedServer += MakeHalcyoniteBoss;
+            //self.combatDirector.combatSquad.onMemberAddedServer += MakeHalcyoniteBoss;
             self.activationDirector.combatSquad.grantBonusHealthInMultiplayer = WConfig.cfgHalcyon_ScaleHPMult.Value;
         }
 
@@ -239,7 +242,7 @@ namespace LittleGameplayTweaks
         }
 
     
-        public static void ShrineBloodChanges(On.RoR2.ShrineBloodBehavior.orig_AddShrineStack orig, ShrineBloodBehavior self, Interactor interactor)
+        /*public static void ShrineBloodChanges(On.RoR2.ShrineBloodBehavior.orig_AddShrineStack orig, ShrineBloodBehavior self, Interactor interactor)
         {
             orig(self, interactor);
             if (WConfig.Shrine_Blood_NoBreak.Value == true)
@@ -255,7 +258,7 @@ namespace LittleGameplayTweaks
                     self.costMultiplierPerPurchase = 1.93f;
                 }
             }
-        }
+        }*/
 
 
     }

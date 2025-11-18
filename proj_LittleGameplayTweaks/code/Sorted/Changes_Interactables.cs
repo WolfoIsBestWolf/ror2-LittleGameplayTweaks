@@ -15,42 +15,21 @@ namespace LittleGameplayTweaks
         public static void Start()
         {
             Changes_Shrines.Start();
-            StupidPriceChanger();
+            //StupidPriceChanger();
             Faster();
-
-            On.RoR2.TimedChestController.PreStartClient += TimedChestController_PreStartClient;
-
-            Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/Base/TreasureCache/dtLockbox.asset").WaitForCompletion().canDropBeReplaced = false;
-            Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/DLC2/Items/ExtraShrineItem/dtChanceDoll.asset").WaitForCompletion().canDropBeReplaced = false;
-            Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "RoR2/DLC1/TreasureCacheVoid/dtVoidLockbox.asset").WaitForCompletion().canDropBeReplaced = false;
-            Addressables.LoadAssetAsync<FreeChestDropTable>(key: "RoR2/DLC1/FreeChest/dtFreeChest.asset").WaitForCompletion().canDropBeReplaced = false;
-
-            if (WConfig.cfgVoidTripleAllTier.Value == true)
+ 
+            /*if (WConfig.cfgVoidTripleAllTier.Value == true)
             {
-                Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidTriple/VoidTriple.prefab").WaitForCompletion().GetComponent<RoR2.OptionChestBehavior>().dropTable = WolfoFixes.Shared.dtAllTier;
-            }
+                Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidTriple/VoidTriple.prefab").WaitForCompletion().GetComponent<RoR2.OptionChestBehavior>().dropTable = WolfoLibrary.Shared.dtAllTier;
+            }*/
 
-            if (WConfig.cfgVoidStagePillar.Value)
-            {
-                GameObject DeepVoidPortalBattery = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/DeepVoidPortalBattery/DeepVoidPortalBattery.prefab").WaitForCompletion();
-                DeepVoidPortalBattery.GetComponent<HoldoutZoneController>().baseChargeDuration = 48;
-                DeepVoidPortalBattery.GetComponent<HoldoutZoneController>().baseRadius = 26;
-
-            }
-            BasicPickupDropTable dtStealthedChest = ScriptableObject.CreateInstance<BasicPickupDropTable>();
-            dtStealthedChest.tier1Weight = 0.8f;
-            dtStealthedChest.tier2Weight = 0.3f;
-            dtStealthedChest.tier3Weight = 0.1f;
-            dtStealthedChest.bossWeight = 0.02f;
-            Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/Chest1StealthedVariant/Chest1StealthedVariant.prefab").WaitForCompletion().GetComponent<ChestBehavior>().dropTable = dtStealthedChest;
-  
+     
+      
             if (WConfig.VoidSeedsMore.Value)
             {
                 GameObject VoidCamp = Addressables.LoadAssetAsync<GameObject>(key: "e515327d3d5e0144488357748ce1e899").WaitForCompletion();
                 VoidCamp.transform.GetChild(0).GetComponent<CampDirector>().baseMonsterCredit = 75;
-                //VoidCamp.transform.GetChild(0).GetComponent<CombatDirector>().eliteBias = 2;
                 VoidCamp.transform.GetChild(1).GetComponent<CampDirector>().baseMonsterCredit = 75;
-                //VoidCamp.transform.GetChild(1).GetComponent<CombatDirector>().eliteBias = 2;
             }
             On.RoR2.CampDirector.CalculateCredits += VoidSeedLoopCredits;
             if (WConfig.VoidCradlesMore.Value)
@@ -59,8 +38,8 @@ namespace LittleGameplayTweaks
                 ScriptedCombatEncounter infestors = VoidChest.GetComponent<ScriptedCombatEncounter>();
                 infestors.spawns[0].cullChance = 30;
                 infestors.spawns[1].cullChance = 30;
-                infestors.spawns[2].cullChance = 30;
-                infestors.spawns[3].cullChance = 30;
+                infestors.spawns[2].cullChance = 50;
+                infestors.spawns[3].cullChance = 50;
                  
                 GivePickupsOnStart voidInfestorMaster = Addressables.LoadAssetAsync<GameObject>(key: "741e2f9222e19bd4185f43aff65ea213").WaitForCompletion().GetComponent<GivePickupsOnStart>();
                 if (voidInfestorMaster.itemInfos.Length > 0)
@@ -68,7 +47,7 @@ namespace LittleGameplayTweaks
                     voidInfestorMaster.itemInfos[0].count = 100;
                 }
             }
-            Addressables.LoadAssetAsync<GameObject>(key: "34d770816ffbf0d468728c48853fd5f6").WaitForCompletion().GetComponent<ConvertPlayerMoneyToExperience>().enabled = false;
+           
         }
  
         private static void VoidSeedLoopCredits(On.RoR2.CampDirector.orig_CalculateCredits orig, CampDirector self)
@@ -108,46 +87,7 @@ namespace LittleGameplayTweaks
 
         public static void Faster()
         {
-            if (WConfig.FasterPrinter.Value == true)
-            {
-                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/Duplicator").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
-                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorLarge").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
-                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorMilitary").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
-                LegacyResourcesAPI.Load<GameObject>("Prefabs/networkedobjects/chest/DuplicatorWild").GetComponent<RoR2.EntityLogic.DelayedEvent>().enabled = false;
-
-                On.EntityStates.Duplicator.Duplicating.DropDroplet += (orig, self) =>
-                {
-                    orig(self);
-                    if (NetworkServer.active)
-                    {
-                        self.outer.GetComponent<PurchaseInteraction>().Networkavailable = true;
-                    }
-                };
-
-                //Just 1 entity state so probably can't really work with it
-                /*if (WConfig.FasterPrinter.Value > WConfig.Client.Match)
-                {
-                    IL.RoR2.PurchaseInteraction.CreateItemTakenOrb += (ILContext il) =>
-                    {
-                        ILCursor c = new ILCursor(il);
-                        if (c.TryGotoNext(MoveType.Before,
-                            x => x.MatchLdcR4(1.5f)))
-                        {
-                            c.Next.Operand = 0.8f;
-                        }
-                        else
-                        {
-                            Debug.LogWarning("IL Failed: PurchaseInteraction.CreateItemTakenOrb");
-                        }
-                    };
-
-                    EntityStateConfiguration Duplicating = LegacyResourcesAPI.Load<EntityStateConfiguration>("EntityStateConfigurations/EntityStates.Duplicator.Duplicating");
-                    Duplicating.serializedFieldsCollection.serializedFields[0].fieldValue.stringValue = "0.6"; //1.5
-                    Duplicating.serializedFieldsCollection.serializedFields[1].fieldValue.stringValue = "1.25"; //1.33
-                }
-                */
-
-            }
+ 
 
             if (WConfig.FasterScrapper.Value == true)
             {
@@ -228,14 +168,10 @@ namespace LittleGameplayTweaks
 
         public static void StupidPriceChanger()
         {
- 
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/BrokenDrones/MegaDroneBroken").GetComponent<RoR2.PurchaseInteraction>().cost = WConfig.MegaDroneCost.Value;
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/BrokenDrones/Turret1Broken").GetComponent<RoR2.PurchaseInteraction>().cost = WConfig.TurretDroneCost.Value;
+  
+            
 
-            LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/LunarCauldron, RedToWhite Variant").GetComponent<ShopTerminalBehavior>().dropVelocity = new Vector3(5, 10, 5);
-
-
-            if (WConfig.InteractableNoLunarCost.Value == true)
+            /*if (WConfig.InteractableNoLunarCost.Value == true)
             {
                 On.RoR2.PurchaseInteraction.Awake += (orig, self) =>
                 {
@@ -247,11 +183,11 @@ namespace LittleGameplayTweaks
                 };
             }
  
-            On.RoR2.ShopTerminalBehavior.DropPickup += RedToWhiteSoupMore;
+            On.RoR2.ShopTerminalBehavior.DropPickup += RedToWhiteSoupMore;*/
 
         }
 
-        public static void RedToWhiteSoupMore(On.RoR2.ShopTerminalBehavior.orig_DropPickup orig, ShopTerminalBehavior self)
+        /*public static void RedToWhiteSoupMore(On.RoR2.ShopTerminalBehavior.orig_DropPickup orig, ShopTerminalBehavior self)
         {
             if (WConfig.InteractableRedSoupAmount.Value > 0)
             {
@@ -267,7 +203,7 @@ namespace LittleGameplayTweaks
                 }
             }
             orig(self);
-        }
+        }*/
  
 
     }

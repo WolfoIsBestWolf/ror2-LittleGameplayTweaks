@@ -10,6 +10,7 @@ using UnityEngine.Networking;
 
 namespace LittleGameplayTweaks
 {
+    /*
     public class LoopingLevel
     {
 
@@ -86,4 +87,5 @@ namespace LittleGameplayTweaks
  
 
     }
+    */
 }

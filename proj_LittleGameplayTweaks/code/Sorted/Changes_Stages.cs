@@ -15,14 +15,14 @@ namespace LittleGameplayTweaks
             On.RoR2.ClassicStageInfo.Start += RunsAlways_ClassicStageInfo_Start;
 
             //Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidstage/voidstage.asset").WaitForCompletion().sceneType = Arena.sceneType;
-            SceneDef voidRaid = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion();
+            //SceneDef voidRaid = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion();
             //voidRaid.sceneType = SceneType.UntimedStage; //Whatever
-            voidRaid.allowItemsToSpawnObjects = true;
+            //voidRaid.allowItemsToSpawnObjects = true;
 
 
-            On.RoR2.ArenaMissionController.OnStartServer += ArenaMissionController_OnEnable;
+            /*On.RoR2.ArenaMissionController.OnStartServer += ArenaMissionController_OnEnable;
             On.EntityStates.Missions.Arena.NullWard.WardOnAndReady.OnEnter += WardOnAndReady_OnEnter;
-            On.EntityStates.Missions.Arena.NullWard.Active.OnEnter += Active_OnEnter;
+            On.EntityStates.Missions.Arena.NullWard.Active.OnEnter += Active_OnEnter;*/
 
             if (ConfigStages.Stage_F_Moon.Value)
             {
@@ -44,7 +44,7 @@ namespace LittleGameplayTweaks
             {
                 self.playerCountScaling = 0;
             }
-            else if (self.name.EndsWith("Mass"))
+            /*else if (self.name.EndsWith("Mass"))
             {
                 if (WConfig.cfgMasstweak.Value)
                 {
@@ -52,7 +52,7 @@ namespace LittleGameplayTweaks
                     self.baseChargeDuration = Mathf.Min(self.baseChargeDuration, 48);
                     self.baseRadius += 2;
                 }
-            }
+            }*/
         }
 
      
@@ -117,7 +117,7 @@ namespace LittleGameplayTweaks
 
 
 
-        public static void Active_OnEnter(On.EntityStates.Missions.Arena.NullWard.Active.orig_OnEnter orig, EntityStates.Missions.Arena.NullWard.Active self)
+        /*public static void Active_OnEnter(On.EntityStates.Missions.Arena.NullWard.Active.orig_OnEnter orig, EntityStates.Missions.Arena.NullWard.Active self)
         {
             orig(self);
             if (WConfig.RegenArenaCells.Value)
@@ -129,9 +129,9 @@ namespace LittleGameplayTweaks
                     ward[1].enabled = false;
                 }
             }
-        }
+        }*/
 
-        public static void WardOnAndReady_OnEnter(On.EntityStates.Missions.Arena.NullWard.WardOnAndReady.orig_OnEnter orig, EntityStates.Missions.Arena.NullWard.WardOnAndReady self)
+        /*public static void WardOnAndReady_OnEnter(On.EntityStates.Missions.Arena.NullWard.WardOnAndReady.orig_OnEnter orig, EntityStates.Missions.Arena.NullWard.WardOnAndReady self)
         {
             orig(self);
             if (WConfig.RegenArenaCells.Value)
@@ -143,10 +143,10 @@ namespace LittleGameplayTweaks
                     ward[1].enabled = true;
                 }
             }
-        }
+        }*/
 
 
-        public static void ArenaMissionController_OnEnable(On.RoR2.ArenaMissionController.orig_OnStartServer orig, ArenaMissionController self)
+        /*public static void ArenaMissionController_OnEnable(On.RoR2.ArenaMissionController.orig_OnStartServer orig, ArenaMissionController self)
         {
             orig(self);
             for (int i = 0; i < self.nullWards.Length; i++)
@@ -180,7 +180,7 @@ namespace LittleGameplayTweaks
                 }
 
             }
-        }
+        }*/
 
         public static void MoreSceneCredits(On.RoR2.ClassicStageInfo.orig_Start orig, ClassicStageInfo self)
         {
@@ -202,40 +202,35 @@ namespace LittleGameplayTweaks
                             self.sceneDirectorInteractibleCredits += 20; //
                             break;
                         case "goolake":
+                            //Flat -60 instead of having the -60 scale in multiplayer
                             self.sceneDirectorInteractibleCredits = 280;
                             HG.ArrayUtils.ArrayAppend(ref self.bonusInteractibleCreditObjects,
                                new ClassicStageInfo.BonusInteractibleCreditObject
                                {
-                                   points = Run.instance.participatingPlayerCount == 1 ? -40 : -60,
+                                   points = -60,
                                    objectThatGrantsPointsIfEnabled = RoR2.Run.instance.gameObject
                                });
-                            break;
-                        case "sulfurpools":
-                            if (ConfigStages.Stage_3_Sulfur.Value)
-                            {
-                                self.sceneDirectorInteractibleCredits += 20; //Hell stage
-                            }
                             break;
                         case "rootjungle":
                         case "shipgraveyard":
                             HG.ArrayUtils.ArrayAppend(ref self.bonusInteractibleCreditObjects,
                             new ClassicStageInfo.BonusInteractibleCreditObject
                             {
-                                points = 40,
+                                points = 30,
                                 objectThatGrantsPointsIfEnabled = RoR2.Run.instance.gameObject
                             });
                             break;
                         case "goldshores":
                             if (WConfig.cfgGoldShoresCredits.Value)
                             {
-                                self.sceneDirectorInteractibleCredits += 80; //For Fun ig
+                                self.sceneDirectorInteractibleCredits += 60; //For Fun ig
                             }
                             break;
                     }
                 }
                 if (self.sceneDirectorMonsterCredits > 0)
                 {
-                    Debug.Log("SceneDirector Monster Credits Pre : " + self.sceneDirectorMonsterCredits);
+                    //Debug.Log("SceneDirector Monster Credits Pre : " + self.sceneDirectorMonsterCredits);
                     if (WConfig.cfgStageCredits_Monsters.Value)
                     {
                         switch (def.stageOrder)
@@ -243,7 +238,7 @@ namespace LittleGameplayTweaks
                             case 1:
                             case 2:
                             case 3:
-                                self.sceneDirectorMonsterCredits = 140;
+                                self.sceneDirectorMonsterCredits = (int)(self.sceneDirectorMonsterCredits * 1.2f);
                                 break;
                         }
                     }
@@ -251,7 +246,7 @@ namespace LittleGameplayTweaks
                     {
                         self.sceneDirectorMonsterCredits += Run.instance.loopClearCount * 100;
                     }
-                    Debug.Log("SceneDirector Monster Credits Post: " + self.sceneDirectorMonsterCredits);
+                    //Debug.Log("SceneDirector Monster Credits Post: " + self.sceneDirectorMonsterCredits);
 
                 }
 

@@ -36,21 +36,14 @@ namespace LittleGameplayFeatures
                     //Kith check ig
                     return;
                 }
+                //Could make it even rarer by adding it's owncategory I guess?
                 DirectorCard TrippleRed = new DirectorCard
                 {
                     spawnCard = RedMultiShopISC,
-                    selectionWeight = 2,
+                    selectionWeight = 1,
                     minimumStageCompletions = (Run.instance is InfiniteTowerRun) ? 2 : 4,
                 };
                 dccs.AddCard(rareIndex, TrippleRed);
-
-               /* DirectorCard TrippleRed2 = new DirectorCard
-                {
-                    spawnCard = RedMultiShopISC,
-                    selectionWeight = 2222,
-                    minimumStageCompletions = (Run.instance is InfiniteTowerRun) ? 2 : 4,
-                }; dccs.AddCard(rareIndex, TrippleRed2);
-                dccs.categories[rareIndex].selectionWeight = 222222;*/
             }
         }
 

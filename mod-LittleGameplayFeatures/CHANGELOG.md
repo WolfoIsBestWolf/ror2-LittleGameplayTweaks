@@ -1,5 +1,8 @@
 ## Changelog:
 ```
+v3.5.5
+Made RedMultiShop rarer.
+
 v3.5.4
 Needed to remove some duplicate stuff.
 Fixed Dobs brain not functioning properly
