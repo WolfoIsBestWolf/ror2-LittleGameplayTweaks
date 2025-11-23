@@ -21,20 +21,16 @@ namespace LittleGameplayTweaks
                 Interactables_Stage3();
                 Interactables_Stage4();
                 Interactables_Stage5();
-                FixWrongCategoryName();
-
+                FixWrongCategoryName(); 
+                On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
+                On.RoR2.SceneDirector.GenerateInteractableCardSelection += SceneDirector_GenerateInteractableCardSelection;
             }
             Interactables_Other();
-
- 
-            On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
-          
-            SceneDirector.onGenerateInteractableCardSelection += SceneDirector_onGenerateInteractableCardSelection;
  
         }
- 
 
-       
+
+
         /*public static void MatchCategoryChestsToLarge(DirectorCardCategorySelection.Category dccs, int card)
         {
             if (WConfig.cfgMatchCategory.Value == WConfig.MatchCategory.NoChange)
@@ -76,7 +72,7 @@ namespace LittleGameplayTweaks
             }
  
         }*/
-       
+
 
         public static void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self, DirectorCardCategorySelection forcedMonsterCategory, DirectorCardCategorySelection forcedInteractableCategory)
         {
@@ -85,18 +81,16 @@ namespace LittleGameplayTweaks
             {
                 DoThing = true;
             }
-            else
-            {
-                DoThing = false;
-            }
         }
         public static bool DoThing = false;
-        private static void SceneDirector_onGenerateInteractableCardSelection(SceneDirector scene, DirectorCardCategorySelection dccs)
+        private static WeightedSelection<DirectorCard> SceneDirector_GenerateInteractableCardSelection(On.RoR2.SceneDirector.orig_GenerateInteractableCardSelection orig, SceneDirector self)
         {
             if (DoThing)
             {
-                DCCS_ApplyAsNeeded.InteractableDCCS_Changes(dccs);
+                DCCS_ApplyAsNeeded.InteractableDCCS_Changes(ClassicStageInfo.instance.interactableCategories);
+                DoThing = false;
             }
+            return orig(self);
         }
 
         public static void Mountain()
@@ -123,18 +117,14 @@ namespace LittleGameplayTweaks
 
         public static void Interactables_Other()
         {
-
-
-            DirectorCardCategorySelection dccsInfiniteTowerInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC1/GameModes/InfiniteTowerRun/ITAssets/dccsInfiniteTowerInteractables.asset").WaitForCompletion();
-            dccsInfiniteTowerInteractables.categories[2].selectionWeight += 0.1f;
-
+              
             DirectorCardCategorySelection dccsGoldshoresInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/goldshores/dccsGoldshoresInteractables.asset").WaitForCompletion();
-            DirectorCard ADShrineCleanse1 = new DirectorCard
+           /* DirectorCard ADShrineCleanse1 = new DirectorCard
             {
                 //spawnCardReference = new AssetReferenceT<SpawnCard>("RoR2/Base/ShrineCleanse/iscShrineCleanse.asset"),
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanse.asset").WaitForCompletion(),
                 selectionWeight = 5,
-            };
+            };*/
             DirectorCard AdShrineCombat = new DirectorCard
             {
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCombat/iscShrineCombat.asset").WaitForCompletion(),
@@ -294,7 +284,7 @@ namespace LittleGameplayTweaks
 
             if (ConfigStages.Stage_2_Swamp.Value)
             {
-                dccsFoggySwampInteractables.categories[2].cards[3].selectionWeight = 13;
+                dccsFoggySwampInteractables.categories[2].cards[3].selectionWeight = 10; //Cleanse
             }
             if (ConfigStages.Stage_2_Ancient.Value)
             {
@@ -368,14 +358,14 @@ namespace LittleGameplayTweaks
             }
             if (ConfigStages.Stage_3_Wisp.Value)
             {
-                dccsWispGraveyardInteractables.categories[2].cards[3].selectionWeight = 12; //3 
+                dccsWispGraveyardInteractables.categories[2].cards[3].selectionWeight = 10; //3 
             }
             if (ConfigStages.Stage_3_Sulfur.Value)
             {
                 dccsSulfurPoolsInteractablesDLC1.AddCard(2, new DirectorCard
                 {
                     spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBoss/iscShrineBoss.asset").WaitForCompletion(),
-                    selectionWeight = 15,
+                    selectionWeight = 10,
                 });
              
                 dccsSulfurPoolsInteractablesDLC1.AddCard(3, new DirectorCard
@@ -445,7 +435,7 @@ namespace LittleGameplayTweaks
                 {
                     spawnCard = LegacyResourcesAPI.Load<InteractableSpawnCard>("spawncards/interactablespawncard/iscBrokenMegaDrone"),
                     selectionWeight = 1,
-                    minimumStageCompletions = 5,
+                    minimumStageCompletions = 3,
                 });
  
                 dccsShipgraveyardInteractables.categories[2].cards[3].selectionWeight = 10; //Cleanse more
@@ -473,10 +463,10 @@ namespace LittleGameplayTweaks
             if (ConfigStages.Stage_5_Sky.Value)
             {
                 //Add Drone Scrapper
-                dccsSkyMeadowInteractables.AddCard(5, new DirectorCard
+                dccsSkyMeadowInteractables.AddCard(6, new DirectorCard
                 {
-                    spawnCardReference = new AssetReferenceT<SpawnCard>("2eaec01927ea16245822dcb50080cba3"),
-                    selectionWeight = 10,
+                    spawnCardReference = new AssetReferenceT<SpawnCard>("d7e78d150bd132744934165e6471f5f6"),
+                    selectionWeight = 8,
                 });
 
                 //Replace Healing Drone with Emergency Drone
@@ -490,8 +480,8 @@ namespace LittleGameplayTweaks
                 //Add Drone Scrapper
                 dccsHelminthRoostInteractables_DLC2.AddCard(5, new DirectorCard
                 {
-                    spawnCardReference = new AssetReferenceT<SpawnCard>("2eaec01927ea16245822dcb50080cba3"),
-                    selectionWeight = 10,
+                    spawnCardReference = new AssetReferenceT<SpawnCard>("d7e78d150bd132744934165e6471f5f6"),
+                    selectionWeight = 8,
                 });
             }
         }

@@ -1,39 +1,47 @@
 ## Changelog:
 ```
 V3.7.0
- 
- 
-Made Drone Scrappers and Combiners more common.
-Added Drone Combiner to Rallypoint & Iron Alluvium
-Added Drone Scrappers to Stage 5s.
+Drone Combiner made more common, but also actually costs credits to spawn.
+-(I think this interactable is far too rare in Solo, only showing up every 4-5 runs (on non Solus path))
+-(It costing 1 credit doesnt really reflect its power boost either tho)
+Added Drone Combiner to Rallypoint & Iron Alluvium spawn pool
+Added Drone Scrappers to Stage 5s spawn pool.
 Moved SotV enemy removals here.
 
+Added Eclipse Allow end at SolusWing path. (Default true)
 
 Removed contentSourceLimit of "Only 2 DLCs of content per stage"
--*This feature is stupid.
--*Void & SotS interactables still made rarer the more dlcs added
+-*This feature is stupid for enemy variety.
+-*Void & SotS interactables getting rarer as more other content is added makes sense tho.
+--*But not really for the other DLC interactables (Drones, Chests)
+
+Halcyon Shrine isn't guaranteed anymore on DLC Stages 1, like Base Game Stage 1s in vanilla.
  
  
 Solus Extractors will no longer target Drones.
-Child will gain 200 Armor instead of turning Invulnerable
-Scorch Wurm will gain 200 armor instead of turning Invulnerable
 
+Increased cost of Solus Prospector, Distributor, Scorcher slightly.
 
+Guaranteed Stage 9 Void Portal, instead of Stage 5.
 
-+LoopSolus Control Unit in Loop Pretenders Precipe
-+Solus Amalgamator in Pretenders Precipe
++Loop Solus Control Unit in Pretenders Precipe
++Loop Solus Amalgamator in Pretenders Precipe
++Loop TC280 in Pretenders Precipe.
++Loop Solus Amalgamator in Sirens Call
+
  
-Overloading Worm now loop exclusive on Sulfur Pools
-
 
 
 Downsized mod quite heavily.
-*I tried a lot of random junk that just kinda came to mind.*
-*But I largely want the game to still be the same.*
+(I tried a lot of random junk that just kinda came to mind.)
+(A lot i dont really care to main tbh)
+(But I largely want the game to still be the same.)
 -Removed 4th use for Shrine of Woods
 -Increased cost of Shrine of Woods but still quite a lot less than vanilla
 -Removed extra Red->White Cauldron payout.
 -Reduced amount of random credits changes.
+--No longer affects Greater Wisp
+--More often -5 credits not -10 on Shrine Woods and stuff like that.
 -Removed TC280 tweaks 
 -Removed Gunner Turret tweaks
 -Removed Blood Shrine not breaking Elixirs.
@@ -41,24 +49,29 @@ Downsized mod quite heavily.
 -Removed more Mountain shrine config. (Just use Prestige)
 -Removed Void Field Cell tweaks.
 -Removed Void Locust Cell tweaks.
+-Removed Void Potential Chests able to contain any item.
 -Removed Voidling stat Nerf.
 -Removed Void Devestator immune to Void Implions
 -Removed Pillar of Mass tweaks.
 -Removed Twisted Disable All Skills
--Removed Early Tier 2 Elite config. (Use other mods for that)
+-Removed Early Tier 2 Elite config. (Use other mods for that / To avoid conflicts)
 -Removed weird Level per Loop idea. (Just use a level cap raiser mods, even if not server-side)
 -Removed various weird config. (Use other mods for stuff)
 -Removed slightly faster. (Use other mods for that)
 -Moved Eclipse Artifact choice to GameplayQoL mod
+-Removed Eclipse Twisted Scav access
+-Added Eclipse Allow end at SolusWing path config.
+-Removed guaranteed Stage 5 Void Portal.
+--Now guaranteed Stage 9
+-Removed Stage 10 Celestial Portal.
+-Removed Stage 4 early Red Printer.
+-Removed Worms from Sulfur Pools
+-No longer removes some basic monsters from Reformed Altar
 
  
- 
 
- 
- 
-dont mess with uh drop tables
-
-
+```
+```
 
 v3.6.5
 Fixed mod not loading with ItemBlacklist due to IL conflict.

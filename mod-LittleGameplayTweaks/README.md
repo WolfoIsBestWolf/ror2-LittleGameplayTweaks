@@ -13,7 +13,7 @@ A couple enemies have been moved or replaced to encourage enemy diversity.
  
 Family Event distribution is more varied.
 
-Mili-Printers, Cleansing Pools and Emergency Drones are a bit more common.\
+Mili-Printers, Cleansing Pools, Emergency Drones, Drone Scrappers, Drone Combiners are a bit more common.\
 Shrine of Order & TC-280, Emergency Drones will spawn on some additional stages.
 
  
@@ -24,7 +24,8 @@ Shrine of Order & TC-280, Emergency Drones will spawn on some additional stages.
 
 
 - Mending Healing Core now levels up.
-- Various desctructible projectiles now level up. (ie Vagrant Bomb)
+- Various desctructible projectiles now level up. 
+	- *(ie Vagrant Bomb)*
 - Twisted Elites:
 	- Orb can no longer be destroyed
 	- Cooldown shortened to 1s (from 10s)
@@ -44,17 +45,17 @@ Aquaduct Elder Lemurians now activate their Bands & scale with difficulty.
 ## Stages
 
 Credits Bump:
-- Titanic Plains & Distant Roost : Slight bump to balance against new Stages 1s having many credits.
+- Titanic Plains & Distant Roost : +20 to balance against new Stages 1s having many credits.
 - Abandoned Aquaduct : Flat -60 instead of 220 credits, to scale more logically in multiplayer.
 - Siren's Call & Sundered Grove : Small flat credits boost to balance against Depths flat credits boost.
  
 Stages 1,2,3 will spawn with slightly more monsters on them so there's more to do.
 
-Stage 5 has a guaranteed Void Portal so Void Locust & Voidling can be used as a proper Mithrix alternative.
+Loop Stage 4's guarantee a Void Portal.
 
 The Bazaar has a third Lunar Seer. Because we keep getting more stages.
 
-Gilded Coast will have some extra shrines.
+Gilded Coast will have some extra shrines to speed up money generation.
  
  
 Moon Drop Ship and Void Fields Cell charge at full speed at just 1 player.
@@ -75,15 +76,12 @@ Printers, Scrappers & Shrines are faster / have less delay.
 	- Shrines Stone Golems HP no longer multiplied per player
 	- May spawn Halcyonites instead of just Golems
 - Void Seeds
-- - Spawn slightly more enemies
 - - Spawn more enemies on loop
 - - Likelier to spawn Void Devastator
-- Void Potential Chests
-- - Can contain any item 
-
+ 
 
 ## Looping 
-Generally I wish to make Looping a bit more chaotic because it's rather boring.
+Generally wish Looping was a bit more chaotic because it can be rather boring.
 
 
 Tier 2 elites are cheaper. (30x instead of 36x)
@@ -91,13 +89,10 @@ Tier 2 elites are cheaper. (30x instead of 36x)
 Stages start with more monsters on loops.
 
 Teleporters spawn more bosses per loop.\
-Teleporter Boss HP scales with Loop and Stage clear count, so that it remains something exciting.
- 
-Every Stage 5 will spawn a Void Locust Portal.\
-Stage 10 will spawn a Celestial Portal.
- 
+Teleporter Boss HP scales with Loop and Stage clear count.
+	- *(To not make it an instant wipe*)
 
-
+ 
 Scavengers can be encountered as bosses and will have a random Boss item.\
 Elite Scavengers will be given more items.
  
@@ -122,25 +117,21 @@ Unlocks next Eclipse level if you leave Commencement
 - So dying to Voidling still counts.
 - So that using the Loop Portal still counts.
 Allows normally disabled content :
-	- Moment Fractured and entering Moment Whole without Beads.\
 	- Void Locust access\
-	- Bulwarks Ambry access
-
+	- Ending at Solus Path.
+ 
 #
 ### General
-Elite Equipment have a 1/1600 chance of dropping (instead of 1/4000).\
+Elite Equipment have a 1/2000 chance of dropping (instead of 1/4000).\
 Boss items are now a 20% chance to drop. (instead of 15%)
 
 
 
 #
-Making the stages interactables credits more equal and having less credits spent on bad interactables adds up to more items. Not too many but maybe a noticible difference.
+Making the stages interactables credits more equal and having less credits spent on bad interactables adds up to more items.\
+Not too many but maybe a noticible difference.
 
-But mod also makes game a bit harder in cerain areas so evens out.
-
-
-More Void Locust spotlight, More varied Eclipse, and some other stuff it's nice.
-
+  
 
 Report bugs to @Wolfo.wolfo in the Risk of Rain 2 discord or RoR2 Modding discord.\
 If you're reporting a bug that isn't something obvious include the log file.

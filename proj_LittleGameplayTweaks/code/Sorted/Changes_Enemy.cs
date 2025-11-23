@@ -71,18 +71,8 @@ namespace LittleGameplayTweaks
  
                 GameObject.Destroy(BeadProjectileTrackingBomb.transform.GetChild(0).GetComponent<HurtBoxGroup>());
                 GameObject.Destroy(BeadProjectileTrackingBomb.transform.GetChild(0).GetChild(0).GetComponent<HurtBox>());
-
-                //BeadProjectileTrackingBomb.GetComponent<ProjectileImpactExplosion>().blastRadius++;
-                //BeadProjectileTrackingBomb.GetComponent<SphereCollider>().radius = 1.5f;
             }
-            /*if (WConfig.cfgTwistedBuffEpic.Value)
-            {
-                ProjectileDamage d = BeadProjectileTrackingBomb.GetComponent<ProjectileDamage>();
-                // d.damageType.damageTypeExtended |= DamageTypeExtended.ApplyBuffPermanently;
-                d.damageType.damageTypeExtended |= DamageTypeExtended.DisableAllSkills;
-                d.damageType.damageType &= ~DamageType.LunarRuin;
-                d.damageType.damageTypeExtended &= ~DamageTypeExtended.ApplyBuffPermanently;
-            }*/
+  
  
  
             On.RoR2.ScriptedCombatEncounter.BeginEncounter += ScalingChanges;
@@ -90,9 +80,9 @@ namespace LittleGameplayTweaks
             KillableProjectileScaling();
 
 
-            IL.RoR2.ChildMonsterController.RegisterTeleport += ChildAndScorchling_ArmorNotInvul;
+            /*IL.RoR2.ChildMonsterController.RegisterTeleport += ChildAndScorchling_ArmorNotInvul;
             IL.ScorchlingController.Breach += ChildAndScorchling_ArmorNotInvul;
-            IL.ScorchlingController.Burrow += ChildAndScorchling_ArmorNotInvul;
+            IL.ScorchlingController.Burrow += ChildAndScorchling_ArmorNotInvul;*/
         }
 
         private static void ChildAndScorchling_ArmorNotInvul(ILContext il)
@@ -386,7 +376,7 @@ namespace LittleGameplayTweaks
                             }
                             if (isT2Elite)
                             {
-                                bossItemCount = 2;
+                                //bossItemCount = 2;
                                 //By the time you see Tier2 Elite Scav, go fuck yourself
                                 //White 10 * 8
                                 self.stackRollDataList[0].stacks = 5;
@@ -400,7 +390,7 @@ namespace LittleGameplayTweaks
                             }
                             else if (isElite)
                             {
-                                bossItemCount = 2;
+                                //bossItemCount = 2;
                                 //White 5 * 5
                                 self.stackRollDataList[0].stacks = 4;
                                 self.stackRollDataList[0].numRolls = 4;
@@ -420,7 +410,7 @@ namespace LittleGameplayTweaks
                                 deathreward.bossDropTable = DropTableForBossScav;
                             }*/
                             PickupDef pickupDef = PickupCatalog.GetPickupDef(DropTableForBossScav.GenerateDrop(ScavengerItemGranter.rng));
-                            inventory.GiveItem(pickupDef.itemIndex, bossItemCount);
+                            inventory.GiveItemPermanent(pickupDef.itemIndex, bossItemCount);
                         }
                     }
                 }

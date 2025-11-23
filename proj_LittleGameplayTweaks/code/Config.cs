@@ -12,28 +12,16 @@ namespace LittleGameplayTweaks
     {
         public static ConfigFile ConfigFileLGT = new ConfigFile(Paths.ConfigPath + "\\Wolfo.Little_Gameplay_Tweaks.cfg", true);
 
-        public enum MatchCategory
-        {
-            MatchSmallToBig,
-            RandomOneSmall,
-            NoChange,
-        }
-        //public static ConfigEntry<bool> cfgMoreLoop;
-        //public static ConfigEntry<bool> cfgVoidTripleAllTier;
-        //public static ConfigEntry<bool> cfgMasstweak;
-
         public static ConfigEntry<bool> cfgE1Unnerf;
+        public static ConfigEntry<bool> cfgContentSourceLimit;
 
 
         public static ConfigEntry<bool> cfgOverloadingWorm;
-        //public static ConfigEntry<bool> cfgEarlyScavs;
-        //public static ConfigEntry<MatchCategory> cfgMatchCategory;
         public static ConfigEntry<bool> VoidSeedsScale;
         public static ConfigEntry<bool> VoidSeedsMore;
         public static ConfigEntry<bool> VoidCradlesMore;
 
-        //public static ConfigEntry<bool> cfgBlightBuffWhatever;
-        //public static ConfigEntry<float> cfgShrineBossMult;
+
 
 
         public static ConfigEntry<bool> cfgEquipmentDroneThing;
@@ -42,7 +30,8 @@ namespace LittleGameplayTweaks
 
 
         public static ConfigEntry<bool> EclipseAllowVoid;
-        public static ConfigEntry<bool> EclipseAllowTwisted;
+        //public static ConfigEntry<bool> EclipseAllowTwisted;
+        public static ConfigEntry<bool> EclipseAllowEndAtSolusHeart;
         public static ConfigEntry<bool> EclipseAllowArtifactWorld;
 
         public static ConfigEntry<bool> EclipseAllowChoiceWeirdArtifacts;
@@ -50,13 +39,9 @@ namespace LittleGameplayTweaks
 
  
         public static ConfigEntry<bool> cheaperTier2;
-        //public static ConfigEntry<bool> earlyTier2;
-
-        public static ConfigEntry<bool> portalAfterLimbo;
-
+ 
         public static ConfigEntry<bool> cfgDccsMonster;
         public static ConfigEntry<bool> cfgDccsFamily;
-        //public static ConfigEntry<bool> FamiliesStage1;
         public static ConfigEntry<float> cfgFamilyChance;
          
         public static ConfigEntry<bool> cfgDccsInteractables;
@@ -105,15 +90,13 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> cfgElderLemurianBands;
 
         //Rates
-        public static ConfigEntry<bool> VoidPortalStage5;
-        public static ConfigEntry<bool> cfgVoidPortalOUT;
-        public static ConfigEntry<bool> cfgMSPortalOUT;
-
+        public static ConfigEntry<bool> VoidPortalStage9;
+ 
         public static ConfigEntry<int> cfgBossItemChance;
         public static ConfigEntry<int> cfgAspectDropRate;
         //
-        //public static ConfigEntry<bool> GuaranteedRedToWhite;
-        public static ConfigEntry<bool> CelestialStage10;
+ 
+        //public static ConfigEntry<bool> CelestialStage10;
         public static ConfigEntry<bool> ThirdLunarSeer;
  
         public static ConfigEntry<bool> cfgTwistedBuff;
@@ -126,6 +109,12 @@ namespace LittleGameplayTweaks
         public static void InitConfig()
         {
 
+           /* cfgContentSourceLimit = ConfigFileLGT.Bind(
+               "Spawnpools",
+               "DLC Spawnpool limit",
+                false,
+               "Limit stages to only add 2 dlcs worth of enemies & interactables at a time.\n\nThis means Void/SotV/AC Drones cannot coexist all at once on a base game stage.\n\nThis is a strange vanilla feature."
+            );*/
             cfgSotV_EnemyRemovals = ConfigFileLGT.Bind(
                "Spawnpools",
                "SotV enemy removals",
@@ -174,18 +163,18 @@ namespace LittleGameplayTweaks
               "Allow Scavengers to spawn as early as Stage 4 instead of Stage 6\n\nFor Loop haters.\n\nDoes not affect Sundered Grove either way."
             );*/
 
-            VoidPortalStage5 = ConfigFileLGT.Bind(
+            VoidPortalStage9 = ConfigFileLGT.Bind(
                 "Looping",
-                "Void Portal Stage 5",
+                "Void Portal Stage 9",
                 true,
-                "Guaranteed a portal to Void Locust every Stage 5, so it could be used as a proper alternative to Mithrix if desired.\nAlso doubles random spawn chance to 20%.\nVanilla is 10% on any stage after stage 7."
+                "Guaranteed a portal to Void Locust every Stage 4 during Looping., so it could be used as a proper alternative to Mithrix if desired.\nAlso doubles random spawn chance to 20%.\nVanilla is 10% on any stage after stage 7."
             );
-            CelestialStage10 = ConfigFileLGT.Bind(
+           /* CelestialStage10 = ConfigFileLGT.Bind(
                 "Looping",
                 "Celestial Portal Stage 10",
                 true,
                 "Celestial Portals also spawn on every Stage 5, starting Stage 10.\n\nFor just more control or using Twisteds as a alt ending if wanted"
-            );
+            );*/
             /*cfgLunarTeleporterAlways = ConfigFileLGT.Bind(
                 "Looping",
                 "Primordial Teleporter every stage",
@@ -220,7 +209,7 @@ namespace LittleGameplayTweaks
                 "Monsters",
                 "Boss & Elite Scavs get more items",
                 true,
-                "Boss Scavs get 1 Yellow or 2 if Elite.\nElite Scavs get 4x4 Whites, 2x3 Greens, 2x2 Reds\nTier2 Scavs get 5x6 Whites 3x4 Greens, 2x3 Reds.\n\nThis is so that Scavengers continue to scale as a threat, with ever increasing amount of items.\nAlso because funny"
+                "Boss Scavs get 1 Yellow\nElite Scavs get 4x4 Whites, 2x3 Greens, 2x2 Reds\nTier2 Scavs get 5x6 Whites 3x4 Greens, 2x3 Reds.\n\nThis is so that Scavengers continue to scale as a threat, with ever increasing amount of items.\nAlso because funny"
             );
 
             cfgMendingCoreBuff = ConfigFileLGT.Bind(
@@ -420,7 +409,7 @@ namespace LittleGameplayTweaks
                 "Spawnpools",
                 "Monsters | Credits Adjustment",
                 true,
-                "Make some monsters who got nerfed over time cheaper and make Blind Pests rarer\n\nGreater Wisp | 200 -> 180\nGip | 40  -> 20 (Geep costs 40 already)\nParent | 100 -> 80\nVoid Reaver | 300 -> 250 (Worst aim)"
+                "GrandParent | 1150 -> 1000\nParent | 100 -> 80\nVoid Reaver | 300 -> 260\nClay Apothecary | 150 -> 130"
             );
 
 
@@ -430,7 +419,7 @@ namespace LittleGameplayTweaks
                 "Spawnpools",
                 "Interactables | Spawn Pools",
                 true,
-                "Mountain Shrine on Sulfur Pools\nNo Gunner Turret on Stage 4 & 5\nMili Printers, Large Printers & Cleansing Pools are a bit more common."
+                "Mili Printers, Cleansing Pools, Drone Scrappers, Drone Combiners : Increased weight slightly."
             );
             /*cfgMatchCategory = ConfigFileLGT.Bind(
                 "Spawnpools",
@@ -442,7 +431,7 @@ namespace LittleGameplayTweaks
                 "Spawnpools",
                 "Interactables | Credits Adjustment",
                 true,
-                "Shrine of Woods | 15 -> 5.\nShrine of Order | 30 -> 5.\nShrine of Combat | 20 -> 15 (Why money so expensive)\nShrine of Blood | 20 -> 15\nShrine of Shaping | 50 -> 40\nLunar Pod | 25 -> 15\nVoid Potential | 40 -> 30 (This is a worse multishop)\nCloaked Chest | 10 -> 2\nOvergrown Printer | 10 -> 15"
+                "Shrine of Woods | 15 -> 10.\nShrine of Order | 30 -> 5.5\nLunar Pod | 25 -> 20\nVoid Potential | 40 -> 30\n\nOvergrown Printer | 10 -> 15\nDrone Combiner | 1 -> 25"
             );
           
             /*CategoryChestSots = ConfigFileLGT.Bind(
@@ -491,17 +480,18 @@ namespace LittleGameplayTweaks
                true,
                "Allows Void Portals to spawn so you can use Voidling as an alternate final boss in Eclipse. Does not affect the Deep Void Portal after Mithrix of course."
            );
-            EclipseAllowTwisted = ConfigFileLGT.Bind(
-                "Eclipse",
-                "Eclipse allow Moment Whole",
-                true,
-                "Allows Celestial Portal to spawn so you can use Twisted Scav as an alternate final boss in Eclipse. The obelisk will always take you to Moment Whole even if you do not have Beads."
-            );
+           
+            EclipseAllowEndAtSolusHeart = ConfigFileLGT.Bind(
+               "Eclipse",
+               "Eclipse allow AC ending",
+               true,
+               "Allows you to end the run after completing the AC Route."
+           );
            
             EclipseAllowArtifactWorld = ConfigFileLGT.Bind(
                 "Eclipse",
                 "Eclipse allow Bulwarks Ambry",
-                true,
+                false,
                 "Allows computer. For artifact"
             );
             
@@ -604,10 +594,6 @@ namespace LittleGameplayTweaks
                 {
                     ModSettingsManager.AddOption(new FloatFieldOption((ConfigEntry<float>)entry, false));
                 }  
-                else if (entry.SettingType == typeof(MatchCategory))
-                {
-                    ModSettingsManager.AddOption(new ChoiceOption((ConfigEntry<MatchCategory>)entry, true));
-                }
                 else
                 {
                     Debug.LogWarning("Could not add config " + entry.Definition.Key + " of type : " + entry.SettingType);

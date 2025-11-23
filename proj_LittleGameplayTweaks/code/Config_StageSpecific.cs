@@ -126,7 +126,7 @@ namespace LittleGameplayTweaks
                 "Stage 3",
                 "Treeborn",
                 true,
-                "Adds Loop Mushroom\n\nAdds Large Damage Chest\nAdds Large Healing Chest"
+                "+Loop Mushroom\n+Loop Blind Pest\n\nAdds Large Damage Chest\nAdds Large Healing Chest"
             );
             Stage_3_Iron = ConfigFileSTAGES.Bind(
                 "Stage 3",
@@ -144,7 +144,7 @@ namespace LittleGameplayTweaks
                 "Stage 4",
                 "Sirens Call",
                 true,
-                "Adds Overloading Worm\nAdds Loop Solus Probe\nAdds Loop Alpha Construct\nAdds Loop XI Construct\n\nAdds Loop TC280"
+                "Adds Overloading Worm\nAdds Loop Solus Probe\nAdds Loop Alpha Construct\nAdds Loop XI Construct\n\nAdds Rare TC280"
             );
             Stage_4_Root_Jungle = ConfigFileSTAGES.Bind(
                 "Stage 4",

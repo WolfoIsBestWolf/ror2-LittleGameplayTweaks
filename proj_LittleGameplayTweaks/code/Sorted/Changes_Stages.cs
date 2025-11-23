@@ -14,16 +14,7 @@ namespace LittleGameplayTweaks
             On.RoR2.ClassicStageInfo.Start += MoreSceneCredits;
             On.RoR2.ClassicStageInfo.Start += RunsAlways_ClassicStageInfo_Start;
 
-            //Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidstage/voidstage.asset").WaitForCompletion().sceneType = Arena.sceneType;
-            //SceneDef voidRaid = Addressables.LoadAssetAsync<SceneDef>(key: "RoR2/DLC1/voidraid/voidraid.asset").WaitForCompletion();
-            //voidRaid.sceneType = SceneType.UntimedStage; //Whatever
-            //voidRaid.allowItemsToSpawnObjects = true;
-
-
-            /*On.RoR2.ArenaMissionController.OnStartServer += ArenaMissionController_OnEnable;
-            On.EntityStates.Missions.Arena.NullWard.WardOnAndReady.OnEnter += WardOnAndReady_OnEnter;
-            On.EntityStates.Missions.Arena.NullWard.Active.OnEnter += Active_OnEnter;*/
-
+ 
             if (ConfigStages.Stage_F_Moon.Value)
             {
                 On.RoR2.EscapeSequenceController.OnEnable += EscapeSequenceController_OnEnable;
@@ -44,15 +35,6 @@ namespace LittleGameplayTweaks
             {
                 self.playerCountScaling = 0;
             }
-            /*else if (self.name.EndsWith("Mass"))
-            {
-                if (WConfig.cfgMasstweak.Value)
-                {
-                    self.GetComponent<CombatDirector>().monsterCredit += 140; //20% less charge 20% more credits
-                    self.baseChargeDuration = Mathf.Min(self.baseChargeDuration, 48);
-                    self.baseRadius += 2;
-                }
-            }*/
         }
 
      

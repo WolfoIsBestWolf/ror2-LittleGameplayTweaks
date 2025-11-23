@@ -56,7 +56,7 @@ namespace LittleGameplayTweaks
             if (WConfig.VoidSeedsScale.Value && self.combatDirector && self.combatDirector.teamIndex == TeamIndex.Void)
             {
                 //0
-                //1
+                //1 0.8
                 //2 0.9
                 //3 1
                 //4 1.1 

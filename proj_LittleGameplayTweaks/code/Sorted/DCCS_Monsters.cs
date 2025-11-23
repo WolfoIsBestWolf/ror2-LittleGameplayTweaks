@@ -212,6 +212,9 @@ namespace LittleGameplayTweaks
 
             DirectorCardCategorySelection dccsLemurianTempleMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lemuriantemple/dccsLemurianTempleMonsters.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsLemurianTempleMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lemuriantemple/dccsLemurianTempleMonstersDLC1.asset").WaitForCompletion();
+
+            DirectorCardCategorySelection dccsNestMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "07c2e13ca2ad1944e8884e6954012778").WaitForCompletion();
+
             #endregion
             #region Cards
 
@@ -325,6 +328,17 @@ namespace LittleGameplayTweaks
                 dccsLemurianTempleMonsters.categories[2].cards[3].selectionWeight++; //Wurm
  
             }
+            
+            if (ConfigStages.Stage_2_Nest.Value)
+            {
+                dccsNestMonsters.AddCard(0, new DirectorCard
+                {
+                    spawnCardReference = new AssetReferenceT<SpawnCard>("14bf22df446f37549aa65eb724c1ddda"),
+                    selectionWeight = 1,
+                    preventOverhead = true,
+                    minimumStageCompletions = 4,
+                });
+            }
             #endregion
         }
 
@@ -344,10 +358,13 @@ namespace LittleGameplayTweaks
             DirectorCardCategorySelection dccsHabitatMonsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/habitat/dccsHabitatMonsters_DLC1.asset").WaitForCompletion();
             //DirectorCardCategorySelection dccsHabitatfallMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/habitatfall/dccsHabitatfallMonsters.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsHabitatfallMonsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/habitatfall/dccsHabitatfallMonsters_DLC1.asset").WaitForCompletion();
+            
+            DirectorCardCategorySelection dccsIronalluviumMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "bb55980059f8265418b99d868887b5d0").WaitForCompletion();
+            DirectorCardCategorySelection dccsIronalluvium2Monsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "16b3a261b3860aa42bcccd4f2f16c956").WaitForCompletion();
             #endregion
             #region Cards
-     
-            
+
+
 
             DirectorCard cscAcidLarva = new DirectorCard
             {
@@ -355,12 +372,13 @@ namespace LittleGameplayTweaks
                 selectionWeight = 1,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Far
             };
- 
+
             DirectorCard cscBlindPest = new DirectorCard
             {
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/DLC1/FlyingVermin/cscFlyingVermin.asset").WaitForCompletion(),
                 preventOverhead = false,
                 selectionWeight = 2,
+                minimumStageCompletions = 5,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
           
@@ -419,7 +437,7 @@ namespace LittleGameplayTweaks
 
 
                 dccsSulfurPoolsMonstersDLC1.categories[2].selectionWeight++;
-                dccsSulfurPoolsMonstersDLC1.AddCard(2, new DirectorCard
+                dccsSulfurPoolsMonstersDLC1.AddCard(1, new DirectorCard
                 {
                     spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscHermitCrab"),
                     selectionWeight = 1,
@@ -465,8 +483,7 @@ namespace LittleGameplayTweaks
 
             if (ConfigStages.Stage_3_Tree.Value)
             {
-                //dccsHabitatMonsters_DLC1.AddCard(2, cscBlindPest);
-                //dccsHabitatfallMonsters_DLC1.AddCard(2, cscBlindPest); //Flying enemy more fitting here than Temple
+                dccsHabitatfallMonsters_DLC1.AddCard(2, cscBlindPest); //Flying enemy more fitting here than Temple
                 dccsHabitatfallMonsters_DLC1.AddCard(2, new DirectorCard
                 {
                     spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/MiniMushroom/cscMiniMushroom.asset").WaitForCompletion(),
@@ -474,6 +491,22 @@ namespace LittleGameplayTweaks
                     selectionWeight = 2,
                     spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
                 }); //Mushroom biome but no mushroom enemy??
+            }
+            
+            if (ConfigStages.Stage_3_Iron.Value)
+            {
+                dccsIronalluviumMonsters.AddCard(1, new DirectorCard
+                {
+                    spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscHermitCrab"),
+                    selectionWeight = 1,
+                    spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+                }); //Fitting Mountain area
+                dccsIronalluvium2Monsters.AddCard(1, new DirectorCard
+                {
+                    spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscHermitCrab"),
+                    selectionWeight = 1,
+                    spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
+                }); //Fitting Mountain area
             }
             #endregion
         }

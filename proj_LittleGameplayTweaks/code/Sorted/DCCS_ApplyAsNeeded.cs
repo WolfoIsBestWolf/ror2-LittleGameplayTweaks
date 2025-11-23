@@ -16,6 +16,10 @@ namespace LittleGameplayTweaks
             {
                 return;
             }
+            if (ClassicStageInfo.instance.interactableCategories == null)
+            {
+                return;
+            }
 
             //Blended DCCS have stuff mixed around often
             int chestIndex = dccs.FindCategoryIndexByName("Chests");
@@ -79,7 +83,7 @@ namespace LittleGameplayTweaks
                             category.cards[card].selectionWeight = 2;
                             //category.cards[card].minimumStageCompletions = 3;
                         }
-                        else if (category.cards[card].GetSpawnCard().name.EndsWith("iscDrone"))
+                        else if (category.cards[card].GetSpawnCard().name.StartsWith("iscDroneCombiner"))
                         {
                             //Drone Scrapper
                             //Drone Combiner
@@ -112,18 +116,14 @@ namespace LittleGameplayTweaks
  
                     if (SceneInfo.instance.sceneDef.stageOrder == 1)
                     {
-                        dccs.categories[stormIndex].selectionWeight *= 0.66f;
-                    }
-
-                    /*for (int card = 0; card < category.cards.Length; card++)
-                    {
-                        if (category.cards[card].GetSpawnCard().name.EndsWith("ess"))
+                        if (Run.instance.stageRng.nextNormalizedFloat < mult)
                         {
-                            //Revive Shrine not on Stage 2
-                            category.cards[card].minimumStageCompletions = 2;
-                            break;
+                            dccs.categories[stormIndex].selectionWeight = 0;
                         }
-                    }*/
+
+                        //dccs.categories[stormIndex].selectionWeight *= 0.66f * Run.instance.stageRng.nextNormalizedFloat;
+                        //Debug.Log(dccs.categories[stormIndex].selectionWeight);
+                    }
                 }
             }
             catch (System.Exception e)

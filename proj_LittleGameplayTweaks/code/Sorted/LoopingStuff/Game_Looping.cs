@@ -53,11 +53,11 @@ namespace LittleGameplayTweaks
  
         private static void MorePortals(On.RoR2.TeleporterInteraction.orig_Start orig, TeleporterInteraction self)
         {
-            bool stage5 = SceneCatalog.mostRecentSceneDef.stageOrder == 5;
+            bool stage5 = SceneCatalog.mostRecentSceneDef.stageOrder == 4;
             if (Run.instance)
             {
                 int stageClearCount = Run.instance.stageClearCount;
-                if (WConfig.VoidPortalStage5.Value)
+                if (WConfig.VoidPortalStage9.Value)
                 {
                     PortalSpawner voidLocust = self.GetComponent<PortalSpawner>();
                     if (voidLocust)
@@ -75,7 +75,7 @@ namespace LittleGameplayTweaks
                 }
             }
             orig(self);
-            if (WConfig.CelestialStage10.Value)
+            /*if (WConfig.CelestialStage10.Value)
             {
                 if (NetworkServer.active)
                 {
@@ -84,7 +84,7 @@ namespace LittleGameplayTweaks
                         self.shouldAttemptToSpawnMSPortal = true;
                     }
                 }
-            }
+            }*/
             if (self.bossGroup)
             {
                 self.bossGroup.bossDropChance = WConfig.cfgBossItemChance.Value / 100f;

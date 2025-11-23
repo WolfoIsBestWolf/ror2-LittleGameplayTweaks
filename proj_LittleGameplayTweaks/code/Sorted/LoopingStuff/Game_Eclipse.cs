@@ -16,7 +16,7 @@ namespace LittleGameplayTweaks
         public static void Start()
         {
             On.RoR2.EclipseRun.Start += EclipseRun_Start;
-            On.EntityStates.Interactables.MSObelisk.EndingGame.DoFinalAction += EndingGame_DoFinalAction;
+            //On.EntityStates.Interactables.MSObelisk.EndingGame.DoFinalAction += EndingGame_DoFinalAction;
 
             On.RoR2.EclipseRun.OverrideRuleChoices += EclipseRun_OverrideRuleChoices;
  
@@ -120,9 +120,9 @@ namespace LittleGameplayTweaks
                 {
                     self.ResetEventFlag("NoArtifactWorld");
                 }
-                if (WConfig.EclipseAllowTwisted.Value)
+                if (WConfig.EclipseAllowEndAtSolusHeart.Value)
                 {
-                    self.ResetEventFlag("NoMysterySpace");
+                    self.ResetEventFlag("NoSolusHeartOffer");
                 }
                 if (WConfig.EclipseAllowVoid.Value)
                 {

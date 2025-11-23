@@ -33,9 +33,9 @@ namespace LittleGameplayTweaks
             }*/
 
             //Fix this being gone? //Is this a fix??
-            //var dtShrineHalcyon1 = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "bb3b51f04206e3242af6981db3c402a7").WaitForCompletion();
-            //dtShrineHalcyon1.requiredItemTags = System.Array.Empty<ItemTag>();
-            //Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "e291748f54c927a47ad44789d295c39f").WaitForCompletion().bannedItemTags = new ItemTag[] { ItemTag.HalcyoniteShrine };
+            var dtShrineHalcyon1 = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "bb3b51f04206e3242af6981db3c402a7").WaitForCompletion();
+            dtShrineHalcyon1.requiredItemTags = System.Array.Empty<ItemTag>();
+            Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "e291748f54c927a47ad44789d295c39f").WaitForCompletion().bannedItemTags = new ItemTag[] { ItemTag.HalcyoniteShrine };
 
             On.RoR2.HalcyoniteShrineInteractable.Awake += HalcyoniteShrine_ApplyNumbers;
             //IL.RoR2.HalcyoniteShrineInteractable.DrainConditionMet += Halcyon_OptionalNerfStats;

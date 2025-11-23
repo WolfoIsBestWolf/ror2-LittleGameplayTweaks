@@ -3,6 +3,7 @@ using RoR2.ExpansionManagement;
 using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using WolfoLibrary;
 
 namespace LittleGameplayTweaks
 {
@@ -48,7 +49,6 @@ namespace LittleGameplayTweaks
             //
             FamilyDirectorCardCategorySelection dccsBeetleFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/DirectorCardCategorySelections/dccsBeetleFamily.asset").WaitForCompletion();
             FamilyDirectorCardCategorySelection dccsGolemFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "721b63a126c0b5c4ba12f49735d704ae").WaitForCompletion();
-            FamilyDirectorCardCategorySelection dccsGolemFamilyAbyssal = UnityEngine.Object.Instantiate(dccsGolemFamily);
             FamilyDirectorCardCategorySelection dccsGupFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/DirectorCardCategorySelections/dccsGupFamily.asset").WaitForCompletion();
             FamilyDirectorCardCategorySelection dccsImpFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/DirectorCardCategorySelections/dccsImpFamily.asset").WaitForCompletion();
             FamilyDirectorCardCategorySelection dccsJellyfishFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/DirectorCardCategorySelections/dccsJellyfishFamily.asset").WaitForCompletion();
@@ -99,20 +99,7 @@ namespace LittleGameplayTweaks
             dccsVoidFamilyLate.minimumStageCompletion = 10;
 
  
-
-
-            //int familyMin = WConfig.FamiliesStage1.Value ? 0 : 1;
-
-            dccsGolemFamilyAbyssal.categories[0].cards[0].spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/Titan/cscTitanDampCave");
-            dccsGolemFamilyAbyssal.name = "dccsGolemFamilyAbyssal";
-
-            /*dccsBeetleFamily.minimumStageCompletion = familyMin;
-            dccsLemurianFamily.minimumStageCompletion = familyMin;
-            dccsJellyfishFamily.minimumStageCompletion = familyMin;
-            dccsGupFamily.minimumStageCompletion = familyMin;
-            dccsImpFamily.minimumStageCompletion = familyMin;
-            dccsWispFamily.minimumStageCompletion = familyMin;*/
-
+ 
             dccsLemurianFamily.maximumStageCompletion = 14;
             dccsLunarFamily.minimumStageCompletion = 4;
             dccsLunarFamily.maximumStageCompletion = 1000000;
@@ -138,16 +125,13 @@ namespace LittleGameplayTweaks
             //0 is Normal
             //1 is Family
             //2 is Void
-            ExpansionDef DLC1 = Addressables.LoadAssetAsync<ExpansionDef>(key: "RoR2/DLC1/Common/DLC1.asset").WaitForCompletion();
-            ExpansionDef DLC2 = Addressables.LoadAssetAsync<ExpansionDef>(key: "RoR2/DLC2/Common/DLC2.asset").WaitForCompletion();
-
-            ExpansionDef[] ExpansionDLC1 = { DLC1 };
+            
+            ExpansionDef[] ExpansionDLC1 = { DLCS.DLC1 };
 
 
             DccsPool.ConditionalPoolEntry FamilyBeetle = new DccsPool.ConditionalPoolEntry { weight = 1, dccs = dccsBeetleFamily };
             DccsPool.ConditionalPoolEntry FamilyLemurian = new DccsPool.ConditionalPoolEntry { weight = 1, dccs = dccsLemurianFamily };
             DccsPool.ConditionalPoolEntry FamilyJellyfish = new DccsPool.ConditionalPoolEntry { weight = 1, dccs = dccsJellyfishFamily };
-            DccsPool.ConditionalPoolEntry FamilyGolemAbyssal = new DccsPool.ConditionalPoolEntry { weight = 1, dccs = dccsGolemFamilyAbyssal };
             DccsPool.ConditionalPoolEntry FamilyParent = new DccsPool.ConditionalPoolEntry { weight = 1, dccs = dccsParentFamily };
             DccsPool.ConditionalPoolEntry FamilyLunar = new DccsPool.ConditionalPoolEntry { weight = 1, dccs = dccsLunarFamily };
             DccsPool.ConditionalPoolEntry FamilyImp = new DccsPool.ConditionalPoolEntry { weight = 1, dccs = dccsImpFamily };
@@ -208,8 +192,7 @@ namespace LittleGameplayTweaks
             AddFamily(dpSulfurPoolsMonsters, FamilyLarva);
 
             AddFamily(dpHabitatMonsters, FamilyConstruct);
-
-            AddFamily(dpDampCaveMonsters, FamilyGolemAbyssal);
+ 
             AddFamily(dpDampCaveMonsters, FamilyParent);
 
             AddFamily(dpDampCaveMonsters, FamilyParent);
