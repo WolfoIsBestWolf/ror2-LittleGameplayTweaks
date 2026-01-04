@@ -1,13 +1,10 @@
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using R2API;
 using RoR2;
 using RoR2.CharacterAI;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
 
 namespace LittleGameplayTweaks
 {
@@ -16,7 +13,7 @@ namespace LittleGameplayTweaks
         public static void Start()
         {
             On.RoR2.CharacterMaster.GetDeployableSameSlotLimit += Captain3Beacon;
- 
+
 
             //Hold down button to fire multiple
             Addressables.LoadAssetAsync<RoR2.Skills.SkillDef>(key: "RoR2/Base/Commando/CommandoBodyFireFMJ.asset").WaitForCompletion().mustKeyPress = false;
@@ -57,7 +54,7 @@ namespace LittleGameplayTweaks
             {
                 SceneCatalog.availability.CallWhenAvailable(NoOrbitalStrikeBlocking);
             }
-  
+
             //Walkers Sprinting more
             AISkillDriver[] skilllist = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/EngiWalkerTurretMaster").GetComponents<AISkillDriver>();
             skilllist[0].shouldSprint = true;
@@ -69,10 +66,10 @@ namespace LittleGameplayTweaks
             //Equipment Drone fire Equipment even if no enemies
             LegacyResourcesAPI.Load<GameObject>("Prefabs/charactermasters/EquipmentDroneMaster").AddComponent<FireEquipmentAlways>();
 
-          
+
         }
 
-     
+
 
         private static void Lysate_DoubleBallista(On.EntityStates.Huntress.AimArrowSnipe.orig_OnEnter orig, EntityStates.Huntress.AimArrowSnipe self)
         {
@@ -153,7 +150,7 @@ namespace LittleGameplayTweaks
             }
         }
 
-       
+
     }
 
     public class FireEquipmentAlways : MonoBehaviour
@@ -205,11 +202,12 @@ namespace LittleGameplayTweaks
                 //def == DLC2Content.Equipment.EliteAurelioniteEquipment ||
                 // def == DLC2Content.Equipment.HealAndRevive ||
                 def == DLC2Content.Equipment.HealAndReviveConsumed// ||
-                //def == RoR2Content.Equipment.Gateway
+                                                                  //def == RoR2Content.Equipment.Gateway
                 )
             {
                 return true;
-            };
+            }
+            ;
             return false;
         }
         public void Start()

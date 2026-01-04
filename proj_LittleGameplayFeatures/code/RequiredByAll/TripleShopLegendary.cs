@@ -1,4 +1,3 @@
-using R2API;
 using RoR2;
 using RoR2.Navigation;
 //using System;
@@ -21,7 +20,7 @@ namespace LittleGameplayFeatures
             {
                 return;
             }
-    
+
             SceneDirector.onGenerateInteractableCardSelection += SceneDirector_onGenerateInteractableCardSelection;
         }
 

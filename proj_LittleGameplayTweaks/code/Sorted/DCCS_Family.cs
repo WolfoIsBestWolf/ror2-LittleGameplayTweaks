@@ -1,6 +1,5 @@
 using RoR2;
 using RoR2.ExpansionManagement;
-using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using WolfoLibrary;
@@ -45,7 +44,7 @@ namespace LittleGameplayTweaks
 
             DccsPool dpMoonMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/moon/dpMoonMonsters.asset").WaitForCompletion();
             DccsPool dpGoldshoresMonsters = Addressables.LoadAssetAsync<DccsPool>(key: "RoR2/Base/goldshores/dpGoldshoresMonsters.asset").WaitForCompletion();
-           
+
             //
             FamilyDirectorCardCategorySelection dccsBeetleFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "RoR2/Base/Common/DirectorCardCategorySelections/dccsBeetleFamily.asset").WaitForCompletion();
             FamilyDirectorCardCategorySelection dccsGolemFamily = Addressables.LoadAssetAsync<FamilyDirectorCardCategorySelection>(key: "721b63a126c0b5c4ba12f49735d704ae").WaitForCompletion();
@@ -93,18 +92,18 @@ namespace LittleGameplayTweaks
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Close,
             });
             dccsMoonVoids.name = "dccsMoonVoidMonstersEscape";
-            
+
             FamilyDirectorCardCategorySelection dccsVoidFamilyLate = GameObject.Instantiate(dccsVoidFamily);
             dccsVoidFamilyLate.name = "dccsVoidFamilyLate";
             dccsVoidFamilyLate.minimumStageCompletion = 10;
 
- 
- 
+
+
             dccsLemurianFamily.maximumStageCompletion = 14;
             dccsLunarFamily.minimumStageCompletion = 4;
             dccsLunarFamily.maximumStageCompletion = 1000000;
             dccsVoidFamily.minimumStageCompletion = 4;
- 
+
 
             //Add Gip and Geep
             dccsGupFamily.categories[0].cards[0].selectionWeight = 3;
@@ -112,7 +111,7 @@ namespace LittleGameplayTweaks
             {
                 spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGeepBody"),
                 selectionWeight = 1,
-            } );
+            });
             dccsGupFamily.AddCard(0, new DirectorCard
             {
                 spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscGipBody"),
@@ -125,7 +124,7 @@ namespace LittleGameplayTweaks
             //0 is Normal
             //1 is Family
             //2 is Void
-            
+
             ExpansionDef[] ExpansionDLC1 = { DLCS.DLC1 };
 
 
@@ -192,7 +191,7 @@ namespace LittleGameplayTweaks
             AddFamily(dpSulfurPoolsMonsters, FamilyLarva);
 
             AddFamily(dpHabitatMonsters, FamilyConstruct);
- 
+
             AddFamily(dpDampCaveMonsters, FamilyParent);
 
             AddFamily(dpDampCaveMonsters, FamilyParent);
@@ -204,7 +203,7 @@ namespace LittleGameplayTweaks
 
             AddFamily(dpSkyMeadowMonsters, FamilyParent);
             AddFamily(dpHelminthRoostMonsters, FamilyConstruct);
- 
+
             HG.ArrayUtils.ArrayAppend(ref dpMoonMonsters.poolCategories, CategoryFamilyMoon2);
             HG.ArrayUtils.ArrayAppend(ref dpGoldshoresMonsters.poolCategories, CategoryFamilyGoldshores);
 

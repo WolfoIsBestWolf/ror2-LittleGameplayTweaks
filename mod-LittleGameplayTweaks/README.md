@@ -113,16 +113,13 @@ Equipment Drones will be able to fire some equipment without enemies nearby. (ie
 ### Eclipse
 Spawns Squid Turrets and Ghosts at full health
 - The half health makes these items last half as long which isnt fun because they're already bad.
-Unlocks next Eclipse level if you leave Commencement
-- So dying to Voidling still counts.
-- So that using the Loop Portal still counts.
 Allows normally disabled content :
 	- Void Locust access\
 	- Ending at Solus Path.
  
 #
 ### General
-Elite Equipment have a 1/2000 chance of dropping (instead of 1/4000).\
+Elite Equipment have a 1/2000 chance of dropping (instead of 1/4000). *(Does not affect ZetAspects)*\
 Boss items are now a 20% chance to drop. (instead of 15%)
 
 

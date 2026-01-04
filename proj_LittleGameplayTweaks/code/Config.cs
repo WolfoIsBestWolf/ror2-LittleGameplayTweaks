@@ -37,17 +37,17 @@ namespace LittleGameplayTweaks
         public static ConfigEntry<bool> EclipseAllowChoiceWeirdArtifacts;
         public static ConfigEntry<bool> EclipseAllowChoiceAllowAllArtifacts;
 
- 
+
         public static ConfigEntry<bool> cheaperTier2;
- 
+
         public static ConfigEntry<bool> cfgDccsMonster;
         public static ConfigEntry<bool> cfgDccsFamily;
         public static ConfigEntry<float> cfgFamilyChance;
-         
+
         public static ConfigEntry<bool> cfgDccsInteractables;
         public static ConfigEntry<bool> cfgCredits_Interactables;
 
-    
+
         //Stages
         public static ConfigEntry<bool> cfgStageCredits_Interactables;
         public static ConfigEntry<bool> cfgStageCredits_Monsters;
@@ -58,8 +58,8 @@ namespace LittleGameplayTweaks
         //Changes - Interactables
         public static ConfigEntry<bool> FasterScrapper;
         public static ConfigEntry<bool> FasterShrines;
-     
-      
+
+
         public static ConfigEntry<bool> Shrine_Healing;
         public static ConfigEntry<bool> Shrine_Blood_Gold;
         //public static ConfigEntry<bool> Shrine_Blood_NoBreak;
@@ -72,15 +72,15 @@ namespace LittleGameplayTweaks
         //public static ConfigEntry<bool> cfgHalcyon_NoForcedSots;
 
         //public static ConfigEntry<int> InteractableRedSoupAmount;
- 
+
         //
         //Changes - Character
         public static ConfigEntry<bool> CharactersCaptainKeepInHiddemRealm;
 
         public static ConfigEntry<bool> CharactersHuntressLysateCell;
-        
+
         public static ConfigEntry<bool> cfgCredits_Monsters;
- 
+
         //Changes - Enemies
         public static ConfigEntry<bool> cfgScavBoss;
         public static ConfigEntry<bool> cfgScavMoreItemsElites;
@@ -91,30 +91,30 @@ namespace LittleGameplayTweaks
 
         //Rates
         public static ConfigEntry<bool> VoidPortalStage9;
- 
+
         public static ConfigEntry<int> cfgBossItemChance;
         public static ConfigEntry<int> cfgAspectDropRate;
         //
- 
+
         //public static ConfigEntry<bool> CelestialStage10;
         public static ConfigEntry<bool> ThirdLunarSeer;
- 
+
         public static ConfigEntry<bool> cfgTwistedBuff;
- 
+
         public static ConfigEntry<bool> cfgVoidCampScaling;
 
-  
+
         public static ConfigEntry<bool> cfgSotV_EnemyRemovals;
 
         public static void InitConfig()
         {
 
-           /* cfgContentSourceLimit = ConfigFileLGT.Bind(
-               "Spawnpools",
-               "DLC Spawnpool limit",
-                false,
-               "Limit stages to only add 2 dlcs worth of enemies & interactables at a time.\n\nThis means Void/SotV/AC Drones cannot coexist all at once on a base game stage.\n\nThis is a strange vanilla feature."
-            );*/
+            /* cfgContentSourceLimit = ConfigFileLGT.Bind(
+                "Spawnpools",
+                "DLC Spawnpool limit",
+                 false,
+                "Limit stages to only add 2 dlcs worth of enemies & interactables at a time.\n\nThis means Void/SotV/AC Drones cannot coexist all at once on a base game stage.\n\nThis is a strange vanilla feature."
+             );*/
             cfgSotV_EnemyRemovals = ConfigFileLGT.Bind(
                "Spawnpools",
                "SotV enemy removals",
@@ -128,7 +128,7 @@ namespace LittleGameplayTweaks
              "Loop Portal after Mithrix & Twisted Scav",
              true,
              "A portal spawns at spawn on Commencement, to allow you to loop back.\nYou cannot fight Mithrix twice in one run.\n\nA Loop Portal spawns near the center after beating Twisted Scavengers.\nYou can fight them multiple times."
-            );       */     
+            );       */
             cfgLoopDifficultTeleporters = ConfigFileLGT.Bind(
              "Looping",
              "Scale | Teleporter Bosses",
@@ -148,14 +148,14 @@ namespace LittleGameplayTweaks
                 true,
                 "Stages start with more monsters on them during loops, to encourage more chaos and earlier big T2 elites."
             );
- 
+
             cheaperTier2 = ConfigFileLGT.Bind(
               "Looping",
               "Cheaper Tier 2 Elites",
               true,
               "Makes Tier 2 Elites cost 30x instead of 36x.\nAdds more chaos to looping.\nWill update mid-run if changed"
           );
- 
+
             /*cfgEarlyScavs = ConfigFileLGT.Bind(
               "Looping",
               "Pre-Loop | Scavengers",
@@ -169,21 +169,21 @@ namespace LittleGameplayTweaks
                 true,
                 "Guaranteed a portal to Void Locust every Stage 4 during Looping., so it could be used as a proper alternative to Mithrix if desired.\nAlso doubles random spawn chance to 20%.\nVanilla is 10% on any stage after stage 7."
             );
-           /* CelestialStage10 = ConfigFileLGT.Bind(
-                "Looping",
-                "Celestial Portal Stage 10",
-                true,
-                "Celestial Portals also spawn on every Stage 5, starting Stage 10.\n\nFor just more control or using Twisteds as a alt ending if wanted"
-            );*/
+            /* CelestialStage10 = ConfigFileLGT.Bind(
+                 "Looping",
+                 "Celestial Portal Stage 10",
+                 true,
+                 "Celestial Portals also spawn on every Stage 5, starting Stage 10.\n\nFor just more control or using Twisteds as a alt ending if wanted"
+             );*/
             /*cfgLunarTeleporterAlways = ConfigFileLGT.Bind(
                 "Looping",
                 "Primordial Teleporter every stage",
                 false,
                 "After looping, Replace the teleporter on every stage with a Primordial Teleporter.\nThis is how it was in Risk of Rain Returns"
             );*/
- 
+
             cheaperTier2.SettingChanged += Tier2_SettingChanged;
-         
+
             #endregion
 
             #region Monster Changes
@@ -218,15 +218,15 @@ namespace LittleGameplayTweaks
                true,
                "Fixes Healing Cores not scaling with level, which is why they only ever healed 40.\nAlso increases their HP in general."
             );
-          
- 
+
+
             cfgScavTwistedScaling = ConfigFileLGT.Bind(
              "Monsters",
              "Twisted Scav | Scaling Fix",
              true,
              "Twisted Scavengers always scale to 1 player because it thinks 0 players are alive.\nThis fixes that.\nOnly important for multiplayer hosts."
             );
- 
+
             cfgOverloadingWorm = ConfigFileLGT.Bind(
              "Monsters",
              "Overloading Worm Overloading Bomb",
@@ -243,7 +243,7 @@ namespace LittleGameplayTweaks
 
             #endregion
             #region Interactables Changes
-        
+
             FasterScrapper = ConfigFileLGT.Bind(
                 "Interactables",
                 "Faster Scrappers",
@@ -263,13 +263,13 @@ namespace LittleGameplayTweaks
                 true,
                 "No longer force 2 SotS items, instead have 5 random items."
             );*/
-           cfgHalcyon_FastDrain = ConfigFileLGT.Bind(
-                "Interactables",
-                "Halcyon Shrine | Faster Drain",
-                true,
-                "Suck gold at rate of 2 instead of 1. Mostly useful in Singleplayer."
-            );
-             
+            cfgHalcyon_FastDrain = ConfigFileLGT.Bind(
+                 "Interactables",
+                 "Halcyon Shrine | Faster Drain",
+                 true,
+                 "Suck gold at rate of 2 instead of 1. Mostly useful in Singleplayer."
+             );
+
             cfgHalcyon_ScaleHPMult = ConfigFileLGT.Bind(
                 "Interactables",
                 "Halcyon Shrine | Multiply HP",
@@ -283,7 +283,7 @@ namespace LittleGameplayTweaks
                 false,
                 "Gilded Halcyonite spawned by Halcyon Shrines have 20% less stats. (Up to 28% to rounding)"
             );*/
- 
+
             VoidSeedsMore = ConfigFileLGT.Bind(
                 "Interactables",
                 "Void Seed | More Monster",
@@ -327,7 +327,7 @@ namespace LittleGameplayTweaks
               "Shrine of Woods cost 10 instead of 25. Go up 1.4x instead of 1.5x per purchase. And allows 4 purchases instead of 3."
             );
 
- 
+
             /*cfgMasstweak = ConfigFileLGT.Bind(
                 "Interactables",
                 "Pillar of Mass | Tweak",
@@ -366,7 +366,7 @@ namespace LittleGameplayTweaks
                 true,
                 "2 Seers was fine when there were 2 stages but we have a lot of stages now"
             );
- 
+
             cfgGoldShoresCredits = ConfigFileLGT.Bind(
               "Stages",
               "Gilded Coast spawns interactables",
@@ -389,7 +389,7 @@ namespace LittleGameplayTweaks
               true,
               "With Lysate Cell, use 2 Ballista charges at once if available, for 6 shots."
             );
- 
+
             cfgEquipmentDroneThing = ConfigFileLGT.Bind(
               "Survivors",
               "Equipment Drone AI Change",
@@ -433,7 +433,7 @@ namespace LittleGameplayTweaks
                 true,
                 "Shrine of Woods | 15 -> 10.\nShrine of Order | 30 -> 5.5\nLunar Pod | 25 -> 20\nVoid Potential | 40 -> 30\n\nOvergrown Printer | 10 -> 15\nDrone Combiner | 1 -> 25"
             );
-          
+
             /*CategoryChestSots = ConfigFileLGT.Bind(
                 "Spawnpools",
                 "Large Category Chests on DLC2 Stages",
@@ -459,12 +459,12 @@ namespace LittleGameplayTweaks
                true,
                "Add more family events to some stages\nMost notably Lunar Family event can occur instead of Void Family on some stages."
            );
-           /* FamiliesStage1 = ConfigFileLGT.Bind(
-               "Spawnpools",
-               "Family Events Stage 1",
-               false,
-               "Allow most family events to happen on stage 1"
-           );*/
+            /* FamiliesStage1 = ConfigFileLGT.Bind(
+                "Spawnpools",
+                "Family Events Stage 1",
+                false,
+                "Allow most family events to happen on stage 1"
+            );*/
 
             #endregion
             #region Gamemodes
@@ -480,23 +480,23 @@ namespace LittleGameplayTweaks
                true,
                "Allows Void Portals to spawn so you can use Voidling as an alternate final boss in Eclipse. Does not affect the Deep Void Portal after Mithrix of course."
            );
-           
+
             EclipseAllowEndAtSolusHeart = ConfigFileLGT.Bind(
                "Eclipse",
                "Eclipse allow AC ending",
                true,
                "Allows you to end the run after completing the AC Route."
            );
-           
+
             EclipseAllowArtifactWorld = ConfigFileLGT.Bind(
                 "Eclipse",
                 "Eclipse allow Bulwarks Ambry",
                 false,
                 "Allows computer. For artifact"
             );
-            
+
             #endregion
- 
+
             cfgFamilyChance = ConfigFileLGT.Bind(
                  "Chances",
                  "Family Event Chance",
@@ -512,12 +512,12 @@ namespace LittleGameplayTweaks
             cfgAspectDropRate = ConfigFileLGT.Bind(
                 "Chances",
                 "Elite Aspect Drop Rate",
-                2400,
+                2000,
                 "1 in X drop chance for Elite Aspects. Vanilla is 1 in 4000."
             );
             cfgAspectDropRate.SettingChanged += LittleGameplayTweaks.EquipmentBonusRate;
         }
- 
+
         public static void Tier2_SettingChanged(object sender, System.EventArgs e)
         {
             if (CombatDirector.eliteTiers.Length > 1)
@@ -534,7 +534,7 @@ namespace LittleGameplayTweaks
                 eliteTier.costMultiplier = cost;
             }
         }
-  
+
 
         public static void RiskConfig()
         {
@@ -553,7 +553,7 @@ namespace LittleGameplayTweaks
                  cfgDccsInteractables,
                  cfgCredits_Monsters,
                  cfgCredits_Interactables,
-      
+
                  FasterScrapper,
                  FasterShrines,
                  //InteractableNoLunarCost,
@@ -561,7 +561,7 @@ namespace LittleGameplayTweaks
                  //Shrine_Combat,
                  cfgHalcyon_Spawnpool,
                  CharactersCaptainKeepInHiddemRealm,
-                 
+
                  cfgMendingCoreBuff,
                  cfgElderLemurianBands,
                  cfgTwistedBuff,
@@ -574,7 +574,7 @@ namespace LittleGameplayTweaks
                  cfgE1Unnerf,
                  //cfgVoidTripleAllTier,
             };
-        
+
             var entries = ConfigFileLGT.GetConfigEntries();
             Debug.Log("Config Values Total : " + entries.Length);
             Debug.Log("Config Values Reset : " + (resetB.Count));
@@ -593,7 +593,7 @@ namespace LittleGameplayTweaks
                 else if (entry.SettingType == typeof(float))
                 {
                     ModSettingsManager.AddOption(new FloatFieldOption((ConfigEntry<float>)entry, false));
-                }  
+                }
                 else
                 {
                     Debug.LogWarning("Could not add config " + entry.Definition.Key + " of type : " + entry.SettingType);

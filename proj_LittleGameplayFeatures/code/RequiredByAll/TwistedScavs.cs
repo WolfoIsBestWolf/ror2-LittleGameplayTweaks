@@ -1,5 +1,4 @@
 ﻿using R2API;
-using Rewired.ControllerExtensions;
 using RoR2;
 using RoR2.ExpansionManagement;
 //using System;
@@ -28,7 +27,7 @@ namespace LittleGameplayFeatures
             var KipKip = ScavLunar1Master.GetComponent<GivePickupsOnStart>();
             KipKip.enabled = false;
             ScavLunarWSpeedBody = PrefabAPI.InstantiateClone(ScavLunar1Body, "ScavLunarWSpeedBody", true);
-            ScavLunarWSpeedMaster =  PrefabAPI.InstantiateClone(ScavLunar1Master, "ScavLunarWSpeedMaster", true);
+            ScavLunarWSpeedMaster = PrefabAPI.InstantiateClone(ScavLunar1Master, "ScavLunarWSpeedMaster", true);
 
             ScavLunarWTankBody = R2API.PrefabAPI.InstantiateClone(ScavLunar1Body, "ScavLunarWTankBody", true);
             ScavLunarWTankMaster = R2API.PrefabAPI.InstantiateClone(ScavLunar1Master, "ScavLunarWTankMaster", true);
@@ -38,9 +37,9 @@ namespace LittleGameplayFeatures
             KipKip.enabled = true;
 
             ExpansionDef DLC1 = Addressables.LoadAssetAsync<ExpansionDef>(key: "RoR2/DLC1/Common/DLC1.asset").WaitForCompletion();
- 
+
             MultiCharacterSpawnCard cscScavLunar = LegacyResourcesAPI.Load<MultiCharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscScavLunar");
- 
+
             ContentAddition.AddBody(ScavLunarWSpeedBody);
             ContentAddition.AddMaster(ScavLunarWSpeedMaster);
 
@@ -80,13 +79,13 @@ namespace LittleGameplayFeatures
 
 
             On.RoR2.GivePickupsOnStart.Start += DontDuplicateOnGooboGhosts;
-             
-         //Really need a better way to add it than this
+
+            //Really need a better way to add it than this
             On.RoR2.LocalUserManager.AddUser += LocalUserManager_AddUser;
         }
 
         private static void DontDuplicateOnGooboGhosts(On.RoR2.GivePickupsOnStart.orig_Start orig, GivePickupsOnStart self)
-        {     
+        {
             self.inventory = self.GetComponent<Inventory>();
             if (self.inventory)
             {
@@ -94,7 +93,8 @@ namespace LittleGameplayFeatures
                 {
                     return;
                 }
-            };
+            }
+            ;
             orig(self);
         }
 
@@ -167,7 +167,7 @@ namespace LittleGameplayFeatures
         public static void LocalUserManager_AddUser(On.RoR2.LocalUserManager.orig_AddUser orig, Rewired.Player inputPlayer, UserProfile userProfile)
         {
             orig(inputPlayer, userProfile);
-             
+
             if (!WConfig.cfgScavNewTwisted.Value)
             {
                 return;
@@ -183,7 +183,7 @@ namespace LittleGameplayFeatures
 
                 //Debug.Log(userProfile.name + " has DLC1 : " + dlc1);
                 //Debug.Log(userProfile.name + " has DLC2 : " + dlc2);
- 
+
                 if (dlc1 && dlc2)
                 {
                     addedNewLunarScavs = true;

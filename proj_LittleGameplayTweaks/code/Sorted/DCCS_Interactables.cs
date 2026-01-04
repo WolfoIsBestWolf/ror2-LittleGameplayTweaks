@@ -3,17 +3,16 @@ using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
- 
+
 namespace LittleGameplayTweaks
-{  
+{
     public class DCCS_Interactables
     {
         public static bool VanillaVoidsInstalled = false;
         public static void Start()
         {
             DCCS_Interactables.VanillaVoidsInstalled = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.Zenithrium.vanillaVoid");
- 
+
             if (WConfig.cfgDccsInteractables.Value)
             {
                 Interactables_Stage1();
@@ -21,12 +20,12 @@ namespace LittleGameplayTweaks
                 Interactables_Stage3();
                 Interactables_Stage4();
                 Interactables_Stage5();
-                FixWrongCategoryName(); 
+                FixWrongCategoryName();
                 On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
                 On.RoR2.SceneDirector.GenerateInteractableCardSelection += SceneDirector_GenerateInteractableCardSelection;
             }
             Interactables_Other();
- 
+
         }
 
 
@@ -117,14 +116,14 @@ namespace LittleGameplayTweaks
 
         public static void Interactables_Other()
         {
-              
+
             DirectorCardCategorySelection dccsGoldshoresInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/goldshores/dccsGoldshoresInteractables.asset").WaitForCompletion();
-           /* DirectorCard ADShrineCleanse1 = new DirectorCard
-            {
-                //spawnCardReference = new AssetReferenceT<SpawnCard>("RoR2/Base/ShrineCleanse/iscShrineCleanse.asset"),
-                spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanse.asset").WaitForCompletion(),
-                selectionWeight = 5,
-            };*/
+            /* DirectorCard ADShrineCleanse1 = new DirectorCard
+             {
+                 //spawnCardReference = new AssetReferenceT<SpawnCard>("RoR2/Base/ShrineCleanse/iscShrineCleanse.asset"),
+                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCleanse/iscShrineCleanse.asset").WaitForCompletion(),
+                 selectionWeight = 5,
+             };*/
             DirectorCard AdShrineCombat = new DirectorCard
             {
                 spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineCombat/iscShrineCombat.asset").WaitForCompletion(),
@@ -150,7 +149,7 @@ namespace LittleGameplayTweaks
             {
                 name = "Shrines",
                 selectionWeight = 10,
-                cards = new DirectorCard[] { AdShrineCombat, ShrineBlood, ADShrineHealing , ADBARREL }
+                cards = new DirectorCard[] { AdShrineCombat, ShrineBlood, ADShrineHealing, ADBARREL }
             };
             dccsGoldshoresInteractables.categories = new DirectorCardCategorySelection.Category[] { GoldShoreShrines };
 
@@ -174,7 +173,7 @@ namespace LittleGameplayTweaks
 
             DirectorCardCategorySelection dccsLakesInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lakes/dccsLakesInteractables.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsLakesnightInteractables_DLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lakesnight/dccsLakesnightInteractables_DLC2.asset").WaitForCompletion();
-    
+
             DirectorCardCategorySelection dccsVillageInteractables_DLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/village/dccsVillageInteractables_DLC2.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsVillageNightInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "2751f6d6bca27a44a9e45d87c5bbee1c").WaitForCompletion();
             #endregion
@@ -200,14 +199,14 @@ namespace LittleGameplayTweaks
                 selectionWeight = 3,
                 minimumStageCompletions = 4,
             };
-  
+
             #endregion
             #region Adds
             if (ConfigStages.Stage_1_Golem.Value)
             {
-                
+
             }
- 
+
             if (ConfigStages.Stage_1_Roost.Value)
             {
                 //Loop Cleanse Pool was a reference to a weird thing 1.0 SotS had
@@ -237,7 +236,7 @@ namespace LittleGameplayTweaks
                 dccsLakesInteractables.AddCard(0, iscCategoryChest2Utility);
                 DCCS.MultWholeCateory(dccsLakesnightInteractables_DLC2, 0, 10);
                 dccsLakesnightInteractables_DLC2.AddCard(0, iscCategoryChest2Utility);
-          
+
             }
             if (ConfigStages.Stage_1_Village.Value)
             {
@@ -246,7 +245,7 @@ namespace LittleGameplayTweaks
                     spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineRestack/iscShrineRestack.asset").WaitForCompletion(),
                     selectionWeight = 8,
                 });
-               
+
                 DCCS.MultWholeCateory(dccsVillageInteractables_DLC2, 0, 10);
                 dccsVillageInteractables_DLC2.AddCard(0, iscCategoryChest2Healing);
 
@@ -274,12 +273,12 @@ namespace LittleGameplayTweaks
             //DirectorCardCategorySelection dccsGooLakeInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/goolake/dccsGooLakeInteractables.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsFoggySwampInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/foggyswamp/dccsFoggySwampInteractables.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsAncientLoftInteractablesDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC1/ancientloft/dccsAncientLoftInteractablesDLC1.asset").WaitForCompletion();
-        
+
             DirectorCardCategorySelection dccsLemurianTempleInteractables_DLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lemuriantemple/dccsLemurianTempleInteractables_DLC2.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsNestInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "94dce4a2db8e76c4ca8c3f480ce3c602").WaitForCompletion();
             #endregion
             #region Cards
- 
+
             #endregion
 
             if (ConfigStages.Stage_2_Swamp.Value)
@@ -320,7 +319,7 @@ namespace LittleGameplayTweaks
                     selectionWeight = 3,
                     minimumStageCompletions = 4,
                 });
-               
+
             }
 
         }
@@ -331,7 +330,7 @@ namespace LittleGameplayTweaks
             DirectorCardCategorySelection dccsFrozenWallInteractablesDLC3 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "012378d89cb7b834d81c37c8a9fb12ec").WaitForCompletion();
 
             DirectorCardCategorySelection dccsWispGraveyardInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/wispgraveyard/dccsWispGraveyardInteractables.asset").WaitForCompletion();
-           
+
             DirectorCardCategorySelection dccsSulfurPoolsInteractablesDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC1/sulfurpools/dccsSulfurPoolsInteractablesDLC1.asset").WaitForCompletion();
 
             DirectorCardCategorySelection dccsHabitatInteractables_DLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/habitat/dccsHabitatInteractables_DLC2.asset").WaitForCompletion();
@@ -340,8 +339,8 @@ namespace LittleGameplayTweaks
             DirectorCardCategorySelection dccsIronalluvium2Interactables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "0e043005f4848ef43a54354cc4332eda").WaitForCompletion();
             #endregion
             #region Cards
-           
- 
+
+
             #endregion
 
             if (ConfigStages.Stage_3_Frozen.Value)
@@ -367,7 +366,7 @@ namespace LittleGameplayTweaks
                     spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "RoR2/Base/ShrineBoss/iscShrineBoss.asset").WaitForCompletion(),
                     selectionWeight = 10,
                 });
-             
+
                 dccsSulfurPoolsInteractablesDLC1.AddCard(3, new DirectorCard
                 {
                     spawnCard = LegacyResourcesAPI.Load<InteractableSpawnCard>("spawncards/interactablespawncard/iscBrokenEmergencyDrone"),
@@ -418,9 +417,9 @@ namespace LittleGameplayTweaks
         {
             #region DCCS
             DirectorCardCategorySelection dccsDampCaveInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/dampcave/dccsDampCaveInteractables.asset").WaitForCompletion();
-      
+
             DirectorCardCategorySelection dccsShipgraveyardInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/shipgraveyard/dccsShipgraveyardInteractables.asset").WaitForCompletion();
-         
+
             DirectorCardCategorySelection dccsRootJungleInteractables = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/rootjungle/dccsRootJungleInteractables.asset").WaitForCompletion();
             #endregion
 
@@ -437,16 +436,16 @@ namespace LittleGameplayTweaks
                     selectionWeight = 1,
                     minimumStageCompletions = 3,
                 });
- 
+
                 dccsShipgraveyardInteractables.categories[2].cards[3].selectionWeight = 10; //Cleanse more
                 dccsShipgraveyardInteractables.categories[3].cards[0].selectionWeight = 3; //Missile
                 dccsShipgraveyardInteractables.categories[3].cards[1].selectionWeight = 4; //Heal
                 dccsShipgraveyardInteractables.categories[3].cards[2].selectionWeight = 3; //Eq
-                
+
             }
             if (ConfigStages.Stage_4_Root_Jungle.Value)
             {
-                
+
             }
         }
         public static void Interactables_Stage5()
@@ -459,7 +458,7 @@ namespace LittleGameplayTweaks
             DirectorCardCategorySelection dccsHelminthRoostInteractables_DLC2 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/helminthroost/dccsHelminthRoostInteractables_DLC2.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsHelminthRoostInteractables_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/helminthroost/dccsHelminthRoostInteractables_DLC1.asset").WaitForCompletion();
             #endregion
- 
+
             if (ConfigStages.Stage_5_Sky.Value)
             {
                 //Add Drone Scrapper
@@ -473,7 +472,7 @@ namespace LittleGameplayTweaks
                 dccsSkyMeadowInteractables.categories[3].cards[1].spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "36f38da2d5e04e44abb4f5ed9788bad9").WaitForCompletion();
             }
             if (ConfigStages.Stage_5_Helminth.Value)
-            {  
+            {
                 //Replace Healing Drone with Emergency Drone
                 //dccsHelminthRoostInteractables_DLC2.categories[3].cards[1].spawnCard = Addressables.LoadAssetAsync<SpawnCard>(key: "36f38da2d5e04e44abb4f5ed9788bad9").WaitForCompletion();
 
@@ -486,6 +485,6 @@ namespace LittleGameplayTweaks
             }
         }
 
- 
+
     }
 }

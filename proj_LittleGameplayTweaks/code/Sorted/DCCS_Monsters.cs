@@ -1,6 +1,4 @@
-using MonoMod.Cil;
 using RoR2;
-using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace LittleGameplayTweaks
@@ -10,7 +8,7 @@ namespace LittleGameplayTweaks
 
         public static void Start()
         {
-        
+
             if (WConfig.cfgDccsMonster.Value)
             {
                 Enemies_Stage1();
@@ -24,7 +22,7 @@ namespace LittleGameplayTweaks
             //WolfoLibrary.ExtraActions.onMonsterDCCS += DCCS_MonsterChanges;
         }
 
- 
+
         public static void DCCS_MonsterChanges(DirectorCardCategorySelection dccs)
         {
             if (dccs == null)
@@ -50,10 +48,10 @@ namespace LittleGameplayTweaks
             DirectorCardCategorySelection dccsGolemplainsMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/golemplains/dccsGolemplainsMonstersDLC1.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsBlackBeachMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/blackbeach/dccsBlackBeachMonsters.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsSnowyForestMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC1/snowyforest/dccsSnowyForestMonstersDLC1.asset").WaitForCompletion();
-          
+
             DirectorCardCategorySelection dccsLakesMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lakes/dccsLakesMonsters.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsLakesnightMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lakesnight/dccsLakesnightMonsters.asset").WaitForCompletion();
-           
+
             DirectorCardCategorySelection dccsVillageMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/village/dccsVillageMonsters.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsVillageNightMonsters_Additional = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/villagenight/dccsVillageNightMonsters_Additional.asset").WaitForCompletion();
 
@@ -153,7 +151,7 @@ namespace LittleGameplayTweaks
                     //Greater Wisp -> Bison
                     num.spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscBison");
                 }
- 
+
                 num = DCCS.FindSpawnCard(dccsSnowyForestMonstersDLC1.categories[2].cards, "cscVerminSnowy");
                 if (num != null)
                 {
@@ -204,10 +202,10 @@ namespace LittleGameplayTweaks
             #region DCCS
             DirectorCardCategorySelection dccsGooLakeMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/goolake/dccsGooLakeMonsters.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsGooLakeMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/goolake/dccsGooLakeMonstersDLC1.asset").WaitForCompletion();
-           
+
             DirectorCardCategorySelection dccsFoggySwampMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/foggyswamp/dccsFoggySwampMonsters.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsFoggySwampMonstersDLC = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/Base/foggyswamp/dccsFoggySwampMonstersDLC.asset").WaitForCompletion();
-           
+
             DirectorCardCategorySelection dccsAncientLoftMonstersDLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC1/ancientloft/dccsAncientLoftMonstersDLC1.asset").WaitForCompletion();
 
             DirectorCardCategorySelection dccsLemurianTempleMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/lemuriantemple/dccsLemurianTempleMonsters.asset").WaitForCompletion();
@@ -274,7 +272,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 4,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
- 
+
             DirectorCard LoopBison = new DirectorCard
             {
                 spawnCard = LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscBison"),
@@ -283,7 +281,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 3,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
- 
+
             #endregion
             #region Additions
             int num = -1;
@@ -326,9 +324,9 @@ namespace LittleGameplayTweaks
 
                 dccsLemurianTempleMonsters.categories[1].selectionWeight = 3; //More Elder
                 dccsLemurianTempleMonsters.categories[2].cards[3].selectionWeight++; //Wurm
- 
+
             }
-            
+
             if (ConfigStages.Stage_2_Nest.Value)
             {
                 dccsNestMonsters.AddCard(0, new DirectorCard
@@ -358,7 +356,7 @@ namespace LittleGameplayTweaks
             DirectorCardCategorySelection dccsHabitatMonsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/habitat/dccsHabitatMonsters_DLC1.asset").WaitForCompletion();
             //DirectorCardCategorySelection dccsHabitatfallMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/habitatfall/dccsHabitatfallMonsters.asset").WaitForCompletion();
             DirectorCardCategorySelection dccsHabitatfallMonsters_DLC1 = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "RoR2/DLC2/habitatfall/dccsHabitatfallMonsters_DLC1.asset").WaitForCompletion();
-            
+
             DirectorCardCategorySelection dccsIronalluviumMonsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "bb55980059f8265418b99d868887b5d0").WaitForCompletion();
             DirectorCardCategorySelection dccsIronalluvium2Monsters = Addressables.LoadAssetAsync<DirectorCardCategorySelection>(key: "16b3a261b3860aa42bcccd4f2f16c956").WaitForCompletion();
             #endregion
@@ -381,7 +379,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 5,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
-          
+
             #endregion
             #region Additions
             if (ConfigStages.Stage_3_Frozen.Value)
@@ -478,7 +476,7 @@ namespace LittleGameplayTweaks
                     minimumStageCompletions = 4,
                     spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
                 }); //They look nice here
- 
+
             }
 
             if (ConfigStages.Stage_3_Tree.Value)
@@ -492,7 +490,7 @@ namespace LittleGameplayTweaks
                     spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
                 }); //Mushroom biome but no mushroom enemy??
             }
-            
+
             if (ConfigStages.Stage_3_Iron.Value)
             {
                 dccsIronalluviumMonsters.AddCard(1, new DirectorCard
@@ -711,7 +709,7 @@ namespace LittleGameplayTweaks
                     selectionWeight = 2,
                     spawnDistance = DirectorCore.MonsterSpawnDistance.Far,
                 }); //Fitting Mountain area
- 
+
             }
 
             #endregion
@@ -782,7 +780,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 0,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
-          
+
             DirectorCard ShrineMoreHalcy = new DirectorCard
             {
                 spawnCard = Addressables.LoadAssetAsync<CharacterSpawnCard>(key: "RoR2/DLC2/Halcyonite/cscHalcyonite.asset").WaitForCompletion(),
@@ -791,7 +789,7 @@ namespace LittleGameplayTweaks
                 minimumStageCompletions = 3,
                 spawnDistance = DirectorCore.MonsterSpawnDistance.Standard
             };
-          
+
             #endregion
             #region Additions
             if (ConfigStages.Stage_X_GoldShores.Value)
@@ -881,13 +879,13 @@ namespace LittleGameplayTweaks
                     minimumStageCompletions = 7,
                     spawnDistance = DirectorCore.MonsterSpawnDistance.Close,
                 }); //More common on loops
- 
+
             }
             #endregion
         }
 
 
- 
+
     }
 
 }

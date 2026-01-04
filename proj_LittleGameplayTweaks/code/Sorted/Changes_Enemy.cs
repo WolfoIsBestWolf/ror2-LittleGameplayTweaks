@@ -1,22 +1,19 @@
-using HarmonyLib;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
 using RoR2.CharacterAI;
 using RoR2.Projectile;
 using System;
-using System.ComponentModel;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
- 
+
 namespace LittleGameplayTweaks
 {
     public class Changes_Monsters
     {
         public static BasicPickupDropTable DropTableForBossScav = ScriptableObject.CreateInstance<BasicPickupDropTable>();
-        
+
         public static void CallLate()
         {
             GameObject UrchinTurretMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElitePoison/UrchinTurretMaster.prefab").WaitForCompletion();
@@ -40,7 +37,7 @@ namespace LittleGameplayTweaks
             MagmaWormMaster.AddComponent<GivePickupsOnStart>().itemDefInfos = teleportWhenOob;
             GameObject ElectricWormMaster = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ElectricWorm/ElectricWormMaster.prefab").WaitForCompletion();
             ElectricWormMaster.AddComponent<GivePickupsOnStart>().itemDefInfos = teleportWhenOob;
- 
+
         }
 
         public static void Start()
@@ -49,9 +46,9 @@ namespace LittleGameplayTweaks
             if (WConfig.cfgElderLemurianBands.Value)
             {
                 IL.EntityStates.LemurianBruiserMonster.FireMegaFireball.FixedUpdate += MarriedLemurianBandActivator;
- 
+
             }
- 
+
             DropTableForBossScav.name = "dtScavRandomBoss";
             DropTableForBossScav.tier1Weight = 0;
             DropTableForBossScav.tier2Weight = 0;
@@ -63,20 +60,20 @@ namespace LittleGameplayTweaks
                 ItemTag.SprintRelated,
                 //ItemTag.EquipmentRelated,
             };
- 
+
             GameObject BeadProjectileTrackingBomb = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC2/Elites/EliteBead/BeadProjectileTrackingBomb.prefab").WaitForCompletion();
             if (WConfig.cfgTwistedBuff.Value)
             {
                 On.RoR2.AffixBeadAttachment.Initialize += AffixBeadAttachment_Initialize;
- 
+
                 GameObject.Destroy(BeadProjectileTrackingBomb.transform.GetChild(0).GetComponent<HurtBoxGroup>());
                 GameObject.Destroy(BeadProjectileTrackingBomb.transform.GetChild(0).GetChild(0).GetComponent<HurtBox>());
             }
-  
- 
- 
+
+
+
             On.RoR2.ScriptedCombatEncounter.BeginEncounter += ScalingChanges;
- 
+
             KillableProjectileScaling();
 
 
@@ -112,7 +109,7 @@ namespace LittleGameplayTweaks
             }
         }
 
- 
+
 
         private static void AffixBeadAttachment_Initialize(On.RoR2.AffixBeadAttachment.orig_Initialize orig, AffixBeadAttachment self)
         {
@@ -123,7 +120,7 @@ namespace LittleGameplayTweaks
             //self.fireDelayTimer = 2f; //But longer windup
             //self.damageHitCountTotal = 10; //Just shoot them out a lot but easy to dodge?
         }
- 
+
 
         public static void KillableProjectileScaling()
         {
@@ -150,12 +147,12 @@ namespace LittleGameplayTweaks
             body.levelMaxHealth = 0;
             body.levelArmor = 30;
 
-      
+
         }
 
-    
 
-       
+
+
 
         private static void VoidRaidGauntletController_Start(On.RoR2.VoidRaidGauntletController.orig_Start orig, VoidRaidGauntletController self)
         {
@@ -175,7 +172,7 @@ namespace LittleGameplayTweaks
             }
         }
 
-  
+
 
         public static void ScalingChanges(On.RoR2.ScriptedCombatEncounter.orig_BeginEncounter orig, ScriptedCombatEncounter self)
         {
@@ -203,7 +200,7 @@ namespace LittleGameplayTweaks
                 }
         }
 
- 
+
 
         public static void AffixBeadAttachment_OnEnable(On.RoR2.AffixBeadAttachment.orig_OnEnable orig, AffixBeadAttachment self)
         {
@@ -257,7 +254,7 @@ namespace LittleGameplayTweaks
 
 
 
- 
+
             //Scav search item more reliably, stop searching when about to die
             var searchItem = LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterMasters/ScavMaster").GetComponents<RoR2.CharacterAI.AISkillDriver>()[1];
             searchItem.maxUserHealthFraction = 0.999f;
@@ -267,8 +264,8 @@ namespace LittleGameplayTweaks
             /*searchItem.maxDistance = 300;
             searchItem.minDistance = 60;*/
 
-                       //
-             //XI
+            //
+            //XI
             //var skilllist = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/MajorAndMinorConstruct/MegaConstructMaster.prefab").WaitForCompletion().GetComponents<RoR2.CharacterAI.AISkillDriver>();
             //0 SpawnMinorConstructs
             //1 Shield
@@ -282,7 +279,7 @@ namespace LittleGameplayTweaks
             {
                 skilllist[6].enabled = false;
             }*/
- 
+
             if (WConfig.cfgOverloadingWorm.Value)
             {
 
@@ -312,7 +309,7 @@ namespace LittleGameplayTweaks
                 wormProj2.childrenProjectilePrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/Projectiles/LightningStake");
 
             }
- 
+
             //Devestator immune to freeze consistency
             Addressables.LoadAssetAsync<GameObject>(key: "097b0e271757ce24581d4a8983d2c941").WaitForCompletion().GetComponent<SetStateOnHurt>().canBeFrozen = false; //VoidMegaCrab
 
@@ -337,7 +334,7 @@ namespace LittleGameplayTweaks
                 //Brief Invul to not just get fucked by Willo Wisp
                 self.characterBody.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, 0.4f);
             }
-            
+
         }
 
         public static void GiveScavMoreItems(On.RoR2.ScavengerItemGranter.orig_Start orig, ScavengerItemGranter self)
@@ -418,8 +415,8 @@ namespace LittleGameplayTweaks
             orig(self);
             Inventory inv = self.GetComponent<Inventory>();
             EquipmentIndex e = inv.currentEquipmentIndex;
-            if (e == RoR2Content.Equipment.Recycle.equipmentIndex||
-                e == RoR2Content.Equipment.Gateway.equipmentIndex||
+            if (e == RoR2Content.Equipment.Recycle.equipmentIndex ||
+                e == RoR2Content.Equipment.Gateway.equipmentIndex ||
                 e == DLC1Content.Equipment.MultiShopCard.equipmentIndex)
             {
                 inv.GiveRandomEquipment(ScavengerItemGranter.rng);

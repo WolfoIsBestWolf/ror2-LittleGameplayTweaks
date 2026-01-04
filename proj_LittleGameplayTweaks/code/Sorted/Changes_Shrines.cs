@@ -1,4 +1,3 @@
-using EntityStates.Scrapper;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
@@ -11,7 +10,7 @@ namespace LittleGameplayTweaks
 {
     public class Changes_Shrines
     {
- 
+
         public static void Start()
         {
             //On.RoR2.ShrineBloodBehavior.AddShrineStack += ShrineBloodChanges;
@@ -21,16 +20,16 @@ namespace LittleGameplayTweaks
                 LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.ShrineHealingBehavior>().costMultiplierPerPurchase = 1f;
                 //LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/Shrines/ShrineHealing").GetComponent<RoR2.ShrineHealingBehavior>().maxPurchaseCount += 1;
             }
-           /* if (WConfig.Shrine_Combat.Value == false)
-            {
-                GameObject ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombat.prefab").WaitForCompletion();
-                ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
-                ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombatSandy Variant.prefab").WaitForCompletion();
-                ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
-                ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombatSnowy Variant.prefab").WaitForCompletion();
-                ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
+            /* if (WConfig.Shrine_Combat.Value == false)
+             {
+                 GameObject ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombat.prefab").WaitForCompletion();
+                 ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
+                 ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombatSandy Variant.prefab").WaitForCompletion();
+                 ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
+                 ShrineCombat = Addressables.LoadAssetAsync<GameObject>(key: "RoR2/Base/ShrineCombat/ShrineCombatSnowy Variant.prefab").WaitForCompletion();
+                 ShrineCombat.GetComponent<CombatSquad>().grantBonusHealthInMultiplayer = false;
 
-            }*/
+             }*/
 
             //Fix this being gone? //Is this a fix??
             var dtShrineHalcyon1 = Addressables.LoadAssetAsync<BasicPickupDropTable>(key: "bb3b51f04206e3242af6981db3c402a7").WaitForCompletion();
@@ -47,8 +46,8 @@ namespace LittleGameplayTweaks
                 IL.RoR2.HealthComponent.UpdateLastHitTime += BloodShrine_DontBreakElixir;
                 IL.RoR2.HealthComponent.TakeDamageProcess += BloodShrine_DontBreakTransmitter;
             }*/
-           
- 
+
+
         }
 
         private static void BloodShrine_DontBreakTransmitter(ILContext il)
@@ -106,7 +105,7 @@ namespace LittleGameplayTweaks
             if (c.TryGotoNext(MoveType.After,
             x => x.MatchLdfld("RoR2.HealthComponent/ItemCounts", "healingPotion")))
             {
-                c.Emit(OpCodes.Ldarg_S,(byte)4);
+                c.Emit(OpCodes.Ldarg_S, (byte)4);
                 c.EmitDelegate<System.Func<int, GameObject, int>>((item, attacker) =>
                 {
                     if (item != 0 && attacker && attacker.GetComponent<PurchaseInteraction>())
@@ -157,7 +156,7 @@ namespace LittleGameplayTweaks
                     self.monsterCreditPenaltyCoefficient /= mult;
                 }
             }
- 
+
             orig(self);
         }
 
@@ -241,7 +240,7 @@ namespace LittleGameplayTweaks
             obj.isBoss = true;
         }
 
-    
+
         /*public static void ShrineBloodChanges(On.RoR2.ShrineBloodBehavior.orig_AddShrineStack orig, ShrineBloodBehavior self, Interactor interactor)
         {
             orig(self, interactor);

@@ -1,12 +1,9 @@
 using RoR2;
 //using System;
-using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
- 
+
 namespace LittleGameplayTweaks
-{  
+{
     public class DCCS_Credits
     {
         public static void Start()
@@ -26,10 +23,10 @@ namespace LittleGameplayTweaks
                 Addressables.LoadAssetAsync<SpawnCard>(key: "f7a1bc2e4756beb448d61e9e1421a9e1").WaitForCompletion().directorCreditCost = 24; //Really not that hard
 
                 Addressables.LoadAssetAsync<SpawnCard>(key: "a19470701f77bd945bef064b8890c14b").WaitForCompletion().directorCreditCost = 130; //cscClayGrenadier
- 
+
                 LegacyResourcesAPI.Load<CharacterSpawnCard>("SpawnCards/CharacterSpawnCards/cscNullifier").directorCreditCost = 260; //300, he just sucks dude.
 
-                if (Addressables.LoadAssetAsync<SpawnCard>(key: "4e2432e1ea733b74998d8fe4b1c8a6f1").WaitForCompletion().directorCreditCost  == 20)
+                if (Addressables.LoadAssetAsync<SpawnCard>(key: "4e2432e1ea733b74998d8fe4b1c8a6f1").WaitForCompletion().directorCreditCost == 20)
                 {
                     Addressables.LoadAssetAsync<SpawnCard>(key: "c3faae8c7469bad4eaf316420d242776").WaitForCompletion().directorCreditCost = 20; //Srocher
                     Addressables.LoadAssetAsync<SpawnCard>(key: "9fac94ba9c88de649856e6e42d129531").WaitForCompletion().directorCreditCost = 15; //Prospector
@@ -56,7 +53,7 @@ namespace LittleGameplayTweaks
 
                 //Lunar Chests often dont give you anything useful so they shouldnt be that costly
                 Addressables.LoadAssetAsync<SpawnCard>(key: "d21f2d3075f064e4081a41a368c505b1").WaitForCompletion().directorCreditCost = 20; //25 iscLunarChest
- 
+
                 //Healing Turret ass shrine
                 Addressables.LoadAssetAsync<SpawnCard>(key: "caab08f30f159b54f92e7d42b4b1d717").WaitForCompletion().directorCreditCost = 10; //15 iscShrineHealing
 
@@ -68,20 +65,20 @@ namespace LittleGameplayTweaks
                 Addressables.LoadAssetAsync<InteractableSpawnCard>(key: "ba9d25d63bbcef34a9077c08a6d6df95").WaitForCompletion().maxSpawnsPerStage = 1; //iscShrineRestack
                 Addressables.LoadAssetAsync<InteractableSpawnCard>(key: "3547e84f7f2c8064ba91cc54e517f5b9").WaitForCompletion().maxSpawnsPerStage = 1; //iscShrineRestack
                 Addressables.LoadAssetAsync<InteractableSpawnCard>(key: "0e981358f6bf4de4e83e30286ad5df75").WaitForCompletion().maxSpawnsPerStage = 1; //iscShrineRestack
-                
+
                 //Blood, doesn't give much money
                 //Addressables.LoadAssetAsync<SpawnCard>(key: "a6d01afb758a15940bf09deb9db44067").WaitForCompletion().directorCreditCost = 15;//iscShrineBlood
                 //Addressables.LoadAssetAsync<SpawnCard>(key: "94a96af94cc91294fab616f523ce58b5").WaitForCompletion().directorCreditCost = 15;//iscShrineBlood
                 //Addressables.LoadAssetAsync<SpawnCard>(key: "3b3c5b543ce972e4d963cdfeafdc955f").WaitForCompletion().directorCreditCost = 15;//iscShrineBlood
- 
+
 
             }
- 
+
         }
 
-    
-     
- 
- 
+
+
+
+
     }
 }

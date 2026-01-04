@@ -1,13 +1,10 @@
 using RoR2;
-using RoR2.ExpansionManagement;
-using System;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using WolfoLibrary;
 
 namespace LittleGameplayTweaks
 {
-    
+
     public class DCCS_ApplyAsNeeded
     {
         public static void InteractableDCCS_Changes(DirectorCardCategorySelection dccs)
@@ -29,21 +26,21 @@ namespace LittleGameplayTweaks
             int rareIndex = dccs.FindCategoryIndexByName("Rare");
             int voidIndex = dccs.FindCategoryIndexByName("Void Stuff");
             int stormIndex = dccs.FindCategoryIndexByName("Storm Stuff");
- 
+
             //Ideally Void Category would shrink based on how many void items or smth, not plainly just expanions
 
             try
             {
- 
+
                 bool dlcStage = SceneInfo.instance.sceneDef.requiredExpansion != null;
 
-            
+
                 float mult = 2f / ((float)ClassicStageInfo.instance.interactableCategories.expansionsInEffect.Count + (dlcStage ? 1f : 0f));
-                if(mult > 1f)
+                if (mult > 1f)
                 {
                     mult = 1f;
                 }
- 
+
                 DirectorCardCategorySelection.Category category;
                 if (chestIndex != -1)
                 {
@@ -91,7 +88,7 @@ namespace LittleGameplayTweaks
                             //Increase weight
                             category.cards[card].selectionWeight = 10;
                         }
-                       
+
                     }
                 }
                 if (rareIndex != -1)
@@ -113,7 +110,7 @@ namespace LittleGameplayTweaks
                 {
                     category = dccs.categories[stormIndex];
                     dccs.categories[stormIndex].selectionWeight *= mult;
- 
+
                     if (SceneInfo.instance.sceneDef.stageOrder == 1)
                     {
                         if (Run.instance.stageRng.nextNormalizedFloat < mult)

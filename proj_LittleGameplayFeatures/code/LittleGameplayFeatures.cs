@@ -32,13 +32,13 @@ namespace LittleGameplayFeatures
             GameModeCatalog.availability.CallWhenAvailable(LateMethod);
         }
 
-  
+
         internal static void LateMethod()
         {
             WConfig.RiskConfig();
             NewFamilyEvents.ModSupport();
             PrismaticRunMaker.LateRunningMethod();
-             TwistedScavs.CallLate();
+            TwistedScavs.CallLate();
         }
 
 

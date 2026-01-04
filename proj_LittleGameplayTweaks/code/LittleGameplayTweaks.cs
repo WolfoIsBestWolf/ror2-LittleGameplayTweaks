@@ -1,12 +1,10 @@
 ﻿using BepInEx;
 using R2API.Utils;
 using RoR2;
-using System;
- 
+
 using System.Security;
 using System.Security.Permissions;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 using WolfoLibrary;
 
@@ -57,7 +55,7 @@ namespace LittleGameplayTweaks
         {
             WConfig.RiskConfig();
         }
-   
+
         internal static void LateMethod()
         {
             ConfigStages.RiskConfig();
@@ -66,18 +64,18 @@ namespace LittleGameplayTweaks
             Changes_Monsters.CallLate();
 
             EquipmentBonusRate(null, null);
-  
+
             if (WConfig.cfgMendingCoreBuff.Value)
             {
                 EntityStates.AffixEarthHealer.Heal.healCoefficient *= 2;
             }
- 
+
         }
 
 
         public static void GameplayQoL_SceneDirector_Start(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
         {
-           
+
             orig(self);
             switch (SceneInfo.instance.sceneDef.baseSceneName)
             {
@@ -111,13 +109,14 @@ namespace LittleGameplayTweaks
                         CharacterMaster master2 = RingEventController.transform.GetChild(2).GetComponent<CharacterMaster>();
                         master1.inventory.GiveItem(RoR2Content.Items.UseAmbientLevel);
                         master2.inventory.GiveItem(RoR2Content.Items.UseAmbientLevel);
-                        master1.inventory.GiveItem(RoR2Content.Items.CutHp,1);
-                        master2.inventory.GiveItem(RoR2Content.Items.CutHp,1);
+                        master1.inventory.GiveItem(RoR2Content.Items.CutHp, 1);
+                        master2.inventory.GiveItem(RoR2Content.Items.CutHp, 1);
                         master1.onBodyStart += AquaductEldersStats;
                         master2.onBodyStart += AquaductEldersStats;
                     }
                     break;
-            };
+            }
+            ;
         }
 
         private static void AquaductEldersStats(CharacterBody body)
@@ -125,7 +124,7 @@ namespace LittleGameplayTweaks
             Debug.Log("Aquaduct Elder Lemurian Start");
             //*0.8 because we increase the damage to proc bands
             //Lower damage in general because holy fuck elder lemurian with bands
-            body.baseDamage *= 0.45f; 
+            body.baseDamage *= 0.45f;
             body.levelDamage *= 0.45f;
 
 
@@ -164,7 +163,7 @@ namespace LittleGameplayTweaks
                         EliteCatalog.eliteDefs[i].eliteEquipmentDef.dropOnDeathChance = 1f / (float)WConfig.cfgAspectDropRate.Value;
                     }
                 }
-                
+
             }
         }
 

@@ -1,13 +1,10 @@
-using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
-using System.Collections.ObjectModel;
 //using System;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 using UnityEngine.Networking;
- 
+
 namespace LittleGameplayTweaks
 {
     public class Looping
@@ -20,9 +17,9 @@ namespace LittleGameplayTweaks
             IL.RoR2.TeleporterInteraction.ChargingState.OnEnter += MoreCredits;
 
             WConfig.Tier2_SettingChanged(null, null);
-            
+
             On.RoR2.TeleporterInteraction.Start += MorePortals;
- 
+
         }
 
         private static void MoreCredits(ILContext il)
@@ -33,7 +30,7 @@ namespace LittleGameplayTweaks
             {
                 c.EmitDelegate<System.Func<float, float>>((credits) =>
                 {
-                    Debug.Log("TP Credits: "+credits);
+                    Debug.Log("TP Credits: " + credits);
                     if (Run.instance.loopClearCount > 0)
                     {
                         if (WConfig.cfgLoopDifficultTeleporters.Value)
@@ -50,7 +47,7 @@ namespace LittleGameplayTweaks
                 Debug.LogWarning("IL Failed: PurchaseInteraction.ShrineBloodBehavior_GoldAmount");
             }
         }
- 
+
         private static void MorePortals(On.RoR2.TeleporterInteraction.orig_Start orig, TeleporterInteraction self)
         {
             bool stage5 = SceneCatalog.mostRecentSceneDef.stageOrder == 4;
@@ -90,7 +87,7 @@ namespace LittleGameplayTweaks
                 self.bossGroup.bossDropChance = WConfig.cfgBossItemChance.Value / 100f;
             }
         }
-  
+
         public static int FindTier2Elite()
         {
             for (int i = 0; i < CombatDirector.eliteTiers.Length; i++)
@@ -107,7 +104,7 @@ namespace LittleGameplayTweaks
             Debug.LogWarning("Could not find Tier2 Elite Tier");
             return 111; //Force out of bounds
         }
- 
+
         public static void MoreDifficultLoopTeleporters(TeleporterInteraction self)
         {
             if (WConfig.cfgLoopDifficultTeleporters.Value)
@@ -160,5 +157,5 @@ namespace LittleGameplayTweaks
     }
 
 
-  
+
 }

@@ -1,6 +1,4 @@
 using RoR2;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -14,7 +12,7 @@ namespace LittleGameplayTweaks
             On.RoR2.ClassicStageInfo.Start += MoreSceneCredits;
             On.RoR2.ClassicStageInfo.Start += RunsAlways_ClassicStageInfo_Start;
 
- 
+
             if (ConfigStages.Stage_F_Moon.Value)
             {
                 On.RoR2.EscapeSequenceController.OnEnable += EscapeSequenceController_OnEnable;
@@ -37,7 +35,7 @@ namespace LittleGameplayTweaks
             }
         }
 
-     
+
 
         public static void ThirdSeerNew(On.RoR2.BazaarController.orig_SetUpSeerStations orig, BazaarController self)
         {

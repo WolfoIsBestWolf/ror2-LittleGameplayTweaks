@@ -1,5 +1,4 @@
 using EntityStates.Scrapper;
-using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
 //using System;
@@ -11,20 +10,20 @@ namespace LittleGameplayTweaks
 {
     public class Changes_Interactables
     {
- 
+
         public static void Start()
         {
             Changes_Shrines.Start();
             //StupidPriceChanger();
             Faster();
- 
+
             /*if (WConfig.cfgVoidTripleAllTier.Value == true)
             {
                 Addressables.LoadAssetAsync<GameObject>(key: "RoR2/DLC1/VoidTriple/VoidTriple.prefab").WaitForCompletion().GetComponent<RoR2.OptionChestBehavior>().dropTable = WolfoLibrary.Shared.dtAllTier;
             }*/
 
-     
-      
+
+
             if (WConfig.VoidSeedsMore.Value)
             {
                 GameObject VoidCamp = Addressables.LoadAssetAsync<GameObject>(key: "e515327d3d5e0144488357748ce1e899").WaitForCompletion();
@@ -40,16 +39,16 @@ namespace LittleGameplayTweaks
                 infestors.spawns[1].cullChance = 30;
                 infestors.spawns[2].cullChance = 50;
                 infestors.spawns[3].cullChance = 50;
-                 
+
                 GivePickupsOnStart voidInfestorMaster = Addressables.LoadAssetAsync<GameObject>(key: "741e2f9222e19bd4185f43aff65ea213").WaitForCompletion().GetComponent<GivePickupsOnStart>();
                 if (voidInfestorMaster.itemInfos.Length > 0)
                 {
                     voidInfestorMaster.itemInfos[0].count = 100;
                 }
             }
-           
+
         }
- 
+
         private static void VoidSeedLoopCredits(On.RoR2.CampDirector.orig_CalculateCredits orig, CampDirector self)
         {
             //1,1,1.1,1.2,1.7
@@ -68,11 +67,11 @@ namespace LittleGameplayTweaks
                     self.monsterCreditPenaltyCoefficient /= mult;
                 }
             }
- 
+
             orig(self);
         }
 
-      
+
         public static void TimedChestController_PreStartClient(On.RoR2.TimedChestController.orig_PreStartClient orig, TimedChestController self)
         {
             orig(self);
@@ -87,7 +86,7 @@ namespace LittleGameplayTweaks
 
         public static void Faster()
         {
- 
+
 
             if (WConfig.FasterScrapper.Value == true)
             {
@@ -124,32 +123,32 @@ namespace LittleGameplayTweaks
                 On.RoR2.ShrineBloodBehavior.AddShrineStack += (orig, self, activator) =>
                 {
                     orig(self, activator);
-                    self.refreshTimer = 1;
+                    self.refreshTimer--;
                 };
                 On.RoR2.ShrineBossBehavior.AddShrineStack += (orig, self, activator) =>
                 {
                     orig(self, activator);
-                    self.refreshTimer = 1;
+                    self.refreshTimer--;
                 };
                 On.RoR2.ShrineChanceBehavior.AddShrineStack += (orig, self, activator) =>
                 {
                     orig(self, activator);
-                    self.refreshTimer = 1;
+                    self.refreshTimer--;
                 };
                 On.RoR2.ShrineCombatBehavior.AddShrineStack += (orig, self, activator) =>
                 {
                     orig(self, activator);
-                    self.refreshTimer = 1;
+                    self.refreshTimer--;
                 };
                 On.RoR2.ShrineHealingBehavior.AddShrineStack += (orig, self, activator) =>
                 {
                     orig(self, activator);
-                    self.refreshTimer = 1;
+                    self.refreshTimer--;
                 };
                 On.RoR2.ShrineRestackBehavior.AddShrineStack += (orig, self, activator) =>
                 {
                     orig(self, activator);
-                    self.refreshTimer = 1;
+                    self.refreshTimer--;
                 };
             }
 
@@ -160,16 +159,16 @@ namespace LittleGameplayTweaks
             orig(self);
             if (NetworkServer.active)
             {
-                WaitToBeginScrapping.duration = 0.9f;
-                ScrappingToIdle.duration = 0.4f;
-                Scrapping.duration = 1f;
+                WaitToBeginScrapping.duration = Mathf.Min(WaitToBeginScrapping.duration, 0.9f);
+                ScrappingToIdle.duration = Mathf.Min(WaitToBeginScrapping.duration, 0.4f);
+                Scrapping.duration = Mathf.Min(Scrapping.duration, 1f);
             }
         }
 
         public static void StupidPriceChanger()
         {
-  
-            
+
+
 
             /*if (WConfig.InteractableNoLunarCost.Value == true)
             {
@@ -204,7 +203,7 @@ namespace LittleGameplayTweaks
             }
             orig(self);
         }*/
- 
+
 
     }
 }

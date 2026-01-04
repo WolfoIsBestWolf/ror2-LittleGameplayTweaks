@@ -3,7 +3,6 @@ using BepInEx.Configuration;
 using RiskOfOptions;
 using RiskOfOptions.OptionConfigs;
 using RiskOfOptions.Options;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace LittleGameplayFeatures
@@ -92,7 +91,7 @@ namespace LittleGameplayFeatures
             ModSettingsManager.AddOption(new CheckBoxOption(cfgRedMultiShop, overwriteNameR));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgScavNewTwisted, overwriteNameR));
             ModSettingsManager.AddOption(new CheckBoxOption(cfgNewFamilies, overwriteNameR));
- 
+
         }
     }
 }

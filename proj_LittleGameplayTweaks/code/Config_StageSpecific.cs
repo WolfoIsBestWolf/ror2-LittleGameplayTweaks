@@ -2,7 +2,6 @@ using BepInEx;
 using BepInEx.Configuration;
 using RiskOfOptions;
 using RiskOfOptions.Options;
-using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 

@@ -1,11 +1,7 @@
-﻿using HG;
-using Mono.Cecil.Cil;
+﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using RoR2;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -19,13 +15,13 @@ namespace LittleGameplayTweaks
             //On.EntityStates.Interactables.MSObelisk.EndingGame.DoFinalAction += EndingGame_DoFinalAction;
 
             On.RoR2.EclipseRun.OverrideRuleChoices += EclipseRun_OverrideRuleChoices;
- 
+
             IL.RoR2.EclipseRun.OnClientGameOver += LevelUpIfDyingToVoidling;
             if (WConfig.cfgE1Unnerf.Value)
             {
                 IL.RoR2.CharacterMaster.OnBodyStart += E1UnnerfHappiestMask;
             }
-           
+
         }
 
         private static void E1UnnerfHappiestMask(ILContext il)
@@ -84,9 +80,9 @@ namespace LittleGameplayTweaks
             }
         }
 
- 
-       
-       
+
+
+
 
 
         public static void EclipseRun_OverrideRuleChoices(On.RoR2.EclipseRun.orig_OverrideRuleChoices orig, EclipseRun self, RuleChoiceMask mustInclude, RuleChoiceMask mustExclude, ulong runSeed)
@@ -98,7 +94,7 @@ namespace LittleGameplayTweaks
                 self.ForceChoice(mustInclude, mustExclude, "Items." + RoR2Content.Items.LunarTrinket.name + ".Off");
             }*/
 
-         
+
         }
 
         public static void EndingGame_DoFinalAction(On.EntityStates.Interactables.MSObelisk.EndingGame.orig_DoFinalAction orig, EntityStates.Interactables.MSObelisk.EndingGame self)
